@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Claude — Anthropic Claude Series 1/10</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/black.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/monokai.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amber: #f5a623;
+  --green: #4ecb8d;
+  --purple: #a78bfa;
+  --blue: #60a5fa;
+  --red: #f87171;
+  --bg: #0a0a0f;
+  --bg2: #10101a;
+  --bg3: #181824;
+  --border: #2a2a3a;
+  --text: #e8e8f0;
+  --muted: #8888a8;
+}
+
+.reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+.reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: var(--text); }
+.reveal h2 { font-size: 1.6em; margin-bottom: 0.5em; }
+.reveal h3 { font-size: 1.15em; margin-bottom: 0.4em; }
+.reveal p, .reveal li { font-size: 0.72em; line-height: 1.55; color: var(--text); }
+.reveal ul, .reveal ol { margin-left: 0.6em; }
+.reveal li { margin-bottom: 0.25em; }
+.reveal section { background: var(--bg) !important; padding: 1.2em 1.5em !important; text-align: left; }
+.reveal .slides > section {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+}
+
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.92em; }
+
+.tag {
+  display: inline-block; background: var(--amber); color: #000;
+  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+  font-size: 0.55em; padding: 0.15em 0.55em; border-radius: 4px;
+  margin-right: 0.5em; vertical-align: middle; position: relative; top: -2px;
+}
+
+.pill {
+  display: inline-block; font-size: 0.55em; padding: 0.15em 0.6em;
+  border-radius: 999px; font-weight: 500; vertical-align: middle;
+  margin-right: 0.3em;
+}
+.pill.amber { background: rgba(245,166,35,0.15); color: var(--amber); border: 1px solid rgba(245,166,35,0.3); }
+.pill.green { background: rgba(78,203,141,0.15); color: var(--green); border: 1px solid rgba(78,203,141,0.3); }
+.pill.purple { background: rgba(167,139,250,0.15); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+.pill.blue { background: rgba(96,165,250,0.15); color: var(--blue); border: 1px solid rgba(96,165,250,0.3); }
+.pill.red { background: rgba(248,113,113,0.15); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+
+.a { color: var(--amber); }
+.g { color: var(--green); }
+.p { color: var(--purple); }
+.b { color: var(--blue); }
+.r { color: var(--red); }
+
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+.cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; }
+.cols-6040 { display: grid; grid-template-columns: 3fr 2fr; gap: 1em; }
+.cols-4060 { display: grid; grid-template-columns: 2fr 3fr; gap: 1em; }
+
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.8em 1em; border-left: 3px solid var(--border);
+}
+.card.amber { border-left-color: var(--amber); }
+.card.green { border-left-color: var(--green); }
+.card.purple { border-left-color: var(--purple); }
+.card.blue { border-left-color: var(--blue); }
+.card.red { border-left-color: var(--red); }
+
+.card h3 { margin-top: 0; font-size: 0.85em; }
+.card p, .card li { font-size: 0.65em; }
+
+/* Title Slide */
+.title-slide { text-align: center !important; justify-content: center !important; }
+.title-slide .series-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.55em;
+  color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 0.8em;
+}
+.title-slide h1 { font-size: 2.6em; margin-bottom: 0.2em; }
+.title-slide .divider {
+  width: 100px; height: 4px; background: var(--amber);
+  margin: 0.6em auto; border-radius: 2px;
+}
+.title-slide .subtitle {
+  font-size: 0.65em; color: var(--muted); margin-bottom: 0.6em;
+  max-width: 700px; margin-left: auto; margin-right: auto;
+}
+.title-slide .meta {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.5em; color: var(--muted);
+}
+
+/* Tables */
+.reveal table { width: 100%; border-collapse: collapse; font-size: 0.6em; margin: 0.5em 0; }
+.reveal table th {
+  background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em;
+  text-align: left; border-bottom: 2px solid var(--amber);
+  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+}
+.reveal table td {
+  padding: 0.45em 0.7em; border-bottom: 1px solid var(--border); color: var(--text);
+}
+.reveal table tr:hover td { background: var(--bg2); }
+
+/* SVG containers */
+.svg-container { display: flex; justify-content: center; margin: 0.5em 0; }
+.svg-container svg { max-width: 100%; }
+
+/* Scrollbar */
+.reveal .slides > section::-webkit-scrollbar { width: 4px; }
+.reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); }
+.reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.slide-header { margin-bottom: 0.5em; }
+
+.reveal blockquote {
+  background: var(--bg2); border-left: 3px solid var(--amber);
+  padding: 0.6em 1em; font-style: italic; color: var(--muted);
+  font-size: 0.7em; margin: 0.5em 0;
+}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ======================== SLIDE 1: TITLE ======================== -->
+<section class="title-slide">
+  <div class="series-label">Anthropic Claude Series</div>
+  <h1>Introduction to Claude</h1>
+  <div class="divider"></div>
+  <div class="subtitle">
+    What is Claude &middot; The Model Family &middot; Constitutional AI &middot; Capabilities &middot; Benchmarks &middot; Ecosystem &middot; Pricing &middot; Safety &middot; Use Cases &middot; Getting Started
+  </div>
+  <div class="meta">Presentation 1 of 10 &nbsp;|&nbsp; 2026</div>
+</section>
+
+<!-- ======================== SLIDE 2: WHAT IS CLAUDE? ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">01</span><h2>What is Claude?</h2></div>
+  <div class="cols-6040">
+    <div>
+      <p>Claude is a family of <span class="a">large language models</span> built by Anthropic, designed to be helpful, harmless, and honest.</p>
+      <ul>
+        <li>A conversational AI assistant that can <span class="g">reason</span>, <span class="b">write</span>, <span class="p">code</span>, and <span class="a">analyze</span></li>
+        <li>Trained using <span class="a">Constitutional AI (CAI)</span> — a novel alignment approach that sets Claude apart from competitors</li>
+        <li>Designed with <span class="g">safety</span> as a first-class priority, not an afterthought</li>
+        <li>Available via web interface, API, and developer tools</li>
+        <li>Supports <span class="b">200K token context windows</span> — equivalent to roughly 150,000 words or a 500-page book</li>
+      </ul>
+      <blockquote>"Claude is designed to be an AI assistant that is helpful, harmless, and honest." — Anthropic</blockquote>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">Key Differentiators</h3>
+        <ul>
+          <li>Constitutional AI training</li>
+          <li>Industry-leading safety research</li>
+          <li>Exceptional instruction following</li>
+          <li>Nuanced, thoughtful responses</li>
+          <li>Strong multilingual support</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Named After</h3>
+        <p>Claude Shannon, the father of information theory, reflecting Anthropic's deep commitment to foundational research and mathematical rigor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 3: WHO IS ANTHROPIC? ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">02</span><h2>Who is Anthropic?</h2></div>
+  <div class="cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Company Overview</h3>
+        <ul>
+          <li>Founded in <span class="a">2021</span> by former OpenAI researchers</li>
+          <li>Headquartered in San Francisco, CA</li>
+          <li>Mission: <em>"The responsible development and maintenance of advanced AI for the long-term benefit of humanity"</em></li>
+          <li>Public Benefit Corporation (PBC) structure</li>
+          <li>Roughly 1,000+ employees (as of 2025)</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.6em;">
+        <h3 class="b">Funding</h3>
+        <ul>
+          <li>Over <span class="a">$15 billion</span> raised in total funding</li>
+          <li>Key investors: Google, Spark Capital, Salesforce Ventures, Amazon (up to $4B commitment)</li>
+          <li>Valued at approximately $60 billion (2025)</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Key People</h3>
+        <ul>
+          <li><span class="a">Dario Amodei</span> — CEO, former VP of Research at OpenAI, deep expertise in AI scaling laws</li>
+          <li><span class="a">Daniela Amodei</span> — President, former VP of Operations at OpenAI, business and operations leadership</li>
+          <li><span class="g">Chris Olah</span> — Co-founder, pioneer in neural network interpretability</li>
+          <li><span class="b">Tom Brown</span> — Co-founder, lead author on GPT-3 paper</li>
+          <li><span class="p">Jared Kaplan</span> — Co-founder, scaling laws researcher</li>
+          <li><span class="r">Sam McCandlish</span> — Co-founder, key contributor to scaling research</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Research Focus</h3>
+        <ul>
+          <li>AI Safety &amp; Alignment</li>
+          <li>Interpretability (Mechanistic)</li>
+          <li>Constitutional AI</li>
+          <li>Scaling Laws</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 4: MODEL FAMILY ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">03</span><h2>The Claude Model Family</h2></div>
+  <p>Anthropic offers three tiers of Claude models, each balancing <span class="a">capability</span>, <span class="g">speed</span>, and <span class="b">cost</span>.</p>
+  <div class="cols-3">
+    <div class="card green">
+      <h3 class="g">Claude Haiku 4.5</h3>
+      <p><span class="pill green">Fast</span> <span class="pill green">Affordable</span></p>
+      <ul>
+        <li>Fastest model in the family</li>
+        <li>Near-instant responses</li>
+        <li>Ideal for high-volume tasks</li>
+        <li>Classification, extraction, routing</li>
+        <li>Cost-effective at scale</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3 class="b">Claude Sonnet 4.6</h3>
+      <p><span class="pill blue">Balanced</span> <span class="pill blue">Versatile</span></p>
+      <ul>
+        <li>Best balance of speed and intelligence</li>
+        <li>Strong coding capabilities</li>
+        <li>Excellent for most production tasks</li>
+        <li>Powers Claude.ai (default)</li>
+        <li>Great for agentic workflows</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Claude Opus 4.6</h3>
+      <p><span class="pill purple">Powerful</span> <span class="pill purple">Deep</span></p>
+      <ul>
+        <li>Most capable model</li>
+        <li>Best for complex reasoning</li>
+        <li>Extended thinking support</li>
+        <li>Research &amp; analysis tasks</li>
+        <li>Highest accuracy</li>
+      </ul>
+    </div>
+  </div>
+  <table style="margin-top:0.8em;">
+    <thead>
+      <tr><th>Feature</th><th>Haiku 4.5</th><th>Sonnet 4.6</th><th>Opus 4.6</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Context Window</td><td>200K tokens</td><td>200K tokens</td><td>200K tokens</td></tr>
+      <tr><td>Max Output</td><td>8,192 tokens</td><td>16,384 tokens</td><td>32,768 tokens</td></tr>
+      <tr><td>Speed</td><td class="g">Fastest</td><td class="b">Moderate</td><td class="p">Slower</td></tr>
+      <tr><td>Reasoning</td><td>Good</td><td class="b">Strong</td><td class="p">Best-in-class</td></tr>
+      <tr><td>Extended Thinking</td><td>No</td><td>Yes</td><td class="p">Yes (advanced)</td></tr>
+      <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======================== SLIDE 5: CONSTITUTIONAL AI ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">04</span><h2>Constitutional AI</h2></div>
+  <p>Claude is trained differently from most LLMs. Anthropic developed <span class="a">Constitutional AI (CAI)</span> to align models with human values <em>without</em> relying solely on human feedback for safety.</p>
+  <div class="cols-6040">
+    <div>
+      <div class="svg-container">
+        <svg width="480" height="280" viewBox="0 0 480 280">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#f5a623"/></marker>
+          </defs>
+          <!-- Step boxes -->
+          <rect x="10" y="10" width="140" height="55" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+          <text x="80" y="32" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10" font-weight="500">Step 1</text>
+          <text x="80" y="50" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="10">Pre-training (LLM)</text>
+
+          <rect x="170" y="10" width="140" height="55" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+          <text x="240" y="32" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10" font-weight="500">Step 2</text>
+          <text x="240" y="50" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="10">RLHF Fine-tuning</text>
+
+          <rect x="330" y="10" width="140" height="55" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="400" y="32" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10" font-weight="500">Step 3</text>
+          <text x="400" y="50" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="10">Constitutional AI</text>
+
+          <!-- Arrows -->
+          <line x1="150" y1="37" x2="168" y2="37" stroke="#f5a623" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <line x1="310" y1="37" x2="328" y2="37" stroke="#f5a623" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Constitution box -->
+          <rect x="50" y="90" width="380" height="170" rx="8" fill="#10101a" stroke="#2a2a3a" stroke-width="1"/>
+          <text x="240" y="115" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-size="13" font-weight="700">The Constitution</text>
+
+          <text x="70" y="140" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">01</text>
+          <text x="95" y="140" fill="#e8e8f0" font-family="DM Sans" font-size="10">Be helpful and provide accurate information</text>
+
+          <text x="70" y="162" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">02</text>
+          <text x="95" y="162" fill="#e8e8f0" font-family="DM Sans" font-size="10">Avoid harmful, unethical, or deceptive content</text>
+
+          <text x="70" y="184" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">03</text>
+          <text x="95" y="184" fill="#e8e8f0" font-family="DM Sans" font-size="10">Acknowledge uncertainty and limitations honestly</text>
+
+          <text x="70" y="206" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">04</text>
+          <text x="95" y="206" fill="#e8e8f0" font-family="DM Sans" font-size="10">Respect user autonomy and privacy</text>
+
+          <text x="70" y="228" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">05</text>
+          <text x="95" y="228" fill="#e8e8f0" font-family="DM Sans" font-size="10">Self-critique and revise against principles</text>
+
+          <text x="70" y="250" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">06</text>
+          <text x="95" y="250" fill="#e8e8f0" font-family="DM Sans" font-size="10">Prefer responses that minimize potential for harm</text>
+        </svg>
+      </div>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">How CAI Works</h3>
+        <ul>
+          <li>A set of <span class="a">principles</span> (the "constitution") guides model behavior</li>
+          <li>The model <span class="g">critiques its own outputs</span> against these principles</li>
+          <li>It then <span class="b">revises</span> to better align with the constitution</li>
+          <li>This is combined with RLHF from human feedback</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Why It Matters</h3>
+        <ul>
+          <li>Reduces reliance on human labelers for safety</li>
+          <li>More <span class="a">scalable</span> alignment approach</li>
+          <li>Transparent — principles are published</li>
+          <li>Model learns to reason about values, not just memorize rules</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 6: CORE CAPABILITIES ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">05</span><h2>Claude's Core Capabilities</h2></div>
+  <div class="cols-3">
+    <div class="card amber">
+      <h3 class="a">Reasoning &amp; Analysis</h3>
+      <ul>
+        <li>Multi-step logical reasoning</li>
+        <li>Complex problem decomposition</li>
+        <li>Nuanced judgment calls</li>
+        <li>Extended thinking for hard problems</li>
+        <li>Chain-of-thought processing</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">Coding &amp; Development</h3>
+      <ul>
+        <li>Code generation in 20+ languages</li>
+        <li>Bug detection and fixing</li>
+        <li>Code review and refactoring</li>
+        <li>Architecture design</li>
+        <li>Test writing and documentation</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3 class="b">Writing &amp; Communication</h3>
+      <ul>
+        <li>Long-form content creation</li>
+        <li>Tone and style adaptation</li>
+        <li>Editing and proofreading</li>
+        <li>Summarization at any length</li>
+        <li>Translation and localization</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Math &amp; Science</h3>
+      <ul>
+        <li>Advanced mathematical reasoning</li>
+        <li>Statistical analysis</li>
+        <li>Scientific literature review</li>
+        <li>Formula derivation</li>
+        <li>Data interpretation</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3 class="r">Vision &amp; Multimodal</h3>
+      <ul>
+        <li>Image understanding and analysis</li>
+        <li>Chart and graph interpretation</li>
+        <li>Document and PDF processing</li>
+        <li>Handwriting recognition</li>
+        <li>Visual question answering</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3 class="a">Multilingual</h3>
+      <ul>
+        <li>Fluent in 30+ languages</li>
+        <li>Cross-language tasks</li>
+        <li>Cultural context awareness</li>
+        <li>Code-switching support</li>
+        <li>Translation with nuance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 7: BENCHMARKS ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">06</span><h2>Benchmark Performance</h2></div>
+  <p>Claude Opus 4.6 achieves <span class="a">state-of-the-art or near-state-of-the-art</span> results across major benchmarks. Numbers are approximate and from publicly available reports.</p>
+  <table>
+    <thead>
+      <tr><th>Benchmark</th><th>Claude Opus 4.6</th><th>GPT-4o</th><th>Gemini 2.5 Pro</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>MMLU (5-shot)</td><td class="a">89.5%</td><td>88.7%</td><td>89.2%</td></tr>
+      <tr><td>GPQA (Diamond)</td><td class="a">65.2%</td><td>53.6%</td><td>63.8%</td></tr>
+      <tr><td>HumanEval (Coding)</td><td class="a">93.0%</td><td>90.2%</td><td>91.4%</td></tr>
+      <tr><td>MATH (Hard)</td><td>78.3%</td><td>76.6%</td><td class="a">80.1%</td></tr>
+      <tr><td>GSM8K</td><td class="a">97.8%</td><td>97.1%</td><td>96.8%</td></tr>
+      <tr><td>ARC-Challenge</td><td class="a">96.7%</td><td>96.4%</td><td>96.1%</td></tr>
+      <tr><td>SWE-Bench Verified</td><td class="a">72.5%</td><td>38.4%</td><td>63.8%</td></tr>
+      <tr><td>TAU-Bench (Airline)</td><td class="a">68.0%</td><td>52.0%</td><td>58.0%</td></tr>
+    </tbody>
+  </table>
+  <div class="cols-2" style="margin-top:0.5em;">
+    <div class="card green">
+      <h3 class="g">Strongest Areas</h3>
+      <p>Claude particularly excels in <span class="a">agentic coding</span> (SWE-bench), <span class="g">graduate-level reasoning</span> (GPQA), and <span class="b">real-world tool use</span> (TAU-bench).</p>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Note on Benchmarks</h3>
+      <p>Benchmark scores are a useful but imperfect measure. Real-world performance, safety, and user experience matter as much as leaderboard positions. Scores evolve rapidly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 8: CONTEXT WINDOWS ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">07</span><h2>Context Windows</h2></div>
+  <div class="cols-6040">
+    <div>
+      <p>Claude supports a <span class="a">200,000 token context window</span> across all model tiers, enabling work with massive amounts of text in a single conversation.</p>
+      <div class="svg-container">
+        <svg width="420" height="180" viewBox="0 0 420 180">
+          <!-- Context bar visualization -->
+          <rect x="10" y="20" width="400" height="30" rx="4" fill="#10101a" stroke="#2a2a3a"/>
+          <rect x="10" y="20" width="400" height="30" rx="4" fill="rgba(245,166,35,0.2)"/>
+          <text x="210" y="40" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">200K Tokens (~150,000 words)</text>
+
+          <!-- Comparisons -->
+          <rect x="10" y="65" width="80" height="22" rx="3" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="0.5"/>
+          <text x="50" y="80" text-anchor="middle" fill="#60a5fa" font-family="DM Sans" font-size="9">GPT-4: 128K</text>
+
+          <rect x="100" y="65" width="60" height="22" rx="3" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="0.5"/>
+          <text x="130" y="80" text-anchor="middle" fill="#a78bfa" font-family="DM Sans" font-size="9">Llama: 128K</text>
+
+          <rect x="170" y="65" width="240" height="22" rx="3" fill="rgba(78,203,141,0.2)" stroke="#4ecb8d" stroke-width="0.5"/>
+          <text x="290" y="80" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans" font-size="9">Gemini 2.5 Pro: 1M tokens</text>
+
+          <!-- What fits -->
+          <text x="10" y="115" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">What fits in 200K tokens?</text>
+
+          <text x="10" y="138" fill="#4ecb8d" font-family="JetBrains Mono" font-size="9">~</text>
+          <text x="25" y="138" fill="#e8e8f0" font-family="DM Sans" font-size="10">500 pages of text (a full novel)</text>
+
+          <text x="10" y="155" fill="#4ecb8d" font-family="JetBrains Mono" font-size="9">~</text>
+          <text x="25" y="155" fill="#e8e8f0" font-family="DM Sans" font-size="10">An entire codebase (~300 files)</text>
+
+          <text x="10" y="172" fill="#4ecb8d" font-family="JetBrains Mono" font-size="9">~</text>
+          <text x="25" y="172" fill="#e8e8f0" font-family="DM Sans" font-size="10">Hours of meeting transcripts</text>
+        </svg>
+      </div>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">How Context Works</h3>
+        <ul>
+          <li>Context = input tokens + output tokens</li>
+          <li>Everything in the conversation is "in context"</li>
+          <li>Claude attends to the entire window simultaneously</li>
+          <li>No sliding window or summarization — full attention</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:0.6em;">
+        <h3 class="p">Extended Thinking</h3>
+        <ul>
+          <li>Sonnet &amp; Opus can use <span class="a">extended thinking</span></li>
+          <li>Model reasons step-by-step before answering</li>
+          <li>Dramatically improves accuracy on hard problems</li>
+          <li>Thinking tokens are separate from output tokens</li>
+          <li>Configurable thinking budget</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Prompt Caching</h3>
+        <p>Reuse large context prefixes across calls for <span class="a">up to 90% cost reduction</span> and faster time-to-first-token.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 9: ECOSYSTEM ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">08</span><h2>The Claude Ecosystem</h2></div>
+  <div class="svg-container">
+    <svg width="780" height="420" viewBox="0 0 780 420">
+      <!-- Central node -->
+      <circle cx="390" cy="210" r="55" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+      <text x="390" y="205" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-size="16" font-weight="700">Claude</text>
+      <text x="390" y="222" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="10">AI Models</text>
+
+      <!-- Claude.ai -->
+      <line x1="340" y1="175" x2="200" y2="80" stroke="#4ecb8d" stroke-width="1.5" stroke-dasharray="4"/>
+      <rect x="100" y="45" width="160" height="60" rx="8" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+      <text x="180" y="72" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="12" font-weight="500">Claude.ai</text>
+      <text x="180" y="90" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Web &amp; Mobile App</text>
+
+      <!-- API -->
+      <line x1="440" y1="175" x2="580" y2="80" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4"/>
+      <rect x="500" y="45" width="160" height="60" rx="8" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+      <text x="580" y="72" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="12" font-weight="500">Anthropic API</text>
+      <text x="580" y="90" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">REST API &amp; SDKs</text>
+
+      <!-- Claude Code -->
+      <line x1="340" y1="245" x2="200" y2="340" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4"/>
+      <rect x="100" y="315" width="160" height="60" rx="8" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="180" y="342" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="12" font-weight="500">Claude Code</text>
+      <text x="180" y="360" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">CLI &amp; IDE Agent</text>
+
+      <!-- Integrations -->
+      <line x1="440" y1="245" x2="580" y2="340" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4"/>
+      <rect x="500" y="315" width="160" height="60" rx="8" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
+      <text x="580" y="342" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="12" font-weight="500">Integrations</text>
+      <text x="580" y="360" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">AWS, GCP, Partners</text>
+
+      <!-- Sub-items: Claude.ai -->
+      <text x="42" y="135" fill="#4ecb8d" font-family="DM Sans" font-size="9">• Projects &amp; Artifacts</text>
+      <text x="42" y="150" fill="#4ecb8d" font-family="DM Sans" font-size="9">• Team collaboration</text>
+      <text x="42" y="165" fill="#4ecb8d" font-family="DM Sans" font-size="9">• File uploads &amp; vision</text>
+
+      <!-- Sub-items: API -->
+      <text x="530" y="130" fill="#60a5fa" font-family="DM Sans" font-size="9">• Messages API</text>
+      <text x="530" y="145" fill="#60a5fa" font-family="DM Sans" font-size="9">• Tool use &amp; function calling</text>
+      <text x="530" y="160" fill="#60a5fa" font-family="DM Sans" font-size="9">• Streaming &amp; batches</text>
+
+      <!-- Sub-items: Claude Code -->
+      <text x="42" y="393" fill="#a78bfa" font-family="DM Sans" font-size="9">• Terminal-based AI coding</text>
+      <text x="42" y="408" fill="#a78bfa" font-family="DM Sans" font-size="9">• Agentic file editing</text>
+
+      <!-- Sub-items: Integrations -->
+      <text x="530" y="393" fill="#f87171" font-family="DM Sans" font-size="9">• Amazon Bedrock</text>
+      <text x="530" y="408" fill="#f87171" font-family="DM Sans" font-size="9">• Google Vertex AI</text>
+
+      <!-- MCP -->
+      <line x1="390" y1="155" x2="390" y2="35" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4"/>
+      <rect x="310" y="5" width="160" height="30" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1"/>
+      <text x="390" y="25" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10" font-weight="500">Model Context Protocol</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 10: PRICING & PLANS ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">09</span><h2>Pricing &amp; Plans</h2></div>
+  <p>Claude is available across multiple tiers for individuals and organizations.</p>
+  <table>
+    <thead>
+      <tr><th>Plan</th><th>Price</th><th>Models</th><th>Features</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="g">Free</span></td>
+        <td>$0</td>
+        <td>Sonnet 4.6</td>
+        <td>Basic usage with rate limits, web &amp; mobile access</td>
+      </tr>
+      <tr>
+        <td><span class="a">Pro</span></td>
+        <td>$20/mo</td>
+        <td>Sonnet, Opus, Haiku</td>
+        <td>5x more usage, extended thinking, Projects, priority access</td>
+      </tr>
+      <tr>
+        <td><span class="b">Team</span></td>
+        <td>$25/user/mo</td>
+        <td>All models</td>
+        <td>Higher limits, admin controls, team sharing, longer context</td>
+      </tr>
+      <tr>
+        <td><span class="p">Enterprise</span></td>
+        <td>Custom</td>
+        <td>All models</td>
+        <td>SSO/SAML, SCIM, audit logs, custom retention, SLA, dedicated support</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="cols-2" style="margin-top:0.6em;">
+    <div class="card green">
+      <h3 class="g">Free Tier Highlights</h3>
+      <ul>
+        <li>No credit card required</li>
+        <li>Access to Claude Sonnet</li>
+        <li>File uploads and vision</li>
+        <li>Limited daily messages</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3 class="a">Pro Tier Value</h3>
+      <ul>
+        <li>Access to all models including <span class="p">Opus</span></li>
+        <li>Extended thinking for deep reasoning</li>
+        <li>Projects with custom instructions</li>
+        <li>Priority during high-traffic periods</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 11: API PRICING ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">10</span><h2>API Pricing</h2></div>
+  <p>Anthropic's API uses <span class="a">per-token pricing</span>. Input tokens (your prompt) and output tokens (Claude's response) are billed separately.</p>
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Input (per 1M tokens)</th><th>Output (per 1M tokens)</th><th>Prompt Caching (Input)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="g">Haiku 4.5</span></td>
+        <td>$0.80</td>
+        <td>$4.00</td>
+        <td>$0.08 (90% saving)</td>
+      </tr>
+      <tr>
+        <td><span class="b">Sonnet 4.6</span></td>
+        <td>$3.00</td>
+        <td>$15.00</td>
+        <td>$0.30 (90% saving)</td>
+      </tr>
+      <tr>
+        <td><span class="p">Opus 4.6</span></td>
+        <td>$15.00</td>
+        <td>$75.00</td>
+        <td>$1.50 (90% saving)</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="cols-3" style="margin-top:0.6em;">
+    <div class="card green">
+      <h3 class="g">Cost Optimization</h3>
+      <ul>
+        <li><span class="a">Prompt caching</span> — reuse context prefixes</li>
+        <li><span class="a">Batch API</span> — 50% discount for async jobs</li>
+        <li>Choose the right model tier for the task</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3 class="b">What's a Token?</h3>
+      <ul>
+        <li>~4 characters = 1 token (English)</li>
+        <li>~0.75 words = 1 token</li>
+        <li>1M tokens ≈ 750K words</li>
+        <li>A typical page ≈ 300-400 tokens</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Rate Limits</h3>
+      <ul>
+        <li>Tiered by usage level (1-4)</li>
+        <li>Requests per minute (RPM)</li>
+        <li>Tokens per minute (TPM)</li>
+        <li>Increase with spend history</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 12: SAFETY & ALIGNMENT ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">11</span><h2>Safety &amp; Alignment</h2></div>
+  <p>Safety is not a feature of Claude — it is the <span class="a">core mission</span> of Anthropic. The company was founded specifically to pursue AI safety research.</p>
+  <div class="cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">The HHH Framework</h3>
+        <ul>
+          <li><span class="a">Helpful</span> — genuinely assist users with their tasks</li>
+          <li><span class="g">Harmless</span> — avoid causing harm, even when asked to</li>
+          <li><span class="b">Honest</span> — be truthful and transparent about limitations</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Responsible Scaling Policy</h3>
+        <ul>
+          <li>AI Safety Levels (ASL) framework</li>
+          <li>Commitments tied to model capabilities</li>
+          <li>Independent safety evaluations</li>
+          <li>Red-teaming before deployment</li>
+          <li>Phased rollouts with monitoring</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Interpretability Research</h3>
+        <ul>
+          <li>Mechanistic interpretability — understanding <em>how</em> models think</li>
+          <li>Feature identification inside neural networks</li>
+          <li>Published groundbreaking research on "features" in LLMs</li>
+          <li>Goal: make AI systems transparent and auditable</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.6em;">
+        <h3 class="b">Trust &amp; Safety Controls</h3>
+        <ul>
+          <li>Usage policies with clear guidelines</li>
+          <li>Content filtering and moderation layers</li>
+          <li>No training on customer API data</li>
+          <li>SOC 2 Type II compliance</li>
+          <li>HIPAA eligibility (Enterprise)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 13: COMPETITORS ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">12</span><h2>Claude vs Competitors</h2></div>
+  <p>A balanced comparison of leading AI assistants as of early 2026. Each has unique strengths.</p>
+  <table>
+    <thead>
+      <tr><th>Dimension</th><th class="a">Claude (Anthropic)</th><th>GPT-4o (OpenAI)</th><th>Gemini 2.5 (Google)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Context Window</td><td>200K tokens</td><td>128K tokens</td><td class="g">1M tokens</td></tr>
+      <tr><td>Safety Approach</td><td class="a">Constitutional AI</td><td>RLHF + rules</td><td>RLHF + filters</td></tr>
+      <tr><td>Coding</td><td class="a">Excellent (SWE-bench leader)</td><td>Strong</td><td>Strong</td></tr>
+      <tr><td>Reasoning</td><td class="a">Excellent</td><td>Strong</td><td>Strong</td></tr>
+      <tr><td>Multimodal</td><td>Vision input</td><td class="g">Vision + audio + image gen</td><td class="g">Vision + audio + video</td></tr>
+      <tr><td>Long-form Writing</td><td class="a">Best-in-class</td><td>Good</td><td>Good</td></tr>
+      <tr><td>Instruction Following</td><td class="a">Excellent</td><td>Very Good</td><td>Good</td></tr>
+      <tr><td>Web Search</td><td>Limited (via tools)</td><td class="g">Built-in</td><td class="g">Built-in</td></tr>
+      <tr><td>Ecosystem</td><td>Growing</td><td class="g">Mature (plugins, GPTs)</td><td>Google integrated</td></tr>
+      <tr><td>Open Source</td><td>No</td><td>No</td><td>Gemma (partial)</td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:0.5em;">
+    <h3 class="a">Key Takeaway</h3>
+    <p>Claude excels in <span class="a">safety</span>, <span class="g">coding</span>, <span class="b">instruction following</span>, and <span class="p">long-form writing</span>. Competitors may lead in multimodal breadth (audio, video, image generation) and ecosystem maturity. The landscape evolves rapidly.</p>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 14: USE CASES ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">13</span><h2>Use Cases Overview</h2></div>
+  <div class="cols-3">
+    <div class="card amber">
+      <h3 class="a">Enterprise</h3>
+      <ul>
+        <li>Customer support automation</li>
+        <li>Internal knowledge Q&amp;A</li>
+        <li>Document processing at scale</li>
+        <li>Report generation</li>
+        <li>Data extraction &amp; classification</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">Software Development</h3>
+      <ul>
+        <li>Code generation &amp; completion</li>
+        <li>Debugging &amp; code review</li>
+        <li>Architecture consulting</li>
+        <li>Migration &amp; refactoring</li>
+        <li>Documentation writing</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3 class="b">Research &amp; Analysis</h3>
+      <ul>
+        <li>Literature review</li>
+        <li>Data analysis &amp; interpretation</li>
+        <li>Hypothesis generation</li>
+        <li>Summarizing papers</li>
+        <li>Research methodology review</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Creative &amp; Content</h3>
+      <ul>
+        <li>Marketing copy &amp; ad writing</li>
+        <li>Blog posts &amp; articles</li>
+        <li>Creative fiction &amp; brainstorming</li>
+        <li>Social media content</li>
+        <li>Script and speech writing</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3 class="r">Education</h3>
+      <ul>
+        <li>Personalized tutoring</li>
+        <li>Curriculum development</li>
+        <li>Assignment feedback</li>
+        <li>Concept explanation</li>
+        <li>Study guide creation</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3 class="a">Legal &amp; Finance</h3>
+      <ul>
+        <li>Contract review</li>
+        <li>Regulatory compliance</li>
+        <li>Financial report analysis</li>
+        <li>Risk assessment</li>
+        <li>Due diligence support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 15: WHAT MAKES CLAUDE DIFFERENT ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">14</span><h2>What Makes Claude Different</h2></div>
+  <div class="cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Personality &amp; Tone</h3>
+        <ul>
+          <li>Thoughtful and measured responses</li>
+          <li>Willing to express uncertainty</li>
+          <li>Avoids sycophantic agreement</li>
+          <li>Genuine intellectual curiosity</li>
+          <li>Adapts tone to context naturally</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Instruction Following</h3>
+        <ul>
+          <li>Precisely follows complex multi-step instructions</li>
+          <li>Respects constraints (word count, format, style)</li>
+          <li>System prompts are deeply respected</li>
+          <li>Handles edge cases in instructions gracefully</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Nuance &amp; Depth</h3>
+        <ul>
+          <li>Acknowledges complexity and trade-offs</li>
+          <li>Presents multiple perspectives</li>
+          <li>Does not oversimplify difficult topics</li>
+          <li>Provides caveats when appropriate</li>
+          <li>Comfortable with ambiguity</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.6em;">
+        <h3 class="b">Long-Form Excellence</h3>
+        <ul>
+          <li>Maintains coherence across very long outputs</li>
+          <li>Consistent style and voice throughout</li>
+          <li>Strong structural organization</li>
+          <li>Does not "forget" earlier context or instructions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <blockquote style="margin-top:0.6em;">
+    "Claude is designed to be an assistant that genuinely engages with ideas rather than just producing plausible text. It reasons about problems rather than pattern-matching to expected answers."
+  </blockquote>
+</section>
+
+<!-- ======================== SLIDE 16: LIMITATIONS ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">15</span><h2>Limitations &amp; Considerations</h2></div>
+  <p>Like all LLMs, Claude has important limitations that users should understand.</p>
+  <div class="cols-2">
+    <div>
+      <div class="card red">
+        <h3 class="r">Known Limitations</h3>
+        <ul>
+          <li><span class="r">Hallucinations</span> — can generate plausible but incorrect information, especially for obscure facts</li>
+          <li><span class="r">Knowledge cutoff</span> — training data has a cutoff date; Claude may not know about very recent events</li>
+          <li><span class="r">No internet access</span> — cannot browse the web or access live data (without tool use)</li>
+          <li><span class="r">Math errors</span> — can make arithmetic mistakes, especially with large numbers</li>
+          <li><span class="r">No persistent memory</span> — each conversation starts fresh (no cross-session memory by default)</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">Rate Limits</h3>
+        <ul>
+          <li>Free tier: limited daily messages</li>
+          <li>Pro tier: significantly higher but not unlimited</li>
+          <li>API: tiered rate limits based on usage history</li>
+          <li>High-demand periods may see temporary throttling</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:0.6em;">
+        <h3 class="p">Best Practices</h3>
+        <ul>
+          <li><span class="g">Verify</span> important facts independently</li>
+          <li>Use Claude as a <span class="a">collaborator</span>, not sole authority</li>
+          <li>Be specific in your instructions</li>
+          <li>Provide context and examples when possible</li>
+          <li>Break complex tasks into steps</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 17: TIMELINE ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">16</span><h2>The Claude Timeline</h2></div>
+  <div class="svg-container">
+    <svg width="900" height="400" viewBox="0 0 900 400">
+      <!-- Timeline line -->
+      <line x1="50" y1="200" x2="870" y2="200" stroke="#2a2a3a" stroke-width="2"/>
+
+      <!-- 2021 -->
+      <circle cx="90" cy="200" r="6" fill="#f5a623"/>
+      <text x="90" y="180" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">2021</text>
+      <rect x="40" y="215" width="100" height="50" rx="5" fill="#10101a" stroke="#2a2a3a"/>
+      <text x="90" y="235" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="9">Anthropic</text>
+      <text x="90" y="250" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Founded</text>
+
+      <!-- 2023 Q1 -->
+      <circle cx="220" cy="200" r="6" fill="#4ecb8d"/>
+      <text x="220" y="180" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="11" font-weight="500">Mar 2023</text>
+      <rect x="170" y="105" width="100" height="65" rx="5" fill="#10101a" stroke="#4ecb8d"/>
+      <text x="220" y="125" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans" font-size="9">Claude 1.0</text>
+      <text x="220" y="140" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">First public</text>
+      <text x="220" y="155" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">release</text>
+      <line x1="220" y1="170" x2="220" y2="194" stroke="#4ecb8d" stroke-width="1" stroke-dasharray="3"/>
+
+      <!-- 2023 Q3 -->
+      <circle cx="350" cy="200" r="6" fill="#60a5fa"/>
+      <text x="350" y="180" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="11" font-weight="500">Jul 2023</text>
+      <rect x="300" y="215" width="100" height="65" rx="5" fill="#10101a" stroke="#60a5fa"/>
+      <text x="350" y="235" text-anchor="middle" fill="#60a5fa" font-family="DM Sans" font-size="9">Claude 2</text>
+      <text x="350" y="250" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">100K context</text>
+      <text x="350" y="265" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Improved coding</text>
+
+      <!-- 2024 Q1 -->
+      <circle cx="480" cy="200" r="6" fill="#a78bfa"/>
+      <text x="480" y="180" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11" font-weight="500">Mar 2024</text>
+      <rect x="430" y="105" width="100" height="65" rx="5" fill="#10101a" stroke="#a78bfa"/>
+      <text x="480" y="125" text-anchor="middle" fill="#a78bfa" font-family="DM Sans" font-size="9">Claude 3</text>
+      <text x="480" y="140" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Haiku, Sonnet,</text>
+      <text x="480" y="155" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Opus · 200K ctx</text>
+      <line x1="480" y1="170" x2="480" y2="194" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3"/>
+
+      <!-- 2024 Q3 -->
+      <circle cx="610" cy="200" r="6" fill="#f87171"/>
+      <text x="610" y="180" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="11" font-weight="500">Oct 2024</text>
+      <rect x="560" y="215" width="100" height="65" rx="5" fill="#10101a" stroke="#f87171"/>
+      <text x="610" y="235" text-anchor="middle" fill="#f87171" font-family="DM Sans" font-size="9">Claude 3.5</text>
+      <text x="610" y="250" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Sonnet leap</text>
+      <text x="610" y="265" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Computer Use</text>
+
+      <!-- 2025 -->
+      <circle cx="740" cy="200" r="8" fill="#f5a623" stroke="#f5a623" stroke-width="2"/>
+      <text x="740" y="178" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">2025</text>
+      <rect x="688" y="105" width="104" height="65" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="740" y="125" text-anchor="middle" fill="#f5a623" font-family="DM Sans" font-size="9" font-weight="600">Claude 4.x</text>
+      <text x="740" y="140" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Opus &amp; Sonnet 4.6</text>
+      <text x="740" y="155" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="8">Claude Code</text>
+      <line x1="740" y1="170" x2="740" y2="192" stroke="#f5a623" stroke-width="1" stroke-dasharray="3"/>
+
+      <!-- Arrow at end -->
+      <polygon points="870,200 860,194 860,206" fill="#2a2a3a"/>
+    </svg>
+  </div>
+  <div class="cols-2" style="margin-top:0.3em;">
+    <div class="card amber">
+      <h3 class="a">Rapid Evolution</h3>
+      <p>In under 3 years, Claude went from initial release to a family of models competing at the frontier of AI capabilities, with each generation bringing major improvements.</p>
+    </div>
+    <div class="card green">
+      <h3 class="g">Key Milestones</h3>
+      <p>Notable jumps include the <span class="a">200K context window</span> (Claude 3), <span class="b">Sonnet's coding breakthrough</span> (3.5), <span class="p">Computer Use</span>, and the <span class="a">Claude 4 generation</span> with extended thinking and Claude Code.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 18: PROMPT TIPS PREVIEW ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">17</span><h2>Getting the Most from Claude</h2></div>
+  <p>A preview of effective prompting strategies — covered in depth in <span class="a">Presentation 3: Prompt Engineering</span>.</p>
+  <div class="cols-2">
+    <div>
+      <div class="card green">
+        <h3 class="g">Be Specific &amp; Clear</h3>
+        <p>Instead of <span class="mono r">"Tell me about Python"</span>, try:</p>
+        <p><span class="mono g">"Explain Python's asyncio module, focusing on when to use async/await vs threading, with a code example for each approach."</span></p>
+      </div>
+      <div class="card blue" style="margin-top:0.6em;">
+        <h3 class="b">Give Context</h3>
+        <ul>
+          <li>Explain your role and audience</li>
+          <li>Provide relevant background</li>
+          <li>Share examples of desired output</li>
+          <li>State the format you want</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:0.6em;">
+        <h3 class="a">Use System Prompts</h3>
+        <p>System prompts set persistent behavior. Define Claude's role, tone, constraints, and output format upfront for consistent results.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Structure Complex Tasks</h3>
+        <ul>
+          <li>Use XML tags to organize sections</li>
+          <li>Number your requirements</li>
+          <li>Use markdown formatting in prompts</li>
+          <li>Break large tasks into smaller steps</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:0.6em;">
+        <h3 class="r">Common Mistakes</h3>
+        <ul>
+          <li>Too vague — "make this better"</li>
+          <li>Too many tasks in one prompt</li>
+          <li>No context about audience or purpose</li>
+          <li>Not specifying output format</li>
+          <li>Ignoring Claude's request for clarification</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Iterate &amp; Refine</h3>
+        <p>Prompting is a conversation. If the first result is not right, provide feedback and ask Claude to adjust rather than starting over.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 19: SERIES AHEAD ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">18</span><h2>The Series Ahead</h2></div>
+  <p>This is <span class="a">Presentation 1 of 10</span> in the Anthropic Claude Series. Here is what is coming next:</p>
+  <div class="cols-2">
+    <div>
+      <div class="card amber">
+        <h3><span class="pill amber">01</span> <span class="a">Introduction to Claude</span></h3>
+        <p>You are here — overview of Claude, Anthropic, and the ecosystem.</p>
+      </div>
+      <div class="card green" style="margin-top:0.5em;">
+        <h3><span class="pill green">02</span> Claude's Architecture &amp; Training</h3>
+        <p>Deep dive into how Claude is built, trained, and fine-tuned.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.5em;">
+        <h3><span class="pill blue">03</span> Prompt Engineering</h3>
+        <p>Master the art of effective prompting for optimal results.</p>
+      </div>
+      <div class="card purple" style="margin-top:0.5em;">
+        <h3><span class="pill purple">04</span> The Claude API</h3>
+        <p>Building applications with Claude — endpoints, SDKs, and patterns.</p>
+      </div>
+      <div class="card red" style="margin-top:0.5em;">
+        <h3><span class="pill red">05</span> Tool Use &amp; Function Calling</h3>
+        <p>Extending Claude's capabilities with external tools and APIs.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card green" style="margin-top:0em;">
+        <h3><span class="pill green">06</span> Claude for Coding</h3>
+        <p>Claude Code, IDE integrations, and agentic development workflows.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.5em;">
+        <h3><span class="pill blue">07</span> Enterprise Deployment</h3>
+        <p>Scaling Claude in production — security, compliance, and architecture.</p>
+      </div>
+      <div class="card purple" style="margin-top:0.5em;">
+        <h3><span class="pill purple">08</span> Advanced Techniques</h3>
+        <p>Extended thinking, multi-turn strategies, and complex workflows.</p>
+      </div>
+      <div class="card amber" style="margin-top:0.5em;">
+        <h3><span class="pill amber">09</span> Safety &amp; Alignment Deep Dive</h3>
+        <p>Constitutional AI, interpretability, and responsible deployment.</p>
+      </div>
+      <div class="card red" style="margin-top:0.5em;">
+        <h3><span class="pill red">10</span> The Future of Claude</h3>
+        <p>Roadmap, emerging capabilities, and the path to AGI safety.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SLIDE 20: SUMMARY & RESOURCES ======================== -->
+<section>
+  <div class="slide-header"><span class="tag">19</span><h2>Summary &amp; Resources</h2></div>
+  <div class="cols-6040">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Key Takeaways</h3>
+        <ul>
+          <li>Claude is Anthropic's family of AI models — <span class="g">Haiku</span>, <span class="b">Sonnet</span>, and <span class="p">Opus</span></li>
+          <li>Built with <span class="a">Constitutional AI</span> — a novel safety-first alignment approach</li>
+          <li>Excels at reasoning, coding, writing, and analysis</li>
+          <li>200K token context window across all models</li>
+          <li>Available via <span class="b">Claude.ai</span>, <span class="p">API</span>, and <span class="g">Claude Code</span></li>
+          <li>Competitive performance with strong safety guarantees</li>
+          <li>Flexible pricing from free to enterprise</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.6em;">
+        <h3 class="g">Next Up</h3>
+        <p><span class="a">Presentation 2:</span> Claude's Architecture &amp; Training — understanding the technical foundations behind Claude's capabilities.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card blue">
+        <h3 class="b">Essential Links</h3>
+        <ul>
+          <li><span class="mono a">claude.ai</span> — Use Claude directly</li>
+          <li><span class="mono a">docs.anthropic.com</span> — API documentation</li>
+          <li><span class="mono a">anthropic.com/research</span> — Research papers</li>
+          <li><span class="mono a">anthropic.com/news</span> — Latest announcements</li>
+          <li><span class="mono a">console.anthropic.com</span> — API console &amp; keys</li>
+          <li><span class="mono a">github.com/anthropics</span> — SDKs &amp; tools</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:0.6em;">
+        <h3 class="p">Recommended Reading</h3>
+        <ul>
+          <li>"Constitutional AI" paper (Bai et al., 2022)</li>
+          <li>"Claude's Character" blog post</li>
+          <li>Anthropic's Responsible Scaling Policy</li>
+          <li>Model Card for Claude</li>
+          <li>"Core Views on AI Safety" (Anthropic)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end slides -->
+</div><!-- end reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  controls: true,
+  progress: true,
+  center: false,
+  width: 1100,
+  height: 900,
+  margin: 0.01,
+  plugins: [RevealHighlight]
+});
+
+// fixSlides
+function fixSlides() {
+  document.querySelectorAll('.reveal .slides > section').forEach(function(slide) {
+    slide.style.display = 'flex';
+    slide.style.flexDirection = 'column';
+    slide.style.overflowY = 'auto';
+    slide.style.alignItems = 'stretch';
+    slide.style.justifyContent = 'flex-start';
+  });
+}
+Reveal.on('ready', fixSlides);
+Reveal.on('slidechanged', fixSlides);
+</script>
+</body>
+</html>
