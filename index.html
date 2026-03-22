@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anthropic Claude — Presentation Series</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --red:    #f87171;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --bg3:    #181824;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3em 1.5em;
+  }
+  .container { max-width: 900px; width: 100%; }
+  .series-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .6em;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 2.4em;
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .15em;
+  }
+  .subtitle {
+    font-size: 1.05em;
+    color: var(--green);
+    font-weight: 300;
+    letter-spacing: .03em;
+    margin-bottom: 1.8em;
+  }
+  .bar {
+    width: 60px;
+    height: 3px;
+    background: var(--amber);
+    margin-bottom: 2.5em;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+  }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.6em; }
+  }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2em 1.4em;
+    text-decoration: none;
+    transition: border-color .2s, transform .15s;
+    display: flex;
+    flex-direction: column;
+    gap: .4em;
+  }
+  .card:hover {
+    border-color: var(--amber);
+    transform: translateY(-2px);
+  }
+  .card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    width: fit-content;
+    letter-spacing: .04em;
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15em;
+    color: var(--amber);
+    margin: 0;
+  }
+  .card p {
+    font-size: .85em;
+    color: #b8b8d0;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .card:nth-child(1)  { border-left: 3px solid var(--amber); }
+  .card:nth-child(2)  { border-left: 3px solid var(--green); }
+  .card:nth-child(3)  { border-left: 3px solid var(--purple); }
+  .card:nth-child(4)  { border-left: 3px solid var(--blue); }
+  .card:nth-child(5)  { border-left: 3px solid var(--amber); }
+  .card:nth-child(6)  { border-left: 3px solid var(--green); }
+  .card:nth-child(7)  { border-left: 3px solid var(--purple); }
+  .card:nth-child(8)  { border-left: 3px solid var(--blue); }
+  .card:nth-child(9)  { border-left: 3px solid var(--amber); }
+  .card:nth-child(10) { border-left: 3px solid var(--green); }
+  footer {
+    margin-top: 3em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75em;
+    color: var(--muted);
+    text-align: center;
+  }
+  footer a { color: var(--amber); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="series-label">MODERN SOFTWARE ARCHITECTURE SERIES</div>
+    <h1>Anthropic Claude</h1>
+    <div class="subtitle">A comprehensive guide in 10 interactive presentations</div>
+    <div class="bar"></div>
+
+    <div class="grid">
+      <a class="card" href="01-introduction/">
+        <span class="num">01</span>
+        <h2>Introduction to Claude</h2>
+        <p>The model family, Constitutional AI, capabilities, pricing, and the competitive landscape</p>
+      </a>
+      <a class="card" href="02-getting-started/">
+        <span class="num">02</span>
+        <h2>Getting Started</h2>
+        <p>Creating an account, choosing an interface, first conversations, and initial setup</p>
+      </a>
+      <a class="card" href="03-claude-ai/">
+        <span class="num">03</span>
+        <h2>Claude.ai</h2>
+        <p>Projects, Artifacts, extended thinking, styles, file uploads, and team features</p>
+      </a>
+      <a class="card" href="04-claude-code/">
+        <span class="num">04</span>
+        <h2>Claude Code</h2>
+        <p>The CLI tool — core tools, slash commands, CLAUDE.md, hooks, MCP, sub-agents, and Git integration</p>
+      </a>
+      <a class="card" href="05-api-and-sdk/">
+        <span class="num">05</span>
+        <h2>API &amp; SDKs</h2>
+        <p>Messages API, Python and TypeScript SDKs, streaming, tool use, vision, and prompt caching</p>
+      </a>
+      <a class="card" href="06-integrations/">
+        <span class="num">06</span>
+        <h2>Integrations</h2>
+        <p>GitHub, VS Code, JetBrains, Cursor, MCP servers, AWS Bedrock, Vertex AI, and Zapier</p>
+      </a>
+      <a class="card" href="07-agents/">
+        <span class="num">07</span>
+        <h2>Agents</h2>
+        <p>AI agents, agents.md, the Claude Agent SDK, multi-agent architectures, and orchestration</p>
+      </a>
+      <a class="card" href="08-productivity/">
+        <span class="num">08</span>
+        <h2>Productivity &amp; Workflows</h2>
+        <p>Prompt engineering, coding workflows, research, content creation, and measuring ROI</p>
+      </a>
+      <a class="card" href="09-future/">
+        <span class="num">09</span>
+        <h2>Future Capabilities</h2>
+        <p>Longer context, computer use, persistent memory, advanced agents, and Anthropic's mission</p>
+      </a>
+      <a class="card" href="10-reference/">
+        <span class="num">10</span>
+        <h2>Quick Reference</h2>
+        <p>Cheat sheets for models, pricing, commands, API, SDKs, prompt patterns, and a full glossary</p>
+      </a>
+    </div>
+
+    <footer>
+      Part of the <a href="https://github.com/BrendanJamesLynskey/Miscellaneous#software-engineering">Software Engineering series</a>
+    </footer>
+  </div>
+</body>
+</html>
