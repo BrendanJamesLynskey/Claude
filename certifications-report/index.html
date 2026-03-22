@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude AI Certifications &amp; Training — Advisory Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --red:    #f87171;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --bg3:    #181824;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    padding: 2.5em 1.5em;
+    display: flex;
+    justify-content: center;
+  }
+  .container { max-width: 960px; width: 100%; }
+
+  /* ── header ── */
+  .report-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .5em;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 2.2em;
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .1em;
+  }
+  .subtitle {
+    font-size: 1.05em;
+    color: var(--green);
+    font-weight: 300;
+    margin-bottom: .4em;
+  }
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8em;
+    color: var(--muted);
+    margin-bottom: 1.6em;
+  }
+  .bar { width: 60px; height: 3px; background: var(--amber); margin-bottom: 2em; }
+
+  /* ── sections ── */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5em;
+    color: var(--amber);
+    margin: 2em 0 .5em;
+    padding-bottom: .25em;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .55em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    margin-right: .4em;
+    vertical-align: middle;
+    letter-spacing: .04em;
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15em;
+    color: var(--green);
+    margin: 1.4em 0 .3em;
+  }
+  h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: .95em;
+    color: var(--purple);
+    margin: 1em 0 .2em;
+  }
+  p { font-size: .95em; margin: .4em 0; color: var(--text); }
+  ul, ol { margin: .3em 0 .6em 1.4em; }
+  li { font-size: .93em; margin-bottom: .25em; color: #ccc; }
+  strong { color: var(--text); }
+
+  /* ── cards ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1em 1.3em;
+    margin: .8em 0;
+  }
+  .card.amber  { border-left: 3px solid var(--amber); }
+  .card.green  { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue   { border-left: 3px solid var(--blue); }
+  .card.red    { border-left: 3px solid var(--red); }
+  .card h3 { margin-top: 0; }
+  .card p, .card li { font-size: .9em; }
+
+  /* ── grid ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .8em; }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ── tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88em;
+    margin: .6em 0 1em;
+  }
+  th {
+    background: var(--bg3);
+    color: var(--amber);
+    font-weight: 600;
+    padding: .5em .7em;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  td {
+    padding: .45em .7em;
+    border: 1px solid var(--border);
+    color: #ccc;
+  }
+  tr:nth-child(even) td { background: #0e0e18; }
+
+  /* ── pills ── */
+  .pill {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72em;
+    padding: .12em .5em;
+    border-radius: 99px;
+    border: 1px solid;
+    margin: 0 .1em;
+  }
+  .pill.amber  { color: var(--amber); border-color: var(--amber); }
+  .pill.green  { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue   { color: var(--blue); border-color: var(--blue); }
+  .pill.red    { color: var(--red); border-color: var(--red); }
+
+  /* ── accents ── */
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+
+  /* ── verdict box ── */
+  .verdict {
+    background: var(--bg3);
+    border: 1px solid var(--amber);
+    border-radius: 8px;
+    padding: 1.2em 1.5em;
+    margin: 1.2em 0;
+  }
+  .verdict h3 { color: var(--amber); margin-top: 0; }
+
+  /* ── footer ── */
+  footer {
+    margin-top: 3em;
+    padding-top: 1.5em;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78em;
+    color: var(--muted);
+  }
+
+  /* ── print ── */
+  @media print {
+    body { background: #fff; color: #111; padding: 1em; }
+    .card { border-color: #ccc; background: #f9f9f9; }
+    .card p, .card li, td, li { color: #333; }
+    th { background: #eee; color: #333; }
+    h1, h2, h3 { color: #111; }
+    .pill { color: #333; border-color: #999; }
+    .bar { background: #333; }
+    .verdict { border-color: #333; background: #f5f5f5; }
+  }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="report-label">ADVISORY REPORT</div>
+  <h1>Claude AI Certifications &amp; Training</h1>
+  <div class="subtitle">Credentials, productivity value, and employability analysis</div>
+  <div class="meta">March 2026</div>
+  <div class="bar"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">01</span>Executive Summary</h2>
+
+  <p>Anthropic launched its first official certification &mdash; the <span class="a">Claude Certified Architect (CCA)</span> &mdash; on 12 March 2026, alongside a free 13-course academy. Combined with cloud-provider certifications from AWS and Google Cloud, there is now a credible credentialing pathway for Claude skills. This report evaluates every major option across cost, career impact, and productivity value.</p>
+
+  <div class="verdict">
+    <h3>Key Findings</h3>
+    <ul>
+      <li><strong>Best free investment:</strong> Anthropic Academy (13 courses, official certificates, LinkedIn-addable)</li>
+      <li><strong>Most authoritative credential:</strong> Claude Certified Architect ($99, first-mover advantage)</li>
+      <li><strong>Highest salary correlation:</strong> AWS Certified Gen AI Developer &mdash; Professional ($140K&ndash;$184K+)</li>
+      <li><strong>Certifications alone do not drive hiring;</strong> demonstrated portfolio work carries more weight</li>
+      <li><strong>Free courses will make you more productive;</strong> paid certs add career signalling on top</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">02</span>Official Anthropic Certifications</h2>
+
+  <h3>Claude Certified Architect (CCA) &mdash; Foundations</h3>
+  <div class="card amber">
+    <table>
+      <tr><th style="width:200px">Provider</th><td>Anthropic (official vendor certification)</td></tr>
+      <tr><th>Launched</th><td>12 March 2026</td></tr>
+      <tr><th>Cost</th><td>$99 per attempt (free for first 5,000 Claude Partner Network employees)</td></tr>
+      <tr><th>Format</th><td>60 questions, 120 minutes, proctored (no external resources)</td></tr>
+      <tr><th>Pass Mark</th><td>720 / 1000</td></tr>
+      <tr><th>Prerequisites</th><td>~6 months hands-on experience with Claude API &amp; Claude Code recommended</td></tr>
+      <tr><th>LinkedIn</th><td>Yes &mdash; official digital credential</td></tr>
+    </table>
+    <h4>Exam Domains</h4>
+    <table>
+      <tr><th>Domain</th><th>Weight</th></tr>
+      <tr><td>Agentic Architecture &amp; Orchestration</td><td>27%</td></tr>
+      <tr><td>Claude Code Configuration &amp; Workflows</td><td>20%</td></tr>
+      <tr><td>Prompt Engineering &amp; Structured Output</td><td>20%</td></tr>
+      <tr><td>Tool Design &amp; MCP Integration</td><td>18%</td></tr>
+      <tr><td>Context Management &amp; Reliability</td><td>15%</td></tr>
+    </table>
+    <p>This is the most authoritative Claude-specific credential available. It validates the ability to design and ship production-grade Claude applications at enterprise scale. Anthropic has announced further certifications (sellers, developers, advanced architects) for later in 2026.</p>
+  </div>
+
+  <h3>Anthropic Academy &mdash; 13 Free Courses</h3>
+  <div class="card green">
+    <table>
+      <tr><th style="width:200px">Provider</th><td>Anthropic (hosted on Skilljar)</td></tr>
+      <tr><th>Launched</th><td>2 March 2026</td></tr>
+      <tr><th>Cost</th><td>Completely free</td></tr>
+      <tr><th>Format</th><td>Self-paced, online</td></tr>
+      <tr><th>Credential</th><td>Certificate of completion per course</td></tr>
+      <tr><th>LinkedIn</th><td>Yes &mdash; all certificates are LinkedIn-addable</td></tr>
+    </table>
+    <h4>Course Tracks</h4>
+    <div class="grid-2">
+      <div class="card purple">
+        <h4>AI Fluency Track</h4>
+        <ul>
+          <li>Claude 101</li>
+          <li>AI Fluency Framework &amp; Foundations</li>
+          <li>Educator / Student / Nonprofit tracks</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h4>Developer Track</h4>
+        <ul>
+          <li>Claude Code</li>
+          <li>Building Applications with the Claude API</li>
+          <li>Introduction to Model Context Protocol (MCP)</li>
+          <li>Agent Skills</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card amber" style="margin-top:.5em">
+      <h4>Integration Track</h4>
+      <ul>
+        <li>Claude in Amazon Bedrock</li>
+        <li>Claude with Google Cloud Vertex AI</li>
+      </ul>
+    </div>
+    <p>These courses collectively prepare for the CCA exam and cover the entire Claude ecosystem. No paid Claude subscription is required &mdash; only an email to sign up.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">03</span>Cloud Provider Certifications</h2>
+
+  <h3>AWS Certified AI Practitioner (AIF-C01)</h3>
+  <div class="card blue">
+    <table>
+      <tr><th style="width:200px">Cost</th><td>$100</td></tr>
+      <tr><th>Format</th><td>90 minutes, 65 questions (Pearson VUE)</td></tr>
+      <tr><th>Pass Mark</th><td>700 / 1000</td></tr>
+      <tr><th>Validity</th><td>3 years</td></tr>
+      <tr><th>Prep Time</th><td>2&ndash;4 weeks</td></tr>
+      <tr><th>LinkedIn</th><td>Yes &mdash; AWS digital badge via Credly</td></tr>
+    </table>
+    <p>Covers AI/ML fundamentals, generative AI concepts, and AWS AI services including Amazon Bedrock (which hosts Claude). 50% of the exam covers AWS services. Entry-level credential &mdash; good for career pivots into AI roles.</p>
+  </div>
+
+  <h3>AWS Certified Generative AI Developer &mdash; Professional (AIP-C01)</h3>
+  <div class="card amber">
+    <table>
+      <tr><th style="width:200px">Cost</th><td>$150 (beta pricing)</td></tr>
+      <tr><th>Format</th><td>205 minutes, 85 questions</td></tr>
+      <tr><th>Status</th><td>Beta exam available through 31 March 2026; &ldquo;early adopter&rdquo; badge for first 5,000 certified</td></tr>
+      <tr><th>Prep Time</th><td>4&ndash;6 weeks</td></tr>
+      <tr><th>LinkedIn</th><td>Yes &mdash; AWS digital badge via Credly</td></tr>
+      <tr><th>Salary Signal</th><td>$140,000&ndash;$184,000+</td></tr>
+    </table>
+    <p>Covers building with foundation models on Bedrock including Claude, Titan, Llama, and Mistral; RAG applications; Bedrock Agents; Bedrock Guardrails. The &ldquo;Developing Generative AI Applications&rdquo; domain carries 28% weight. This is the highest-value cloud certification for Claude-adjacent skills.</p>
+  </div>
+
+  <h3>Google Cloud Generative AI Leader</h3>
+  <div class="card green">
+    <table>
+      <tr><th style="width:200px">Cost</th><td>$99</td></tr>
+      <tr><th>Format</th><td>90 minutes, 50&ndash;60 questions</td></tr>
+      <tr><th>Pass Mark</th><td>75%</td></tr>
+      <tr><th>LinkedIn</th><td>Yes &mdash; Google Cloud digital badge</td></tr>
+    </table>
+    <p>Covers gen AI fundamentals (~30%), Google Cloud offerings including Vertex AI (~35%), model output techniques (~20%), and business strategies (~15%). Vertex AI hosts Claude (Opus 4.1, Sonnet 4.5, Haiku 4.5). This is a leadership/strategy certification, not a deep technical one.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">04</span>DeepLearning.AI Short Courses (Free)</h2>
+  <p>Developed in partnership with Anthropic and taught by Anthropic staff. All currently free during platform beta. No formal LinkedIn badge, but the Andrew Ng brand carries industry weight.</p>
+
+  <table>
+    <tr><th>Course</th><th>Instructor</th><th>Content</th></tr>
+    <tr><td>Claude Code: A Highly Agentic Coding Assistant</td><td>Elie Schoppik (Anthropic)</td><td>Sub-agents, GitHub issue automation, MCP tools, Playwright for UI testing</td></tr>
+    <tr><td>Agent Skills with Anthropic</td><td>Elie Schoppik</td><td>Building skills for coding, research, and data analysis</td></tr>
+    <tr><td>MCP: Build Rich-Context AI Apps</td><td>Elie Schoppik</td><td>Model Context Protocol for tools, data, and prompts</td></tr>
+    <tr><td>Building Towards Computer Use</td><td>Colt Steele</td><td>LLM-based agents controlling computer interfaces via mouse and keyboard</td></tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">05</span>Coursera Courses</h2>
+
+  <table>
+    <tr><th>Course</th><th>Provider</th><th>Cost</th><th>LinkedIn Cert</th></tr>
+    <tr><td>Mastering Claude AI: Prompting, APIs, RAG, MCP</td><td>Edureka</td><td>~$59/mo (Coursera Plus)</td><td>Yes</td></tr>
+    <tr><td>Building with the Claude API</td><td>Anthropic</td><td>Free audit / paid cert</td><td>Yes</td></tr>
+    <tr><td>Claude Code in Action</td><td>Anthropic</td><td>Free audit / paid cert</td><td>Yes</td></tr>
+    <tr><td>Claude Code: SE with Gen AI Agents</td><td>Vanderbilt University</td><td>Free audit / paid cert</td><td>Yes</td></tr>
+    <tr><td>AI Fundamentals with Claude</td><td>Anthropic (Dan Mellott)</td><td>Free audit / paid cert</td><td>Yes</td></tr>
+    <tr><td>Claude AI and Prompting for Everyone</td><td>Edureka</td><td>~$59/mo (Coursera Plus)</td><td>Yes</td></tr>
+    <tr><td>Intro to Claude AI</td><td>Scrimba</td><td>Free audit / paid cert</td><td>Yes</td></tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">06</span>LinkedIn Learning</h2>
+  <p>Included with LinkedIn Premium or LinkedIn Learning subscription (~$29.99/month). All certificates auto-add to your LinkedIn profile.</p>
+
+  <table>
+    <tr><th>Course</th><th>Duration</th><th>Released</th></tr>
+    <tr><td>Build with AI: Generate an API with CI/CD in Claude Code</td><td>1h 39m</td><td>Feb 2026</td></tr>
+    <tr><td>Claude Code for Non-Programmers: Automating Daily Tasks</td><td>37m</td><td>Nov 2025</td></tr>
+    <tr><td>Everyday Productivity with Claude Cowork</td><td>23m</td><td>Jan 2026</td></tr>
+    <tr><td>Hands-On Data Analysis with Claude</td><td>54m</td><td>Oct 2025</td></tr>
+    <tr><td>Create Your Dream Apps with Cursor and Claude AI</td><td>Varies</td><td>2025</td></tr>
+    <tr><td>Introduction to Prompt Engineering for Generative AI</td><td>1h 3m</td><td>Aug 2024</td></tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">07</span>Udemy</h2>
+  <p>Typically $10&ndash;$20 on sale, or ~$30/month for a personal plan. Certificates can be manually added to LinkedIn but carry minimal employer recognition.</p>
+
+  <table>
+    <tr><th>Course</th><th>Notes</th></tr>
+    <tr><td>Claude AI Pro &mdash; The Ultimate Course</td><td>Comprehensive Claude training</td></tr>
+    <tr><td>Claude Code: Building Faster with AI, Prototype to Prod</td><td>Engineering-focused (Frank Kane)</td></tr>
+    <tr><td>Claude AI: The AI Assistant You'll Actually Use</td><td>6.5+ hours, updated March 2026</td></tr>
+    <tr><td>Claude Code Beginner Crash Course</td><td>Single-day introduction</td></tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">08</span>Productivity Assessment</h2>
+
+  <p>The question: <em>will these courses make me measurably more productive?</em></p>
+
+  <div class="grid-2">
+    <div class="card green">
+      <h4>High Productivity Impact</h4>
+      <ul>
+        <li><strong>Anthropic Academy</strong> (Claude Code, API, MCP, Agent Skills) &mdash; unlocks capabilities most users never discover</li>
+        <li><strong>DeepLearning.AI</strong> courses &mdash; practical, hands-on, agent-focused</li>
+        <li><strong>CCA exam preparation</strong> &mdash; forces deep understanding of agentic architecture, context management, and tool design</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h4>Lower Productivity Impact</h4>
+      <ul>
+        <li><strong>Cloud certs (AWS/Google)</strong> &mdash; infrastructure-focused; useful for production deployment, less so for daily work</li>
+        <li><strong>LinkedIn Learning</strong> &mdash; too short to build deep skills</li>
+        <li><strong>Udemy</strong> &mdash; variable quality; unlikely to teach what docs and practice won't</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <h3>Productivity Verdict</h3>
+    <p>The <span class="g">free courses alone</span> will make you meaningfully more productive. The paid certifications add career signalling on top of skills you will already have from the free material. The key productivity unlock is learning <span class="a">MCP</span>, <span class="a">Agent Skills</span>, and <span class="a">Claude Code configuration</span> &mdash; these are covered thoroughly in the free Anthropic Academy and DeepLearning.AI courses.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">09</span>Employability Assessment</h2>
+
+  <h3>Credential Value by Tier</h3>
+  <table>
+    <tr><th>Credential</th><th>Hiring Impact</th><th>Why</th></tr>
+    <tr><td><span class="a">Claude Certified Architect</span></td><td><span class="pill green">HIGH</span></td><td>First-mover advantage, official vendor cert, differentiating while new</td></tr>
+    <tr><td><span class="a">AWS Gen AI Developer &mdash; Professional</span></td><td><span class="pill green">HIGH</span></td><td>Strong salary correlation ($140K&ndash;$184K+), enterprise hiring filter</td></tr>
+    <tr><td><span class="b">AWS AI Practitioner</span></td><td><span class="pill amber">MODERATE</span></td><td>Entry-level signal, good for career pivots into AI</td></tr>
+    <tr><td><span class="b">Google Cloud Gen AI Leader</span></td><td><span class="pill amber">MODERATE</span></td><td>Strategy roles, less technical weight</td></tr>
+    <tr><td><span class="p">Anthropic Academy (free certs)</span></td><td><span class="pill amber">LOW&ndash;MOD</span></td><td>Shows initiative and vendor knowledge; completion certs carry less weight</td></tr>
+    <tr><td><span class="p">Coursera / LinkedIn Learning</span></td><td><span class="pill purple">LOW</span></td><td>Nice to have, rarely a hiring factor</td></tr>
+    <tr><td>Udemy</td><td><span class="pill red">MINIMAL</span></td><td>Employers largely ignore platform completion certificates</td></tr>
+  </table>
+
+  <h3>What Hiring Managers Say</h3>
+  <ul>
+    <li><strong>60% of hiring managers</strong> view certifications as a positive signal but not a requirement</li>
+    <li>Certifications from <strong>recognised institutions</strong> (AWS, Google, Anthropic, Vanderbilt) carry weight; unknown platforms are ignored</li>
+    <li><strong>Demonstrated skill outweighs certificates</strong> &mdash; a portfolio project showing real Claude implementation is more convincing than any certificate alone</li>
+    <li><strong>Cloud certifications ($100&ndash;$200)</strong> are worth it when targeting enterprises that filter for them</li>
+    <li><strong>No certification replaces a portfolio</strong> &mdash; the optimal approach is certifications plus real-world implementations</li>
+  </ul>
+
+  <div class="verdict">
+    <h3>Employability Verdict</h3>
+    <p>The <span class="a">CCA</span> is new enough that early adopters have a genuine differentiation window &mdash; similar to how AWS Solutions Architect changed cloud hiring when it launched. The <span class="a">AWS Gen AI Developer</span> cert has the strongest direct salary correlation. However, <strong>no certification replaces demonstrated portfolio work</strong>. The most employable profile combines credentials with visible projects (e.g., GitHub repos, open-source contributions, or production deployments).</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">10</span>Recommended Priority Order</h2>
+
+  <table>
+    <tr><th>Priority</th><th>Certification / Course</th><th>Cost</th><th>Time</th><th>Rationale</th></tr>
+    <tr><td><span class="pill green">1</span></td><td><strong>Anthropic Academy</strong> (13 free courses)</td><td>Free</td><td>Days</td><td>Official vendor certs, LinkedIn-addable, CCA preparation, zero risk</td></tr>
+    <tr><td><span class="pill green">2</span></td><td><strong>DeepLearning.AI</strong> short courses (4 courses)</td><td>Free</td><td>Hours each</td><td>Andrew Ng brand recognition, practical agent &amp; MCP skills</td></tr>
+    <tr><td><span class="pill amber">3</span></td><td><strong>Claude Certified Architect (CCA)</strong></td><td>$99</td><td>Prep: 2&ndash;4 weeks</td><td>Most authoritative Claude credential; first-mover advantage</td></tr>
+    <tr><td><span class="pill amber">4</span></td><td><strong>AWS Gen AI Developer &mdash; Professional</strong></td><td>$150</td><td>Prep: 4&ndash;6 weeks</td><td>Highest salary correlation; enterprise hiring filter</td></tr>
+    <tr><td><span class="pill purple">5</span></td><td><strong>AWS AI Practitioner</strong></td><td>$100</td><td>Prep: 2&ndash;4 weeks</td><td>Useful if pivoting into AI; skip if pursuing #4 directly</td></tr>
+    <tr><td><span class="pill purple">6</span></td><td><strong>Google Cloud Gen AI Leader</strong></td><td>$99</td><td>Prep: 1&ndash;2 weeks</td><td>Worthwhile if working in Google Cloud environments</td></tr>
+    <tr><td><span class="pill blue">7</span></td><td><strong>Coursera specialisation</strong></td><td>~$59/mo</td><td>~2 months</td><td>Structured learning path; mostly covered by free options above</td></tr>
+  </table>
+
+  <p style="margin-top:1em"><strong>Skip entirely:</strong> Udemy certificates, generic prompt engineering certifications from unknown platforms.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">11</span>Total Cost Summary</h2>
+
+  <div class="grid-2">
+    <div class="card green">
+      <h4>Free Path (Productivity Focus)</h4>
+      <p style="font-size:1.3em; color:var(--green); font-weight:600; margin:.3em 0">$0</p>
+      <ul>
+        <li>Anthropic Academy (13 courses)</li>
+        <li>DeepLearning.AI (4 courses)</li>
+        <li>17 LinkedIn-addable certificates</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h4>Full Credential Path</h4>
+      <p style="font-size:1.3em; color:var(--amber); font-weight:600; margin:.3em 0">$249&ndash;$449</p>
+      <ul>
+        <li>Everything free, plus:</li>
+        <li>CCA ($99)</li>
+        <li>AWS Gen AI Developer ($150)</li>
+        <li>Optionally: AWS AI Practitioner ($100) or Google Cloud ($99)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <footer>
+    <p>Report prepared March 2026. Pricing and availability are subject to change. Verify current details at the provider websites before enrolling.</p>
+    <p style="margin-top:.6em">Sources: Anthropic Academy (anthropic.skilljar.com), AWS Training &amp; Certification, Google Cloud Certification, DeepLearning.AI, Coursera, LinkedIn Learning, industry hiring surveys.</p>
+  </footer>
+
+</div>
+</body>
+</html>

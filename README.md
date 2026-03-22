@@ -19,6 +19,12 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 | 09 | [Future Capabilities & Roadmap](09-future/) | Longer context, computer use, persistent memory, advanced agents, safety advances, and Anthropic's mission |
 | 10 | [Summary & Quick Reference](10-reference/) | Cheat sheets for models, pricing, commands, API, SDKs, prompt patterns, MCP config, and a full glossary |
 
+## Reports
+
+| Topic | Description |
+|-------|-------------|
+| [Certifications & Training](certifications-report/) | Advisory report on Claude AI credentials — official certs, cloud provider exams, free courses, productivity and employability analysis |
+
 ## Viewing
 
 Each presentation is a self-contained `index.html` file. Open directly in a browser, or view via GitHub Pages:
