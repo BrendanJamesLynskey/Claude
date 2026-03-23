@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code — The CLI Tool</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-3 { grid-template-columns: 1fr; }
+  .cols-6040 { grid-template-columns: 1fr; }
+  .cols-4060 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 4 of 10</p>
+    <h1>Claude Code</h1>
+    <div class="subtitle">The CLI Tool for Agentic Software Development</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      An agentic coding assistant that lives in your terminal &mdash; reading, writing, and executing code
+      with full project context. No IDE required.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">CLI</span>
+      <span class="pill green">Agentic</span>
+      <span class="pill purple">Terminal-native</span>
+      <span class="pill blue">Open Source</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: What is Claude Code? -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">01</span>
+    <h2>What Is Claude Code?</h2>
+  </div>
+  <p>Claude Code is Anthropic's <span class="a">agentic coding tool</span> that operates directly in your terminal. It understands your entire codebase, executes real commands, and iterates autonomously to complete complex tasks.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Reads &amp; Understands</h3>
+      <ul>
+        <li>Searches across entire codebases</li>
+        <li>Reads files, configs, docs</li>
+        <li>Understands project structure</li>
+        <li>Analyzes dependencies</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Writes &amp; Edits</h3>
+      <ul>
+        <li>Creates new files from scratch</li>
+        <li>Makes surgical edits to existing code</li>
+        <li>Multi-file refactoring</li>
+        <li>Generates tests &amp; documentation</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Executes &amp; Iterates</h3>
+      <ul>
+        <li>Runs shell commands</li>
+        <li>Executes tests, fixes failures</li>
+        <li>Git commits &amp; PR creation</li>
+        <li>Self-corrects on errors</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Key differentiator:</span> Unlike chat-based assistants, Claude Code operates as a true agent &mdash; it plans multi-step tasks, uses tools, and iterates until the job is done. It works with your real filesystem and shell environment.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Installation -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">02</span>
+    <h2>Installation</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Install via npm</h3>
+      <pre><code class="language-bash"># Install globally
+npm install -g @anthropic-ai/claude-code
+
+# Verify installation
+claude --version
+
+# Update to latest
+npm update -g @anthropic-ai/claude-code</code></pre>
+      <h3 style="margin-top:.3em;">Prerequisites</h3>
+      <table>
+        <tr><th>Requirement</th><th>Minimum</th></tr>
+        <tr><td>Node.js</td><td>v18.0.0+</td></tr>
+        <tr><td>Operating System</td><td>macOS 12+, Ubuntu 20.04+, Windows via WSL2</td></tr>
+        <tr><td>RAM</td><td>4 GB recommended</td></tr>
+        <tr><td>Git</td><td>Recommended (not required)</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>First Launch</h3>
+        <pre><code class="language-bash"># Navigate to your project
+cd my-project/
+
+# Start Claude Code
+claude</code></pre>
+        <p style="margin-top:.2em;">On first run, Claude Code will walk you through authentication and display the interactive REPL.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Alternative: npx</h3>
+        <pre><code class="language-bash"># Run without installing
+npx @anthropic-ai/claude-code</code></pre>
+        <p>Useful for one-off usage or trying it out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: Authentication -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">03</span>
+    <h2>Authentication</h2>
+  </div>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Anthropic API Key</h3>
+      <pre><code class="language-bash"># Set via environment variable
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# Or pass inline
+ANTHROPIC_API_KEY=sk-ant-... claude</code></pre>
+      <p style="margin-top:.15em;">Direct API access. You pay per token via your Anthropic account. Best for individual developers.</p>
+    </div>
+    <div class="card green">
+      <h3>OAuth / Browser Login</h3>
+      <pre><code class="language-bash"># Interactive login flow
+claude login
+
+# Opens browser for OAuth
+# Tokens stored securely</code></pre>
+      <p style="margin-top:.15em;">Browser-based login tied to your Anthropic Console account. Supports Max plan with included usage.</p>
+    </div>
+    <div class="card purple">
+      <h3>Third-Party Providers</h3>
+      <pre><code class="language-bash"># Amazon Bedrock
+export CLAUDE_CODE_USE_BEDROCK=1
+
+# Google Vertex AI
+export CLAUDE_CODE_USE_VERTEX=1</code></pre>
+      <p style="margin-top:.15em;">Route through your cloud provider. Use existing AWS or GCP credentials and billing.</p>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Console Setup:</span> Go to <span class="mono">console.anthropic.com</span> &rarr; create an API key &rarr; set usage limits &rarr; enable billing. Claude Code uses <span class="a">Claude Sonnet</span> by default, switchable to <span class="a">Opus</span> via <code>/model</code>.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: First Run -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">04</span>
+    <h2>First Run &mdash; The REPL Interface</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <pre><code class="language-text">$ cd my-project &amp;&amp; claude
+
+╭──────────────────────────────────╮
+│  Claude Code        v1.0.32     │
+│                                  │
+│  /help for commands              │
+│  Type your request...            │
+╰──────────────────────────────────╯
+
+&gt; Explain the architecture of this project
+
+  I'll analyze the project structure...
+
+  [Read] package.json
+  [Glob] **/*.ts
+  [Read] src/index.ts
+  [Read] src/config.ts
+
+  This project is a TypeScript REST API
+  using Express with the following
+  architecture...
+
+&gt; _</code></pre>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>REPL Features</h3>
+        <ul>
+          <li><span class="a">Interactive prompt</span> &mdash; type natural language requests</li>
+          <li><span class="a">Tool transparency</span> &mdash; see every tool call in real time</li>
+          <li><span class="a">Permission prompts</span> &mdash; approve or deny file writes and commands</li>
+          <li><span class="a">Multi-turn</span> &mdash; context carries across turns</li>
+          <li><span class="a">Vim keybindings</span> &mdash; Escape for multi-line edit mode</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>One-Shot Mode</h3>
+        <pre><code class="language-bash"># Non-interactive: pass prompt directly
+claude -p "explain this codebase"
+
+# Pipe input
+cat error.log | claude -p "fix this"
+
+# Output as JSON
+claude -p "list files" --json</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Core Tools (1) -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">05</span>
+    <h2>Core Tools &mdash; File Operations</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Read</h3>
+      <p>Reads files from the filesystem. Supports text, images, PDFs, and Jupyter notebooks.</p>
+      <pre><code class="language-json">{
+  "file_path": "/absolute/path/to/file.ts",
+  "offset": 100,  // start at line 100
+  "limit": 50     // read 50 lines
+}</code></pre>
+      <ul>
+        <li>Always uses absolute paths</li>
+        <li>Returns content with line numbers</li>
+        <li>Can read images for visual analysis</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Edit</h3>
+      <p>Performs exact string replacements in files. Surgical, diff-based editing.</p>
+      <pre><code class="language-json">{
+  "file_path": "/path/to/file.ts",
+  "old_string": "const x = 1;",
+  "new_string": "const x = 2;",
+  "replace_all": false
+}</code></pre>
+      <ul>
+        <li>Requires unique <code>old_string</code> match</li>
+        <li>Preserves exact indentation</li>
+        <li><code>replace_all</code> for bulk renames</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Write</h3>
+      <p>Creates new files or completely overwrites existing ones.</p>
+      <pre><code class="language-json">{
+  "file_path": "/path/to/new-file.ts",
+  "content": "export function hello() {\n  return 'world';\n}"
+}</code></pre>
+      <ul>
+        <li>Must Read before overwriting existing files</li>
+        <li>Prefers Edit for partial changes</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Bash</h3>
+      <p>Executes shell commands with full access to the system environment.</p>
+      <pre><code class="language-json">{
+  "command": "npm test -- --coverage",
+  "timeout": 120000,
+  "run_in_background": false
+}</code></pre>
+      <ul>
+        <li>2-minute default timeout (up to 10 min)</li>
+        <li>Background execution support</li>
+        <li>Working directory persists between calls</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Core Tools (2) -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">06</span>
+    <h2>Core Tools &mdash; Search Operations</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Grep (Content Search)</h3>
+      <p>Powered by ripgrep. Searches file contents with regex support.</p>
+      <pre><code class="language-json">{
+  "pattern": "function\\s+handle\\w+",
+  "path": "src/",
+  "glob": "*.ts",
+  "output_mode": "content",
+  "-C": 3
+}</code></pre>
+      <ul>
+        <li>Three output modes: <code>content</code>, <code>files_with_matches</code>, <code>count</code></li>
+        <li>Context lines with <code>-A</code>, <code>-B</code>, <code>-C</code> flags</li>
+        <li>Case-insensitive with <code>-i</code></li>
+        <li>Multiline matching support</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Glob (File Search)</h3>
+      <p>Fast file pattern matching. Finds files by name patterns across the project.</p>
+      <pre><code class="language-json">{
+  "pattern": "**/*.test.ts",
+  "path": "src/"
+}</code></pre>
+      <ul>
+        <li>Standard glob patterns (<code>*</code>, <code>**</code>, <code>?</code>)</li>
+        <li>Results sorted by modification time</li>
+        <li>Much faster than <code>find</code> command</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card purple" style="margin-top:.3em;">
+    <h3>Tool Selection Strategy</h3>
+    <p>Claude Code automatically chooses the right tool for the job:</p>
+    <p style="margin-top:.1em;">
+      <span class="a">Know the file path?</span> &rarr; Use <strong>Read</strong> &nbsp;|&nbsp;
+      <span class="g">Search by file name?</span> &rarr; Use <strong>Glob</strong> &nbsp;|&nbsp;
+      <span class="p">Search by content?</span> &rarr; Use <strong>Grep</strong> &nbsp;|&nbsp;
+      <span class="b">Run a command?</span> &rarr; Use <strong>Bash</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: The Agent Loop -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">07</span>
+    <h2>The Agent Loop</h2>
+  </div>
+  <p>Claude Code operates in an autonomous <span class="a">plan &rarr; act &rarr; observe &rarr; iterate</span> loop until the task is complete.</p>
+  <svg class="diagram" viewBox="0 0 900 320" style="max-width: 100%; height: auto;">
+    <!-- Boxes -->
+    <rect x="20" y="40" width="160" height="60" rx="8" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+    <text x="100" y="75" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="16" font-weight="700">User Prompt</text>
+    <rect x="230" y="40" width="160" height="60" rx="8" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
+    <text x="310" y="68" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display,serif" font-size="16" font-weight="700">Plan</text>
+    <text x="310" y="86" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="11">Analyze &amp; strategize</text>
+    <rect x="440" y="40" width="160" height="60" rx="8" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
+    <text x="520" y="68" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="16" font-weight="700">Execute Tool</text>
+    <text x="520" y="86" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="11">Read, Edit, Bash...</text>
+    <rect x="650" y="40" width="160" height="60" rx="8" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
+    <text x="730" y="68" text-anchor="middle" fill="#60a5fa" font-family="Playfair Display,serif" font-size="16" font-weight="700">Observe</text>
+    <text x="730" y="86" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="11">Evaluate result</text>
+    <!-- Arrows -->
+    <line x1="180" y1="70" x2="225" y2="70" stroke="#8888a8" stroke-width="2" marker-end="url(#arrowG)"/>
+    <line x1="390" y1="70" x2="435" y2="70" stroke="#8888a8" stroke-width="2" marker-end="url(#arrowG)"/>
+    <line x1="600" y1="70" x2="645" y2="70" stroke="#8888a8" stroke-width="2" marker-end="url(#arrowG)"/>
+    <!-- Loop back arrow -->
+    <path d="M730,100 L730,140 Q730,160 710,160 L330,160 Q310,160 310,140 L310,105" fill="none" stroke="#f87171" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowR)"/>
+    <text x="520" y="176" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="12">iterate until done</text>
+    <!-- Done arrow -->
+    <rect x="340" y="210" width="180" height="55" rx="8" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
+    <text x="430" y="238" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="16" font-weight="700">Respond to User</text>
+    <text x="430" y="254" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="11">Summary + results</text>
+    <line x1="430" y1="160" x2="430" y2="205" stroke="#4ecb8d" stroke-width="2" marker-end="url(#arrowGn)"/>
+    <text x="446" y="190" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="11">done</text>
+    <defs>
+      <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#8888a8"/></marker>
+      <marker id="arrowR" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#f87171"/></marker>
+      <marker id="arrowGn" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#4ecb8d"/></marker>
+    </defs>
+  </svg>
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="card amber">
+      <h3>Autonomous</h3>
+      <p>Claude Code decides which tools to call, in what order, without user guidance for each step.</p>
+    </div>
+    <div class="card green">
+      <h3>Self-Correcting</h3>
+      <p>When a tool call fails or returns unexpected results, it adjusts its approach and retries.</p>
+    </div>
+    <div class="card purple">
+      <h3>Parallel Calls</h3>
+      <p>Independent tool calls are batched together for faster execution (e.g., reading multiple files at once).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Slash Commands -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">08</span>
+    <h2>Slash Commands</h2>
+  </div>
+  <p>Built-in commands that control Claude Code's behavior. Type <code>/</code> in the REPL to see all options.</p>
+  <div class="cols cols-2">
+    <div>
+      <table>
+        <tr><th>Command</th><th>Description</th></tr>
+        <tr><td><code>/help</code></td><td>Show all available commands and usage</td></tr>
+        <tr><td><code>/model</code></td><td>Switch model (e.g., Sonnet &harr; Opus)</td></tr>
+        <tr><td><code>/clear</code></td><td>Reset conversation context</td></tr>
+        <tr><td><code>/compact</code></td><td>Summarize context to free up token space</td></tr>
+        <tr><td><code>/cost</code></td><td>Show token usage and estimated cost</td></tr>
+        <tr><td><code>/login</code></td><td>Switch authentication method</td></tr>
+        <tr><td><code>/config</code></td><td>Open or edit settings</td></tr>
+        <tr><td><code>/permissions</code></td><td>View and manage tool permissions</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <tr><th>Command</th><th>Description</th></tr>
+        <tr><td><code>/commit</code></td><td>Generate a commit for staged changes</td></tr>
+        <tr><td><code>/review-pr</code></td><td>Review a pull request</td></tr>
+        <tr><td><code>/pr-comments</code></td><td>View and address PR feedback</td></tr>
+        <tr><td><code>/init</code></td><td>Generate a CLAUDE.md for current project</td></tr>
+        <tr><td><code>/bug</code></td><td>Report a bug to Anthropic</td></tr>
+        <tr><td><code>/doctor</code></td><td>Diagnose common configuration issues</td></tr>
+        <tr><td><code>/vim</code></td><td>Toggle vim keybinding mode</td></tr>
+        <tr><td><code>/add-dir</code></td><td>Add additional directories to context</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card green" style="margin-top:.3em;">
+    <p><span class="g">Custom slash commands:</span> You can create custom commands by adding them as <span class="mono">.claude/commands/</span> markdown files. They show up under <code>/</code> and can include templates with <code>$ARGUMENTS</code> placeholder.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: CLAUDE.md -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">09</span>
+    <h2>CLAUDE.md &mdash; Project Configuration</h2>
+  </div>
+  <p><code>CLAUDE.md</code> is a special markdown file that gives Claude Code persistent context about your project &mdash; coding standards, architecture, common patterns, and instructions.</p>
+  <div class="cols cols-6040">
+    <div>
+      <pre><code class="language-markdown"># CLAUDE.md
+
+## Project Overview
+This is a TypeScript monorepo using Turborepo.
+
+## Code Style
+- Use functional components with hooks
+- Prefer named exports over default exports
+- All functions must have JSDoc comments
+
+## Architecture
+- /packages/api — Express REST API
+- /packages/web — Next.js frontend
+- /packages/shared — Shared types
+
+## Testing
+- Run tests: `npm test`
+- E2E tests: `npm run test:e2e`
+- Always write tests for new features
+
+## Common Gotchas
+- The DB migration must run before tests
+- Port 3000 is used by the dev server</code></pre>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>File Hierarchy</h3>
+        <ul>
+          <li><span class="a">~/.claude/CLAUDE.md</span> &mdash; Global user config</li>
+          <li><span class="g">/project/CLAUDE.md</span> &mdash; Project root</li>
+          <li><span class="p">/project/src/CLAUDE.md</span> &mdash; Folder-specific</li>
+        </ul>
+        <p style="margin-top:.15em;">All levels are merged, with more specific files taking priority.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>What to Include</h3>
+        <ul>
+          <li>Build &amp; test commands</li>
+          <li>Code style preferences</li>
+          <li>Architecture overview</li>
+          <li>Common pitfalls &amp; gotchas</li>
+          <li>Naming conventions</li>
+          <li>Deployment procedures</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Generate Automatically</h3>
+        <pre><code class="language-bash"># Auto-generate from codebase
+claude /init</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Permission System -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">10</span>
+    <h2>Permission System</h2>
+  </div>
+  <p>Claude Code enforces a <span class="a">security-first permission model</span>. Every potentially destructive action requires explicit approval.</p>
+  <div class="cols cols-2">
+    <div>
+      <svg class="diagram" viewBox="0 0 420 240" style="max-width: 100%; height: auto;">
+        <rect x="10" y="10" width="400" height="50" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
+        <text x="210" y="40" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="14" font-weight="700">Always Allowed (No Prompt)</text>
+        <text x="210" y="55" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">Read, Glob, Grep, Fetch</text>
+        <rect x="10" y="75" width="400" height="50" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+        <text x="210" y="105" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="14" font-weight="700">Requires Approval</text>
+        <text x="210" y="120" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">Write, Edit, Bash (first time or new pattern)</text>
+        <rect x="10" y="140" width="400" height="50" rx="6" fill="#10101a" stroke="#f87171" stroke-width="2"/>
+        <text x="210" y="170" text-anchor="middle" fill="#f87171" font-family="Playfair Display,serif" font-size="14" font-weight="700">Denied by Default</text>
+        <text x="210" y="185" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">Destructive ops (rm -rf, git push --force)</text>
+      </svg>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Approval Options</h3>
+        <ul>
+          <li><span class="g">Yes</span> &mdash; allow this one time</li>
+          <li><span class="a">Always allow</span> &mdash; auto-approve this tool</li>
+          <li><span class="r">No</span> &mdash; deny this action</li>
+          <li><span class="p">Always allow for project</span> &mdash; scope to this repo</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>settings.json</h3>
+        <pre><code class="language-json">{
+  "permissions": {
+    "allow": [
+      "Bash(npm test*)",
+      "Bash(git diff*)",
+      "Write(src/**)"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(*--force*)"
+    ]
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: Hooks -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">11</span>
+    <h2>Hooks</h2>
+  </div>
+  <p>Hooks let you run custom code <span class="a">before or after</span> Claude Code tool calls, enabling validation, logging, and automation.</p>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Hook Configuration (settings.json)</h3>
+      <pre><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Running Bash tool...'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write $CLAUDE_FILE_PATH"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Prompt received'"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Hook Types</h3>
+        <table>
+          <tr><th>Hook</th><th>Fires When</th></tr>
+          <tr><td><span class="a">PreToolUse</span></td><td>Before a tool executes</td></tr>
+          <tr><td><span class="g">PostToolUse</span></td><td>After a tool completes</td></tr>
+          <tr><td><span class="p">UserPromptSubmit</span></td><td>When user sends a message</td></tr>
+          <tr><td><span class="b">Stop</span></td><td>When agent turn finishes</td></tr>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Use Cases</h3>
+        <ul>
+          <li>Auto-format files after Write/Edit</li>
+          <li>Run linters before committing</li>
+          <li>Log all tool usage for auditing</li>
+          <li>Block certain file modifications</li>
+          <li>Inject context before prompts</li>
+          <li>Send notifications on completion</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Environment Variables</h3>
+        <p>Hooks receive context via env vars: <code>CLAUDE_FILE_PATH</code>, <code>CLAUDE_TOOL_NAME</code>, <code>CLAUDE_TOOL_INPUT</code></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: MCP Servers -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">12</span>
+    <h2>MCP Servers</h2>
+  </div>
+  <p>The <span class="a">Model Context Protocol</span> lets you extend Claude Code with custom tools and data sources via MCP servers.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3>What is MCP?</h3>
+        <p>An open protocol for connecting AI models to external tools, APIs, and data. Claude Code acts as an MCP <span class="a">client</span> that can connect to any MCP <span class="g">server</span>.</p>
+      </div>
+      <h3 style="margin-top:.3em;">Configuration</h3>
+      <pre><code class="language-json">// .claude/mcp_servers.json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "ghp_..."
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/mydb"
+      ]
+    }
+  }
+}</code></pre>
+    </div>
+    <div>
+      <div class="card green">
+        <h3>Popular MCP Servers</h3>
+        <table>
+          <tr><th>Server</th><th>Provides</th></tr>
+          <tr><td>GitHub</td><td>Issues, PRs, repos, actions</td></tr>
+          <tr><td>PostgreSQL</td><td>Database queries &amp; schema</td></tr>
+          <tr><td>Filesystem</td><td>Sandboxed file access</td></tr>
+          <tr><td>Slack</td><td>Channel messages &amp; search</td></tr>
+          <tr><td>Puppeteer</td><td>Browser automation</td></tr>
+          <tr><td>Sentry</td><td>Error tracking &amp; issues</td></tr>
+        </table>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Adding Servers</h3>
+        <pre><code class="language-bash"># Add via CLI
+claude mcp add github \
+  npx -y @modelcontextprotocol/server-github
+
+# List configured servers
+claude mcp list
+
+# Remove a server
+claude mcp remove github</code></pre>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Scope</h3>
+        <p><span class="b">Project:</span> <code>.claude/mcp_servers.json</code><br/><span class="a">Global:</span> <code>~/.claude/mcp_servers.json</code></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: Sub-agents -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">13</span>
+    <h2>Sub-agents</h2>
+  </div>
+  <p>Claude Code can spawn <span class="a">sub-agents</span> for complex tasks &mdash; isolated Claude instances that handle specific parts of a larger problem.</p>
+  <div class="cols cols-6040">
+    <div>
+      <svg class="diagram" viewBox="0 0 440 260" style="max-width: 100%; height: auto;">
+        <rect x="130" y="5" width="180" height="45" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+        <text x="220" y="33" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="14" font-weight="700">Main Agent</text>
+        <!-- Lines down -->
+        <line x1="140" y1="50" x2="80" y2="90" stroke="#8888a8" stroke-width="1.5"/>
+        <line x1="220" y1="50" x2="220" y2="90" stroke="#8888a8" stroke-width="1.5"/>
+        <line x1="300" y1="50" x2="360" y2="90" stroke="#8888a8" stroke-width="1.5"/>
+        <!-- Sub-agents -->
+        <rect x="10" y="90" width="140" height="45" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
+        <text x="80" y="112" text-anchor="middle" fill="#a78bfa" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Agent (Explore)</text>
+        <text x="80" y="128" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">Research &amp; analyze</text>
+        <rect x="150" y="90" width="140" height="45" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
+        <text x="220" y="112" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Agent (Code)</text>
+        <text x="220" y="128" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">Implement changes</text>
+        <rect x="290" y="90" width="140" height="45" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
+        <text x="360" y="112" text-anchor="middle" fill="#60a5fa" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Agent (Test)</text>
+        <text x="360" y="128" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">Validate &amp; verify</text>
+        <!-- Tools below -->
+        <rect x="10" y="155" width="140" height="35" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="80" y="177" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="10">Read, Grep, Glob</text>
+        <rect x="150" y="155" width="140" height="35" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="220" y="177" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="10">Edit, Write, Bash</text>
+        <rect x="290" y="155" width="140" height="35" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="360" y="177" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="10">Bash(npm test)</text>
+        <line x1="80" y1="135" x2="80" y2="155" stroke="#2a2a3a" stroke-width="1"/>
+        <line x1="220" y1="135" x2="220" y2="155" stroke="#2a2a3a" stroke-width="1"/>
+        <line x1="360" y1="135" x2="360" y2="155" stroke="#2a2a3a" stroke-width="1"/>
+      </svg>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Agent Tool</h3>
+        <p>The main agent can delegate tasks to sub-agents using the <span class="a">Agent tool</span>. Each sub-agent gets its own context window and tool access.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Capabilities</h3>
+        <ul>
+          <li><span class="g">Read-only agents</span> for exploration</li>
+          <li><span class="a">Full agents</span> for implementation</li>
+          <li><span class="p">Parallel execution</span> for independent tasks</li>
+          <li>Results returned to parent agent</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>When Sub-agents Help</h3>
+        <ul>
+          <li>Searching large codebases in parallel</li>
+          <li>Multi-file edits across different modules</li>
+          <li>Research tasks that need deep exploration</li>
+          <li>Preventing context window exhaustion</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15: Memory System -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">14</span>
+    <h2>Memory System</h2>
+  </div>
+  <p>Claude Code maintains <span class="a">persistent memory</span> across sessions via CLAUDE.md files, enabling it to learn and remember project-specific context.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3>How Memory Works</h3>
+        <ul>
+          <li>Claude Code reads <code>CLAUDE.md</code> at the start of every session</li>
+          <li>You can ask it to "remember" something and it writes to CLAUDE.md</li>
+          <li>Memory persists between sessions and across team members (if committed)</li>
+          <li>Memories follow the file hierarchy: global &rarr; project &rarr; folder</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Memory Types</h3>
+        <table>
+          <tr><th>Type</th><th>Scope</th><th>Location</th></tr>
+          <tr><td>User</td><td>All projects</td><td><code>~/.claude/CLAUDE.md</code></td></tr>
+          <tr><td>Project</td><td>Current repo</td><td><code>./CLAUDE.md</code></td></tr>
+          <tr><td>Folder</td><td>Subdirectory</td><td><code>./src/CLAUDE.md</code></td></tr>
+          <tr><td>User-Project</td><td>Per user per repo</td><td><code>.claude/local/CLAUDE.md</code></td></tr>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Adding Memories</h3>
+        <pre><code class="language-text">&gt; Remember that we use pnpm not npm
+
+  I'll add that to your project's
+  CLAUDE.md file.
+
+  [Write] CLAUDE.md
+  Added: "Use pnpm instead of npm for
+  all package management commands."</code></pre>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Keep CLAUDE.md concise &mdash; it's loaded every turn</li>
+          <li>Commit project CLAUDE.md to version control</li>
+          <li>Put personal preferences in user-level config</li>
+          <li>Use folder-level CLAUDE.md for module-specific rules</li>
+          <li>Review and prune periodically</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 16: Git Integration -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">15</span>
+    <h2>Git Integration</h2>
+  </div>
+  <p>Claude Code has <span class="a">deep Git integration</span> &mdash; it can commit, branch, create PRs, and review code following your project's conventions.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3>Commits</h3>
+        <pre><code class="language-bash"># Ask Claude to commit
+&gt; commit these changes
+
+# Or use slash command
+/commit
+
+# Claude will:
+# 1. Run git status &amp; git diff
+# 2. Analyze staged changes
+# 3. Draft a descriptive commit message
+# 4. Create the commit</code></pre>
+        <p style="margin-top:.1em;">Commit messages follow conventional format and include <code>Co-Authored-By</code> attribution.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Pull Requests</h3>
+        <pre><code class="language-bash"># Create a PR
+&gt; create a PR for this branch
+
+# Review an existing PR
+/review-pr 123
+
+# Address PR comments
+/pr-comments</code></pre>
+        <p style="margin-top:.1em;">Uses <code>gh</code> CLI under the hood for all GitHub operations.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Safety Guardrails</h3>
+        <ul>
+          <li>Never force-pushes unless explicitly asked</li>
+          <li>Never amends commits (creates new ones)</li>
+          <li>Never skips hooks (<code>--no-verify</code>)</li>
+          <li>Warns before pushing to main/master</li>
+          <li>Stages specific files, avoids <code>git add -A</code></li>
+          <li>Checks for secrets before committing</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Code Review Workflow</h3>
+        <ul>
+          <li><span class="b">1.</span> Fetch PR diff and comments</li>
+          <li><span class="b">2.</span> Analyze each changed file</li>
+          <li><span class="b">3.</span> Check for bugs, style, and logic issues</li>
+          <li><span class="b">4.</span> Provide inline feedback</li>
+          <li><span class="b">5.</span> Summarize findings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 17: Multi-file Editing -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">16</span>
+    <h2>Multi-file Editing</h2>
+  </div>
+  <p>One of Claude Code's strongest capabilities: <span class="a">coordinated edits across many files</span> in a single operation.</p>
+  <div class="cols cols-6040">
+    <div>
+      <div class="card amber">
+        <h3>How It Works</h3>
+        <ul>
+          <li><span class="a">1. Discover</span> &mdash; Grep/Glob to find all affected files</li>
+          <li><span class="a">2. Analyze</span> &mdash; Read each file to understand context</li>
+          <li><span class="a">3. Plan</span> &mdash; Determine all changes needed</li>
+          <li><span class="a">4. Execute</span> &mdash; Apply edits (often in parallel)</li>
+          <li><span class="a">5. Verify</span> &mdash; Run tests to confirm nothing broke</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Example: Rename a Function</h3>
+        <pre><code class="language-text">&gt; Rename getUserData to fetchUserProfile
+  everywhere in the codebase
+
+  [Grep] "getUserData" across **/*.ts
+  Found 23 matches in 12 files
+
+  [Edit] src/api/users.ts (definition)
+  [Edit] src/hooks/useUser.ts (import)
+  [Edit] src/pages/profile.tsx (usage)
+  ... (9 more files)
+
+  [Bash] npm test
+  All 147 tests passing.</code></pre>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Common Refactoring Tasks</h3>
+        <ul>
+          <li>Rename functions, types, or variables across the codebase</li>
+          <li>Migrate from one API pattern to another</li>
+          <li>Add error handling to all API endpoints</li>
+          <li>Convert class components to hooks</li>
+          <li>Update import paths after restructuring</li>
+          <li>Add TypeScript types to JavaScript files</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Advantages Over IDE Refactoring</h3>
+        <ul>
+          <li><span class="b">Semantic understanding</span> &mdash; knows when a string match is actually a reference vs. a coincidence</li>
+          <li><span class="b">Cross-language</span> &mdash; updates code, tests, docs, and configs together</li>
+          <li><span class="b">Verification</span> &mdash; runs tests after refactoring</li>
+          <li><span class="b">Context-aware</span> &mdash; adjusts related code (e.g., updating types when renaming)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 18: IDE Integration -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">17</span>
+    <h2>IDE Integration</h2>
+  </div>
+  <p>While Claude Code is terminal-native, it integrates with popular IDEs for a seamless workflow.</p>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>VS Code Extension</h3>
+      <ul>
+        <li>Embeds Claude Code terminal in VS Code</li>
+        <li>File diffs shown in VS Code's native diff viewer</li>
+        <li>Click to open referenced files</li>
+        <li>Shares workspace context</li>
+        <li>Keyboard shortcut: <code>Ctrl+Shift+`</code></li>
+      </ul>
+      <pre><code class="language-bash"># Install extension
+code --install-extension anthropic.claude-code</code></pre>
+    </div>
+    <div class="card green">
+      <h3>JetBrains Plugin</h3>
+      <ul>
+        <li>Works with IntelliJ, WebStorm, PyCharm, etc.</li>
+        <li>Integrated terminal panel</li>
+        <li>File navigation integration</li>
+        <li>Diff visualization</li>
+      </ul>
+      <p style="margin-top:.2em;">Install from the JetBrains Marketplace or search "Claude Code" in plugin settings.</p>
+    </div>
+    <div class="card purple">
+      <h3>Terminal-First Philosophy</h3>
+      <ul>
+        <li>Works in any terminal emulator</li>
+        <li>SSH-compatible (remote dev)</li>
+        <li>tmux/screen compatible</li>
+        <li>CI/CD pipeline integration</li>
+        <li>No IDE dependency required</li>
+      </ul>
+      <p style="margin-top:.2em;">The IDE extensions are convenience wrappers &mdash; all functionality works in a plain terminal.</p>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Workflow tip:</span> Many developers run Claude Code in a <span class="a">side-by-side terminal</span> next to their IDE, using the IDE for browsing/reviewing changes and Claude Code for making them.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 19: Advanced Configuration -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">18</span>
+    <h2>Advanced Configuration</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>settings.json Locations</h3>
+      <table>
+        <tr><th>Scope</th><th>Path</th></tr>
+        <tr><td>User</td><td><code>~/.claude/settings.json</code></td></tr>
+        <tr><td>Project</td><td><code>.claude/settings.json</code></td></tr>
+        <tr><td>Local (gitignored)</td><td><code>.claude/settings.local.json</code></td></tr>
+      </table>
+      <h3 style="margin-top:.3em;">Key Settings</h3>
+      <pre><code class="language-json">{
+  "model": "claude-sonnet-4-20250514",
+  "permissions": {
+    "allow": ["Bash(npm *)"],
+    "deny": ["Bash(rm *)"]
+  },
+  "hooks": { ... },
+  "mcpServers": { ... },
+  "customCommands": { ... }
+}</code></pre>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Environment Variables</h3>
+        <table>
+          <tr><th>Variable</th><th>Purpose</th></tr>
+          <tr><td><code>ANTHROPIC_API_KEY</code></td><td>API authentication</td></tr>
+          <tr><td><code>CLAUDE_MODEL</code></td><td>Override default model</td></tr>
+          <tr><td><code>CLAUDE_CODE_USE_BEDROCK</code></td><td>Use AWS Bedrock</td></tr>
+          <tr><td><code>CLAUDE_CODE_USE_VERTEX</code></td><td>Use Google Vertex</td></tr>
+          <tr><td><code>ANTHROPIC_BASE_URL</code></td><td>Custom API endpoint</td></tr>
+          <tr><td><code>CLAUDE_CODE_MAX_TURNS</code></td><td>Limit agent turns</td></tr>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Model Selection</h3>
+        <pre><code class="language-bash"># In REPL
+/model claude-opus-4-20250514
+
+# Via environment
+export CLAUDE_MODEL=claude-opus-4-20250514
+
+# Via CLI flag
+claude --model claude-opus-4-20250514</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 20: Debugging & Troubleshooting -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">19</span>
+    <h2>Debugging &amp; Troubleshooting</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3>Common Issues</h3>
+        <table>
+          <tr><th>Problem</th><th>Solution</th></tr>
+          <tr><td>Authentication errors</td><td>Run <code>claude login</code> or check API key</td></tr>
+          <tr><td>Slow responses</td><td>Use <code>/compact</code> to reduce context</td></tr>
+          <tr><td>Wrong file edits</td><td>Be more specific in your prompt</td></tr>
+          <tr><td>Context too long</td><td><code>/clear</code> to reset, or <code>/compact</code></td></tr>
+          <tr><td>Tool permission denied</td><td>Check <code>/permissions</code></td></tr>
+          <tr><td>MCP server fails</td><td><code>claude mcp list</code> to debug</td></tr>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Doctor Command</h3>
+        <pre><code class="language-bash"># Diagnose configuration issues
+/doctor
+
+# Checks:
+# - Node.js version
+# - Authentication status
+# - MCP server connectivity
+# - Settings file validity</code></pre>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Verbose &amp; Debug Mode</h3>
+        <pre><code class="language-bash"># Enable verbose output
+claude --verbose
+
+# Debug logging
+CLAUDE_CODE_DEBUG=1 claude
+
+# View conversation log
+# (stored in ~/.claude/logs/)</code></pre>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Context Management</h3>
+        <ul>
+          <li><span class="b">/compact</span> &mdash; summarizes conversation, frees tokens</li>
+          <li><span class="b">/clear</span> &mdash; wipes all context, fresh start</li>
+          <li><span class="b">/cost</span> &mdash; shows token usage and spend</li>
+          <li>Claude Code auto-compacts when context is near the limit</li>
+          <li>Prefer focused prompts over open-ended ones to reduce context growth</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>When Things Go Wrong</h3>
+        <p>Claude Code never makes changes it can't undo. Use <code>git diff</code> to review changes and <code>git checkout</code> to revert if needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 21: Worktrees & Isolation -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">20</span>
+    <h2>Worktrees &amp; Isolation</h2>
+  </div>
+  <p>Run multiple Claude Code instances in <span class="a">parallel, isolated environments</span> using Git worktrees.</p>
+  <div class="cols cols-6040">
+    <div>
+      <svg class="diagram" viewBox="0 0 420 220" style="max-width: 100%; height: auto;">
+        <rect x="120" y="5" width="180" height="40" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+        <text x="210" y="30" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="13" font-weight="700">Main Repository</text>
+        <line x1="140" y1="45" x2="80" y2="80" stroke="#8888a8" stroke-width="1.5"/>
+        <line x1="210" y1="45" x2="210" y2="80" stroke="#8888a8" stroke-width="1.5"/>
+        <line x1="280" y1="45" x2="340" y2="80" stroke="#8888a8" stroke-width="1.5"/>
+        <rect x="10" y="80" width="140" height="50" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
+        <text x="80" y="102" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Worktree A</text>
+        <text x="80" y="118" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">feature/auth</text>
+        <rect x="140" y="80" width="140" height="50" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
+        <text x="210" y="102" text-anchor="middle" fill="#a78bfa" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Worktree B</text>
+        <text x="210" y="118" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">fix/bug-123</text>
+        <rect x="270" y="80" width="140" height="50" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
+        <text x="340" y="102" text-anchor="middle" fill="#60a5fa" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Worktree C</text>
+        <text x="340" y="118" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">refactor/api</text>
+        <!-- Claude instances -->
+        <rect x="20" y="148" width="120" height="30" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="80" y="168" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="10">claude (PID 1)</text>
+        <rect x="150" y="148" width="120" height="30" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="210" y="168" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10">claude (PID 2)</text>
+        <rect x="280" y="148" width="120" height="30" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="340" y="168" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="10">claude (PID 3)</text>
+        <line x1="80" y1="130" x2="80" y2="148" stroke="#2a2a3a" stroke-width="1"/>
+        <line x1="210" y1="130" x2="210" y2="148" stroke="#2a2a3a" stroke-width="1"/>
+        <line x1="340" y1="130" x2="340" y2="148" stroke="#2a2a3a" stroke-width="1"/>
+      </svg>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Git Worktrees</h3>
+        <pre><code class="language-bash"># Create isolated worktrees
+git worktree add ../feature-auth feature/auth
+git worktree add ../fix-bug fix/bug-123
+
+# Run Claude in each
+cd ../feature-auth &amp;&amp; claude
+cd ../fix-bug &amp;&amp; claude</code></pre>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Benefits</h3>
+        <ul>
+          <li>Each instance has its own branch and working directory</li>
+          <li>No conflicts between parallel workstreams</li>
+          <li>Share the same Git history (single .git)</li>
+          <li>Ideal for working on multiple features simultaneously</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Headless Mode</h3>
+        <pre><code class="language-bash"># Non-interactive for CI/CD
+claude -p "fix all lint errors" \
+  --allowedTools "Edit,Bash(npx eslint*)"</code></pre>
+        <p style="margin-top:.1em;">Run Claude Code in scripts and pipelines with explicit tool permissions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 22: Real-world Workflows -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">21</span>
+    <h2>Real-world Workflows</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Bug Fixing</h3>
+      <pre><code class="language-text">&gt; Users report that login fails
+  when email has a + character.
+  Find and fix the bug.
+
+Claude will:
+1. Search for login/auth code
+2. Find email validation logic
+3. Identify the regex issue
+4. Fix the validation
+5. Add a test case
+6. Run the test suite</code></pre>
+    </div>
+    <div class="card green">
+      <h3>Feature Development</h3>
+      <pre><code class="language-text">&gt; Add a dark mode toggle to the
+  settings page. Use the existing
+  theme system in ThemeContext.
+
+Claude will:
+1. Read ThemeContext implementation
+2. Read the settings page
+3. Add toggle component
+4. Wire up theme switching
+5. Update styles
+6. Test the integration</code></pre>
+    </div>
+    <div class="card purple">
+      <h3>Code Review</h3>
+      <pre><code class="language-text">&gt; /review-pr 456
+
+Claude will:
+1. Fetch the PR diff via gh CLI
+2. Analyze each changed file
+3. Check for bugs, security issues
+4. Verify test coverage
+5. Comment with findings
+6. Suggest improvements</code></pre>
+    </div>
+    <div class="card blue">
+      <h3>Codebase Exploration</h3>
+      <pre><code class="language-text">&gt; Explain how the payment
+  processing pipeline works,
+  from checkout to fulfillment.
+
+Claude will:
+1. Search for payment-related code
+2. Trace the flow across services
+3. Read configuration files
+4. Map out the architecture
+5. Present a clear explanation</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 23: Tips & Best Practices -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">22</span>
+    <h2>Tips &amp; Best Practices</h2>
+  </div>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Effective Prompting</h3>
+      <ul>
+        <li>Be <span class="a">specific</span> about what you want</li>
+        <li>Reference <span class="a">file paths</span> when you know them</li>
+        <li>Mention the <span class="a">testing strategy</span> you expect</li>
+        <li>Include <span class="a">constraints</span> ("don't modify X")</li>
+        <li>Break large tasks into steps if needed</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Context Management</h3>
+      <ul>
+        <li>Use <code>/compact</code> regularly on long sessions</li>
+        <li>Start fresh with <code>/clear</code> for unrelated tasks</li>
+        <li>Keep CLAUDE.md concise and current</li>
+        <li>Use <code>/cost</code> to monitor token usage</li>
+        <li>Prefer focused prompts over vague ones</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Power User Techniques</h3>
+      <ul>
+        <li>Pipe error output: <code>npm test 2>&amp;1 | claude -p "fix"</code></li>
+        <li>Use <code>Escape</code> for multi-line input mode</li>
+        <li>Create custom <code>/commands</code> for repeated tasks</li>
+        <li>Use <code>--json</code> for scripting integration</li>
+        <li>Set up hooks for auto-formatting</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card blue">
+      <h3>Safety &amp; Version Control</h3>
+      <ul>
+        <li>Always work on a <span class="b">feature branch</span></li>
+        <li>Review diffs before committing: <code>git diff</code></li>
+        <li>Use Claude Code's permission system wisely</li>
+        <li>Commit frequently &mdash; you can always revert</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>Common Pitfalls</h3>
+      <ul>
+        <li>Don't paste entire files into the prompt &mdash; let Claude read them</li>
+        <li>Don't fight the tool &mdash; rephrase if it misunderstands</li>
+        <li>Don't auto-allow everything &mdash; keep security guardrails</li>
+        <li>Don't skip reviewing changes before pushing</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 24: Summary -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">23</span>
+    <h2>Summary</h2>
+  </div>
+  <p>Claude Code transforms software development by bringing <span class="a">agentic AI capabilities</span> directly into your terminal workflow.</p>
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="card amber">
+      <h3>Core Strengths</h3>
+      <ul>
+        <li>Terminal-native, no IDE dependency</li>
+        <li>Full filesystem and shell access</li>
+        <li>Autonomous multi-step execution</li>
+        <li>Deep Git integration</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Extensibility</h3>
+      <ul>
+        <li>MCP servers for external tools</li>
+        <li>Hooks for custom automation</li>
+        <li>Custom slash commands</li>
+        <li>IDE plugins and integrations</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Safety &amp; Control</h3>
+      <ul>
+        <li>Permission system with allow/deny</li>
+        <li>Git safety guardrails</li>
+        <li>Transparent tool usage</li>
+        <li>Human-in-the-loop design</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p style="font-size:.55em; text-align:center;">
+      <span class="b">Get started:</span> &nbsp;
+      <code>npm install -g @anthropic-ai/claude-code &amp;&amp; cd your-project &amp;&amp; claude</code>
+    </p>
+  </div>
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 4 of 10<br/>
+      Next: <span class="a">API &amp; SDK</span>
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 420, height: 780, margin: 0.02,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 780;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>

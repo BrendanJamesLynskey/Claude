@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integrations &amp; Ecosystem</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+  .cols-2, .cols-3, .cols-6040, .cols-4060 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible;  max-width: 100%; height: auto; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta">06 / 10</p>
+    <h1>Integrations &amp; Ecosystem</h1>
+    <div class="subtitle">GitHub &middot; IDE &middot; MCP &middot; Cloud &middot; Enterprise</div>
+    <p style="color: var(--muted); font-size: .5em;">How Claude connects to the tools and platforms you already use</p>
+    <div style="margin-top: 1.5em;">
+      <span class="pill amber">API</span>
+      <span class="pill green">MCP</span>
+      <span class="pill purple">SDK</span>
+      <span class="pill blue">Cloud</span>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 2: The Integration Landscape -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">OVERVIEW</span>
+    <h2>The Integration Landscape</h2>
+  </div>
+  <svg class="diagram" viewBox="0 0 800 500" width="750">
+    <!-- Center node -->
+    <circle cx="400" cy="250" r="52" fill="#181824" stroke="#f5a623" stroke-width="2.5"/>
+    <text x="400" y="245" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="16" font-weight="700">Claude</text>
+    <text x="400" y="263" text-anchor="middle" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="10">AI Engine</text>
+    <!-- IDE spoke -->
+    <line x1="400" y1="198" x2="400" y2="80" stroke="#4ecb8d" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="340" y="38" width="120" height="42" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="400" y="56" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">IDE Plugins</text>
+    <text x="400" y="70" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">VS Code / JetBrains / Cursor</text>
+    <!-- GitHub spoke -->
+    <line x1="355" y1="210" x2="200" y2="110" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="110" y="75" width="120" height="42" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="170" y="93" text-anchor="middle" fill="#a78bfa" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">GitHub</text>
+    <text x="170" y="107" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">PRs / Actions / Issues</text>
+    <!-- Cloud spoke -->
+    <line x1="445" y1="210" x2="600" y2="110" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="540" y="75" width="120" height="42" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="600" y="93" text-anchor="middle" fill="#60a5fa" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Cloud Providers</text>
+    <text x="600" y="107" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">AWS / GCP / Azure</text>
+    <!-- MCP spoke -->
+    <line x1="348" y1="270" x2="170" y2="320" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="80" y="305" width="140" height="42" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+    <text x="150" y="323" text-anchor="middle" fill="#f5a623" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">MCP Servers</text>
+    <text x="150" y="337" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">Files / DB / APIs</text>
+    <!-- Automation spoke -->
+    <line x1="452" y1="270" x2="630" y2="320" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="560" y="305" width="140" height="42" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
+    <text x="630" y="323" text-anchor="middle" fill="#f87171" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Automation</text>
+    <text x="630" y="337" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">Zapier / Slack / Make</text>
+    <!-- Enterprise spoke -->
+    <line x1="400" y1="302" x2="400" y2="410" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="320" y="410" width="160" height="42" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="400" y="428" text-anchor="middle" fill="#a78bfa" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Enterprise</text>
+    <text x="400" y="442" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">SSO / VPC / Compliance</text>
+    <!-- Frameworks spoke -->
+    <line x1="348" y1="240" x2="130" y2="220" stroke="#4ecb8d" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="40" y="195" width="130" height="42" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="105" y="213" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Frameworks</text>
+    <text x="105" y="227" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">LangChain / LlamaIndex</text>
+    <!-- Productivity spoke -->
+    <line x1="452" y1="240" x2="670" y2="220" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="600" y="195" width="140" height="42" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+    <text x="670" y="213" text-anchor="middle" fill="#f5a623" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Productivity</text>
+    <text x="670" y="227" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">Notion / Docs / Email</text>
+  </svg>
+</section>
+
+<!-- Slide 3: GitHub Integration -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">GITHUB</span>
+    <h2>Claude on GitHub</h2>
+  </div>
+  <p>Claude integrates directly into GitHub workflows, acting as an AI-powered collaborator on your codebase.</p>
+  <div class="cols cols-2">
+    <div class="card purple">
+      <h3>PR Reviews</h3>
+      <ul>
+        <li>Automated code review on every pull request</li>
+        <li>Identifies bugs, security issues, and style violations</li>
+        <li>Suggests specific code improvements inline</li>
+        <li>Understands full repository context</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Issue Triage</h3>
+      <ul>
+        <li>Auto-label and categorize new issues</li>
+        <li>Identify duplicate issues across the repo</li>
+        <li>Suggest assignees based on expertise</li>
+        <li>Draft initial responses for common questions</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Code Suggestions</h3>
+      <ul>
+        <li>Generate implementation proposals from issues</li>
+        <li>Create draft PRs with suggested fixes</li>
+        <li>Refactor code on request via comments</li>
+        <li>Write and update tests automatically</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Documentation</h3>
+      <ul>
+        <li>Auto-generate docs from code changes</li>
+        <li>Keep README files in sync with code</li>
+        <li>Generate changelog entries per release</li>
+        <li>Maintain API documentation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4: GitHub Actions with Claude -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CI/CD</span>
+    <h2>GitHub Actions with Claude</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Example: Automated PR Review Workflow</h3>
+      <pre><code class="language-yaml">name: Claude PR Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get diff
+        run: |
+          git diff origin/main...HEAD > diff.txt
+
+      - name: Claude Review
+        uses: anthropics/claude-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_KEY }}
+          prompt: |
+            Review this PR diff for bugs,
+            security issues, and improvements.
+          files: diff.txt
+          max_tokens: 4096
+
+      - name: Post Review Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.pulls.createReview({
+              ...context.repo,
+              pull_number: context.issue.number,
+              body: process.env.CLAUDE_RESPONSE,
+              event: 'COMMENT'
+            })</code></pre>
+    </div>
+    <div>
+      <div class="card amber" style="margin-bottom: .4em;">
+        <h3>Common Workflow Triggers</h3>
+        <ul>
+          <li><span class="a">pull_request</span> &mdash; review on open/update</li>
+          <li><span class="a">issues</span> &mdash; triage on creation</li>
+          <li><span class="a">push</span> &mdash; analyze on merge to main</li>
+          <li><span class="a">schedule</span> &mdash; periodic codebase audits</li>
+          <li><span class="a">workflow_dispatch</span> &mdash; manual triggers</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Store API keys in GitHub Secrets</li>
+          <li>Set appropriate token limits</li>
+          <li>Use <code>fetch-depth: 0</code> for full context</li>
+          <li>Rate-limit to avoid API quota issues</li>
+          <li>Cache responses for identical diffs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: VS Code Extension -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">IDE</span>
+    <h2>VS Code Extension</h2>
+  </div>
+  <p>The Claude VS Code extension brings AI assistance directly into your editor with deep workspace integration.</p>
+  <div class="cols cols-3">
+    <div class="card green">
+      <h3>Inline Suggestions</h3>
+      <ul>
+        <li>Context-aware code completions</li>
+        <li>Multi-line function generation</li>
+        <li>Smart import suggestions</li>
+        <li>Docstring auto-generation</li>
+        <li>Tab to accept, Esc to dismiss</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Chat Panel</h3>
+      <ul>
+        <li>Side panel for conversations</li>
+        <li>Reference files with <code>@file</code></li>
+        <li>Reference symbols with <code>@symbol</code></li>
+        <li>Ask questions about your codebase</li>
+        <li>Generate code from descriptions</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Commands</h3>
+      <ul>
+        <li><code>Explain Selection</code></li>
+        <li><code>Fix This Code</code></li>
+        <li><code>Add Tests</code></li>
+        <li><code>Refactor Selection</code></li>
+        <li><code>Generate Documentation</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top: .3em;">
+    <h3>Setup</h3>
+    <p>Install from VS Code Marketplace &rarr; Search "Claude" &rarr; Enter API key or sign in with Anthropic account &rarr; Configure model preferences in settings. Supports <span class="b">workspace-level</span> and <span class="b">user-level</span> configuration.</p>
+  </div>
+</section>
+
+<!-- Slide 6: JetBrains Plugin -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">IDE</span>
+    <h2>JetBrains Plugin</h2>
+  </div>
+  <p>Claude support across the entire JetBrains ecosystem with IDE-native integration.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber" style="margin-bottom: .4em;">
+        <h3>Supported IDEs</h3>
+        <ul>
+          <li><span class="a">IntelliJ IDEA</span> &mdash; Java, Kotlin, Scala</li>
+          <li><span class="g">PyCharm</span> &mdash; Python data science and web</li>
+          <li><span class="b">WebStorm</span> &mdash; JavaScript, TypeScript, React</li>
+          <li><span class="p">Rider</span> &mdash; C#, .NET development</li>
+          <li><span class="r">CLion</span> &mdash; C, C++, Rust</li>
+          <li><span class="g">GoLand</span> &mdash; Go development</li>
+          <li><span class="a">PhpStorm</span> &mdash; PHP and Laravel</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>IDE-Specific Advantages</h3>
+        <ul>
+          <li>Uses JetBrains' PSI for deep code understanding</li>
+          <li>Integrates with built-in refactoring tools</li>
+          <li>Respects IDE-level code style settings</li>
+          <li>Works with project-specific SDK configurations</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple" style="margin-bottom: .4em;">
+        <h3>Key Features</h3>
+        <ul>
+          <li>Tool window for chat-based interaction</li>
+          <li>Intention actions via <code>Alt+Enter</code></li>
+          <li>Smart code generation from context</li>
+          <li>Test generation for selected classes</li>
+          <li>Commit message suggestions</li>
+          <li>Code review before commit</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h3>Installation</h3>
+        <p>Settings &rarr; Plugins &rarr; Marketplace &rarr; Search "Claude" &rarr; Install &rarr; Restart IDE &rarr; Configure API key in Settings &rarr; Tools &rarr; Claude</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 7: Cursor IDE -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">IDE</span>
+    <h2>Cursor IDE</h2>
+  </div>
+  <p>Cursor is an AI-native code editor built on VS Code with deep Claude integration as a first-class model option.</p>
+  <div class="cols cols-2">
+    <div class="card green">
+      <h3>How It Differs from VS Code</h3>
+      <ul>
+        <li><span class="g">AI-first architecture</span> &mdash; not a plugin but core</li>
+        <li><span class="g">Codebase indexing</span> &mdash; understands entire project</li>
+        <li><span class="g">Composer</span> &mdash; multi-file edit from description</li>
+        <li><span class="g">Cmd+K inline editing</span> &mdash; natural language edits</li>
+        <li><span class="g">Tab completion</span> &mdash; context-aware predictions</li>
+        <li><span class="g">@-mentions</span> &mdash; reference files, docs, web</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Claude-Specific Features</h3>
+      <ul>
+        <li>Select Claude as preferred model in settings</li>
+        <li>Claude Sonnet for fast completions</li>
+        <li>Claude Opus for complex reasoning tasks</li>
+        <li>Maintains full VS Code extension compatibility</li>
+        <li>Supports custom system prompts per project</li>
+        <li>Privacy mode: code never stored on servers</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top: .3em;">
+    <h3>When to Choose Cursor</h3>
+    <p>Ideal for developers who want <span class="b">AI-assisted editing</span> as a core workflow rather than an add-on. Best for <span class="b">multi-file refactors</span>, <span class="b">rapid prototyping</span>, and teams that want consistent AI-assisted development environments.</p>
+  </div>
+</section>
+
+<!-- Slide 8: MCP Overview -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MCP</span>
+    <h2>Model Context Protocol</h2>
+  </div>
+  <p>MCP is an open standard that lets Claude connect to external data sources and tools through a unified protocol.</p>
+  <svg class="diagram" viewBox="0 0 800 340" width="750">
+    <!-- Host Application -->
+    <rect x="280" y="10" width="240" height="50" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+    <text x="400" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="14" font-weight="700">Host Application</text>
+    <text x="400" y="48" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">Claude Desktop / IDE / Custom App</text>
+    <!-- MCP Client -->
+    <rect x="310" y="85" width="180" height="38" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="400" y="108" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">MCP Client</text>
+    <line x1="400" y1="60" x2="400" y2="85" stroke="#4ecb8d" stroke-width="1.5"/>
+    <!-- Protocol layer -->
+    <rect x="250" y="148" width="300" height="30" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+    <text x="400" y="167" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10">JSON-RPC 2.0 over stdio / HTTP+SSE</text>
+    <line x1="400" y1="123" x2="400" y2="148" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <!-- MCP Servers -->
+    <line x1="300" y1="178" x2="150" y2="225" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="400" y1="178" x2="400" y2="225" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="500" y1="178" x2="650" y2="225" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="70" y="225" width="160" height="50" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="150" y="247" text-anchor="middle" fill="#60a5fa" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Filesystem Server</text>
+    <text x="150" y="265" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">read / write / search</text>
+    <rect x="320" y="225" width="160" height="50" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="400" y="247" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Database Server</text>
+    <text x="400" y="265" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">query / schema / migrate</text>
+    <rect x="570" y="225" width="160" height="50" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
+    <text x="650" y="247" text-anchor="middle" fill="#f87171" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">API Server</text>
+    <text x="650" y="265" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">REST / GraphQL / gRPC</text>
+    <!-- Data sources -->
+    <rect x="80" y="300" width="140" height="28" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+    <text x="150" y="318" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">Local Files</text>
+    <rect x="330" y="300" width="140" height="28" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+    <text x="400" y="318" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">PostgreSQL / SQLite</text>
+    <rect x="580" y="300" width="140" height="28" rx="4" fill="#181824" stroke="#2a2a3a" stroke-width="1"/>
+    <text x="650" y="318" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">External Services</text>
+    <line x1="150" y1="275" x2="150" y2="300" stroke="#2a2a3a" stroke-width="1"/>
+    <line x1="400" y1="275" x2="400" y2="300" stroke="#2a2a3a" stroke-width="1"/>
+    <line x1="650" y1="275" x2="650" y2="300" stroke="#2a2a3a" stroke-width="1"/>
+  </svg>
+  <div class="cols cols-3" style="margin-top: .2em;">
+    <div class="card amber">
+      <h3>Why MCP Matters</h3>
+      <p>Standardized protocol replacing ad-hoc tool integrations with a single open specification</p>
+    </div>
+    <div class="card green">
+      <h3>Key Primitives</h3>
+      <p><span class="g">Tools</span> (actions), <span class="g">Resources</span> (data), <span class="g">Prompts</span> (templates), <span class="g">Sampling</span> (LLM requests)</p>
+    </div>
+    <div class="card purple">
+      <h3>Transport</h3>
+      <p>Supports <span class="p">stdio</span> for local servers and <span class="p">HTTP+SSE</span> for remote servers</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 9: MCP Server Types -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MCP</span>
+    <h2>MCP Server Types</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card green" style="margin-bottom: .3em;">
+      <h3>Filesystem Servers</h3>
+      <ul>
+        <li>Read and write local files securely</li>
+        <li>Directory listing and search</li>
+        <li>Configurable access boundaries</li>
+        <li>Watch for file changes</li>
+      </ul>
+    </div>
+    <div class="card blue" style="margin-bottom: .3em;">
+      <h3>Database Servers</h3>
+      <ul>
+        <li>PostgreSQL, MySQL, SQLite connectors</li>
+        <li>Schema introspection and queries</li>
+        <li>Read-only mode for safety</li>
+        <li>Query result formatting</li>
+      </ul>
+    </div>
+    <div class="card amber" style="margin-bottom: .3em;">
+      <h3>API Servers</h3>
+      <ul>
+        <li>GitHub, GitLab, Jira, Linear</li>
+        <li>Slack, Discord, email services</li>
+        <li>Cloud provider APIs (AWS, GCP)</li>
+        <li>Custom REST/GraphQL endpoints</li>
+      </ul>
+    </div>
+    <div class="card purple" style="margin-bottom: .3em;">
+      <h3>Community Servers</h3>
+      <ul>
+        <li>Growing open-source ecosystem</li>
+        <li>Puppeteer for browser automation</li>
+        <li>Google Drive, Notion, Obsidian</li>
+        <li>Docker, Kubernetes management</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card red" style="margin-top: .1em;">
+    <h3>Server Discovery</h3>
+    <p>Find servers at <span class="mono r">github.com/modelcontextprotocol/servers</span> &mdash; the official registry of reference and community MCP server implementations. Configuration is managed through <span class="mono">claude_desktop_config.json</span> or project-level <span class="mono">.mcp.json</span> files.</p>
+  </div>
+</section>
+
+<!-- Slide 10: Building Custom MCP Servers -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MCP</span>
+    <h2>Building Custom MCP Servers</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <h3>TypeScript MCP Server Example</h3>
+      <pre><code class="language-typescript">import { Server } from "@modelcontextprotocol/sdk/server";
+import { StdioTransport }
+  from "@modelcontextprotocol/sdk/server/stdio";
+
+const server = new Server({
+  name: "my-custom-server",
+  version: "1.0.0",
+});
+
+// Define a tool
+server.setRequestHandler(
+  "tools/list",
+  async () => ({
+    tools: [{
+      name: "search_docs",
+      description: "Search internal documentation",
+      inputSchema: {
+        type: "object",
+        properties: {
+          query: {
+            type: "string",
+            description: "Search query"
+          }
+        },
+        required: ["query"]
+      }
+    }]
+  })
+);
+
+// Handle tool calls
+server.setRequestHandler(
+  "tools/call",
+  async (request) => {
+    if (request.params.name === "search_docs") {
+      const results = await searchDocs(
+        request.params.arguments.query
+      );
+      return {
+        content: [{
+          type: "text",
+          text: JSON.stringify(results)
+        }]
+      };
+    }
+  }
+);
+
+const transport = new StdioTransport();
+await server.connect(transport);</code></pre>
+    </div>
+    <div>
+      <div class="card amber" style="margin-bottom: .3em;">
+        <h3>Available SDKs</h3>
+        <ul>
+          <li><span class="a">TypeScript</span> &mdash; @modelcontextprotocol/sdk</li>
+          <li><span class="g">Python</span> &mdash; mcp Python package</li>
+          <li><span class="b">Kotlin</span> &mdash; JVM-based server SDK</li>
+          <li><span class="p">C#</span> &mdash; .NET SDK</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-bottom: .3em;">
+        <h3>Server Architecture</h3>
+        <ul>
+          <li>Define <span class="g">tools</span> Claude can invoke</li>
+          <li>Expose <span class="g">resources</span> as read-only data</li>
+          <li>Provide <span class="g">prompts</span> as reusable templates</li>
+          <li>Handle lifecycle and error management</li>
+        </ul>
+      </div>
+      <div class="card purple">
+        <h3>Deployment Options</h3>
+        <ul>
+          <li><span class="p">Local</span> &mdash; stdio transport, runs as subprocess</li>
+          <li><span class="p">Remote</span> &mdash; HTTP+SSE, deploy anywhere</li>
+          <li><span class="p">Container</span> &mdash; Docker for isolation</li>
+          <li><span class="p">Serverless</span> &mdash; AWS Lambda, Cloud Functions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 11: AWS Bedrock -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CLOUD</span>
+    <h2>AWS Bedrock</h2>
+  </div>
+  <p>Access Claude through Amazon Bedrock &mdash; a fully managed service that keeps data within your AWS environment.</p>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Bedrock API Example</h3>
+      <pre><code class="language-python">import boto3
+import json
+
+client = boto3.client(
+    "bedrock-runtime",
+    region_name="us-east-1"
+)
+
+response = client.invoke_model(
+    modelId="anthropic.claude-sonnet-4-20250514",
+    body=json.dumps({
+        "anthropic_version": "bedrock-2023-05-31",
+        "messages": [{
+            "role": "user",
+            "content": "Explain microservices."
+        }],
+        "max_tokens": 1024,
+        "temperature": 0.7
+    })
+)
+
+result = json.loads(response["body"].read())
+print(result["content"][0]["text"])</code></pre>
+    </div>
+    <div>
+      <div class="card amber" style="margin-bottom: .3em;">
+        <h3>Key Advantages</h3>
+        <ul>
+          <li>Data stays within your <span class="a">AWS VPC</span></li>
+          <li>Use existing <span class="a">IAM roles</span> and policies</li>
+          <li>Pay per token via AWS billing</li>
+          <li>No separate API key management</li>
+          <li>SOC 2 / HIPAA compliance via AWS</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-bottom: .3em;">
+        <h3>Available Models</h3>
+        <ul>
+          <li>Claude Opus &mdash; most capable</li>
+          <li>Claude Sonnet &mdash; balanced performance</li>
+          <li>Claude Haiku &mdash; fastest, lowest cost</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h3>Setup Requirements</h3>
+        <p>Enable model access in Bedrock console &rarr; Configure IAM permissions &rarr; Select region with model availability</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 12: Google Cloud Vertex AI -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CLOUD</span>
+    <h2>Google Cloud Vertex AI</h2>
+  </div>
+  <p>Claude is available on Google Cloud's Vertex AI platform, bringing enterprise AI capabilities to the GCP ecosystem.</p>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Vertex AI Example</h3>
+      <pre><code class="language-python">from anthropic import AnthropicVertex
+
+client = AnthropicVertex(
+    project_id="my-gcp-project",
+    region="us-east5"
+)
+
+response = client.messages.create(
+    model="claude-sonnet-4@20250514",
+    max_tokens=1024,
+    messages=[{
+        "role": "user",
+        "content": "Design a REST API schema."
+    }]
+)
+
+print(response.content[0].text)</code></pre>
+    </div>
+    <div>
+      <div class="card blue" style="margin-bottom: .3em;">
+        <h3>GCP Integration Benefits</h3>
+        <ul>
+          <li>Use existing <span class="b">GCP service accounts</span></li>
+          <li>Integrate with <span class="b">BigQuery</span> for data analysis</li>
+          <li>Connect to <span class="b">Cloud Storage</span> pipelines</li>
+          <li>Unified billing through GCP console</li>
+          <li>Regional data residency compliance</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-bottom: .3em;">
+        <h3>Configuration</h3>
+        <ul>
+          <li>Enable Vertex AI API in GCP console</li>
+          <li>Enable Claude models in Model Garden</li>
+          <li>Set up authentication via ADC or service account</li>
+          <li>Use the <code>anthropic[vertex]</code> Python SDK</li>
+        </ul>
+      </div>
+      <div class="card purple">
+        <h3>Supported Regions</h3>
+        <p><span class="p">us-east5</span>, <span class="p">europe-west1</span>, <span class="p">asia-southeast1</span> &mdash; check availability for latest regions</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 13: Zapier & Make -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">NO-CODE</span>
+    <h2>Zapier &amp; Make</h2>
+  </div>
+  <p>Connect Claude to thousands of apps without writing code using visual automation platforms.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber" style="margin-bottom: .3em;">
+        <h3>Zapier Integration</h3>
+        <ul>
+          <li>Official Claude action in Zapier</li>
+          <li>Trigger: new email, form, Slack message</li>
+          <li>Action: send to Claude for processing</li>
+          <li>Output: route result to any connected app</li>
+          <li>Supports multi-step Zaps with Claude</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>Popular Zap Templates</h3>
+        <ul>
+          <li>Summarize emails &rarr; post to Slack</li>
+          <li>Analyze form responses &rarr; update spreadsheet</li>
+          <li>Translate support tickets &rarr; route to team</li>
+          <li>Generate social posts from blog content</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple" style="margin-bottom: .3em;">
+        <h3>Make (Integromat)</h3>
+        <ul>
+          <li>Claude module with full API access</li>
+          <li>Visual scenario builder with branching</li>
+          <li>Iterator and aggregator support</li>
+          <li>Process batches of data through Claude</li>
+          <li>Error handling and retry logic built in</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h3>Use Cases</h3>
+        <ul>
+          <li><span class="b">Customer support</span> &mdash; auto-draft responses</li>
+          <li><span class="b">Content ops</span> &mdash; repurpose across channels</li>
+          <li><span class="b">Data enrichment</span> &mdash; classify and tag records</li>
+          <li><span class="b">Reporting</span> &mdash; generate summaries from data</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 14: Slack Integration -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CHAT</span>
+    <h2>Slack Integration</h2>
+  </div>
+  <p>Bring Claude into your team's Slack workspace for real-time AI assistance in conversations.</p>
+  <div class="cols cols-3">
+    <div class="card green">
+      <h3>How It Works</h3>
+      <ul>
+        <li>Add Claude as a Slack app</li>
+        <li>Mention <code>@Claude</code> in any channel</li>
+        <li>DM Claude for private conversations</li>
+        <li>Claude reads thread context</li>
+        <li>Responds within Slack natively</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Team Use Cases</h3>
+      <ul>
+        <li>Answer technical questions in channels</li>
+        <li>Summarize long threads on demand</li>
+        <li>Draft responses for customer queries</li>
+        <li>Brainstorm ideas in group channels</li>
+        <li>Translate messages across languages</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Admin Controls</h3>
+      <ul>
+        <li>Restrict to specific channels</li>
+        <li>Set per-user usage limits</li>
+        <li>Configure data retention policies</li>
+        <li>Audit log for all interactions</li>
+        <li>SSO integration for access control</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top: .3em;">
+    <h3>Building Custom Slack Bots with Claude</h3>
+    <p>Use the Slack Bolt SDK combined with the Anthropic API to build <span class="b">custom bots</span> that handle specific workflows: ticket triage, standup summaries, onboarding assistants, and more. Deploy on AWS Lambda or your own infrastructure.</p>
+  </div>
+</section>
+
+<!-- Slide 15: Notion & Productivity Tools -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">PRODUCTIVITY</span>
+    <h2>Notion &amp; Productivity Tools</h2>
+  </div>
+  <p>Claude integrates with productivity platforms to enhance document creation, knowledge management, and workflows.</p>
+  <div class="cols cols-2">
+    <div class="card amber" style="margin-bottom: .3em;">
+      <h3>Notion AI (powered by Claude)</h3>
+      <ul>
+        <li>Built-in AI writing and editing assistance</li>
+        <li>Summarize pages and databases</li>
+        <li>Generate content from templates</li>
+        <li>Q&amp;A over your workspace knowledge</li>
+        <li>Translate content across languages</li>
+        <li>Extract action items from meeting notes</li>
+      </ul>
+    </div>
+    <div class="card green" style="margin-bottom: .3em;">
+      <h3>Document Assistants</h3>
+      <ul>
+        <li>Google Docs &mdash; drafting and editing add-ons</li>
+        <li>Confluence &mdash; technical doc generation</li>
+        <li>Obsidian &mdash; personal knowledge assistant via MCP</li>
+        <li>Coda &mdash; AI-powered formulas and summaries</li>
+      </ul>
+    </div>
+    <div class="card purple" style="margin-bottom: .3em;">
+      <h3>Knowledge Management</h3>
+      <ul>
+        <li>Auto-tag and categorize documents</li>
+        <li>Generate summaries for search indexes</li>
+        <li>Link related documents automatically</li>
+        <li>Create glossaries from technical content</li>
+      </ul>
+    </div>
+    <div class="card blue" style="margin-bottom: .3em;">
+      <h3>Email &amp; Calendar</h3>
+      <ul>
+        <li>Draft email responses with context</li>
+        <li>Summarize email threads</li>
+        <li>Generate meeting agendas from topics</li>
+        <li>Create follow-up action items</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 16: Enterprise Integration Patterns -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">ENTERPRISE</span>
+    <h2>Enterprise Integration Patterns</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card amber" style="margin-bottom: .3em;">
+      <h3>Single Sign-On (SSO)</h3>
+      <ul>
+        <li>SAML 2.0 and OIDC support</li>
+        <li>Okta, Azure AD, Google Workspace</li>
+        <li>Role-based access control (RBAC)</li>
+        <li>Automated user provisioning via SCIM</li>
+      </ul>
+    </div>
+    <div class="card green" style="margin-bottom: .3em;">
+      <h3>Data Residency</h3>
+      <ul>
+        <li>US and EU data regions</li>
+        <li>GDPR-compliant data processing</li>
+        <li>Data never used for model training</li>
+        <li>Configurable data retention periods</li>
+      </ul>
+    </div>
+    <div class="card purple" style="margin-bottom: .3em;">
+      <h3>VPC &amp; Network Security</h3>
+      <ul>
+        <li>AWS PrivateLink for Bedrock access</li>
+        <li>VPC Service Controls on GCP</li>
+        <li>IP allowlisting for API access</li>
+        <li>No data traverses public internet</li>
+      </ul>
+    </div>
+    <div class="card blue" style="margin-bottom: .3em;">
+      <h3>Compliance &amp; Governance</h3>
+      <ul>
+        <li>SOC 2 Type II certified</li>
+        <li>HIPAA eligible (via cloud partners)</li>
+        <li>Audit logs for all API interactions</li>
+        <li>Content filtering and safety controls</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card red" style="margin-top: .1em;">
+    <h3>Deployment Architecture</h3>
+    <p>Enterprise customers typically deploy via <span class="r">cloud partners</span> (Bedrock / Vertex) for data sovereignty, use <span class="r">API gateways</span> for rate limiting and monitoring, and maintain <span class="r">centralized key management</span> through their secrets manager (AWS Secrets Manager, HashiCorp Vault).</p>
+  </div>
+</section>
+
+<!-- Slide 17: LangChain & LlamaIndex -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">FRAMEWORKS</span>
+    <h2>LangChain &amp; LlamaIndex</h2>
+  </div>
+  <p>Use Claude with popular AI orchestration frameworks for building complex, multi-step applications.</p>
+  <div class="cols cols-2">
+    <div>
+      <h3>LangChain with Claude</h3>
+      <pre><code class="language-python">from langchain_anthropic import ChatAnthropic
+from langchain.agents import create_tool_calling_agent
+from langchain.tools import tool
+
+llm = ChatAnthropic(
+    model="claude-sonnet-4-20250514",
+    temperature=0
+)
+
+@tool
+def search_db(query: str) -> str:
+    """Search the product database."""
+    return db.search(query)
+
+agent = create_tool_calling_agent(
+    llm=llm,
+    tools=[search_db],
+    prompt=prompt_template
+)
+
+result = agent.invoke({
+    "input": "Find top-selling products"
+})</code></pre>
+    </div>
+    <div>
+      <h3>LlamaIndex with Claude</h3>
+      <pre><code class="language-python">from llama_index.llms.anthropic import Anthropic
+from llama_index.core import (
+    VectorStoreIndex,
+    SimpleDirectoryReader
+)
+
+llm = Anthropic(
+    model="claude-sonnet-4-20250514"
+)
+
+# Build index from documents
+documents = SimpleDirectoryReader(
+    "./data"
+).load_data()
+
+index = VectorStoreIndex.from_documents(
+    documents
+)
+
+# Query with Claude as the LLM
+query_engine = index.as_query_engine(
+    llm=llm
+)
+
+response = query_engine.query(
+    "What are our return policies?"
+)</code></pre>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top: .3em;">
+    <div class="card amber">
+      <h3>LangChain Strengths</h3>
+      <p>Chains, agents, tool calling, memory management, output parsing, and a large ecosystem of integrations</p>
+    </div>
+    <div class="card green">
+      <h3>LlamaIndex Strengths</h3>
+      <p>RAG pipelines, document indexing, vector stores, knowledge graph queries, and structured data extraction</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 18: Custom Application Integration -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">API</span>
+    <h2>Custom Application Integration</h2>
+  </div>
+  <p>Embed Claude directly into your applications using official SDKs and the Messages API.</p>
+  <div class="cols cols-2">
+    <div>
+      <h3>Official SDKs</h3>
+      <pre><code class="language-typescript">// TypeScript SDK
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic();
+
+// Streaming response
+const stream = await client.messages.stream({
+  model: "claude-sonnet-4-20250514",
+  max_tokens: 1024,
+  system: "You are a helpful assistant.",
+  messages: [
+    { role: "user", content: userInput }
+  ]
+});
+
+for await (const event of stream) {
+  if (event.type === "content_block_delta") {
+    process.stdout.write(
+      event.delta.text
+    );
+  }
+}</code></pre>
+    </div>
+    <div>
+      <div class="card amber" style="margin-bottom: .3em;">
+        <h3>SDK Availability</h3>
+        <ul>
+          <li><span class="a">Python</span> &mdash; <code>anthropic</code></li>
+          <li><span class="a">TypeScript</span> &mdash; <code>@anthropic-ai/sdk</code></li>
+          <li><span class="a">Java</span> &mdash; <code>anthropic-sdk-java</code></li>
+          <li><span class="a">Go, Rust</span> &mdash; community SDKs</li>
+          <li><span class="a">REST</span> &mdash; direct HTTP for any language</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-bottom: .3em;">
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Use <span class="g">streaming</span> for responsive UIs</li>
+          <li>Implement <span class="g">retry logic</span> with exponential backoff</li>
+          <li>Cache responses for identical queries</li>
+          <li>Set appropriate <span class="g">timeouts</span> per use case</li>
+          <li>Monitor token usage and costs</li>
+        </ul>
+      </div>
+      <div class="card purple">
+        <h3>Common Patterns</h3>
+        <p>Chat interfaces, document analysis pipelines, content generation systems, code assistants, and multi-agent workflows</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 19: Integration Security -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SECURITY</span>
+    <h2>Integration Security</h2>
+  </div>
+  <p>Securing your Claude integrations requires attention to key management, data handling, and compliance.</p>
+  <div class="cols cols-3">
+    <div class="card red">
+      <h3>API Key Management</h3>
+      <ul>
+        <li>Never commit keys to version control</li>
+        <li>Use environment variables or secrets managers</li>
+        <li>Rotate keys on a regular schedule</li>
+        <li>Create separate keys per environment</li>
+        <li>Set per-key spending limits</li>
+        <li>Use workspace-scoped keys in teams</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Data Handling</h3>
+      <ul>
+        <li>Sanitize PII before sending to API</li>
+        <li>Implement input validation and filtering</li>
+        <li>Use data classification for prompts</li>
+        <li>Log requests for audit trails</li>
+        <li>Respect data residency requirements</li>
+        <li>Encrypt data in transit (TLS 1.2+)</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Access Controls</h3>
+      <ul>
+        <li>Principle of least privilege for API access</li>
+        <li>Rate limiting per user and per endpoint</li>
+        <li>Monitor for anomalous usage patterns</li>
+        <li>Implement request signing where possible</li>
+        <li>Use OAuth 2.0 for user-facing integrations</li>
+        <li>Regular security audits of integrations</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card purple" style="margin-top: .3em;">
+    <h3>Compliance Considerations</h3>
+    <p><span class="p">SOC 2</span> &mdash; audit logging and access controls. <span class="p">GDPR</span> &mdash; data processing agreements and right to deletion. <span class="p">HIPAA</span> &mdash; use Bedrock/Vertex with BAA. <span class="p">PCI-DSS</span> &mdash; never send cardholder data to the API. Always review Anthropic's usage policies for your specific compliance requirements.</p>
+  </div>
+</section>
+
+<!-- Slide 20: Choosing the Right Integration -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">GUIDE</span>
+    <h2>Choosing the Right Integration</h2>
+  </div>
+  <p>Match your use case to the optimal integration approach.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Use Case</th>
+        <th>Recommended Integration</th>
+        <th>Complexity</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Code assistance in editor</td>
+        <td><span class="g">VS Code / Cursor / JetBrains</span></td>
+        <td>Low</td>
+        <td>Individual developers</td>
+      </tr>
+      <tr>
+        <td>Automated PR reviews</td>
+        <td><span class="p">GitHub Actions</span></td>
+        <td>Low-Medium</td>
+        <td>Development teams</td>
+      </tr>
+      <tr>
+        <td>No-code automation</td>
+        <td><span class="a">Zapier / Make</span></td>
+        <td>Low</td>
+        <td>Non-technical users</td>
+      </tr>
+      <tr>
+        <td>Team communication</td>
+        <td><span class="b">Slack integration</span></td>
+        <td>Low</td>
+        <td>Collaborative teams</td>
+      </tr>
+      <tr>
+        <td>Custom tools for Claude</td>
+        <td><span class="a">MCP servers</span></td>
+        <td>Medium</td>
+        <td>Power users, developers</td>
+      </tr>
+      <tr>
+        <td>RAG &amp; document Q&amp;A</td>
+        <td><span class="g">LangChain / LlamaIndex</span></td>
+        <td>Medium</td>
+        <td>AI application builders</td>
+      </tr>
+      <tr>
+        <td>Enterprise data sovereignty</td>
+        <td><span class="b">AWS Bedrock / Vertex AI</span></td>
+        <td>Medium-High</td>
+        <td>Enterprise, regulated industries</td>
+      </tr>
+      <tr>
+        <td>Fully custom application</td>
+        <td><span class="r">Direct API / SDK</span></td>
+        <td>High</td>
+        <td>Product teams, SaaS builders</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top: .3em;">
+    <h3>Decision Framework</h3>
+    <p>Start with the <span class="a">simplest integration</span> that meets your needs. Move to more complex options only when you need greater control, customization, or compliance guarantees. Many teams use <span class="a">multiple integrations</span> simultaneously.</p>
+  </div>
+</section>
+
+<!-- Slide 21: Summary -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>Integrations &amp; Ecosystem</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card amber" style="margin-bottom: .3em;">
+      <h3>Developer Tools</h3>
+      <ul>
+        <li><span class="a">VS Code, JetBrains, Cursor</span> &mdash; AI in your editor</li>
+        <li><span class="a">GitHub Actions</span> &mdash; automated code review and CI</li>
+        <li><span class="a">LangChain, LlamaIndex</span> &mdash; orchestration frameworks</li>
+        <li><span class="a">SDKs</span> &mdash; Python, TypeScript, Java, and REST</li>
+      </ul>
+    </div>
+    <div class="card green" style="margin-bottom: .3em;">
+      <h3>Model Context Protocol</h3>
+      <ul>
+        <li><span class="g">Open standard</span> for tool and data integration</li>
+        <li><span class="g">Growing ecosystem</span> of community servers</li>
+        <li><span class="g">Build custom servers</span> with official SDKs</li>
+        <li><span class="g">Filesystem, database, API</span> connectors</li>
+      </ul>
+    </div>
+    <div class="card blue" style="margin-bottom: .3em;">
+      <h3>Cloud &amp; Enterprise</h3>
+      <ul>
+        <li><span class="b">AWS Bedrock</span> &mdash; VPC, IAM, compliance</li>
+        <li><span class="b">Google Vertex AI</span> &mdash; GCP-native integration</li>
+        <li><span class="b">SSO, RBAC, data residency</span> for enterprise</li>
+        <li><span class="b">SOC 2, GDPR, HIPAA</span> compliance paths</li>
+      </ul>
+    </div>
+    <div class="card purple" style="margin-bottom: .3em;">
+      <h3>Automation &amp; Productivity</h3>
+      <ul>
+        <li><span class="p">Zapier, Make</span> &mdash; no-code workflows</li>
+        <li><span class="p">Slack</span> &mdash; team AI assistant</li>
+        <li><span class="p">Notion</span> &mdash; knowledge management</li>
+        <li><span class="p">Start simple, scale as needed</span></li>
+      </ul>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: .5em;">
+    <p style="color: var(--muted); font-size: .48em;">Next: <span class="a">07 &mdash; Safety &amp; Alignment</span></p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({ hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, center: false, width: 420, height: 780, margin: 0.02, plugins: [RevealHighlight], highlight: { theme: 'monokai' } });
+</script>
+<script>
+(function(){ var h=Reveal.getConfig().height||780; var m=Reveal.getConfig().margin||0.02; var maxH=Math.floor(h*(1-2*m))+'px'; function fixSlides(){ document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){ s.style.display='block'; s.style.maxHeight=maxH; }); } Reveal.on('ready',fixSlides); Reveal.on('slidechanged',fixSlides); })();
+</script>
+</body>
+</html>

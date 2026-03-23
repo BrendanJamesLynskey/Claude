@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude.ai — The Web Interface</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-3 { grid-template-columns: 1fr; }
+  .cols-6040 { grid-template-columns: 1fr; }
+  .cols-4060 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============ SLIDE 1: TITLE ============ -->
+<section class="title-slide">
+  <div style="margin-top:1.5em;">
+    <p class="meta" style="margin-bottom:.6em;">PRESENTATION 3 OF 10</p>
+    <h1>Claude.ai</h1>
+    <div class="subtitle">The Web Interface</div>
+    <p style="font-size:.54em; color:var(--muted); max-width:28em; margin:0 auto;">
+      A comprehensive guide to Anthropic's flagship conversational interface &mdash;
+      from first message to advanced power-user workflows.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">claude.ai</span>
+      <span class="pill green">artifacts</span>
+      <span class="pill purple">projects</span>
+      <span class="pill blue">teams</span>
+    </div>
+    <p class="meta" style="margin-top:1.5em;">Anthropic Claude &bull; Series Deep-Dive</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: OVERVIEW ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">02</span>
+    <h2>What Is Claude.ai?</h2>
+  </div>
+  <p>Claude.ai is Anthropic's <span class="a">direct-to-user web application</span> &mdash; the simplest way to interact with Claude models without writing any code.</p>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Who It's For</h3>
+      <ul>
+        <li>Individual knowledge workers &amp; creators</li>
+        <li>Teams needing shared AI workspaces</li>
+        <li>Enterprises requiring SSO &amp; compliance</li>
+        <li>Anyone exploring Claude's capabilities</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>What It Offers</h3>
+      <ul>
+        <li>Multi-model access (Haiku, Sonnet, Opus)</li>
+        <li>Rich artifacts &mdash; code, docs, diagrams</li>
+        <li>Project-based organization &amp; context</li>
+        <li>File uploads, images, extended thinking</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.4em;">
+    <h3>Tiers</h3>
+    <p><span class="b">Free</span> &mdash; limited messages &nbsp;|&nbsp; <span class="g">Pro ($20/mo)</span> &mdash; 5x usage, all models &nbsp;|&nbsp; <span class="p">Team ($30/seat/mo)</span> &mdash; shared workspaces &nbsp;|&nbsp; <span class="a">Enterprise</span> &mdash; SSO, audit, custom retention</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3: CONVERSATION INTERFACE ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">03</span>
+    <h2>The Conversation Interface</h2>
+  </div>
+  <svg class="diagram" viewBox="0 0 720 320" width="680" style="max-width: 100%; height: auto;">
+    <!-- outer frame -->
+    <rect x="10" y="10" width="700" height="300" rx="8" fill="#10101a" stroke="#2a2a3a"/>
+    <!-- sidebar -->
+    <rect x="10" y="10" width="160" height="300" rx="8" fill="#0e0e18" stroke="#2a2a3a"/>
+    <text x="40" y="38" font-family="DM Sans" font-size="11" fill="#f5a623" font-weight="600">Conversations</text>
+    <rect x="22" y="50" width="136" height="18" rx="4" fill="#181824" stroke="#2a2a3a"/>
+    <text x="30" y="63" font-family="DM Sans" font-size="9" fill="#8888a8">Search...</text>
+    <rect x="22" y="76" width="136" height="16" rx="3" fill="#1a1a2e"/>
+    <text x="30" y="88" font-family="DM Sans" font-size="8.5" fill="#e8e8f0">Code review helper</text>
+    <rect x="22" y="96" width="136" height="16" rx="3" fill="#181824"/>
+    <text x="30" y="108" font-family="DM Sans" font-size="8.5" fill="#b8b8d0">Essay brainstorm</text>
+    <rect x="22" y="116" width="136" height="16" rx="3" fill="#181824"/>
+    <text x="30" y="128" font-family="DM Sans" font-size="8.5" fill="#b8b8d0">Data analysis Q3</text>
+    <!-- main area header -->
+    <text x="200" y="38" font-family="DM Sans" font-size="11" fill="#e8e8f0" font-weight="500">Code review helper</text>
+    <!-- model selector -->
+    <rect x="560" y="22" width="120" height="22" rx="4" fill="#181824" stroke="#f5a623" stroke-width="0.8"/>
+    <text x="580" y="37" font-family="JetBrains Mono" font-size="9" fill="#f5a623">Claude Sonnet</text>
+    <!-- messages -->
+    <rect x="190" y="55" width="400" height="36" rx="5" fill="#181824"/>
+    <text x="200" y="72" font-family="DM Sans" font-size="9" fill="#b8b8d0">User: Please review this Python function...</text>
+    <text x="200" y="84" font-family="DM Sans" font-size="9" fill="#8888a8">def process_data(items): ...</text>
+    <rect x="190" y="100" width="400" height="48" rx="5" fill="#141428"/>
+    <text x="200" y="117" font-family="DM Sans" font-size="9" fill="#e8e8f0">Claude: I see a few improvements...</text>
+    <text x="200" y="130" font-family="DM Sans" font-size="9" fill="#b8b8d0">1. Add type hints for clarity</text>
+    <text x="200" y="142" font-family="DM Sans" font-size="9" fill="#b8b8d0">2. Handle empty list edge case</text>
+    <!-- thinking indicator -->
+    <rect x="190" y="158" width="120" height="18" rx="4" fill="#181824" stroke="#a78bfa" stroke-width="0.6"/>
+    <circle cx="205" cy="167" r="3" fill="#a78bfa" opacity="0.7"/>
+    <circle cx="215" cy="167" r="3" fill="#a78bfa" opacity="0.5"/>
+    <circle cx="225" cy="167" r="3" fill="#a78bfa" opacity="0.3"/>
+    <text x="235" y="171" font-family="DM Sans" font-size="8" fill="#a78bfa">Thinking...</text>
+    <!-- input area -->
+    <rect x="190" y="265" width="500" height="36" rx="6" fill="#181824" stroke="#2a2a3a"/>
+    <text x="205" y="287" font-family="DM Sans" font-size="10" fill="#8888a8">Message Claude...</text>
+    <!-- attachment icon -->
+    <rect x="630" y="272" width="24" height="22" rx="4" fill="#1a1a2e"/>
+    <text x="636" y="287" font-family="DM Sans" font-size="12" fill="#60a5fa">+</text>
+    <!-- send -->
+    <rect x="660" y="272" width="28" height="22" rx="4" fill="#f5a623"/>
+    <text x="669" y="287" font-family="DM Sans" font-size="11" fill="#0a0a0f">&#x2191;</text>
+    <!-- artifact panel -->
+    <rect x="610" y="55" width="90" height="150" rx="5" fill="#0e0e18" stroke="#2a2a3a"/>
+    <text x="625" y="73" font-family="DM Sans" font-size="8" fill="#4ecb8d" font-weight="600">Artifact</text>
+    <rect x="618" y="80" width="74" height="60" rx="3" fill="#181824"/>
+    <text x="626" y="97" font-family="JetBrains Mono" font-size="6.5" fill="#cdd6f4">def process(items):</text>
+    <text x="626" y="108" font-family="JetBrains Mono" font-size="6.5" fill="#cdd6f4">  if not items:</text>
+    <text x="626" y="119" font-family="JetBrains Mono" font-size="6.5" fill="#cdd6f4">    return []</text>
+    <text x="626" y="130" font-family="JetBrains Mono" font-size="6.5" fill="#cdd6f4">  return [x*2 ...</text>
+  </svg>
+  <div class="cols cols-3" style="margin-top:.25em;">
+    <div class="card amber">
+      <h3>Sidebar</h3>
+      <p>History, search, starred chats, projects</p>
+    </div>
+    <div class="card green">
+      <h3>Main Panel</h3>
+      <p>Conversation thread with model selector</p>
+    </div>
+    <div class="card purple">
+      <h3>Artifact Panel</h3>
+      <p>Live preview of generated content</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4: CHOOSING YOUR MODEL ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">04</span>
+    <h2>Choosing Your Model</h2>
+  </div>
+  <p>Use the <span class="a">model selector</span> in the top-right to pick the best model for your task.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card green">
+      <h3>Haiku</h3>
+      <ul>
+        <li>Fastest response time</li>
+        <li>Lowest cost per message</li>
+        <li>Great for quick Q&amp;A, brainstorms</li>
+        <li>Simple summaries &amp; lookups</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Sonnet</h3>
+      <ul>
+        <li>Best balance of speed &amp; quality</li>
+        <li>Strong at coding &amp; analysis</li>
+        <li>Default model for most users</li>
+        <li>Excellent for daily workflows</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Opus</h3>
+      <ul>
+        <li>Most capable &amp; nuanced</li>
+        <li>Complex reasoning &amp; research</li>
+        <li>Long-form writing &amp; strategy</li>
+        <li>Pro/Team/Enterprise only</li>
+      </ul>
+    </div>
+  </div>
+  <!-- SVG decision diagram -->
+  <svg class="diagram" viewBox="0 0 700 170" width="660" style="max-width: 100%; height: auto; margin-top:.3em;">
+    <!-- Start -->
+    <rect x="10" y="65" width="100" height="36" rx="18" fill="#181824" stroke="#f5a623"/>
+    <text x="60" y="87" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#f5a623">New task</text>
+    <!-- arrow 1 -->
+    <line x1="110" y1="83" x2="150" y2="83" stroke="#2a2a3a" stroke-width="1.5" marker-end="url(#arw)"/>
+    <!-- Decision 1 -->
+    <polygon points="230,55 310,83 230,111 150,83" fill="#181824" stroke="#60a5fa"/>
+    <text x="230" y="80" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#60a5fa">Complex</text>
+    <text x="230" y="92" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#60a5fa">reasoning?</text>
+    <!-- Yes up -->
+    <line x1="230" y1="55" x2="230" y2="22" stroke="#2a2a3a" stroke-width="1.5"/>
+    <text x="240" y="40" font-family="DM Sans" font-size="8" fill="#4ecb8d">Yes</text>
+    <rect x="180" y="4" width="100" height="24" rx="5" fill="#a78bfa" fill-opacity="0.15" stroke="#a78bfa"/>
+    <text x="230" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#a78bfa">Opus</text>
+    <!-- No right -->
+    <line x1="310" y1="83" x2="370" y2="83" stroke="#2a2a3a" stroke-width="1.5"/>
+    <text x="330" y="77" font-family="DM Sans" font-size="8" fill="#f87171">No</text>
+    <!-- Decision 2 -->
+    <polygon points="450,55 530,83 450,111 370,83" fill="#181824" stroke="#60a5fa"/>
+    <text x="450" y="80" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#60a5fa">Speed</text>
+    <text x="450" y="92" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#60a5fa">critical?</text>
+    <!-- Yes up -->
+    <line x1="450" y1="55" x2="450" y2="22" stroke="#2a2a3a" stroke-width="1.5"/>
+    <text x="460" y="40" font-family="DM Sans" font-size="8" fill="#4ecb8d">Yes</text>
+    <rect x="400" y="4" width="100" height="24" rx="5" fill="#4ecb8d" fill-opacity="0.15" stroke="#4ecb8d"/>
+    <text x="450" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#4ecb8d">Haiku</text>
+    <!-- No right -->
+    <line x1="530" y1="83" x2="580" y2="83" stroke="#2a2a3a" stroke-width="1.5"/>
+    <text x="545" y="77" font-family="DM Sans" font-size="8" fill="#f87171">No</text>
+    <!-- Sonnet -->
+    <rect x="580" y="67" width="100" height="30" rx="5" fill="#f5a623" fill-opacity="0.15" stroke="#f5a623"/>
+    <text x="630" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#f5a623">Sonnet</text>
+    <!-- arrow marker -->
+    <defs><marker id="arw" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#2a2a3a"/></marker></defs>
+  </svg>
+</section>
+
+<!-- ============ SLIDE 5: CRAFTING EFFECTIVE PROMPTS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">05</span>
+    <h2>Crafting Effective Prompts</h2>
+  </div>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Be Specific</h3>
+      <p>Instead of "help me write code," try:<br>
+      <em>"Write a Python function that takes a CSV file path and returns the top 5 rows by revenue, including error handling for missing files."</em></p>
+    </div>
+    <div class="card green">
+      <h3>Provide Context</h3>
+      <p>Share relevant background:<br>
+      <em>"I'm building a Django REST API. The User model already has email and name fields. Add a profile endpoint."</em></p>
+    </div>
+    <div class="card purple">
+      <h3>Multi-Turn Refinement</h3>
+      <ul>
+        <li>Start broad, then narrow iteratively</li>
+        <li>Reference earlier messages naturally</li>
+        <li>"Make it more concise" / "Add error handling"</li>
+        <li>Claude retains full conversation context</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Structured Requests</h3>
+      <ul>
+        <li>Use bullet points for multi-part asks</li>
+        <li>Specify output format (JSON, table, list)</li>
+        <li>Ask for step-by-step reasoning</li>
+        <li>Set constraints: length, tone, audience</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card red" style="margin-top:.3em;">
+    <h3>System Prompts (Projects)</h3>
+    <p>In Projects, you can set <span class="a">custom instructions</span> that persist across all conversations &mdash; defining Claude's role, tone, constraints, and domain knowledge.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6: PROJECTS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">06</span>
+    <h2>Projects</h2>
+  </div>
+  <p>Projects let you <span class="a">organize conversations</span> around a topic and give Claude persistent context.</p>
+  <svg class="diagram" viewBox="0 0 700 180" width="660" style="max-width: 100%; height: auto; margin-top:.2em;">
+    <!-- Project container -->
+    <rect x="30" y="10" width="640" height="160" rx="8" fill="#10101a" stroke="#f5a623" stroke-dasharray="4"/>
+    <text x="50" y="32" font-family="Playfair Display" font-size="13" fill="#f5a623" font-weight="700">Project: Q1 Marketing Campaign</text>
+    <!-- Custom instructions -->
+    <rect x="50" y="44" width="180" height="55" rx="5" fill="#181824" stroke="#a78bfa"/>
+    <text x="60" y="60" font-family="DM Sans" font-size="9" fill="#a78bfa" font-weight="600">Custom Instructions</text>
+    <text x="60" y="74" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">You are a marketing strategist.</text>
+    <text x="60" y="85" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Tone: professional, data-driven.</text>
+    <text x="60" y="96" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Focus on B2B SaaS audience.</text>
+    <!-- Knowledge -->
+    <rect x="250" y="44" width="180" height="55" rx="5" fill="#181824" stroke="#4ecb8d"/>
+    <text x="260" y="60" font-family="DM Sans" font-size="9" fill="#4ecb8d" font-weight="600">Project Knowledge</text>
+    <text x="260" y="74" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">brand-guidelines.pdf</text>
+    <text x="260" y="85" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">competitor-analysis.csv</text>
+    <text x="260" y="96" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">q4-results-summary.md</text>
+    <!-- Conversations -->
+    <rect x="450" y="44" width="200" height="55" rx="5" fill="#181824" stroke="#60a5fa"/>
+    <text x="460" y="60" font-family="DM Sans" font-size="9" fill="#60a5fa" font-weight="600">Conversations</text>
+    <text x="460" y="74" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Email sequence draft</text>
+    <text x="460" y="85" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Landing page copy</text>
+    <text x="460" y="96" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">A/B test ideas</text>
+    <!-- Bottom note -->
+    <text x="50" y="140" font-family="DM Sans" font-size="9" fill="#8888a8">All conversations in this project automatically inherit instructions + knowledge.</text>
+    <text x="50" y="155" font-family="DM Sans" font-size="9" fill="#8888a8">Up to 200k tokens of project context available per conversation.</text>
+  </svg>
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="card amber">
+      <h3>Create</h3>
+      <p>Sidebar &rarr; "New Project" &rarr; Name &amp; describe it</p>
+    </div>
+    <div class="card green">
+      <h3>Add Knowledge</h3>
+      <p>Upload files or paste text that Claude references automatically</p>
+    </div>
+    <div class="card purple">
+      <h3>Set Instructions</h3>
+      <p>Define Claude's role, constraints, and formatting preferences</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 7: PROJECT KNOWLEDGE ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">07</span>
+    <h2>Project Knowledge</h2>
+  </div>
+  <p>Upload documents to give Claude <span class="g">persistent context</span> across every conversation in a project.</p>
+  <div class="cols cols-6040" style="margin-top:.3em;">
+    <div>
+      <div class="card green" style="margin-bottom:.3em;">
+        <h3>Supported Formats</h3>
+        <ul>
+          <li><span class="a">Documents:</span> PDF, TXT, MD, DOCX, RTF</li>
+          <li><span class="b">Data:</span> CSV, JSON, XML, XLSX</li>
+          <li><span class="p">Code:</span> .py, .js, .ts, .java, .go, .rs, etc.</li>
+          <li><span class="g">Images:</span> PNG, JPG, GIF, WebP</li>
+        </ul>
+      </div>
+      <div class="card amber">
+        <h3>How Context Works</h3>
+        <ul>
+          <li>Files are loaded into Claude's context window</li>
+          <li>Knowledge is available in <em>every</em> project conversation</li>
+          <li>Max ~200k tokens of combined knowledge</li>
+          <li>Claude can reference, quote, and reason over docs</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple" style="margin-bottom:.3em;">
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Keep files focused and relevant</li>
+          <li>Use descriptive filenames</li>
+          <li>Remove boilerplate / noise</li>
+          <li>Structure text with headers</li>
+          <li>Prefer text-rich PDFs over scanned images</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h3>Text Snippets</h3>
+        <p>In addition to file uploads, paste raw text as knowledge entries &mdash; useful for API docs, style guides, or reference data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8: ARTIFACTS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">08</span>
+    <h2>Artifacts</h2>
+  </div>
+  <p>Artifacts are <span class="a">standalone content blocks</span> that appear in a dedicated preview panel alongside the conversation.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Code</h3>
+      <p>Python, JavaScript, HTML/CSS, SQL, and more. Syntax highlighted with copy button.</p>
+    </div>
+    <div class="card green">
+      <h3>Documents</h3>
+      <p>Markdown-rendered text: essays, reports, emails, plans. Full formatting support.</p>
+    </div>
+    <div class="card purple">
+      <h3>SVG Graphics</h3>
+      <p>Vector diagrams, charts, icons, and illustrations rendered inline.</p>
+    </div>
+    <div class="card blue">
+      <h3>Mermaid Diagrams</h3>
+      <p>Flowcharts, sequence diagrams, ER diagrams, Gantt charts rendered live.</p>
+    </div>
+    <div class="card red">
+      <h3>React Components</h3>
+      <p>Interactive UI components rendered in a sandboxed preview environment.</p>
+    </div>
+    <div class="card amber">
+      <h3>HTML Pages</h3>
+      <p>Complete web pages with CSS and JavaScript, previewed in an iframe.</p>
+    </div>
+  </div>
+  <div class="card green" style="margin-top:.3em;">
+    <h3>When Claude Creates Artifacts</h3>
+    <p>Claude generates artifacts automatically when producing substantial, self-contained content. Short inline answers remain in the conversation flow.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9: CREATING & EDITING ARTIFACTS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">09</span>
+    <h2>Creating &amp; Editing Artifacts</h2>
+  </div>
+  <svg class="diagram" viewBox="0 0 700 110" width="680" style="max-width: 100%; height: auto;">
+    <!-- Step 1 -->
+    <rect x="10" y="25" width="130" height="60" rx="6" fill="#181824" stroke="#f5a623"/>
+    <text x="75" y="48" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#f5a623" font-weight="600">1. Request</text>
+    <text x="75" y="63" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">"Build me a</text>
+    <text x="75" y="74" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">dashboard in React"</text>
+    <!-- arrow -->
+    <line x1="140" y1="55" x2="175" y2="55" stroke="#2a2a3a" stroke-width="1.5" marker-end="url(#arw)"/>
+    <!-- Step 2 -->
+    <rect x="175" y="25" width="130" height="60" rx="6" fill="#181824" stroke="#4ecb8d"/>
+    <text x="240" y="48" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#4ecb8d" font-weight="600">2. Generate</text>
+    <text x="240" y="63" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Claude creates artifact</text>
+    <text x="240" y="74" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">with live preview</text>
+    <!-- arrow -->
+    <line x1="305" y1="55" x2="340" y2="55" stroke="#2a2a3a" stroke-width="1.5" marker-end="url(#arw)"/>
+    <!-- Step 3 -->
+    <rect x="340" y="25" width="130" height="60" rx="6" fill="#181824" stroke="#a78bfa"/>
+    <text x="405" y="48" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#a78bfa" font-weight="600">3. Iterate</text>
+    <text x="405" y="63" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">"Add dark mode"</text>
+    <text x="405" y="74" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">"Fix the chart labels"</text>
+    <!-- arrow -->
+    <line x1="470" y1="55" x2="505" y2="55" stroke="#2a2a3a" stroke-width="1.5" marker-end="url(#arw)"/>
+    <!-- Step 4 -->
+    <rect x="505" y="25" width="130" height="60" rx="6" fill="#181824" stroke="#60a5fa"/>
+    <text x="570" y="48" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#60a5fa" font-weight="600">4. Publish</text>
+    <text x="570" y="63" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Copy, download, or</text>
+    <text x="570" y="74" text-anchor="middle" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">publish to share</text>
+  </svg>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Version History</h3>
+      <ul>
+        <li>Each edit creates a new version</li>
+        <li>Navigate between versions with arrows</li>
+        <li>Compare changes across iterations</li>
+        <li>Revert to any previous version</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Publishing Artifacts</h3>
+      <ul>
+        <li>Click <span class="a">Publish</span> to get a shareable link</li>
+        <li>Published artifacts are hosted by Anthropic</li>
+        <li>Interactive React/HTML artifacts run live</li>
+        <li>Viewers don't need a Claude account</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card purple" style="margin-top:.3em;">
+    <h3>Editing Tips</h3>
+    <p>Be specific: "Change the header color to blue" works better than "make it look nicer." Reference specific sections, variables, or line numbers for targeted edits.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10: FILE UPLOADS & MULTIMODAL ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">10</span>
+    <h2>File Uploads &amp; Multimodal Input</h2>
+  </div>
+  <p>Claude can analyze <span class="a">images, documents, data files, and code</span> uploaded directly into conversations.</p>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Image Analysis</h3>
+      <ul>
+        <li>Describe, interpret, and extract text from images</li>
+        <li>Analyze charts, screenshots, diagrams</li>
+        <li>Compare multiple images side-by-side</li>
+        <li>Formats: PNG, JPG, GIF, WebP</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Document Processing</h3>
+      <ul>
+        <li>Summarize lengthy PDFs</li>
+        <li>Extract key data points</li>
+        <li>Answer questions about content</li>
+        <li>Cross-reference multiple documents</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Data Analysis</h3>
+      <ul>
+        <li>Parse CSV/Excel files</li>
+        <li>Calculate statistics &amp; trends</li>
+        <li>Generate charts via artifacts</li>
+        <li>Write queries against datasets</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Code Review</h3>
+      <ul>
+        <li>Upload source files for review</li>
+        <li>Identify bugs and improvements</li>
+        <li>Suggest refactoring patterns</li>
+        <li>Explain unfamiliar codebases</li>
+      </ul>
+    </div>
+  </div>
+  <table style="margin-top:.3em;">
+    <tr><th>Type</th><th>Max Size</th><th>Per Message</th><th>Notes</th></tr>
+    <tr><td>Images</td><td>20 MB each</td><td>Up to 5</td><td>Auto-resized for context window</td></tr>
+    <tr><td>PDFs</td><td>32 MB each</td><td>Up to 5</td><td>Text extraction + visual analysis</td></tr>
+    <tr><td>Text/Code</td><td>30 MB each</td><td>Up to 5</td><td>Most programming languages supported</td></tr>
+    <tr><td>CSV/Data</td><td>30 MB each</td><td>Up to 5</td><td>Parsed and analyzed structurally</td></tr>
+  </table>
+</section>
+
+<!-- ============ SLIDE 11: EXTENDED THINKING ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">11</span>
+    <h2>Extended Thinking</h2>
+  </div>
+  <p>Extended thinking gives Claude a <span class="p">dedicated reasoning phase</span> before responding, visible as a collapsible "thinking" block.</p>
+  <div class="cols cols-6040" style="margin-top:.3em;">
+    <div>
+      <svg class="diagram" viewBox="0 0 380 200" width="380" style="max-width: 100%; height: auto;">
+        <rect x="10" y="10" width="360" height="180" rx="6" fill="#10101a" stroke="#2a2a3a"/>
+        <text x="30" y="35" font-family="DM Sans" font-size="10" fill="#8888a8">User: Solve this logic puzzle...</text>
+        <!-- Thinking block -->
+        <rect x="25" y="50" width="330" height="80" rx="5" fill="#181824" stroke="#a78bfa" stroke-dasharray="3"/>
+        <text x="40" y="68" font-family="DM Sans" font-size="9" fill="#a78bfa" font-weight="600">&#9660; Thinking (12 seconds)</text>
+        <text x="40" y="84" font-family="DM Sans" font-size="8" fill="#8888a8">Let me break this down step by step...</text>
+        <text x="40" y="96" font-family="DM Sans" font-size="8" fill="#8888a8">If A implies B, and B implies C...</text>
+        <text x="40" y="108" font-family="DM Sans" font-size="8" fill="#8888a8">Then by transitivity, A implies C...</text>
+        <text x="40" y="120" font-family="DM Sans" font-size="8" fill="#8888a8">Checking the contrapositive...</text>
+        <!-- Response -->
+        <text x="30" y="152" font-family="DM Sans" font-size="10" fill="#e8e8f0">Claude: The answer is D. Here's why:</text>
+        <text x="30" y="168" font-family="DM Sans" font-size="9" fill="#b8b8d0">Based on the logical chain A→B→C...</text>
+      </svg>
+    </div>
+    <div>
+      <div class="card purple" style="margin-bottom:.3em;">
+        <h3>When to Enable</h3>
+        <ul>
+          <li>Complex math &amp; logic problems</li>
+          <li>Multi-step reasoning tasks</li>
+          <li>Code debugging requiring analysis</li>
+          <li>Strategic planning &amp; decision-making</li>
+          <li>Tasks where accuracy matters most</li>
+        </ul>
+      </div>
+      <div class="card amber">
+        <h3>How to Activate</h3>
+        <p>Toggle <span class="a">"Extended thinking"</span> in the model settings or click the lightbulb icon next to the message input.</p>
+      </div>
+      <div class="card green">
+        <h3>Trade-offs</h3>
+        <p>Higher accuracy on hard problems, but uses more tokens and takes longer. Keep off for simple queries.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12: STYLES ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">12</span>
+    <h2>Styles</h2>
+  </div>
+  <p>Control <span class="a">how Claude writes</span> using preset and custom styles applied to any conversation.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card green">
+      <h3>Concise</h3>
+      <p>Short, direct answers. Minimal explanation. Ideal for experienced users who want quick results.</p>
+    </div>
+    <div class="card amber">
+      <h3>Explanatory</h3>
+      <p>Detailed responses with context and reasoning. Good for learning and complex topics.</p>
+    </div>
+    <div class="card purple">
+      <h3>Formal</h3>
+      <p>Professional tone, structured formatting. Suitable for business communications and reports.</p>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card blue">
+      <h3>Custom Styles</h3>
+      <ul>
+        <li>Create your own named styles</li>
+        <li>Define tone, length, formatting preferences</li>
+        <li>Paste a writing sample for Claude to match</li>
+        <li>Reuse across conversations</li>
+        <li>Share styles within Teams</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>Style vs. Instructions</h3>
+      <ul>
+        <li><span class="a">Styles</span> = how Claude writes (tone, length, format)</li>
+        <li><span class="g">Project instructions</span> = what Claude knows (role, context, rules)</li>
+        <li>Both can be combined for fine-tuned output</li>
+        <li>Styles persist across all conversations</li>
+        <li>Instructions are project-specific</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 13: CONVERSATION MANAGEMENT ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">13</span>
+    <h2>Conversation Management</h2>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Organizing Conversations</h3>
+      <ul>
+        <li><span class="a">Star</span> important conversations for quick access</li>
+        <li><span class="g">Rename</span> conversations with descriptive titles</li>
+        <li><span class="b">Move</span> conversations between projects</li>
+        <li><span class="p">Archive</span> old conversations to reduce clutter</li>
+        <li>Conversations are sorted by recency by default</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Search</h3>
+      <ul>
+        <li>Full-text search across all conversations</li>
+        <li>Search by title or message content</li>
+        <li>Filter by project or time period</li>
+        <li>Results show matching context snippets</li>
+        <li>Keyboard shortcut: <code>Cmd/Ctrl + K</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card purple">
+      <h3>Continuing Conversations</h3>
+      <p>Pick up any conversation where you left off. Claude retains the full context of the thread. Long conversations may hit context limits &mdash; start a new chat and summarize if needed.</p>
+    </div>
+    <div class="card blue">
+      <h3>Branching</h3>
+      <p>Edit a previous message to <span class="a">branch</span> the conversation in a new direction. The original branch is preserved &mdash; navigate between branches using the arrows above the edited message.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 14: SHARING & COLLABORATION ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">14</span>
+    <h2>Sharing &amp; Collaboration</h2>
+  </div>
+  <svg class="diagram" viewBox="0 0 700 130" width="680" style="max-width: 100%; height: auto; margin-top:.2em;">
+    <!-- User A -->
+    <circle cx="80" cy="50" r="25" fill="#181824" stroke="#f5a623"/>
+    <text x="80" y="45" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#f5a623">You</text>
+    <text x="80" y="57" text-anchor="middle" font-family="DM Sans" font-size="7" fill="#b8b8d0">Author</text>
+    <!-- Share arrow -->
+    <line x1="105" y1="50" x2="200" y2="35" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw2)"/>
+    <line x1="105" y1="50" x2="200" y2="65" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arw2)"/>
+    <line x1="105" y1="50" x2="200" y2="95" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arw2)"/>
+    <!-- Share options -->
+    <rect x="200" y="18" width="170" height="30" rx="5" fill="#181824" stroke="#4ecb8d"/>
+    <text x="215" y="37" font-family="DM Sans" font-size="9" fill="#4ecb8d" font-weight="600">Share Link</text>
+    <text x="310" y="37" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Read-only URL</text>
+    <rect x="200" y="53" width="170" height="30" rx="5" fill="#181824" stroke="#60a5fa"/>
+    <text x="215" y="72" font-family="DM Sans" font-size="9" fill="#60a5fa" font-weight="600">Team Project</text>
+    <text x="310" y="72" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Shared workspace</text>
+    <rect x="200" y="83" width="170" height="30" rx="5" fill="#181824" stroke="#a78bfa"/>
+    <text x="215" y="102" font-family="DM Sans" font-size="9" fill="#a78bfa" font-weight="600">Publish Artifact</text>
+    <text x="340" y="102" font-family="DM Sans" font-size="7.5" fill="#b8b8d0">Public</text>
+    <!-- Recipients -->
+    <line x1="370" y1="33" x2="450" y2="33" stroke="#2a2a3a" stroke-width="1" marker-end="url(#arw2)"/>
+    <text x="460" y="37" font-family="DM Sans" font-size="8" fill="#b8b8d0">Anyone with link can view</text>
+    <line x1="370" y1="68" x2="450" y2="68" stroke="#2a2a3a" stroke-width="1" marker-end="url(#arw2)"/>
+    <text x="460" y="72" font-family="DM Sans" font-size="8" fill="#b8b8d0">Team members can continue chat</text>
+    <line x1="370" y1="98" x2="450" y2="98" stroke="#2a2a3a" stroke-width="1" marker-end="url(#arw2)"/>
+    <text x="460" y="102" font-family="DM Sans" font-size="8" fill="#b8b8d0">Anyone can view/interact with artifact</text>
+    <defs><marker id="arw2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#4ecb8d"/></marker></defs>
+  </svg>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Sharing Conversations</h3>
+      <ul>
+        <li>Generate a <span class="g">shareable link</span> from any conversation</li>
+        <li>Recipients see the full thread (read-only)</li>
+        <li>No Claude account required to view</li>
+        <li>Revoke access at any time</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Team Collaboration</h3>
+      <ul>
+        <li>Shared projects with team-wide knowledge</li>
+        <li>Team members can start new chats in shared projects</li>
+        <li>Centralized prompt libraries and templates</li>
+        <li>Activity visible to team admins</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 15: KEYBOARD SHORTCUTS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">15</span>
+    <h2>Keyboard Shortcuts &amp; Power Tips</h2>
+  </div>
+  <div class="cols cols-2" style="margin-top:.2em;">
+    <div>
+      <table>
+        <tr><th>Shortcut</th><th>Action</th></tr>
+        <tr><td><code>Cmd/Ctrl + K</code></td><td>Search conversations</td></tr>
+        <tr><td><code>Cmd/Ctrl + Shift + N</code></td><td>New conversation</td></tr>
+        <tr><td><code>Cmd/Ctrl + Shift + C</code></td><td>Copy last response</td></tr>
+        <tr><td><code>/</code></td><td>Focus message input</td></tr>
+        <tr><td><code>Shift + Enter</code></td><td>New line (without sending)</td></tr>
+        <tr><td><code>Enter</code></td><td>Send message</td></tr>
+        <tr><td><code>Cmd/Ctrl + Shift + ;</code></td><td>Toggle sidebar</td></tr>
+        <tr><td><code>Escape</code></td><td>Stop generation</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="card amber" style="margin-bottom:.3em;">
+        <h3>Power Tips</h3>
+        <ul>
+          <li><span class="a">Drag &amp; drop</span> files anywhere in the chat</li>
+          <li><span class="g">Paste images</span> directly from clipboard</li>
+          <li><span class="p">@-mention</span> artifacts to reference them</li>
+          <li>Use <span class="b">Markdown</span> in your messages for structure</li>
+          <li><span class="r">Stop &amp; retry</span> to regenerate a response</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>URL Tricks</h3>
+        <p>Append <code>?model=opus</code> to a claude.ai URL to pre-select a model. Bookmark project URLs for quick access to specific workflows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 16: TEAMS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">16</span>
+    <h2>Claude.ai for Teams</h2>
+  </div>
+  <p><span class="a">$30/seat/month</span> &mdash; Designed for collaborative workgroups who need shared context and admin controls.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Shared Workspaces</h3>
+      <ul>
+        <li>Team-wide projects with shared knowledge</li>
+        <li>Centralized prompt &amp; style libraries</li>
+        <li>All members access the same context</li>
+        <li>Collaborative iteration on outputs</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Admin Controls</h3>
+      <ul>
+        <li>Invite/remove members via email</li>
+        <li>Role management (admin, member)</li>
+        <li>Usage analytics per member</li>
+        <li>Billing centralization</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Key Benefits</h3>
+      <ul>
+        <li>Higher usage limits than Pro</li>
+        <li>Early access to new features</li>
+        <li>Team data not used for training</li>
+        <li>Priority support from Anthropic</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <h3>Team vs. Individual Pro</h3>
+    <p><span class="b">Pro</span> gives you personal access to all models with increased limits.
+       <span class="a">Team</span> adds shared projects, admin controls, centralized billing, and the guarantee that conversations are not used for model training.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 17: ENTERPRISE ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">17</span>
+    <h2>Claude.ai for Enterprise</h2>
+  </div>
+  <p>Enterprise-grade deployment with <span class="a">security, compliance, and governance</span> built in.</p>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Security &amp; Identity</h3>
+      <ul>
+        <li><span class="a">SSO/SAML</span> &mdash; integrate with Okta, Azure AD, Google Workspace</li>
+        <li><span class="g">SCIM provisioning</span> &mdash; auto-sync users from your IdP</li>
+        <li><span class="p">Domain verification</span> &mdash; enforce organization boundaries</li>
+        <li>Encrypted at rest and in transit</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Compliance &amp; Governance</h3>
+      <ul>
+        <li><span class="a">Audit logs</span> &mdash; track all user activity</li>
+        <li><span class="b">Data retention policies</span> &mdash; customizable per org</li>
+        <li>SOC 2 Type II certified</li>
+        <li>Data never used for model training</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Administration</h3>
+      <ul>
+        <li>Org-wide usage dashboards</li>
+        <li>Department-level workspaces</li>
+        <li>Role-based access control (RBAC)</li>
+        <li>Content moderation controls</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Support &amp; Onboarding</h3>
+      <ul>
+        <li>Dedicated account manager</li>
+        <li>Custom onboarding &amp; training</li>
+        <li>Priority technical support</li>
+        <li>Custom contract &amp; SLA terms</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 18: USAGE LIMITS ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">18</span>
+    <h2>Usage Limits &amp; Fair Use</h2>
+  </div>
+  <table style="margin-top:.3em;">
+    <tr><th>Plan</th><th>Models</th><th>Message Limits</th><th>Rate Reset</th></tr>
+    <tr><td><span class="b">Free</span></td><td>Sonnet, Haiku</td><td>Limited daily messages</td><td>Every ~8 hours</td></tr>
+    <tr><td><span class="g">Pro ($20/mo)</span></td><td>All (incl. Opus)</td><td>5x more than Free</td><td>Every ~5 hours</td></tr>
+    <tr><td><span class="p">Team ($30/seat)</span></td><td>All (incl. Opus)</td><td>Higher than Pro</td><td>Every ~5 hours</td></tr>
+    <tr><td><span class="a">Enterprise</span></td><td>All + custom</td><td>Negotiated volume</td><td>Custom SLA</td></tr>
+  </table>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>What Counts as Usage?</h3>
+      <ul>
+        <li>Each message sent consumes tokens (input + output)</li>
+        <li>Longer conversations use more per message (growing context)</li>
+        <li>File uploads add to input tokens</li>
+        <li>Extended thinking uses additional tokens</li>
+        <li>Opus costs ~5x more tokens than Haiku per message</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Managing Your Limits</h3>
+      <ul>
+        <li>Use <span class="g">Haiku</span> for simple tasks to conserve usage</li>
+        <li>Start new conversations instead of very long threads</li>
+        <li>Use project knowledge instead of re-uploading files</li>
+        <li>Check remaining capacity in the usage indicator</li>
+        <li>Rate limits reset on a rolling window, not midnight</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 19: MOBILE EXPERIENCE ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">19</span>
+    <h2>Mobile Experience</h2>
+  </div>
+  <div class="cols cols-6040" style="margin-top:.3em;">
+    <div>
+      <div class="card amber" style="margin-bottom:.3em;">
+        <h3>Claude iOS &amp; Android App</h3>
+        <ul>
+          <li>Native apps available on both platforms</li>
+          <li>Full feature parity with web interface</li>
+          <li>Camera integration for image uploads</li>
+          <li>Push notifications for shared conversations</li>
+          <li>Biometric authentication (Face ID, fingerprint)</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>Mobile-Optimized Features</h3>
+        <ul>
+          <li>Voice input via device keyboard</li>
+          <li>Swipe to navigate conversations</li>
+          <li>Quick-share to Claude from other apps</li>
+          <li>Offline conversation history viewing</li>
+          <li>Responsive artifact previews</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 220 340" width="200" style="max-width: 100%; height: auto;">
+        <!-- Phone frame -->
+        <rect x="20" y="5" width="180" height="330" rx="20" fill="#10101a" stroke="#2a2a3a" stroke-width="2"/>
+        <!-- Notch -->
+        <rect x="70" y="5" width="80" height="14" rx="7" fill="#0a0a0f"/>
+        <!-- Header -->
+        <rect x="30" y="25" width="160" height="24" rx="0" fill="#10101a"/>
+        <text x="110" y="41" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#f5a623" font-weight="600">Claude</text>
+        <!-- Messages -->
+        <rect x="35" y="55" width="120" height="22" rx="6" fill="#181824"/>
+        <text x="42" y="70" font-family="DM Sans" font-size="7" fill="#b8b8d0">Summarize this article</text>
+        <rect x="55" y="85" width="130" height="40" rx="6" fill="#141428"/>
+        <text x="62" y="100" font-family="DM Sans" font-size="7" fill="#e8e8f0">Here's a concise summary:</text>
+        <text x="62" y="112" font-family="DM Sans" font-size="6.5" fill="#b8b8d0">The article discusses...</text>
+        <rect x="35" y="135" width="110" height="22" rx="6" fill="#181824"/>
+        <text x="42" y="150" font-family="DM Sans" font-size="7" fill="#b8b8d0">What are the key points?</text>
+        <rect x="55" y="165" width="130" height="50" rx="6" fill="#141428"/>
+        <text x="62" y="180" font-family="DM Sans" font-size="7" fill="#e8e8f0">Key takeaways:</text>
+        <text x="62" y="192" font-family="DM Sans" font-size="6.5" fill="#b8b8d0">1. Market growth of 15%</text>
+        <text x="62" y="203" font-family="DM Sans" font-size="6.5" fill="#b8b8d0">2. New regulations in Q2</text>
+        <!-- Input -->
+        <rect x="30" y="290" width="160" height="28" rx="14" fill="#181824" stroke="#2a2a3a"/>
+        <text x="50" y="308" font-family="DM Sans" font-size="8" fill="#8888a8">Message...</text>
+        <circle cx="170" cy="304" r="10" fill="#f5a623"/>
+        <text x="170" y="308" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#0a0a0f">&#x2191;</text>
+        <!-- Bottom bar -->
+        <rect x="30" y="322" width="160" height="8" rx="0" fill="#0e0e18"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 20: TIPS & BEST PRACTICES ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">20</span>
+    <h2>Tips &amp; Best Practices</h2>
+  </div>
+  <div class="cols cols-2" style="margin-top:.2em;">
+    <div class="card amber">
+      <h3>Prompting Patterns</h3>
+      <ul>
+        <li><span class="a">Role prompting:</span> "You are a senior data scientist..."</li>
+        <li><span class="g">Chain-of-thought:</span> "Think step by step..."</li>
+        <li><span class="b">Few-shot:</span> Provide examples of desired output</li>
+        <li><span class="p">Constraints:</span> "Reply in under 100 words"</li>
+        <li><span class="r">Format spec:</span> "Return as JSON with keys: ..."</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Workflow Patterns</h3>
+      <ul>
+        <li><span class="a">Iterative refinement:</span> Start rough, polish in turns</li>
+        <li><span class="g">Parallel exploration:</span> Open multiple conversations</li>
+        <li><span class="b">Context staging:</span> Upload docs first, ask questions after</li>
+        <li><span class="p">Template reuse:</span> Save prompts in project instructions</li>
+        <li><span class="r">Model switching:</span> Draft with Haiku, refine with Sonnet</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Common Pitfalls to Avoid</h3>
+      <ul>
+        <li>Overly long conversations (start fresh periodically)</li>
+        <li>Vague prompts without context or constraints</li>
+        <li>Not using Projects for recurring workflows</li>
+        <li>Ignoring artifacts for structured content</li>
+        <li>Using Opus for tasks where Haiku suffices</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Getting Unstuck</h3>
+      <ul>
+        <li>"Let me rephrase..." &mdash; restate what you want</li>
+        <li>"Start over with a different approach..."</li>
+        <li>Edit a previous message to branch the conversation</li>
+        <li>Ask Claude to critique its own output</li>
+        <li>Enable extended thinking for better reasoning</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 21: SUMMARY ============ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">21</span>
+    <h2>Summary &amp; Key Takeaways</h2>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Claude.ai Is Your AI Workspace</h3>
+      <p>A full-featured interface for conversations, artifacts, projects, file analysis, and collaboration &mdash; no coding required.</p>
+    </div>
+    <div class="card green">
+      <h3>Choose the Right Model</h3>
+      <p><span class="g">Haiku</span> for speed, <span class="a">Sonnet</span> for balance, <span class="p">Opus</span> for depth. Match the model to the complexity of your task.</p>
+    </div>
+    <div class="card purple">
+      <h3>Projects &amp; Knowledge</h3>
+      <p>Organize work into projects with persistent context. Upload documents and set custom instructions to get domain-specific responses.</p>
+    </div>
+    <div class="card blue">
+      <h3>Artifacts Are Powerful</h3>
+      <p>Code, docs, diagrams, React components, and full HTML pages &mdash; generated, iterated, versioned, and publishable.</p>
+    </div>
+  </div>
+  <div class="card red" style="margin-top:.3em;">
+    <h3>What's Next in This Series</h3>
+    <p>
+      <span class="pill amber">01 Intro</span>
+      <span class="pill amber">02 Models</span>
+      <span class="pill green">03 Claude.ai &#10003;</span>
+      <span class="pill purple">04 API</span>
+      <span class="pill blue">05 Prompt Eng.</span>
+      <span class="pill amber">06 Safety</span>
+      <span class="pill green">07 Enterprise</span>
+      <span class="pill purple">08 Ecosystem</span>
+      <span class="pill blue">09 Use Cases</span>
+      <span class="pill amber">10 Future</span>
+    </p>
+  </div>
+  <p style="text-align:center; color:var(--muted); margin-top:.4em; font-size:.5em;">
+    Claude.ai &mdash; The Web Interface &bull; Presentation 3 of 10 &bull; Anthropic Claude Series
+  </p>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 420, height: 780, margin: 0.02,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 780;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>

@@ -3,775 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Summary &amp; Quick Reference</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <title>Summary & Quick Reference — Anthropic Claude Series</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
-  .reveal-viewport { background: var(--bg); }
-  .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
-  .reveal h2 { font-size: 1.1em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .78em; color: var(--green); margin-bottom: .15em; }
-  .reveal p { font-size: .56em; line-height: 1.45; color: var(--text); }
-  .reveal li { font-size: .54em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
-  .reveal pre code { font-size: .52em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .42em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
-  .slide-hdr h2 { margin: 0; font-size: .95em; }
-  .cols { display: grid; gap: .5em; }
-  .cols-2 { grid-template-columns: 1fr 1fr; }
-  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .cols-6040 { grid-template-columns: 6fr 4fr; }
-  .cols-4060 { grid-template-columns: 4fr 6fr; }
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .35em .6em; }
-  .card.amber { border-left: 3px solid var(--amber); }
-  .card.green { border-left: 3px solid var(--green); }
-  .card.purple { border-left: 3px solid var(--purple); }
-  .card.blue { border-left: 3px solid var(--blue); }
-  .card.red { border-left: 3px solid var(--red); }
-  .card h3 { font-size: .64em; margin: 0 0 .12em; }
-  .card p { font-size: .52em; margin: 0; color: #b8b8d0; }
-  .card ul { margin: 0; padding-left: 1em; }
-  .card li { font-size: .52em; color: #b8b8d0; margin-bottom: .02em; }
-  .reveal table { width: 100%; border-collapse: collapse; font-size: .5em; }
-  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
-  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
-  .a { color: var(--amber); font-weight: 600; }
-  .g { color: var(--green); font-weight: 600; }
-  .p { color: var(--purple); font-weight: 600; }
-  .b { color: var(--blue); font-weight: 600; }
-  .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .44em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
-  .pill.amber { color: var(--amber); border-color: var(--amber); }
-  .pill.green { color: var(--green); border-color: var(--green); }
-  .pill.purple { color: var(--purple); border-color: var(--purple); }
-  .pill.blue { color: var(--blue); border-color: var(--blue); }
-  .reveal .slide-footer { display: none; }
-  .title-slide h1 { font-size: 1.8em; }
-  .title-slide .subtitle { font-size: .7em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
-  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(78,203,141,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .accent-border-top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    box-shadow: 0 0 15px rgba(245,166,35,0.3);
+  }
+  .container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 500px;
+  }
+  .series-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .5em;
+  }
+  .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    letter-spacing: .04em;
+    display: inline-block;
+    margin-bottom: .8em;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .15em;
+  }
+  .subtitle {
+    font-size: clamp(.8rem, 2.5vw, .95rem);
+    color: var(--green);
+    font-weight: 300;
+    letter-spacing: .03em;
+    margin-bottom: .5em;
+  }
+  .description {
+    font-size: .85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .bar {
+    width: 50px; height: 2px;
+    background: var(--amber);
+    margin: 0 auto 1.8em;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+    align-items: center;
+  }
+  a.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 400;
+    letter-spacing: .1em;
+    padding: 14px 48px;
+    border-radius: 30px;
+    transition: all .3s ease;
+    width: 260px;
+    text-align: center;
+  }
+  a.btn.primary {
+    color: var(--text);
+    background: rgba(245,166,35,0.12);
+    border: 1px solid rgba(245,166,35,0.4);
+    box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+  }
+  a.btn.primary:hover {
+    background: rgba(245,166,35,0.2);
+    border-color: var(--amber);
+    box-shadow: 0 4px 30px rgba(245,166,35,0.2);
+  }
+  a.btn.secondary {
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  a.btn.secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    color: var(--text);
+  }
+  .badge {
+    font-size: .65rem;
+    letter-spacing: .1em;
+    color: var(--amber);
+    opacity: .7;
+    margin-left: .5rem;
+  }
+  .back {
+    margin-top: 2em;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+  .back a {
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .back a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
-
-<!-- ============== SLIDE 1: TITLE ============== -->
-<section class="title-slide">
-  <p class="meta" style="margin-bottom:.5em;">PRESENTATION 10 OF 10</p>
-  <h1>Summary &amp;<br>Quick Reference</h1>
-  <p class="subtitle">The Complete Claude Cheat Sheet</p>
-  <p class="meta">Anthropic Claude Series &middot; 2025</p>
-  <div style="margin-top:1em; display:flex; gap:.5em; justify-content:center; flex-wrap:wrap;">
-    <span class="pill amber">MODELS</span>
-    <span class="pill green">PRICING</span>
-    <span class="pill purple">API</span>
-    <span class="pill blue">TOOLS</span>
+  <div class="accent-border-top"></div>
+  <div class="container">
+    <div class="series-label">ANTHROPIC CLAUDE SERIES</div>
+    <span class="num">10</span>
+    <h1>Summary & Quick Reference</h1>
+    <div class="subtitle">Cheat sheets for models, pricing, commands, API, SDKs, prompt patterns, and a full glossary</div>
+    <div class="bar"></div>
+    <p class="description">Choose your viewing experience</p>
+    <div class="buttons">
+      <a href="desktop.html" class="btn" id="btnDesktop">DESKTOP</a>
+      <a href="mobile.html" class="btn" id="btnMobile">MOBILE</a>
+    </div>
+    <div class="back"><a href="../">&larr; All presentations</a></div>
   </div>
-</section>
-
-<!-- ============== SLIDE 2: SERIES OVERVIEW ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">OVERVIEW</span><h2>The Complete Series</h2></div>
-  <table style="font-size:.46em;">
-    <tr><th>#</th><th>Presentation</th><th>Key Topics</th></tr>
-    <tr><td><span class="a">01</span></td><td>Introduction to Claude</td><td>What Claude is, Constitutional AI, model family, capabilities</td></tr>
-    <tr><td><span class="a">02</span></td><td>Getting Started</td><td>Account setup, first conversations, plans &amp; pricing basics</td></tr>
-    <tr><td><span class="a">03</span></td><td>Claude.ai Deep Dive</td><td>Web UI, Projects, Artifacts, keyboard shortcuts, tips</td></tr>
-    <tr><td><span class="a">04</span></td><td>Claude Code</td><td>CLI installation, slash commands, CLAUDE.md, agentic coding</td></tr>
-    <tr><td><span class="a">05</span></td><td>API &amp; SDK</td><td>REST API, Python/TypeScript SDKs, streaming, tool use</td></tr>
-    <tr><td><span class="a">06</span></td><td>Integrations</td><td>MCP servers, IDE plugins, CI/CD, third-party tools</td></tr>
-    <tr><td><span class="a">07</span></td><td>Agents</td><td>Agentic patterns, multi-agent, orchestration, guardrails</td></tr>
-    <tr><td><span class="a">08</span></td><td>Productivity &amp; Workflows</td><td>Prompt engineering, templates, batch processing, automation</td></tr>
-    <tr><td><span class="a">09</span></td><td>Future Capabilities</td><td>Roadmap, computer use, extended thinking, research</td></tr>
-    <tr><td><span class="a">10</span></td><td>Summary &amp; Quick Reference</td><td>This deck &mdash; cheat sheets, tables, templates, links</td></tr>
-  </table>
-</section>
-
-<!-- ============== SLIDE 3: MODEL COMPARISON ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">MODELS</span><h2>Model Comparison Cheat Sheet</h2></div>
-  <table style="font-size:.43em;">
-    <tr><th>Attribute</th><th><span class="g">Haiku 3.5</span></th><th><span class="b">Sonnet 4</span></th><th><span class="p">Opus 4</span></th></tr>
-    <tr><td>Speed (tokens/sec)</td><td>Fastest (~100+ t/s)</td><td>Fast (~80 t/s)</td><td>Moderate (~50 t/s)</td></tr>
-    <tr><td>Input $/1M tokens</td><td>$0.80</td><td>$3.00</td><td>$15.00</td></tr>
-    <tr><td>Output $/1M tokens</td><td>$4.00</td><td>$15.00</td><td>$75.00</td></tr>
-    <tr><td>Context Window</td><td>200K tokens</td><td>200K tokens</td><td>200K tokens</td></tr>
-    <tr><td>Max Output</td><td>8,192 tokens</td><td>16,000 tokens</td><td>32,000 tokens</td></tr>
-    <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-    <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-    <tr><td>Extended Thinking</td><td>No</td><td>Yes</td><td>Yes</td></tr>
-    <tr><td>Best For</td><td>Classification, routing, high-volume tasks, chat</td><td>Coding, analysis, general-purpose, daily driver</td><td>Complex reasoning, research, agentic tasks</td></tr>
-    <tr><td>API Model ID</td><td><code>claude-3-5-haiku-latest</code></td><td><code>claude-sonnet-4-20250514</code></td><td><code>claude-opus-4-20250514</code></td></tr>
-  </table>
-  <p style="font-size:.42em; color:var(--muted); margin-top:.3em;">Tip: Use <span class="a">Haiku</span> for routing/classification, <span class="b">Sonnet</span> as your default, <span class="p">Opus</span> for hard problems.</p>
-</section>
-
-<!-- ============== SLIDE 4: PRICING QUICK REFERENCE ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">PRICING</span><h2>Pricing Quick Reference</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Consumer &amp; Business Plans</h3>
-      <table style="font-size:.42em;">
-        <tr><th>Plan</th><th>Price</th><th>Includes</th></tr>
-        <tr><td>Free</td><td>$0/mo</td><td>Limited Sonnet access, basic features</td></tr>
-        <tr><td>Pro</td><td>$20/mo</td><td>All models, 5x more usage, Projects</td></tr>
-        <tr><td>Team</td><td>$30/seat/mo</td><td>Pro + admin, sharing, higher limits</td></tr>
-        <tr><td>Enterprise</td><td>Custom</td><td>SSO, SCIM, audit logs, SLA, dedicated</td></tr>
-      </table>
-    </div>
-    <div class="card green">
-      <h3>API Pricing (per 1M tokens)</h3>
-      <table style="font-size:.42em;">
-        <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td>Haiku 3.5</td><td>$0.80</td><td>$4.00</td></tr>
-        <tr><td>Sonnet 4</td><td>$3.00</td><td>$15.00</td></tr>
-        <tr><td>Opus 4</td><td>$15.00</td><td>$75.00</td></tr>
-      </table>
-      <p style="font-size:.4em; margin-top:.2em;">Prompt caching: <span class="g">90% discount</span> on cache hits. Batches: <span class="g">50% discount</span>.</p>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.4em;">
-    <h3>Claude Code</h3>
-    <p>Included with <span class="a">Max plan ($100/mo)</span> or uses API credits directly. Max includes 5x Pro usage for Claude Code.</p>
-  </div>
-</section>
-
-<!-- ============== SLIDE 5: CLAUDE.AI KEYBOARD SHORTCUTS ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">SHORTCUTS</span><h2>Claude.ai Keyboard Shortcuts</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <table style="font-size:.43em;">
-        <tr><th>Action</th><th>Shortcut</th></tr>
-        <tr><td>New conversation</td><td><code>Ctrl/Cmd + Shift + O</code></td></tr>
-        <tr><td>Focus chat input</td><td><code>Ctrl/Cmd + Shift + ;</code></td></tr>
-        <tr><td>Send message</td><td><code>Enter</code></td></tr>
-        <tr><td>New line (without send)</td><td><code>Shift + Enter</code></td></tr>
-        <tr><td>Copy last response</td><td><code>Ctrl/Cmd + Shift + C</code></td></tr>
-        <tr><td>Stop generation</td><td><code>Esc</code></td></tr>
-        <tr><td>Toggle sidebar</td><td><code>Ctrl/Cmd + Shift + S</code></td></tr>
-      </table>
-    </div>
-    <div>
-      <table style="font-size:.43em;">
-        <tr><th>Action</th><th>Shortcut</th></tr>
-        <tr><td>Search conversations</td><td><code>Ctrl/Cmd + K</code></td></tr>
-        <tr><td>Upload file</td><td><code>Ctrl/Cmd + U</code></td></tr>
-        <tr><td>Select model</td><td><code>Ctrl/Cmd + /</code></td></tr>
-        <tr><td>Toggle dark/light mode</td><td><code>Ctrl/Cmd + Shift + L</code></td></tr>
-        <tr><td>Create Artifact</td><td>Ask Claude to create one</td></tr>
-        <tr><td>Star conversation</td><td><code>Ctrl/Cmd + Shift + F</code></td></tr>
-        <tr><td>Delete conversation</td><td><code>Ctrl/Cmd + Shift + D</code></td></tr>
-      </table>
-    </div>
-  </div>
-  <p style="font-size:.42em; color:var(--muted); margin-top:.2em;">On macOS use <code>Cmd</code>, on Windows/Linux use <code>Ctrl</code>. Shortcuts may update &mdash; check Help menu.</p>
-</section>
-
-<!-- ============== SLIDE 6: CLAUDE CODE COMMANDS ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">CLAUDE CODE</span><h2>Claude Code Command Reference</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <table style="font-size:.42em;">
-        <tr><th>Command</th><th>Description</th></tr>
-        <tr><td><code>/help</code></td><td>Show help and available commands</td></tr>
-        <tr><td><code>/clear</code></td><td>Clear conversation history</td></tr>
-        <tr><td><code>/compact</code></td><td>Compact conversation to save context</td></tr>
-        <tr><td><code>/config</code></td><td>Open or edit configuration</td></tr>
-        <tr><td><code>/cost</code></td><td>Show token usage and cost</td></tr>
-        <tr><td><code>/doctor</code></td><td>Diagnose setup issues</td></tr>
-        <tr><td><code>/init</code></td><td>Initialize CLAUDE.md in project</td></tr>
-      </table>
-    </div>
-    <div>
-      <table style="font-size:.42em;">
-        <tr><th>Command</th><th>Description</th></tr>
-        <tr><td><code>/login</code></td><td>Authenticate with Anthropic</td></tr>
-        <tr><td><code>/logout</code></td><td>Sign out of current session</td></tr>
-        <tr><td><code>/model</code></td><td>Switch model (sonnet/opus)</td></tr>
-        <tr><td><code>/permissions</code></td><td>View and manage tool permissions</td></tr>
-        <tr><td><code>/review</code></td><td>Review git changes / PR</td></tr>
-        <tr><td><code>/status</code></td><td>Show current session status</td></tr>
-        <tr><td><code>/terminal-setup</code></td><td>Install shell integration (Shift+Enter)</td></tr>
-      </table>
-    </div>
-  </div>
-  <p style="font-size:.42em; color:var(--muted); margin-top:.2em;">Run <code>claude --help</code> for CLI flags: <code>--model</code>, <code>--allowedTools</code>, <code>--print</code>, <code>--dangerously-skip-permissions</code></p>
-</section>
-
-<!-- ============== SLIDE 7: CLAUDE CODE TOOLS ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">TOOLS</span><h2>Claude Code Tool Reference</h2></div>
-  <table style="font-size:.42em;">
-    <tr><th>Tool</th><th>Purpose</th><th>Key Parameters</th></tr>
-    <tr><td><span class="a">Read</span></td><td>Read file contents (text, images, PDFs)</td><td><code>file_path</code>, <code>offset</code>, <code>limit</code>, <code>pages</code></td></tr>
-    <tr><td><span class="g">Write</span></td><td>Create new files or full rewrites</td><td><code>file_path</code>, <code>content</code></td></tr>
-    <tr><td><span class="b">Edit</span></td><td>Exact string replacement in files</td><td><code>file_path</code>, <code>old_string</code>, <code>new_string</code>, <code>replace_all</code></td></tr>
-    <tr><td><span class="p">Bash</span></td><td>Execute shell commands</td><td><code>command</code>, <code>timeout</code>, <code>run_in_background</code></td></tr>
-    <tr><td><span class="g">Grep</span></td><td>Regex search across files (ripgrep)</td><td><code>pattern</code>, <code>path</code>, <code>glob</code>, <code>output_mode</code></td></tr>
-    <tr><td><span class="b">Glob</span></td><td>Find files by name pattern</td><td><code>pattern</code>, <code>path</code></td></tr>
-    <tr><td><span class="p">Agent</span></td><td>Spawn sub-agent for complex subtasks</td><td><code>task</code>, <code>tools</code></td></tr>
-    <tr><td><span class="a">WebFetch</span></td><td>Fetch content from URLs</td><td><code>url</code>, <code>format</code></td></tr>
-    <tr><td><span class="g">WebSearch</span></td><td>Search the web</td><td><code>query</code>, <code>max_results</code></td></tr>
-  </table>
-  <p style="font-size:.42em; color:var(--muted);">Permissions: tools require approval on first use. Grant with <code>/permissions</code> or <code>allowedTools</code> in settings.</p>
-</section>
-
-<!-- ============== SLIDE 8: API QUICK REFERENCE ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">API</span><h2>API Quick Reference</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Key Endpoints</h3>
-      <table style="font-size:.4em;">
-        <tr><th>Endpoint</th><th>Method</th></tr>
-        <tr><td><code>/v1/messages</code></td><td>POST &mdash; Create message</td></tr>
-        <tr><td><code>/v1/messages</code></td><td>POST (stream) &mdash; Stream response</td></tr>
-        <tr><td><code>/v1/messages/batches</code></td><td>POST &mdash; Batch requests</td></tr>
-        <tr><td><code>/v1/messages/count_tokens</code></td><td>POST &mdash; Count tokens</td></tr>
-      </table>
-    </div>
-    <div class="card green">
-      <h3>Required Headers</h3>
-      <pre><code>x-api-key: YOUR_API_KEY
-anthropic-version: 2023-06-01
-content-type: application/json</code></pre>
-      <p style="font-size:.4em; margin-top:.2em;">Base URL: <code>https://api.anthropic.com</code></p>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.4em;">
-    <h3>Common Request Body Parameters</h3>
-    <table style="font-size:.4em;">
-      <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-      <tr><td><code>model</code></td><td>string</td><td>Yes</td><td>Model ID (e.g., <code>claude-sonnet-4-20250514</code>)</td></tr>
-      <tr><td><code>messages</code></td><td>array</td><td>Yes</td><td>Conversation messages [{role, content}]</td></tr>
-      <tr><td><code>max_tokens</code></td><td>int</td><td>Yes</td><td>Maximum tokens in response</td></tr>
-      <tr><td><code>system</code></td><td>string</td><td>No</td><td>System prompt</td></tr>
-      <tr><td><code>temperature</code></td><td>float</td><td>No</td><td>0.0 &ndash; 1.0 (default 1.0)</td></tr>
-      <tr><td><code>stream</code></td><td>bool</td><td>No</td><td>Enable SSE streaming</td></tr>
-      <tr><td><code>tools</code></td><td>array</td><td>No</td><td>Tool definitions for function calling</td></tr>
-    </table>
-  </div>
-</section>
-
-<!-- ============== SLIDE 9: PYTHON SDK ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">PYTHON</span><h2>Python SDK Cheat Sheet</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <pre><code># Installation
-pip install anthropic
-
-# Basic usage
-import anthropic
-client = anthropic.Anthropic()  # uses ANTHROPIC_API_KEY
-
-message = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[
-        {"role": "user",
-         "content": "Explain quantum computing"}
-    ]
-)
-print(message.content[0].text)</code></pre>
-    </div>
-    <div>
-      <pre><code># Streaming
-with client.messages.stream(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[{"role": "user",
-               "content": "Write a poem"}]
-) as stream:
-    for text in stream.text_stream:
-        print(text, end="", flush=True)
-
-# With system prompt
-message = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    system="You are a helpful tutor.",
-    messages=[{"role": "user",
-               "content": "Explain gravity"}]
-)</code></pre>
-    </div>
-  </div>
-  <pre><code># Tool use
-tools = [{"name": "get_weather", "description": "Get current weather",
-  "input_schema": {"type": "object", "properties": {"location": {"type": "string"}}, "required": ["location"]}}]
-msg = client.messages.create(model="claude-sonnet-4-20250514", max_tokens=1024, tools=tools,
-  messages=[{"role": "user", "content": "Weather in Tokyo?"}])</code></pre>
-</section>
-
-<!-- ============== SLIDE 10: TYPESCRIPT SDK ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">TYPESCRIPT</span><h2>TypeScript SDK Cheat Sheet</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <pre><code>// Installation
-npm install @anthropic-ai/sdk
-
-// Basic usage
-import Anthropic from "@anthropic-ai/sdk";
-const client = new Anthropic(); // ANTHROPIC_API_KEY
-
-const message = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
-  max_tokens: 1024,
-  messages: [
-    { role: "user",
-      content: "Explain quantum computing" }
-  ],
-});
-console.log(message.content[0].text);</code></pre>
-    </div>
-    <div>
-      <pre><code>// Streaming
-const stream = client.messages.stream({
-  model: "claude-sonnet-4-20250514",
-  max_tokens: 1024,
-  messages: [
-    { role: "user", content: "Write a poem" }
-  ],
-});
-
-for await (const event of stream) {
-  if (event.type === "content_block_delta"
-   && event.delta.type === "text_delta") {
-    process.stdout.write(event.delta.text);
+  <script>
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                 (navigator.maxTouchPoints > 1 && window.innerWidth < 768);
+  var btnD = document.getElementById('btnDesktop');
+  var btnM = document.getElementById('btnMobile');
+  if (isMobile) {
+    btnM.classList.add('primary');
+    btnD.classList.add('secondary');
+    btnM.innerHTML += '<span class="badge">RECOMMENDED</span>';
+  } else {
+    btnD.classList.add('primary');
+    btnM.classList.add('secondary');
+    btnD.innerHTML += '<span class="badge">RECOMMENDED</span>';
   }
-}
-
-const finalMessage = await stream.finalMessage();</code></pre>
-    </div>
-  </div>
-  <pre><code>// Multi-turn conversation
-const messages = [
-  { role: "user", content: "What is the capital of France?" },
-  { role: "assistant", content: "The capital of France is Paris." },
-  { role: "user", content: "What is its population?" }
-];
-const resp = await client.messages.create({ model: "claude-sonnet-4-20250514", max_tokens: 1024, messages });</code></pre>
-</section>
-
-<!-- ============== SLIDE 11: PROMPT ENGINEERING ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">PROMPTING</span><h2>Prompt Engineering Cheat Sheet</h2></div>
-  <div class="cols cols-2">
-    <div class="card green">
-      <h3>Do</h3>
-      <ul>
-        <li>Be specific and explicit about desired output</li>
-        <li>Use XML tags to structure input: <code>&lt;context&gt;</code>, <code>&lt;instructions&gt;</code></li>
-        <li>Provide examples (few-shot) for complex formats</li>
-        <li>Set role in system prompt: "You are a senior engineer..."</li>
-        <li>Ask Claude to think step-by-step for reasoning</li>
-        <li>Specify output format: JSON, markdown, table</li>
-        <li>Use prefilled assistant responses to steer output</li>
-        <li>Break complex tasks into subtasks</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h3>Don't</h3>
-      <ul>
-        <li>Don't use vague instructions ("make it better")</li>
-        <li>Don't overload a single prompt with many tasks</li>
-        <li>Don't rely on implied context &mdash; be explicit</li>
-        <li>Don't ignore system prompts (they're powerful)</li>
-        <li>Don't set temperature to 0 unless determinism needed</li>
-        <li>Don't forget to handle tool_use stop reasons</li>
-        <li>Don't send huge contexts when a summary suffices</li>
-        <li>Don't skip testing with edge cases</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card purple" style="margin-top:.3em;">
-    <h3>Key Patterns</h3>
-    <p><span class="a">Chain of Thought:</span> "Think step by step" &nbsp; <span class="g">Few-Shot:</span> Provide 2-3 examples &nbsp; <span class="b">Role:</span> System prompt persona &nbsp; <span class="p">XML Tags:</span> <code>&lt;doc&gt;...&lt;/doc&gt;</code> for structure &nbsp; <span class="r">Prefill:</span> Start assistant response with desired prefix</p>
-  </div>
-</section>
-
-<!-- ============== SLIDE 12: CLAUDE.MD TEMPLATE ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">TEMPLATE</span><h2>CLAUDE.md Template</h2></div>
-  <pre><code># CLAUDE.md - Project Instructions for Claude Code
-
-## Project Overview
-This is a [type] project using [stack]. The main entry point is [file].
-
-## Tech Stack
-- Language: TypeScript 5.x / Python 3.12
-- Framework: Next.js 14 / FastAPI
-- Database: PostgreSQL with Prisma / SQLAlchemy
-- Testing: Jest / pytest
-
-## Key Commands
-- `npm run dev` — start dev server
-- `npm test` — run test suite
-- `npm run lint` — lint and format
-
-## Code Conventions
-- Use functional components with hooks (React)
-- Prefer named exports over default exports
-- All functions must have docstrings/JSDoc
-- Error handling: use Result types, never throw
-
-## Architecture
-- /src/components — React components
-- /src/lib — shared utilities
-- /src/api — API route handlers
-- /src/db — database models and migrations
-
-## Important Notes
-- Never modify files in /src/generated/
-- Always run tests before committing
-- Use conventional commit messages</code></pre>
-</section>
-
-<!-- ============== SLIDE 13: AGENTS.MD TEMPLATE ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">TEMPLATE</span><h2>agents.md Template</h2></div>
-  <pre><code># agents.md - Instructions for Sub-Agents
-
-## Role
-You are a specialized agent focused on [specific task].
-You have access to: Read, Grep, Glob tools only.
-
-## Constraints
-- Do NOT modify any files — only read and analyze
-- Do NOT run shell commands
-- Report findings in structured format
-- Stay focused on the assigned subtask
-
-## Output Format
-Return your findings as:
-1. Summary (1-2 sentences)
-2. Relevant files (absolute paths)
-3. Key findings (bulleted list)
-4. Confidence level (high/medium/low)
-
-## Context
-The parent agent will provide you with a specific
-question about the codebase. Answer it thoroughly
-by searching and reading relevant files.</code></pre>
-  <div class="card amber" style="margin-top:.3em;">
-    <h3>Where to Place</h3>
-    <p><code>CLAUDE.md</code> goes in project root (or <code>~/.claude/CLAUDE.md</code> for global). <code>agents.md</code> is referenced from CLAUDE.md or passed to sub-agents via the Agent tool.</p>
-  </div>
-</section>
-
-<!-- ============== SLIDE 14: MCP CONFIGURATION ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">MCP</span><h2>MCP Configuration Reference</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <h3>Config Location</h3>
-      <p style="font-size:.44em;"><code>~/.claude/claude_desktop_config.json</code> (Desktop)<br><code>.mcp.json</code> (Project-level for Claude Code)</p>
-      <pre><code>{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/path/to/allowed/dir"
-      ]
-    },
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_TOKEN": "ghp_xxx"
-      }
-    }
-  }
-}</code></pre>
-    </div>
-    <div>
-      <h3>Popular MCP Servers</h3>
-      <table style="font-size:.4em;">
-        <tr><th>Server</th><th>Purpose</th></tr>
-        <tr><td><code>server-filesystem</code></td><td>Local file read/write access</td></tr>
-        <tr><td><code>server-github</code></td><td>GitHub API (repos, PRs, issues)</td></tr>
-        <tr><td><code>server-postgres</code></td><td>PostgreSQL database queries</td></tr>
-        <tr><td><code>server-sqlite</code></td><td>SQLite database access</td></tr>
-        <tr><td><code>server-brave-search</code></td><td>Web search via Brave</td></tr>
-        <tr><td><code>server-puppeteer</code></td><td>Browser automation</td></tr>
-        <tr><td><code>server-slack</code></td><td>Slack workspace access</td></tr>
-        <tr><td><code>server-memory</code></td><td>Persistent knowledge graph</td></tr>
-        <tr><td><code>server-sequential-thinking</code></td><td>Step-by-step reasoning</td></tr>
-      </table>
-      <p style="font-size:.4em; margin-top:.2em;">Install: <code>npx @modelcontextprotocol/create-server myserver</code></p>
-    </div>
-  </div>
-</section>
-
-<!-- ============== SLIDE 15: INTEGRATION DECISION MATRIX ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">DECISION</span><h2>Integration Decision Matrix</h2></div>
-  <table style="font-size:.4em;">
-    <tr><th>Use Case</th><th>Best Option</th><th>Why</th></tr>
-    <tr><td>Quick questions &amp; brainstorming</td><td><span class="a">Claude.ai</span></td><td>No setup, rich UI, artifacts</td></tr>
-    <tr><td>Coding in a repo</td><td><span class="g">Claude Code CLI</span></td><td>Full repo context, file editing, git-aware</td></tr>
-    <tr><td>IDE-integrated coding</td><td><span class="b">VS Code / JetBrains plugin</span></td><td>Inline suggestions, stays in editor</td></tr>
-    <tr><td>Building a product/app</td><td><span class="p">API + SDK</span></td><td>Full control, custom UI, production-grade</td></tr>
-    <tr><td>High-volume processing</td><td><span class="p">Batch API</span></td><td>50% cheaper, async, up to 10K requests</td></tr>
-    <tr><td>Real-time chat product</td><td><span class="b">Streaming API</span></td><td>SSE, token-by-token, low latency</td></tr>
-    <tr><td>Connecting external tools</td><td><span class="g">MCP</span></td><td>Standardized protocol, growing ecosystem</td></tr>
-    <tr><td>CI/CD automation</td><td><span class="a">Claude Code + GitHub Actions</span></td><td>Headless mode, PR reviews, code gen</td></tr>
-    <tr><td>Multi-agent orchestration</td><td><span class="p">API + Agent framework</span></td><td>Custom routing, tool use, state management</td></tr>
-    <tr><td>Data analysis / research</td><td><span class="a">Claude.ai Projects</span></td><td>Upload docs, persistent context, artifacts</td></tr>
-    <tr><td>Team knowledge base</td><td><span class="b">Team plan + Projects</span></td><td>Shared projects, admin controls</td></tr>
-  </table>
-</section>
-
-<!-- ============== SLIDE 16: ERROR CODES ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">ERRORS</span><h2>Error Codes Reference</h2></div>
-  <table style="font-size:.42em;">
-    <tr><th>HTTP Code</th><th>Error Type</th><th>Cause</th><th>Solution</th></tr>
-    <tr><td><span class="r">400</span></td><td><code>invalid_request_error</code></td><td>Malformed request body</td><td>Check required fields, message format, model ID</td></tr>
-    <tr><td><span class="r">401</span></td><td><code>authentication_error</code></td><td>Invalid or missing API key</td><td>Verify <code>x-api-key</code> header, check key status</td></tr>
-    <tr><td><span class="r">403</span></td><td><code>permission_error</code></td><td>Key lacks required permissions</td><td>Check API key scopes and workspace access</td></tr>
-    <tr><td><span class="r">404</span></td><td><code>not_found_error</code></td><td>Invalid endpoint or model</td><td>Verify URL path and model ID spelling</td></tr>
-    <tr><td><span class="a">429</span></td><td><code>rate_limit_error</code></td><td>Too many requests or tokens</td><td>Implement exponential backoff, check tier limits</td></tr>
-    <tr><td><span class="a">529</span></td><td><code>overloaded_error</code></td><td>API is temporarily overloaded</td><td>Retry with backoff, consider off-peak times</td></tr>
-    <tr><td><span class="r">500</span></td><td><code>api_error</code></td><td>Internal server error</td><td>Retry request; if persistent, check status page</td></tr>
-  </table>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Retry Strategy</h3>
-      <p>Exponential backoff: 1s, 2s, 4s, 8s, 16s. Max 5 retries. Only retry 429, 529, 500. Add jitter to avoid thundering herd.</p>
-    </div>
-    <div class="card green">
-      <h3>Rate Limits by Tier</h3>
-      <p>Tier 1: 60 RPM, 60K tokens/min. Tier 2: 1000 RPM, 80K t/m. Tier 3: 2000 RPM, 160K t/m. Tier 4: 4000 RPM, 400K t/m. Check with <code>x-ratelimit-*</code> headers.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============== SLIDE 17: TOKEN & COST CALCULATOR ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">TOKENS</span><h2>Token &amp; Cost Calculator</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Context Windows</h3>
-      <table style="font-size:.4em;">
-        <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td>All Claude 3.5/4</td><td>200K tokens</td><td>8K-32K tokens</td></tr>
-      </table>
-      <p style="font-size:.4em; margin-top:.2em;">1 token ~ 4 characters ~ 0.75 words (English). 200K tokens ~ 150K words ~ 500 pages.</p>
-    </div>
-    <div class="card green">
-      <h3>Cost Formulas</h3>
-      <pre style="font-size:.85em;"><code>input_cost = input_tokens * (price / 1M)
-output_cost = output_tokens * (price / 1M)
-total = input_cost + output_cost
-
-# Example: Sonnet, 1K in / 500 out
-# ($3 * 1000/1M) + ($15 * 500/1M)
-# = $0.003 + $0.0075 = $0.0105</code></pre>
-    </div>
-  </div>
-  <div class="card purple" style="margin-top:.3em;">
-    <h3>Optimization Tips</h3>
-    <div class="cols cols-3">
-      <div>
-        <p><span class="a">Prompt Caching</span><br>Cache static system prompts and long documents. 90% input discount on cache hits. Min 1024 tokens to cache.</p>
-      </div>
-      <div>
-        <p><span class="g">Batch API</span><br>50% discount for non-urgent requests. Results within 24 hours. Up to 10,000 requests per batch.</p>
-      </div>
-      <div>
-        <p><span class="b">Token Reduction</span><br>Summarize long docs before sending. Use smaller models for simple tasks. Set appropriate <code>max_tokens</code>.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============== SLIDE 18: SECURITY CHECKLIST ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">SECURITY</span><h2>Security Checklist</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>API Key Management</h3>
-      <ul>
-        <li>Store keys in environment variables or secrets manager</li>
-        <li>Never commit keys to version control</li>
-        <li>Use <code>.env</code> files locally + <code>.gitignore</code></li>
-        <li>Rotate keys regularly</li>
-        <li>Use separate keys per environment (dev/staging/prod)</li>
-        <li>Set workspace-level key restrictions</li>
-        <li>Monitor key usage in Console</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Data Handling</h3>
-      <ul>
-        <li>Don't send PII unless necessary</li>
-        <li>Sanitize user input before API calls</li>
-        <li>Use system prompts to prevent data exfiltration</li>
-        <li>Validate and sanitize model outputs</li>
-        <li>Log prompts/responses for audit trail</li>
-        <li>Implement output filtering for sensitive data</li>
-        <li>Review data retention policies</li>
-      </ul>
-    </div>
-    <div class="card blue">
-      <h3>Compliance &amp; Access</h3>
-      <ul>
-        <li>SOC 2 Type II certified (Enterprise)</li>
-        <li>HIPAA eligible (Enterprise BAA)</li>
-        <li>Use SSO/SCIM for team access (Enterprise)</li>
-        <li>Enable audit logs for all API calls</li>
-        <li>Set rate limits per user/team</li>
-        <li>Implement role-based access control</li>
-        <li>Review Anthropic's Usage Policy</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card red" style="margin-top:.3em;">
-    <h3>Common Mistakes to Avoid</h3>
-    <p>Hardcoding API keys in source code &bull; Exposing keys in client-side JavaScript &bull; Logging full API responses with sensitive data &bull; Not validating model output before executing &bull; Skipping input sanitization &bull; Using production keys in development</p>
-  </div>
-</section>
-
-<!-- ============== SLIDE 19: GLOSSARY ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">GLOSSARY</span><h2>Key Terms Defined</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <table style="font-size:.4em;">
-        <tr><th>Term</th><th>Definition</th></tr>
-        <tr><td><span class="a">Constitutional AI (CAI)</span></td><td>Anthropic's alignment method using a set of principles to train helpful, harmless, honest AI</td></tr>
-        <tr><td><span class="g">RLHF</span></td><td>Reinforcement Learning from Human Feedback &mdash; training technique using human preference rankings</td></tr>
-        <tr><td><span class="b">Tokens</span></td><td>Smallest units of text processed by the model (~4 chars in English)</td></tr>
-        <tr><td><span class="p">Context Window</span></td><td>Maximum number of tokens (input + output) a model can process in one call</td></tr>
-        <tr><td><span class="a">System Prompt</span></td><td>Special instructions that set the model's behavior, role, and constraints</td></tr>
-        <tr><td><span class="g">Temperature</span></td><td>Controls randomness in output: 0 = deterministic, 1 = more creative</td></tr>
-        <tr><td><span class="b">Stop Sequence</span></td><td>String that causes the model to stop generating when encountered</td></tr>
-      </table>
-    </div>
-    <div>
-      <table style="font-size:.4em;">
-        <tr><th>Term</th><th>Definition</th></tr>
-        <tr><td><span class="p">MCP</span></td><td>Model Context Protocol &mdash; open standard for connecting AI to external tools and data</td></tr>
-        <tr><td><span class="a">Tool Use</span></td><td>Ability for Claude to call defined functions and process their results</td></tr>
-        <tr><td><span class="g">Artifacts</span></td><td>Rich, interactive outputs (code, documents, diagrams) in Claude.ai</td></tr>
-        <tr><td><span class="b">Extended Thinking</span></td><td>Mode where Claude shows its reasoning process (chain-of-thought)</td></tr>
-        <tr><td><span class="p">Prompt Caching</span></td><td>Reuse previously sent context at 90% cost reduction</td></tr>
-        <tr><td><span class="a">Batch API</span></td><td>Async endpoint for processing many requests at 50% discount</td></tr>
-        <tr><td><span class="g">Agentic Coding</span></td><td>AI autonomously reads, writes, tests code with tool access</td></tr>
-        <tr><td><span class="b">SSE</span></td><td>Server-Sent Events &mdash; protocol for streaming API responses</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ============== SLIDE 20: LINKS & RESOURCES ============== -->
-<section>
-  <div class="slide-hdr"><span class="tag">RESOURCES</span><h2>Links &amp; Resources</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Official Products</h3>
-      <ul>
-        <li><span class="a">claude.ai</span> &mdash; Web interface</li>
-        <li><span class="a">console.anthropic.com</span> &mdash; API Console</li>
-        <li><span class="a">anthropic.com</span> &mdash; Company site</li>
-        <li><span class="a">claude.ai/download</span> &mdash; Desktop apps</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Documentation</h3>
-      <ul>
-        <li><span class="g">docs.anthropic.com</span> &mdash; API docs</li>
-        <li><span class="g">docs.anthropic.com/en/docs/claude-code</span> &mdash; Claude Code</li>
-        <li><span class="g">modelcontextprotocol.io</span> &mdash; MCP spec</li>
-        <li><span class="g">github.com/anthropics</span> &mdash; SDKs</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>SDKs &amp; Tools</h3>
-      <ul>
-        <li><span class="p">anthropic-ai/anthropic-sdk-python</span></li>
-        <li><span class="p">anthropic-ai/anthropic-sdk-typescript</span></li>
-        <li><span class="p">anthropics/claude-code</span> &mdash; CLI</li>
-        <li><span class="p">modelcontextprotocol/servers</span> &mdash; MCP</li>
-      </ul>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card blue">
-      <h3>Community &amp; Support</h3>
-      <ul>
-        <li><span class="b">support.anthropic.com</span> &mdash; Help center</li>
-        <li><span class="b">status.anthropic.com</span> &mdash; API status</li>
-        <li><span class="b">discord.gg/anthropic</span> &mdash; Discord community</li>
-        <li><span class="b">anthropic.com/research</span> &mdash; Research papers</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h3>Important Pages</h3>
-      <ul>
-        <li><span class="r">anthropic.com/policies</span> &mdash; Usage policy</li>
-        <li><span class="r">anthropic.com/pricing</span> &mdash; Current pricing</li>
-        <li><span class="r">anthropic.com/news</span> &mdash; Announcements</li>
-        <li><span class="r">console.anthropic.com/settings</span> &mdash; API keys</li>
-      </ul>
-    </div>
-  </div>
-  <p style="font-size:.44em; color:var(--muted); text-align:center; margin-top:.3em;">End of Series &mdash; Thank you for following along! Bookmark this reference deck.</p>
-</section>
-
-</div><!-- /slides -->
-</div><!-- /reveal -->
-
-<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/highlight.min.js"></script>
-<script>
-Reveal.initialize({
-  hash: true,
-  slideNumber: 'c/t',
-  transition: 'fade',
-  transitionSpeed: 'fast',
-  controls: true,
-  progress: true,
-  center: false,
-  width: 1100,
-  height: 900,
-  margin: 0.01,
-  plugins: [RevealHighlight]
-});
-
-// fixSlides
-function fixSlides() {
-  document.querySelectorAll('.reveal .slides > section').forEach(function(slide) {
-    slide.style.display = 'flex';
-    slide.style.flexDirection = 'column';
-    slide.style.overflowY = 'auto';
-    slide.style.alignItems = 'stretch';
-    slide.style.justifyContent = 'flex-start';
-  });
-}
-Reveal.on('ready', fixSlides);
-Reveal.on('slidechanged', fixSlides);
-</script>
+  </script>
 </body>
 </html>

@@ -3,1045 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Productivity &amp; Workflows</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <title>Productivity & Workflows — Anthropic Claude Series</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
-  .reveal-viewport { background: var(--bg); }
-  .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
-  .reveal h2 { font-size: 1.1em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .78em; color: var(--green); margin-bottom: .15em; }
-  .reveal p { font-size: .56em; line-height: 1.45; color: var(--text); }
-  .reveal li { font-size: .54em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
-  .reveal pre code { font-size: .52em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .42em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
-  .slide-hdr h2 { margin: 0; font-size: .95em; }
-  .cols { display: grid; gap: .5em; }
-  .cols-2 { grid-template-columns: 1fr 1fr; }
-  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .cols-6040 { grid-template-columns: 6fr 4fr; }
-  .cols-4060 { grid-template-columns: 4fr 6fr; }
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .35em .6em; }
-  .card.amber { border-left: 3px solid var(--amber); }
-  .card.green { border-left: 3px solid var(--green); }
-  .card.purple { border-left: 3px solid var(--purple); }
-  .card.blue { border-left: 3px solid var(--blue); }
-  .card.red { border-left: 3px solid var(--red); }
-  .card h3 { font-size: .64em; margin: 0 0 .12em; }
-  .card p { font-size: .52em; margin: 0; color: #b8b8d0; }
-  .card ul { margin: 0; padding-left: 1em; }
-  .card li { font-size: .52em; color: #b8b8d0; margin-bottom: .02em; }
-  .reveal table { width: 100%; border-collapse: collapse; font-size: .5em; }
-  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
-  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
-  .a { color: var(--amber); font-weight: 600; }
-  .g { color: var(--green); font-weight: 600; }
-  .p { color: var(--purple); font-weight: 600; }
-  .b { color: var(--blue); font-weight: 600; }
-  .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .44em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
-  .pill.amber { color: var(--amber); border-color: var(--amber); }
-  .pill.green { color: var(--green); border-color: var(--green); }
-  .pill.purple { color: var(--purple); border-color: var(--purple); }
-  .pill.blue { color: var(--blue); border-color: var(--blue); }
-  .reveal .slide-footer { display: none; }
-  .title-slide h1 { font-size: 1.8em; }
-  .title-slide .subtitle { font-size: .7em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
-  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(78,203,141,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .accent-border-top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    box-shadow: 0 0 15px rgba(245,166,35,0.3);
+  }
+  .container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 500px;
+  }
+  .series-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .5em;
+  }
+  .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    letter-spacing: .04em;
+    display: inline-block;
+    margin-bottom: .8em;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .15em;
+  }
+  .subtitle {
+    font-size: clamp(.8rem, 2.5vw, .95rem);
+    color: var(--green);
+    font-weight: 300;
+    letter-spacing: .03em;
+    margin-bottom: .5em;
+  }
+  .description {
+    font-size: .85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .bar {
+    width: 50px; height: 2px;
+    background: var(--amber);
+    margin: 0 auto 1.8em;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+    align-items: center;
+  }
+  a.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 400;
+    letter-spacing: .1em;
+    padding: 14px 48px;
+    border-radius: 30px;
+    transition: all .3s ease;
+    width: 260px;
+    text-align: center;
+  }
+  a.btn.primary {
+    color: var(--text);
+    background: rgba(245,166,35,0.12);
+    border: 1px solid rgba(245,166,35,0.4);
+    box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+  }
+  a.btn.primary:hover {
+    background: rgba(245,166,35,0.2);
+    border-color: var(--amber);
+    box-shadow: 0 4px 30px rgba(245,166,35,0.2);
+  }
+  a.btn.secondary {
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  a.btn.secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    color: var(--text);
+  }
+  .badge {
+    font-size: .65rem;
+    letter-spacing: .1em;
+    color: var(--amber);
+    opacity: .7;
+    margin-left: .5rem;
+  }
+  .back {
+    margin-top: 2em;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+  .back a {
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .back a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
-
-<!-- ============ SLIDE 1 — TITLE ============ -->
-<section class="title-slide">
-  <p class="meta" style="margin-top:1.5em;">Presentation 8 of 10</p>
-  <h1>Productivity &amp; Workflows</h1>
-  <p class="subtitle">Practical patterns for getting more done with Claude</p>
-  <p class="meta">Anthropic Claude Series</p>
-  <svg class="diagram" width="600" height="70" viewBox="0 0 600 70">
-    <rect x="10" y="15" width="100" height="40" rx="6" fill="none" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="60" y="40" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11">Prompt</text>
-    <line x1="115" y1="35" x2="160" y2="35" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrowG8)"/>
-    <rect x="165" y="15" width="100" height="40" rx="6" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
-    <text x="215" y="40" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11">Claude</text>
-    <line x1="270" y1="35" x2="315" y2="35" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrowG8)"/>
-    <rect x="320" y="15" width="100" height="40" rx="6" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="370" y="40" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="11">Output</text>
-    <line x1="425" y1="35" x2="470" y2="35" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrowG8)"/>
-    <rect x="475" y="15" width="110" height="40" rx="6" fill="none" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="530" y="40" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11">Productivity</text>
-    <defs><marker id="arrowG8" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#4ecb8d"/></marker></defs>
-  </svg>
-</section>
-
-<!-- ============ SLIDE 2 — The Productivity Promise ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">01</span><h2>The Productivity Promise</h2></div>
-  <p>AI assistants fundamentally change <span class="a">how</span> we work, not just how <span class="g">fast</span>.</p>
-  <div class="cols cols-2">
-    <div class="card red">
-      <h3>Before Claude</h3>
-      <ul>
-        <li>Manual research across dozens of tabs</li>
-        <li>Blank-page syndrome for writing tasks</li>
-        <li>Line-by-line code review fatigue</li>
-        <li>Hours drafting boilerplate documentation</li>
-        <li>Context-switching between tools</li>
-      </ul>
+  <div class="accent-border-top"></div>
+  <div class="container">
+    <div class="series-label">ANTHROPIC CLAUDE SERIES</div>
+    <span class="num">08</span>
+    <h1>Productivity & Workflows</h1>
+    <div class="subtitle">Prompt engineering, coding workflows, research, content creation, and measuring ROI</div>
+    <div class="bar"></div>
+    <p class="description">Choose your viewing experience</p>
+    <div class="buttons">
+      <a href="desktop.html" class="btn" id="btnDesktop">DESKTOP</a>
+      <a href="mobile.html" class="btn" id="btnMobile">MOBILE</a>
     </div>
-    <div class="card green">
-      <h3>After Claude</h3>
-      <ul>
-        <li>Synthesized research in seconds</li>
-        <li>Structured first drafts instantly</li>
-        <li>Automated review with explanations</li>
-        <li>Generated docs from code/specs</li>
-        <li>Single interface for many tasks</li>
-      </ul>
-    </div>
+    <div class="back"><a href="../">&larr; All presentations</a></div>
   </div>
-  <div class="card amber" style="margin-top:.3em;">
-    <p><span class="a">Key insight:</span> The biggest gains come not from speed alone, but from <span class="g">eliminating low-value work</span> so you can focus on high-value decisions.</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 3 — Prompt Engineering Fundamentals ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">02</span><h2>Prompt Engineering Fundamentals</h2></div>
-  <p>The four pillars of effective prompting:</p>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Clear Instructions</h3>
-      <ul>
-        <li>Be specific about what you want</li>
-        <li>State the desired output format</li>
-        <li>Use imperative verbs: "Write", "List", "Analyze"</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Provide Context</h3>
-      <ul>
-        <li>Who is the audience?</li>
-        <li>What is the background situation?</li>
-        <li>What prior knowledge applies?</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Include Examples</h3>
-      <ul>
-        <li>Show input/output pairs</li>
-        <li>Demonstrate desired style/tone</li>
-        <li>Clarify edge cases with samples</li>
-      </ul>
-    </div>
-    <div class="card blue">
-      <h3>Set Constraints</h3>
-      <ul>
-        <li>Length limits (words, paragraphs)</li>
-        <li>Things to avoid or exclude</li>
-        <li>Required sections or structure</li>
-      </ul>
-    </div>
-  </div>
-  <pre><code>// Bad:  "Write about databases"
-// Good: "Write a 500-word introduction to PostgreSQL for junior developers.
-//        Cover: what it is, key features, when to use it vs MySQL.
-//        Tone: friendly but technical. Include a comparison table."</code></pre>
-</section>
-
-<!-- ============ SLIDE 4 — Advanced Prompting ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">03</span><h2>Advanced Prompting Techniques</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Chain of Thought</h3>
-      <p>Ask Claude to reason step by step before answering. Improves accuracy on complex problems.</p>
-      <pre><code>"Think through this step by step
-before giving your final answer."</code></pre>
-    </div>
-    <div class="card green">
-      <h3>Few-Shot Examples</h3>
-      <p>Provide 2-3 input/output examples so Claude learns your pattern.</p>
-      <pre><code>Input: "happy" -> Output: "joyful"
-Input: "sad"   -> Output: "melancholy"
-Input: "angry" -> Output: ?</code></pre>
-    </div>
-    <div class="card purple">
-      <h3>Role-Playing</h3>
-      <p>Assign Claude a persona to get domain-specific responses.</p>
-      <pre><code>"You are a senior security engineer
-reviewing this code for vulnerabilities."</code></pre>
-    </div>
-    <div class="card blue">
-      <h3>Structured Output</h3>
-      <p>Request specific formats: JSON, XML, Markdown tables, YAML.</p>
-      <pre><code>"Return the analysis as JSON with
-keys: summary, risks, recommendations"</code></pre>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 5 — The CRAFT Framework ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">04</span><h2>The CRAFT Framework</h2></div>
-  <p>A repeatable framework for constructing high-quality prompts:</p>
-  <svg class="diagram" width="800" height="90" viewBox="0 0 800 90">
-    <rect x="5" y="20" width="140" height="50" rx="8" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
-    <text x="75" y="38" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-size="14" font-weight="700">C</text>
-    <text x="75" y="56" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="11">Context</text>
-    <rect x="165" y="20" width="140" height="50" rx="8" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
-    <text x="235" y="38" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display" font-size="14" font-weight="700">R</text>
-    <text x="235" y="56" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="11">Role</text>
-    <rect x="325" y="20" width="140" height="50" rx="8" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
-    <text x="395" y="38" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display" font-size="14" font-weight="700">A</text>
-    <text x="395" y="56" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="11">Action</text>
-    <rect x="485" y="20" width="140" height="50" rx="8" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
-    <text x="555" y="38" text-anchor="middle" fill="#60a5fa" font-family="Playfair Display" font-size="14" font-weight="700">F</text>
-    <text x="555" y="56" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="11">Format</text>
-    <rect x="645" y="20" width="140" height="50" rx="8" fill="#10101a" stroke="#f87171" stroke-width="2"/>
-    <text x="715" y="38" text-anchor="middle" fill="#f87171" font-family="Playfair Display" font-size="14" font-weight="700">T</text>
-    <text x="715" y="56" text-anchor="middle" fill="#e8e8f0" font-family="DM Sans" font-size="11">Tone</text>
-  </svg>
-  <div class="cols cols-2" style="margin-top:.2em;">
-    <div class="card amber">
-      <h3>C &mdash; Context</h3>
-      <p>Background info, project details, constraints, audience. "I'm building a SaaS dashboard for enterprise clients..."</p>
-    </div>
-    <div class="card green">
-      <h3>R &mdash; Role</h3>
-      <p>Who should Claude be? "Act as a senior full-stack engineer with expertise in React and PostgreSQL."</p>
-    </div>
-    <div class="card purple">
-      <h3>A &mdash; Action</h3>
-      <p>The specific task. "Review this function for performance issues and suggest optimizations."</p>
-    </div>
-    <div class="card blue">
-      <h3>F &mdash; Format</h3>
-      <p>Desired output structure. "Return a numbered list with severity ratings (High/Med/Low)."</p>
-    </div>
-  </div>
-  <div class="card red" style="margin-top:.2em;">
-    <h3>T &mdash; Tone</h3>
-    <p>Communication style. "Be direct and concise. Use technical language appropriate for experienced developers."</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 6 — Writing Workflows ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">05</span><h2>Writing Workflows</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Drafting</h3>
-      <ul>
-        <li>Outline first, then expand</li>
-        <li>Provide key points to cover</li>
-        <li>Specify word count &amp; structure</li>
-        <li>Iterate section by section</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Editing &amp; Revision</h3>
-      <ul>
-        <li>"Make this more concise"</li>
-        <li>"Improve clarity of paragraph 3"</li>
-        <li>"Fix grammar, keep my voice"</li>
-        <li>"Simplify for a general audience"</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Summarizing</h3>
-      <ul>
-        <li>Specify target length</li>
-        <li>Key points vs. executive summary</li>
-        <li>Bullet points vs. prose</li>
-        <li>Audience-appropriate detail level</li>
-      </ul>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card blue">
-      <h3>Translating</h3>
-      <ul>
-        <li>Natural-sounding translations</li>
-        <li>Preserve tone and cultural context</li>
-        <li>Technical term consistency</li>
-        <li>Side-by-side comparison review</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h3>Technical Writing</h3>
-      <ul>
-        <li>API documentation from specs</li>
-        <li>User guides from feature lists</li>
-        <li>Release notes from changelogs</li>
-        <li>Runbooks from architecture docs</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 7 — Coding Workflows ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">06</span><h2>Coding Workflows</h2></div>
-  <div class="cols cols-6040">
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>Bug Fixing</h3>
-        <p>Paste error + relevant code. Ask Claude to identify the root cause, explain why, and provide the fix.</p>
-        <pre><code>// "Here's the error trace and the
-// function. Find the bug and fix it."</code></pre>
-      </div>
-      <div class="card green" style="margin-bottom:.3em;">
-        <h3>Feature Development</h3>
-        <p>Describe the feature, provide existing patterns from your codebase, and let Claude generate consistent code.</p>
-      </div>
-      <div class="card purple">
-        <h3>Code Review</h3>
-        <p>Paste a diff or function. Ask for security, performance, readability, and maintainability feedback.</p>
-      </div>
-    </div>
-    <div>
-      <div class="card blue" style="margin-bottom:.3em;">
-        <h3>Refactoring</h3>
-        <ul>
-          <li>Extract methods/functions</li>
-          <li>Reduce complexity</li>
-          <li>Apply design patterns</li>
-          <li>Modernize syntax</li>
-        </ul>
-      </div>
-      <div class="card red">
-        <h3>Test Generation</h3>
-        <ul>
-          <li>Unit tests from functions</li>
-          <li>Edge case identification</li>
-          <li>Integration test scaffolds</li>
-          <li>Mock/stub generation</li>
-          <li>Property-based test ideas</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 8 — Research & Analysis ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">07</span><h2>Research &amp; Analysis</h2></div>
-  <svg class="diagram" width="750" height="110" viewBox="0 0 750 110">
-    <defs><marker id="arw8a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#4ecb8d"/></marker></defs>
-    <rect x="5" y="30" width="130" height="50" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="70" y="50" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">Documents</text>
-    <text x="70" y="65" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">PDFs, papers, reports</text>
-    <line x1="140" y1="55" x2="185" y2="55" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw8a)"/>
-    <rect x="190" y="30" width="130" height="50" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
-    <text x="255" y="50" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10">Claude Analysis</text>
-    <text x="255" y="65" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Extract &amp; synthesize</text>
-    <line x1="325" y1="55" x2="370" y2="55" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw8a)"/>
-    <rect x="375" y="30" width="130" height="50" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="440" y="50" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">Structured Output</text>
-    <text x="440" y="65" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Tables, summaries</text>
-    <line x1="510" y1="55" x2="555" y2="55" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw8a)"/>
-    <rect x="560" y="30" width="130" height="50" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="625" y="50" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">Decisions</text>
-    <text x="625" y="65" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Actionable insights</text>
-  </svg>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Document Analysis</h3>
-      <ul>
-        <li>Extract key findings from papers</li>
-        <li>Compare multiple documents</li>
-        <li>Identify contradictions</li>
-        <li>Create annotated summaries</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Data Extraction</h3>
-      <ul>
-        <li>Pull structured data from prose</li>
-        <li>Convert tables between formats</li>
-        <li>Parse unstructured logs</li>
-        <li>Normalize inconsistent data</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Literature Review</h3>
-      <ul>
-        <li>Summarize related work</li>
-        <li>Identify research gaps</li>
-        <li>Compare methodologies</li>
-        <li>Generate bibliography entries</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 9 — Data Analysis ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">08</span><h2>Data Analysis</h2></div>
-  <div class="cols cols-6040">
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>CSV &amp; Spreadsheet Analysis</h3>
-        <ul>
-          <li>Paste data directly or describe schema</li>
-          <li>Ask for statistical summaries</li>
-          <li>Identify outliers and trends</li>
-          <li>Generate pivot table logic</li>
-        </ul>
-        <pre><code>Prompt: "Analyze this sales CSV. Find
-top 5 products by revenue, monthly
-trend, and any seasonal patterns."</code></pre>
-      </div>
-      <div class="card green">
-        <h3>Visualization Generation</h3>
-        <ul>
-          <li>Generate Python matplotlib/seaborn code</li>
-          <li>Create D3.js or Chart.js configs</li>
-          <li>SVG diagram generation</li>
-          <li>Mermaid diagram syntax</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card purple" style="margin-bottom:.3em;">
-        <h3>Insights Pattern</h3>
-        <pre><code>1. Provide the raw data
-2. Ask: "What patterns do you see?"
-3. Follow up: "What would you
-   investigate next?"
-4. Request: "Write the SQL/Python
-   to validate hypothesis X"</code></pre>
-      </div>
-      <div class="card blue">
-        <h3>Best Practices</h3>
-        <ul>
-          <li>Always verify calculations independently</li>
-          <li>Ask Claude to show its work</li>
-          <li>Use small samples to validate approach</li>
-          <li>Request confidence levels</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 10 — Content Creation ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">09</span><h2>Content Creation</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Blog Posts</h3>
-      <ul>
-        <li>Generate outlines from topic + audience</li>
-        <li>Write section-by-section for quality control</li>
-        <li>Add SEO-friendly headings and meta descriptions</li>
-        <li>Create variations for A/B testing</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Presentations</h3>
-      <ul>
-        <li>Structure slide content from raw notes</li>
-        <li>Generate speaker notes per slide</li>
-        <li>Create consistent narrative flow</li>
-        <li>Suggest visual aids and diagrams</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Documentation</h3>
-      <ul>
-        <li>API references from code</li>
-        <li>User guides from feature specs</li>
-        <li>Migration guides for version upgrades</li>
-        <li>FAQ generation from support tickets</li>
-      </ul>
-    </div>
-    <div class="card blue">
-      <h3>Marketing Copy</h3>
-      <ul>
-        <li>Product descriptions at scale</li>
-        <li>Email campaign sequences</li>
-        <li>Social media post variations</li>
-        <li>Landing page copy with CTAs</li>
-      </ul>
-    </div>
-  </div>
-  <p style="margin-top:.2em;"><span class="a">Pro tip:</span> Always provide your brand voice guidelines and 2-3 examples of existing content to maintain consistency.</p>
-</section>
-
-<!-- ============ SLIDE 11 — Software Architecture ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">10</span><h2>Software Architecture</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>System Design</h3>
-      <ul>
-        <li>Describe requirements, get architecture proposals</li>
-        <li>Compare monolith vs. microservices tradeoffs</li>
-        <li>Identify scaling bottlenecks early</li>
-        <li>Generate architecture decision records (ADRs)</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>API Design</h3>
-      <ul>
-        <li>RESTful endpoint design from user stories</li>
-        <li>OpenAPI/Swagger spec generation</li>
-        <li>GraphQL schema from data models</li>
-        <li>Versioning strategy recommendations</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Database Schema</h3>
-      <ul>
-        <li>Entity-relationship modeling</li>
-        <li>Migration script generation</li>
-        <li>Index optimization suggestions</li>
-        <li>Normalization vs. denormalization advice</li>
-      </ul>
-    </div>
-    <div class="card blue">
-      <h3>Architecture Docs</h3>
-      <ul>
-        <li>C4 model diagram descriptions</li>
-        <li>Sequence diagrams from code flow</li>
-        <li>Data flow documentation</li>
-        <li>Non-functional requirements analysis</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 12 — Code Review Workflow ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">11</span><h2>Code Review Workflow</h2></div>
-  <p>A hybrid <span class="a">human + Claude</span> review pipeline for thorough, fast reviews:</p>
-  <svg class="diagram" width="820" height="280" viewBox="0 0 820 280">
-    <defs>
-      <marker id="arw12" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#4ecb8d"/></marker>
-      <marker id="arw12b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#f5a623"/></marker>
-    </defs>
-    <!-- PR Submitted -->
-    <rect x="10" y="20" width="140" height="45" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
-    <text x="80" y="38" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="11">PR Submitted</text>
-    <text x="80" y="52" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Developer opens PR</text>
-    <!-- Arrow down -->
-    <line x1="80" y1="70" x2="80" y2="95" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw12)"/>
-    <!-- Claude Auto Review -->
-    <rect x="10" y="100" width="140" height="45" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
-    <text x="80" y="118" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11">Claude Review</text>
-    <text x="80" y="132" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Automated analysis</text>
-    <!-- Arrow right to checks -->
-    <line x1="155" y1="122" x2="200" y2="122" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw12)"/>
-    <!-- Checks branch -->
-    <rect x="205" y="80" width="160" height="30" rx="4" fill="#10101a" stroke="#f5a623" stroke-width="1"/>
-    <text x="285" y="100" text-anchor="middle" fill="#f5a623" font-family="DM Sans" font-size="10">Security vulnerabilities</text>
-    <rect x="205" y="115" width="160" height="30" rx="4" fill="#10101a" stroke="#4ecb8d" stroke-width="1"/>
-    <text x="285" y="135" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans" font-size="10">Performance issues</text>
-    <rect x="205" y="150" width="160" height="30" rx="4" fill="#10101a" stroke="#a78bfa" stroke-width="1"/>
-    <text x="285" y="170" text-anchor="middle" fill="#a78bfa" font-family="DM Sans" font-size="10">Style &amp; best practices</text>
-    <!-- Arrow right -->
-    <line x1="370" y1="130" x2="420" y2="130" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw12)"/>
-    <!-- Human Review -->
-    <rect x="425" y="105" width="150" height="50" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
-    <text x="500" y="125" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11">Human Review</text>
-    <text x="500" y="140" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">Architecture &amp; logic</text>
-    <!-- Arrow right -->
-    <line x1="580" y1="130" x2="625" y2="130" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw12)"/>
-    <!-- Decision -->
-    <polygon points="700,90 770,130 700,170 630,130" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
-    <text x="700" y="134" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans" font-size="11">Approve?</text>
-    <!-- Yes arrow -->
-    <line x1="770" y1="130" x2="810" y2="130" stroke="#4ecb8d" stroke-width="1.5"/>
-    <text x="800" y="125" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans" font-size="10">Merge</text>
-    <!-- No arrow back -->
-    <line x1="700" y1="175" x2="700" y2="230" stroke="#f87171" stroke-width="1.5"/>
-    <line x1="700" y1="230" x2="80" y2="230" stroke="#f87171" stroke-width="1.5"/>
-    <line x1="80" y1="230" x2="80" y2="150" stroke="#f87171" stroke-width="1.5" marker-end="url(#arw12b)"/>
-    <text x="390" y="248" text-anchor="middle" fill="#f87171" font-family="DM Sans" font-size="10">Revisions needed &mdash; iterate</text>
-  </svg>
-</section>
-
-<!-- ============ SLIDE 13 — TDD with Claude ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">12</span><h2>Test-Driven Development with Claude</h2></div>
-  <div class="cols cols-6040">
-    <div>
-      <svg class="diagram" width="340" height="230" viewBox="0 0 340 230">
-        <defs><marker id="arw13" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#4ecb8d"/></marker></defs>
-        <!-- Step 1 -->
-        <rect x="80" y="5" width="180" height="35" rx="6" fill="#10101a" stroke="#f87171" stroke-width="2"/>
-        <text x="170" y="27" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="11">1. Write Failing Tests</text>
-        <line x1="170" y1="45" x2="170" y2="65" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw13)"/>
-        <!-- Step 2 -->
-        <rect x="80" y="70" width="180" height="35" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
-        <text x="170" y="92" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="11">2. Claude Implements</text>
-        <line x1="170" y1="110" x2="170" y2="130" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw13)"/>
-        <!-- Step 3 -->
-        <rect x="80" y="135" width="180" height="35" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
-        <text x="170" y="157" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="11">3. Run Tests</text>
-        <line x1="170" y1="175" x2="170" y2="195" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw13)"/>
-        <!-- Step 4 -->
-        <rect x="80" y="200" width="180" height="30" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
-        <text x="170" y="219" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11">4. Refactor &amp; Iterate</text>
-        <!-- Loop arrow -->
-        <path d="M265,215 Q310,215 310,90 Q310,22 265,22" fill="none" stroke="#f5a623" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="325" y="120" fill="#f5a623" font-family="DM Sans" font-size="9" transform="rotate(90,325,120)">repeat</text>
-      </svg>
-    </div>
-    <div>
-      <div class="card red" style="margin-bottom:.3em;">
-        <h3>Why TDD + Claude Works</h3>
-        <ul>
-          <li>Tests define <span class="r">exact</span> expected behavior</li>
-          <li>Claude has clear success criteria</li>
-          <li>Catches regressions immediately</li>
-          <li>Forces modular, testable design</li>
-        </ul>
-      </div>
-      <div class="card green">
-        <h3>Workflow</h3>
-        <pre><code>1. You: Write tests for the feature
-2. Claude: Implement to pass tests
-3. You: Run tests, report failures
-4. Claude: Fix until all tests pass
-5. You: Review &amp; refactor together</code></pre>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 14 — Documentation Generation ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">13</span><h2>Documentation Generation</h2></div>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>API Documentation</h3>
-      <pre><code>Prompt: "Generate OpenAPI 3.0 docs
-for this Express router. Include
-request/response examples and
-error codes."</code></pre>
-      <ul>
-        <li>Auto-generate from route handlers</li>
-        <li>Include authentication details</li>
-        <li>Add usage examples per endpoint</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>README Files</h3>
-      <pre><code>Prompt: "Create a README.md for this
-project. Include: overview, setup,
-usage, API reference, contributing
-guidelines."</code></pre>
-      <ul>
-        <li>Standardized structure</li>
-        <li>Badge generation</li>
-        <li>Quick-start guides</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Inline Comments</h3>
-      <ul>
-        <li>JSDoc / docstring generation from functions</li>
-        <li>Explain complex algorithms</li>
-        <li>Add parameter/return type docs</li>
-        <li>Document edge cases and assumptions</li>
-      </ul>
-    </div>
-    <div class="card blue">
-      <h3>Architecture Docs</h3>
-      <ul>
-        <li>System overview from codebase</li>
-        <li>Component interaction diagrams</li>
-        <li>Data flow descriptions</li>
-        <li>Deployment architecture guides</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 15 — Project Planning ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">14</span><h2>Project Planning</h2></div>
-  <div class="cols cols-6040">
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>Breaking Down Tasks</h3>
-        <pre><code>Prompt: "I need to build a user
-authentication system. Break this
-into subtasks with dependencies,
-estimated hours, and priority."</code></pre>
-        <p style="margin-top:.2em;">Claude generates a structured work breakdown with realistic estimates.</p>
-      </div>
-      <div class="card green">
-        <h3>Sprint Planning</h3>
-        <ul>
-          <li>Convert user stories to tasks</li>
-          <li>Estimate story points with rationale</li>
-          <li>Identify blockers and dependencies</li>
-          <li>Suggest sprint goals and capacity</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card purple" style="margin-bottom:.3em;">
-        <h3>Example Output</h3>
-        <table>
-          <tr><th>Task</th><th>Est.</th><th>Priority</th></tr>
-          <tr><td>DB schema design</td><td>2h</td><td>P0</td></tr>
-          <tr><td>Auth middleware</td><td>4h</td><td>P0</td></tr>
-          <tr><td>Login/signup API</td><td>3h</td><td>P0</td></tr>
-          <tr><td>JWT token mgmt</td><td>3h</td><td>P1</td></tr>
-          <tr><td>Password reset flow</td><td>4h</td><td>P1</td></tr>
-          <tr><td>OAuth integration</td><td>6h</td><td>P2</td></tr>
-        </table>
-      </div>
-      <div class="card blue">
-        <h3>Estimation Tips</h3>
-        <p>Ask Claude to provide <span class="b">optimistic</span>, <span class="a">likely</span>, and <span class="r">pessimistic</span> estimates (three-point estimation).</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 16 — Meeting & Communication ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">15</span><h2>Meeting &amp; Communication</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Meeting Summaries</h3>
-      <ul>
-        <li>Paste transcript or notes</li>
-        <li>Extract decisions, action items, owners</li>
-        <li>Generate follow-up email</li>
-        <li>Track open questions</li>
-      </ul>
-      <pre><code>"Summarize this meeting.
-List: decisions made,
-action items (who + when),
-open questions."</code></pre>
-    </div>
-    <div class="card green">
-      <h3>Email Drafting</h3>
-      <ul>
-        <li>Professional tone calibration</li>
-        <li>Difficult conversation handling</li>
-        <li>Follow-up sequence creation</li>
-        <li>Multi-audience variants</li>
-      </ul>
-      <pre><code>"Draft a polite but firm
-email to the vendor about
-the missed deadline."</code></pre>
-    </div>
-    <div class="card purple">
-      <h3>Status Reports</h3>
-      <ul>
-        <li>Weekly/monthly from raw notes</li>
-        <li>Highlight blockers and risks</li>
-        <li>Format for different audiences</li>
-        <li>Track progress against goals</li>
-      </ul>
-      <pre><code>"Create a weekly status
-from these bullet points.
-Format for exec audience."</code></pre>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 17 — Learning & Onboarding ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">16</span><h2>Learning &amp; Onboarding</h2></div>
-  <p>Use Claude as a <span class="a">personalized tutor</span> for learning new technologies and codebases.</p>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Learning New Codebases</h3>
-      <ul>
-        <li>"Explain the architecture of this project"</li>
-        <li>"What does this function do and why?"</li>
-        <li>"Walk me through the request lifecycle"</li>
-        <li>"What patterns does this codebase use?"</li>
-        <li>"Where would I add a new feature like X?"</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Learning New Technologies</h3>
-      <ul>
-        <li>Ask for progressively harder exercises</li>
-        <li>Request explanations at your skill level</li>
-        <li>Compare to technologies you already know</li>
-        <li>"Explain Kubernetes like I know Docker but not K8s"</li>
-        <li>Get hands-on project suggestions</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Onboarding Accelerator</h3>
-    <p>New team members can use Claude to understand existing code, conventions, and architecture&mdash;reducing ramp-up time from <span class="r">weeks</span> to <span class="g">days</span>. Pair with existing documentation for best results.</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 18 — Measuring Productivity Gains ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">17</span><h2>Measuring Productivity Gains</h2></div>
-  <div class="cols cols-6040">
-    <div>
-      <table>
-        <tr><th>Metric</th><th>Without AI</th><th>With Claude</th></tr>
-        <tr><td>Code review time</td><td>45 min</td><td style="color:#4ecb8d">15 min</td></tr>
-        <tr><td>First draft (blog)</td><td>3 hours</td><td style="color:#4ecb8d">30 min</td></tr>
-        <tr><td>Bug diagnosis</td><td>2 hours</td><td style="color:#4ecb8d">20 min</td></tr>
-        <tr><td>Test writing</td><td>1 hour</td><td style="color:#4ecb8d">15 min</td></tr>
-        <tr><td>Documentation</td><td>4 hours</td><td style="color:#4ecb8d">45 min</td></tr>
-        <tr><td>New codebase ramp</td><td>2 weeks</td><td style="color:#4ecb8d">3 days</td></tr>
-      </table>
-    </div>
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>ROI Calculation</h3>
-        <ul>
-          <li>Track time saved per task category</li>
-          <li>Multiply by hourly cost</li>
-          <li>Subtract Claude subscription/API costs</li>
-          <li>Typical ROI: <span class="g">5-20x</span> for dev teams</li>
-        </ul>
-      </div>
-      <div class="card green">
-        <h3>Quality Metrics</h3>
-        <ul>
-          <li>Bugs caught in review (before prod)</li>
-          <li>Documentation coverage increase</li>
-          <li>Test coverage improvement</li>
-          <li>Developer satisfaction scores</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <p style="margin-top:.2em;"><span class="r">Caveat:</span> Times vary by task complexity. Always validate AI output&mdash;review time is reduced, not eliminated.</p>
-</section>
-
-<!-- ============ SLIDE 19 — Team Workflows ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">18</span><h2>Team Workflows</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Shared Prompt Libraries</h3>
-      <ul>
-        <li>Version-controlled prompt templates</li>
-        <li>Standardized for common tasks</li>
-        <li>Include examples and expected outputs</li>
-        <li>Review and iterate as a team</li>
-      </ul>
-      <pre><code>prompts/
-  code-review.md
-  bug-report.md
-  feature-spec.md
-  release-notes.md</code></pre>
-    </div>
-    <div class="card green">
-      <h3>Consistent Workflows</h3>
-      <ul>
-        <li>Define team conventions for AI use</li>
-        <li>Agree on review requirements</li>
-        <li>Share effective prompting patterns</li>
-        <li>Document what works and what doesn't</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Knowledge Bases</h3>
-      <ul>
-        <li>Feed Claude your team's style guides</li>
-        <li>Include architecture decisions</li>
-        <li>Add coding standards as system prompts</li>
-        <li>Build institutional knowledge into prompts</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.2em;">
-    <p><span class="b">Team tip:</span> Create a <code>#claude-tips</code> channel where team members share effective prompts, surprising results, and lessons learned.</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 20 — Automation Patterns ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">19</span><h2>Automation Patterns</h2></div>
-  <svg class="diagram" width="750" height="90" viewBox="0 0 750 90">
-    <defs><marker id="arw20" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#4ecb8d"/></marker></defs>
-    <rect x="5" y="22" width="120" height="40" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="65" y="46" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">Trigger</text>
-    <line x1="130" y1="42" x2="175" y2="42" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw20)"/>
-    <rect x="180" y="22" width="120" height="40" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
-    <text x="240" y="46" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10">Template</text>
-    <line x1="305" y1="42" x2="350" y2="42" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw20)"/>
-    <rect x="355" y="22" width="120" height="40" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="415" y="46" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">Claude API</text>
-    <line x1="480" y1="42" x2="525" y2="42" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw20)"/>
-    <rect x="530" y="22" width="120" height="40" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
-    <text x="590" y="46" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">Output</text>
-    <line x1="655" y1="42" x2="700" y2="42" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arw20)"/>
-    <rect x="705" y="22" width="40" height="40" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
-    <text x="725" y="46" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="10">Act</text>
-  </svg>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Recurring Tasks</h3>
-      <ul>
-        <li>Daily standup summaries</li>
-        <li>Weekly changelog generation</li>
-        <li>PR descriptions from diffs</li>
-        <li>Dependency update analysis</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Template Systems</h3>
-      <pre><code># Bug Report Template
-Context: {{error_log}}
-Code: {{relevant_function}}
-Action: Diagnose root cause
-Format: 1) Cause 2) Fix 3) Prevention</code></pre>
-    </div>
-    <div class="card purple">
-      <h3>Batch Processing</h3>
-      <ul>
-        <li>Process multiple files with same prompt</li>
-        <li>Bulk content generation</li>
-        <li>Mass code migration assistance</li>
-        <li>Multi-language translation runs</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.2em;">
-    <p><span class="b">API integration:</span> Use Claude's API with scripts to automate repetitive workflows. Chain prompts for multi-step tasks.</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 21 — Common Workflow Anti-patterns ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">20</span><h2>Common Workflow Anti-patterns</h2></div>
-  <p>What <span class="r">NOT</span> to do &mdash; and the <span class="g">better alternative</span>:</p>
-  <div class="cols cols-2">
-    <div class="card red">
-      <h3>Anti-patterns</h3>
-      <ul>
-        <li><span class="r">Vague prompts:</span> "Make this better"</li>
-        <li><span class="r">No context:</span> Pasting code without explaining the goal</li>
-        <li><span class="r">Blind trust:</span> Copying output without review</li>
-        <li><span class="r">One-shot everything:</span> Asking for an entire app in one prompt</li>
-        <li><span class="r">Ignoring iterations:</span> Not refining outputs</li>
-        <li><span class="r">No examples:</span> Expecting perfect format without showing one</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Better Alternatives</h3>
-      <ul>
-        <li><span class="g">Specific:</span> "Reduce cyclomatic complexity of fn X"</li>
-        <li><span class="g">Contextual:</span> "This is a payment handler, fix the race condition"</li>
-        <li><span class="g">Verify:</span> Review, test, and validate all outputs</li>
-        <li><span class="g">Incremental:</span> Build feature by feature, test each</li>
-        <li><span class="g">Iterate:</span> Refine with follow-up prompts</li>
-        <li><span class="g">Exemplify:</span> "Format like this example: ..."</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card amber" style="margin-top:.3em;">
-    <h3>The Golden Rule</h3>
-    <p>Treat Claude like a <span class="a">brilliant junior colleague</span>: give clear instructions, provide context, review the work, and iterate. The quality of output is proportional to the quality of input.</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 22 — Summary & Quick Reference ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">21</span><h2>Summary &amp; Quick Reference</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Prompting</h3>
-      <ul>
-        <li>Use <span class="a">CRAFT</span> framework</li>
-        <li>Be specific and contextual</li>
-        <li>Include examples</li>
-        <li>Set format constraints</li>
-        <li>Iterate and refine</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Key Workflows</h3>
-      <ul>
-        <li>Writing &amp; content creation</li>
-        <li>Code review &amp; TDD</li>
-        <li>Research &amp; data analysis</li>
-        <li>Documentation generation</li>
-        <li>Project planning</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Team Practices</h3>
-      <ul>
-        <li>Shared prompt libraries</li>
-        <li>Consistent conventions</li>
-        <li>Automation via API</li>
-        <li>Measure and track ROI</li>
-        <li>Avoid anti-patterns</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Quick-Start Checklist</h3>
-    <p>
-      <span class="pill amber">1. Identify</span> repetitive or time-consuming tasks
-      <span class="pill green">2. Template</span> your most common prompts
-      <span class="pill purple">3. Iterate</span> to find what works for your domain
-      <span class="pill blue">4. Share</span> effective patterns with your team
-    </p>
-  </div>
-  <p style="margin-top:.3em; text-align:center;">
-    <span class="a">Next up:</span> Presentation 9 &mdash; <em>The Future of Claude</em>
-  </p>
-</section>
-
-</div><!-- /.slides -->
-</div><!-- /.reveal -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
-<script>
-Reveal.initialize({
-  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
-  controls: true, progress: true, center: false,
-  width: 1100, height: 900, margin: 0.01,
-  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
-});
-</script>
-<script>
-(function(){
-  var h = Reveal.getConfig().height || 900;
-  var m = Reveal.getConfig().margin || 0.02;
-  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
-  function fixSlides(){
-    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
-      s.style.display = 'block';
-      s.style.maxHeight = maxH;
-    });
+  <script>
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                 (navigator.maxTouchPoints > 1 && window.innerWidth < 768);
+  var btnD = document.getElementById('btnDesktop');
+  var btnM = document.getElementById('btnMobile');
+  if (isMobile) {
+    btnM.classList.add('primary');
+    btnD.classList.add('secondary');
+    btnM.innerHTML += '<span class="badge">RECOMMENDED</span>';
+  } else {
+    btnD.classList.add('primary');
+    btnM.classList.add('secondary');
+    btnD.innerHTML += '<span class="badge">RECOMMENDED</span>';
   }
-  Reveal.on('ready', fixSlides);
-  Reveal.on('slidechanged', fixSlides);
-})();
-</script>
+  </script>
 </body>
 </html>

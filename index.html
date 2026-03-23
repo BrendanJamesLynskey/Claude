@@ -199,9 +199,22 @@
       </a>
     </div>
 
+    <div id="device-note" style="margin-top:2em; text-align:center; font-family:'JetBrains Mono',monospace; font-size:.75em; color:var(--muted); padding:.6em 1em; background:var(--bg2); border:1px solid var(--border); border-radius:6px;"></div>
+
     <footer>
-      Part of the <a href="https://github.com/BrendanJamesLynskey/Miscellaneous#software-engineering">Software Engineering series</a>
+      Part of the <a href="https://github.com/BrendanJamesLynskey/LLMs">LLMs series</a>
     </footer>
+  </div>
+  <script>
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                 (navigator.maxTouchPoints > 1 && window.innerWidth < 768);
+  var note = document.getElementById('device-note');
+  if (isMobile) {
+    note.innerHTML = 'Mobile device detected — each presentation will suggest the <span style="color:#f5a623">mobile</span> version';
+  } else {
+    note.innerHTML = 'Desktop detected — each presentation will suggest the <span style="color:#f5a623">desktop</span> version';
+  }
+  </script>
   </div>
 </body>
 </html>

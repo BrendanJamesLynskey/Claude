@@ -3,1289 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agents &amp; Multi-Agent Systems</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <title>Agents & Multi-Agent Systems — Anthropic Claude Series</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
-  .reveal-viewport { background: var(--bg); }
-  .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
-  .reveal h2 { font-size: 1.1em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .78em; color: var(--green); margin-bottom: .15em; }
-  .reveal p { font-size: .56em; line-height: 1.45; color: var(--text); }
-  .reveal li { font-size: .54em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
-  .reveal pre code { font-size: .52em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .42em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
-  .slide-hdr h2 { margin: 0; font-size: .95em; }
-  .cols { display: grid; gap: .5em; }
-  .cols-2 { grid-template-columns: 1fr 1fr; }
-  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .cols-6040 { grid-template-columns: 6fr 4fr; }
-  .cols-4060 { grid-template-columns: 4fr 6fr; }
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .35em .6em; }
-  .card.amber { border-left: 3px solid var(--amber); }
-  .card.green { border-left: 3px solid var(--green); }
-  .card.purple { border-left: 3px solid var(--purple); }
-  .card.blue { border-left: 3px solid var(--blue); }
-  .card.red { border-left: 3px solid var(--red); }
-  .card h3 { font-size: .64em; margin: 0 0 .12em; }
-  .card p { font-size: .52em; margin: 0; color: #b8b8d0; }
-  .card ul { margin: 0; padding-left: 1em; }
-  .card li { font-size: .52em; color: #b8b8d0; margin-bottom: .02em; }
-  .reveal table { width: 100%; border-collapse: collapse; font-size: .5em; }
-  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
-  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
-  .a { color: var(--amber); font-weight: 600; }
-  .g { color: var(--green); font-weight: 600; }
-  .p { color: var(--purple); font-weight: 600; }
-  .b { color: var(--blue); font-weight: 600; }
-  .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .44em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
-  .pill.amber { color: var(--amber); border-color: var(--amber); }
-  .pill.green { color: var(--green); border-color: var(--green); }
-  .pill.purple { color: var(--purple); border-color: var(--purple); }
-  .pill.blue { color: var(--blue); border-color: var(--blue); }
-  .reveal .slide-footer { display: none; }
-  .title-slide h1 { font-size: 1.8em; }
-  .title-slide .subtitle { font-size: .7em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
-  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(78,203,141,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .accent-border-top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    box-shadow: 0 0 15px rgba(245,166,35,0.3);
+  }
+  .container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 500px;
+  }
+  .series-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .5em;
+  }
+  .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    letter-spacing: .04em;
+    display: inline-block;
+    margin-bottom: .8em;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .15em;
+  }
+  .subtitle {
+    font-size: clamp(.8rem, 2.5vw, .95rem);
+    color: var(--green);
+    font-weight: 300;
+    letter-spacing: .03em;
+    margin-bottom: .5em;
+  }
+  .description {
+    font-size: .85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .bar {
+    width: 50px; height: 2px;
+    background: var(--amber);
+    margin: 0 auto 1.8em;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+    align-items: center;
+  }
+  a.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 400;
+    letter-spacing: .1em;
+    padding: 14px 48px;
+    border-radius: 30px;
+    transition: all .3s ease;
+    width: 260px;
+    text-align: center;
+  }
+  a.btn.primary {
+    color: var(--text);
+    background: rgba(245,166,35,0.12);
+    border: 1px solid rgba(245,166,35,0.4);
+    box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+  }
+  a.btn.primary:hover {
+    background: rgba(245,166,35,0.2);
+    border-color: var(--amber);
+    box-shadow: 0 4px 30px rgba(245,166,35,0.2);
+  }
+  a.btn.secondary {
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  a.btn.secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    color: var(--text);
+  }
+  .badge {
+    font-size: .65rem;
+    letter-spacing: .1em;
+    color: var(--amber);
+    opacity: .7;
+    margin-left: .5rem;
+  }
+  .back {
+    margin-top: 2em;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+  .back a {
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .back a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
-
-<!-- Slide 1: Title -->
-<section class="title-slide">
-  <div style="margin-top:2em;">
-    <p class="meta" style="margin-bottom:.5em;">SERIES: ANTHROPIC CLAUDE &nbsp;|&nbsp; 07 of 10</p>
-    <h1>Agents &amp; Multi-Agent Systems</h1>
-    <p class="subtitle">Autonomous AI That Plans, Acts &amp; Collaborates</p>
-    <p class="meta">Building intelligent systems with Claude's agentic capabilities</p>
-    <div style="margin-top:1.5em;">
-      <span class="pill amber">agents</span>
-      <span class="pill green">orchestration</span>
-      <span class="pill purple">multi-agent</span>
-      <span class="pill blue">claude-sdk</span>
+  <div class="accent-border-top"></div>
+  <div class="container">
+    <div class="series-label">ANTHROPIC CLAUDE SERIES</div>
+    <span class="num">07</span>
+    <h1>Agents & Multi-Agent Systems</h1>
+    <div class="subtitle">AI agents, agents.md, the Claude Agent SDK, multi-agent architectures, and orchestration</div>
+    <div class="bar"></div>
+    <p class="description">Choose your viewing experience</p>
+    <div class="buttons">
+      <a href="desktop.html" class="btn" id="btnDesktop">DESKTOP</a>
+      <a href="mobile.html" class="btn" id="btnMobile">MOBILE</a>
     </div>
+    <div class="back"><a href="../">&larr; All presentations</a></div>
   </div>
-</section>
-
-<!-- Slide 2: What Are AI Agents? -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">FOUNDATIONS</span>
-    <h2>What Are AI Agents?</h2>
-  </div>
-  <p>An <span class="a">AI agent</span> is a system that uses an LLM to autonomously decide which actions to take, execute those actions, observe the results, and iterate toward a goal.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Definition</h3>
-      <ul>
-        <li>Goal-directed autonomous systems</li>
-        <li>Use LLMs as reasoning engines</li>
-        <li>Can use tools &amp; take actions</li>
-        <li>Observe outcomes &amp; adapt</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Autonomy Levels</h3>
-      <ul>
-        <li><span class="g">L1:</span> Human approves every step</li>
-        <li><span class="g">L2:</span> Human approves key decisions</li>
-        <li><span class="g">L3:</span> Agent acts, human monitors</li>
-        <li><span class="g">L4:</span> Fully autonomous execution</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Agent vs Chatbot</h3>
-      <ul>
-        <li>Chatbot: single turn Q&amp;A</li>
-        <li>Agent: multi-step task execution</li>
-        <li>Chatbot: no tool use</li>
-        <li>Agent: plans, acts, iterates</li>
-      </ul>
-    </div>
-  </div>
-  <table style="margin-top:.3em;">
-    <tr><th>Capability</th><th>Chatbot</th><th>Agent</th></tr>
-    <tr><td>Tool usage</td><td>None or limited</td><td>Extensive, dynamic tool selection</td></tr>
-    <tr><td>Planning</td><td>Single response</td><td>Multi-step plan generation</td></tr>
-    <tr><td>Iteration</td><td>Stateless per turn</td><td>Loops until goal is achieved</td></tr>
-    <tr><td>Error recovery</td><td>User must re-prompt</td><td>Self-correcting behavior</td></tr>
-  </table>
-</section>
-
-<!-- Slide 3: The Agent Loop -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">CORE CONCEPT</span>
-    <h2>The Agent Loop</h2>
-  </div>
-  <p>Every agent follows a fundamental <span class="a">observe &rarr; think &rarr; act &rarr; iterate</span> cycle until the task is complete or a stopping condition is met.</p>
-  <svg class="diagram" viewBox="0 0 800 340" width="750" height="320">
-    <!-- Central cycle -->
-    <defs>
-      <marker id="arrowA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f5a623"/></marker>
-      <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4ecb8d"/></marker>
-      <marker id="arrowP" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a78bfa"/></marker>
-      <marker id="arrowB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#60a5fa"/></marker>
-    </defs>
-    <!-- Boxes -->
-    <rect x="300" y="10" width="200" height="55" rx="8" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
-    <text x="400" y="43" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="18" font-weight="700">OBSERVE</text>
-    <rect x="580" y="130" width="200" height="55" rx="8" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
-    <text x="680" y="163" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="18" font-weight="700">THINK</text>
-    <rect x="300" y="250" width="200" height="55" rx="8" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
-    <text x="400" y="283" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display,serif" font-size="18" font-weight="700">ACT</text>
-    <rect x="20" y="130" width="200" height="55" rx="8" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
-    <text x="120" y="163" text-anchor="middle" fill="#60a5fa" font-family="Playfair Display,serif" font-size="18" font-weight="700">ITERATE</text>
-    <!-- Arrows -->
-    <path d="M500,45 Q560,45 570,130" fill="none" stroke="#f5a623" stroke-width="2" marker-end="url(#arrowA)"/>
-    <path d="M580,175 Q500,250 500,260" fill="none" stroke="#4ecb8d" stroke-width="2" marker-end="url(#arrowG)"/>
-    <path d="M300,270 Q230,270 225,185" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowP)"/>
-    <path d="M120,130 Q120,50 300,37" fill="none" stroke="#60a5fa" stroke-width="2" marker-end="url(#arrowB)"/>
-    <!-- Labels -->
-    <text x="555" y="82" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Gather context,</text>
-    <text x="555" y="97" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">read environment</text>
-    <text x="545" y="225" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Plan next step,</text>
-    <text x="545" y="240" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">select tools</text>
-    <text x="140" y="235" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Execute tool call,</text>
-    <text x="140" y="250" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">make changes</text>
-    <text x="130" y="95" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Check results,</text>
-    <text x="130" y="110" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">continue or stop</text>
-    <!-- Stop condition -->
-    <rect x="310" y="140" width="180" height="40" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4"/>
-    <text x="400" y="165" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="13">goal_reached → stop</text>
-  </svg>
-</section>
-
-<!-- Slide 4: Claude as an Agent -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">CLAUDE</span>
-    <h2>Claude as an Agent</h2>
-  </div>
-  <p>Claude is purpose-built for agentic workloads &mdash; its architecture and training make it one of the strongest foundation models for autonomous task execution.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Why Claude Excels</h3>
-      <ul>
-        <li><span class="a">Extended thinking</span> for complex reasoning chains</li>
-        <li><span class="a">Tool use</span> deeply integrated into the model</li>
-        <li>Strong instruction following &amp; planning</li>
-        <li>Reliable structured output (JSON, XML)</li>
-        <li>Long context window for large codebases</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Agentic Capabilities</h3>
-      <ul>
-        <li><span class="g">Code execution</span> &mdash; write, run, debug</li>
-        <li><span class="g">File manipulation</span> &mdash; read, edit, create</li>
-        <li><span class="g">Search</span> &mdash; grep, glob, web search</li>
-        <li><span class="g">Shell access</span> &mdash; bash commands</li>
-        <li><span class="g">Multi-turn</span> &mdash; maintains context across steps</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Planning &amp; Self-Correction</h3>
-    <p>Claude naturally breaks down complex tasks into sub-tasks, validates intermediate results, backtracks when errors are detected, and provides reasoning transparency through extended thinking.</p>
-  </div>
-</section>
-
-<!-- Slide 5: agents.md -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">CONFIGURATION</span>
-    <h2>agents.md &mdash; Your Agent's Identity File</h2>
-  </div>
-  <p>The <code>agents.md</code> (or <code>AGENTS.md</code>) file tells Claude who it is, what it can do, and how it should behave within a project. It lives at the root of your repository.</p>
-  <div class="cols cols-6040" style="margin-top:.3em;">
-    <div>
-      <pre><code># AGENTS.md
-
-## Identity
-You are a senior backend engineer assistant
-specializing in Python microservices.
-
-## Capabilities
-- Read and modify files in src/
-- Run tests with pytest
-- Access the staging database (read-only)
-- Create pull requests via GitHub CLI
-
-## Guidelines
-- Always run tests before committing
-- Follow the project's PEP 8 style guide
-- Never modify production configs
-- Ask before deleting files
-
-## Project Context
-- Python 3.12 + FastAPI
-- PostgreSQL with SQLAlchemy ORM
-- Docker Compose for local dev</code></pre>
-    </div>
-    <div>
-      <div class="card amber">
-        <h3>What It Is</h3>
-        <p>A markdown file that provides Claude with persistent context about your project and its role</p>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>Purpose</h3>
-        <ul>
-          <li>Defines the agent's persona</li>
-          <li>Declares available capabilities</li>
-          <li>Sets behavioral boundaries</li>
-          <li>Provides project-specific context</li>
-        </ul>
-      </div>
-      <div class="card purple" style="margin-top:.3em;">
-        <h3>How to Write One</h3>
-        <ul>
-          <li>Be specific about tools &amp; permissions</li>
-          <li>Include project conventions</li>
-          <li>Define what the agent should NOT do</li>
-          <li>Keep it concise but comprehensive</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 6: agents.md Structure -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">DEEP DIVE</span>
-    <h2>agents.md Structure</h2>
-  </div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Identity &amp; Role</h3>
-      <ul>
-        <li>Who the agent is</li>
-        <li>Domain expertise</li>
-        <li>Tone and communication style</li>
-        <li>Target audience</li>
-      </ul>
-      <p style="margin-top:.2em;"><code>## Identity</code></p>
-    </div>
-    <div class="card green">
-      <h3>Capabilities Declaration</h3>
-      <ul>
-        <li>Tools the agent may use</li>
-        <li>Files/directories accessible</li>
-        <li>APIs &amp; services available</li>
-        <li>Permission boundaries</li>
-      </ul>
-      <p style="margin-top:.2em;"><code>## Capabilities</code></p>
-    </div>
-    <div class="card purple">
-      <h3>Behavioral Guidelines</h3>
-      <ul>
-        <li>Coding conventions</li>
-        <li>Testing requirements</li>
-        <li>Things to avoid</li>
-        <li>Escalation rules</li>
-      </ul>
-      <p style="margin-top:.2em;"><code>## Guidelines</code></p>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card blue">
-      <h3>Project Context</h3>
-      <ul>
-        <li>Tech stack &amp; frameworks</li>
-        <li>Architecture overview</li>
-        <li>Directory structure</li>
-        <li>Build &amp; deploy process</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h3>Restrictions &amp; Safety</h3>
-      <ul>
-        <li>Files never to modify</li>
-        <li>Actions requiring approval</li>
-        <li>Sensitive data handling</li>
-        <li>Production safeguards</li>
-      </ul>
-    </div>
-  </div>
-  <p style="margin-top:.3em;">Claude Code automatically reads <code>AGENTS.md</code>, <code>.claude/agents.md</code>, and any <code>AGENTS.md</code> files in parent directories, merging them hierarchically.</p>
-</section>
-
-<!-- Slide 7: Claude Agent SDK -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">SDK</span>
-    <h2>Claude Agent SDK</h2>
-  </div>
-  <p>The <span class="a">Anthropic Agent SDK</span> provides a Python framework for building production-grade agents with Claude, including tool management, orchestration, and guardrails.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div>
-      <div class="card amber">
-        <h3>Overview</h3>
-        <ul>
-          <li>Open-source Python SDK</li>
-          <li>Built on top of the Anthropic API</li>
-          <li>First-class tool use support</li>
-          <li>Multi-agent orchestration built in</li>
-          <li>Streaming &amp; async support</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>What It Enables</h3>
-        <ul>
-          <li>Declarative agent definitions</li>
-          <li>Typed tool schemas with validation</li>
-          <li>Agent handoffs &amp; delegation</li>
-          <li>Guardrail integration</li>
-          <li>Tracing &amp; observability</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card purple">
-        <h3>Installation</h3>
-        <pre><code># Install the SDK
-pip install anthropic-agents
-
-# Or with extras
-pip install anthropic-agents[all]
-
-# Verify installation
-python -c "import agents; print('OK')"</code></pre>
-      </div>
-      <div class="card blue" style="margin-top:.3em;">
-        <h3>Key Components</h3>
-        <ul>
-          <li><code>Agent</code> &mdash; core agent class</li>
-          <li><code>Runner</code> &mdash; execution engine</li>
-          <li><code>Tool</code> &mdash; tool definitions</li>
-          <li><code>Guardrail</code> &mdash; safety checks</li>
-          <li><code>Handoff</code> &mdash; agent delegation</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 8: Building Your First Agent -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">CODE</span>
-    <h2>Building Your First Agent</h2>
-  </div>
-  <div class="cols cols-6040">
-    <div>
-      <pre><code class="language-python">from agents import Agent, Runner, tool
-
-@tool
-def read_file(path: str) -> str:
-    """Read contents of a file."""
-    with open(path, 'r') as f:
-        return f.read()
-
-@tool
-def write_file(path: str, content: str) -> str:
-    """Write content to a file."""
-    with open(path, 'w') as f:
-        f.write(content)
-    return f"Wrote {len(content)} bytes to {path}"
-
-@tool
-def run_tests() -> str:
-    """Run the project test suite."""
-    import subprocess
-    result = subprocess.run(
-        ["pytest", "--tb=short", "-q"],
-        capture_output=True, text=True
-    )
-    return result.stdout + result.stderr
-
-# Define the agent
-coding_agent = Agent(
-    name="CodingAssistant",
-    instructions="""You are a Python developer.
-    Read files, make changes, then run tests
-    to verify your work.""",
-    tools=[read_file, write_file, run_tests],
-    model="claude-sonnet-4-20250514",
-)
-
-# Run the agent
-result = Runner.run_sync(
-    coding_agent,
-    "Fix the bug in src/parser.py where
-     empty input causes a crash"
-)
-print(result.final_output)</code></pre>
-    </div>
-    <div>
-      <div class="card amber">
-        <h3>Step-by-Step</h3>
-        <ul>
-          <li><span class="a">1.</span> Define tools with <code>@tool</code> decorator</li>
-          <li><span class="a">2.</span> Create an <code>Agent</code> with instructions</li>
-          <li><span class="a">3.</span> Attach tools to the agent</li>
-          <li><span class="a">4.</span> Run with <code>Runner.run_sync()</code></li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>What Happens</h3>
-        <p>The agent enters its loop: reads the file, identifies the bug, writes a fix, runs tests, and iterates until tests pass.</p>
-      </div>
-      <div class="card purple" style="margin-top:.3em;">
-        <h3>Key Features Used</h3>
-        <ul>
-          <li>Typed tool parameters</li>
-          <li>Auto-generated tool schemas</li>
-          <li>Agent loop with self-correction</li>
-          <li>Natural language instructions</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 9: Agent Tools -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">TOOLS</span>
-    <h2>Agent Tools</h2>
-  </div>
-  <p>Tools give agents the ability to interact with the real world. Each tool has a <span class="a">name</span>, <span class="g">description</span>, <span class="p">input schema</span>, and an <span class="b">execution function</span>.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div>
-      <pre><code class="language-python"># Simple tool with the @tool decorator
-@tool
-def search_codebase(
-    query: str,
-    file_type: str = "py"
-) -> str:
-    """Search the codebase for a pattern.
-
-    Args:
-        query: Regex pattern to search for
-        file_type: File extension filter
-    """
-    import subprocess
-    result = subprocess.run(
-        ["rg", query, "--type", file_type,
-         "--json"],
-        capture_output=True, text=True
-    )
-    return result.stdout
-
-# Tool with complex schema
-@tool
-def create_github_issue(
-    title: str,
-    body: str,
-    labels: list[str] = [],
-    assignees: list[str] = []
-) -> str:
-    """Create a GitHub issue."""
-    # Implementation here
-    return f"Created issue: {title}"</code></pre>
-    </div>
-    <div>
-      <div class="card amber">
-        <h3>Defining Custom Tools</h3>
-        <ul>
-          <li>Use <code>@tool</code> decorator for simplicity</li>
-          <li>Type hints become the JSON schema</li>
-          <li>Docstring becomes the description</li>
-          <li>Return value goes back to the agent</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>Tool Schema (auto-generated)</h3>
-        <pre><code class="language-json">{
-  "name": "search_codebase",
-  "description": "Search the codebase...",
-  "parameters": {
-    "query": {"type": "string"},
-    "file_type": {
-      "type": "string",
-      "default": "py"
-    }
+  <script>
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                 (navigator.maxTouchPoints > 1 && window.innerWidth < 768);
+  var btnD = document.getElementById('btnDesktop');
+  var btnM = document.getElementById('btnMobile');
+  if (isMobile) {
+    btnM.classList.add('primary');
+    btnD.classList.add('secondary');
+    btnM.innerHTML += '<span class="badge">RECOMMENDED</span>';
+  } else {
+    btnD.classList.add('primary');
+    btnM.classList.add('secondary');
+    btnD.innerHTML += '<span class="badge">RECOMMENDED</span>';
   }
-}</code></pre>
-      </div>
-      <div class="card blue" style="margin-top:.3em;">
-        <h3>Execution Flow</h3>
-        <p>Agent decides to call tool &rarr; SDK validates inputs &rarr; function executes &rarr; result returned to agent &rarr; agent continues reasoning</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 10: Multi-Agent Architectures -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">ARCHITECTURE</span>
-    <h2>Multi-Agent Architectures</h2>
-  </div>
-  <p>Complex tasks benefit from multiple specialized agents working together. Three primary patterns dominate multi-agent design.</p>
-  <div class="cols cols-3" style="margin-top:.2em;">
-    <div class="card amber">
-      <h3>Orchestrator</h3>
-      <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
-        <rect x="60" y="5" width="100" height="35" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-        <text x="110" y="28" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="11">Orchestrator</text>
-        <rect x="5" y="80" width="80" height="30" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="45" y="100" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
-        <rect x="70" y="140" width="80" height="30" rx="5" fill="#10101a" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="110" y="160" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
-        <rect x="135" y="80" width="80" height="30" rx="5" fill="#10101a" stroke="#60a5fa" stroke-width="1.2"/>
-        <text x="175" y="100" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
-        <line x1="90" y1="40" x2="50" y2="80" stroke="#f5a623" stroke-width="1.2"/>
-        <line x1="110" y1="40" x2="110" y2="140" stroke="#f5a623" stroke-width="1.2"/>
-        <line x1="130" y1="40" x2="170" y2="80" stroke="#f5a623" stroke-width="1.2"/>
-      </svg>
-      <p style="font-size:.46em;">Central agent delegates subtasks to specialized workers</p>
-    </div>
-    <div class="card green">
-      <h3>Pipeline</h3>
-      <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
-        <rect x="70" y="5" width="80" height="30" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.2"/>
-        <text x="110" y="25" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="9">Stage 1</text>
-        <rect x="70" y="60" width="80" height="30" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="110" y="80" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">Stage 2</text>
-        <rect x="70" y="115" width="80" height="30" rx="5" fill="#10101a" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="110" y="135" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Stage 3</text>
-        <rect x="70" y="170" width="80" height="30" rx="5" fill="#10101a" stroke="#60a5fa" stroke-width="1.2"/>
-        <text x="110" y="190" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">Stage 4</text>
-        <line x1="110" y1="35" x2="110" y2="60" stroke="#8888a8" stroke-width="1.5" marker-end="url(#arrowA)"/>
-        <line x1="110" y1="90" x2="110" y2="115" stroke="#8888a8" stroke-width="1.5" marker-end="url(#arrowG)"/>
-        <line x1="110" y1="145" x2="110" y2="170" stroke="#8888a8" stroke-width="1.5" marker-end="url(#arrowP)"/>
-      </svg>
-      <p style="font-size:.46em;">Each agent processes output from the previous stage sequentially</p>
-    </div>
-    <div class="card purple">
-      <h3>Peer-to-Peer</h3>
-      <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
-        <rect x="70" y="5" width="80" height="30" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.2"/>
-        <text x="110" y="25" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
-        <rect x="5" y="120" width="80" height="30" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="45" y="140" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
-        <rect x="135" y="120" width="80" height="30" rx="5" fill="#10101a" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="175" y="140" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
-        <line x1="85" y1="35" x2="55" y2="120" stroke="#8888a8" stroke-width="1"/>
-        <line x1="135" y1="35" x2="165" y2="120" stroke="#8888a8" stroke-width="1"/>
-        <line x1="85" y1="135" x2="135" y2="135" stroke="#8888a8" stroke-width="1"/>
-        <line x1="55" y1="120" x2="85" y2="35" stroke="#8888a8" stroke-width="1" stroke-dasharray="3"/>
-        <line x1="165" y1="120" x2="135" y2="35" stroke="#8888a8" stroke-width="1" stroke-dasharray="3"/>
-        <line x1="135" y1="140" x2="85" y2="140" stroke="#8888a8" stroke-width="1" stroke-dasharray="3"/>
-      </svg>
-      <p style="font-size:.46em;">Agents communicate directly, no central coordinator needed</p>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 11: Agent Communication -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">PATTERNS</span>
-    <h2>Agent Communication</h2>
-  </div>
-  <p>Multi-agent systems need well-defined communication protocols to share information, delegate work, and coordinate effectively.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Message Passing</h3>
-      <ul>
-        <li>Structured messages between agents</li>
-        <li>Task descriptions with context</li>
-        <li>Results &amp; status updates</li>
-        <li>Error reports &amp; retries</li>
-      </ul>
-      <pre><code class="language-python">result = await runner.handoff(
-    target=review_agent,
-    message="Review this PR",
-    context={"diff": diff}
-)</code></pre>
-    </div>
-    <div class="card green">
-      <h3>Shared Context</h3>
-      <ul>
-        <li>Common memory store</li>
-        <li>Shared file system access</li>
-        <li>Database for state persistence</li>
-        <li>Event logs all agents can read</li>
-      </ul>
-      <pre><code class="language-python">ctx = SharedContext()
-ctx.set("plan", plan_output)
-# Other agents can read:
-plan = ctx.get("plan")</code></pre>
-    </div>
-    <div class="card purple">
-      <h3>Handoff Protocols</h3>
-      <ul>
-        <li>Explicit agent-to-agent delegation</li>
-        <li>Transfer of conversation control</li>
-        <li>Context preservation on handoff</li>
-        <li>Return results to caller</li>
-      </ul>
-      <pre><code class="language-python">agent = Agent(
-    name="Router",
-    handoffs=[
-        billing_agent,
-        support_agent,
-        technical_agent,
-    ]
-)</code></pre>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 12: Claude Code as an Agent -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">META</span>
-    <h2>Claude Code as an Agent</h2>
-  </div>
-  <p><span class="a">Claude Code</span> is itself a fully-featured AI agent &mdash; it uses the agent loop pattern with a rich set of built-in tools to accomplish software engineering tasks.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Built-in Agent Tools</h3>
-      <table>
-        <tr><th>Tool</th><th>Purpose</th></tr>
-        <tr><td><code>Read</code></td><td>Read files from the filesystem</td></tr>
-        <tr><td><code>Edit</code></td><td>Make precise edits to files</td></tr>
-        <tr><td><code>Write</code></td><td>Create new files</td></tr>
-        <tr><td><code>Bash</code></td><td>Execute shell commands</td></tr>
-        <tr><td><code>Glob</code></td><td>Find files by pattern</td></tr>
-        <tr><td><code>Grep</code></td><td>Search file contents</td></tr>
-      </table>
-    </div>
-    <div class="card green">
-      <h3>How It Works</h3>
-      <ul>
-        <li><span class="g">Observe:</span> Reads files, searches codebase, checks git status</li>
-        <li><span class="g">Think:</span> Analyzes code, plans changes, considers edge cases</li>
-        <li><span class="g">Act:</span> Edits files, runs commands, creates commits</li>
-        <li><span class="g">Iterate:</span> Verifies changes, fixes errors, re-runs tests</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Sub-agent Capability</h3>
-    <p>Claude Code can spawn <span class="b">sub-agents</span> for specialized tasks &mdash; a dedicated agent for exploration, another for planning, and task-specific workers. This enables parallel investigation and division of labor within a single session.</p>
-  </div>
-</section>
-
-<!-- Slide 13: Sub-agent Patterns -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">PATTERNS</span>
-    <h2>Sub-agent Patterns</h2>
-  </div>
-  <p>Sub-agents are specialized, scoped instances that handle specific aspects of a larger task. They inherit context but have focused instructions and limited tool access.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Explore Agent</h3>
-      <ul>
-        <li>Read-only access to codebase</li>
-        <li>Searches for patterns &amp; dependencies</li>
-        <li>Maps architecture &amp; data flow</li>
-        <li>Returns structured findings</li>
-      </ul>
-      <p style="margin-top:.15em;font-size:.46em;color:var(--muted);">Tools: Read, Glob, Grep</p>
-    </div>
-    <div class="card green">
-      <h3>Plan Agent</h3>
-      <ul>
-        <li>Receives exploration results</li>
-        <li>Creates step-by-step implementation plan</li>
-        <li>Identifies risks &amp; dependencies</li>
-        <li>Estimates complexity per step</li>
-      </ul>
-      <p style="margin-top:.15em;font-size:.46em;color:var(--muted);">Tools: Read (for validation)</p>
-    </div>
-    <div class="card purple">
-      <h3>Task Agent</h3>
-      <ul>
-        <li>Executes one step of the plan</li>
-        <li>Full read/write tool access</li>
-        <li>Reports success or failure</li>
-        <li>Scoped to specific files/modules</li>
-      </ul>
-      <p style="margin-top:.15em;font-size:.46em;color:var(--muted);">Tools: Read, Edit, Write, Bash</p>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Delegation Pattern</h3>
-    <pre><code class="language-python">explorer = Agent(name="Explorer", tools=[Read, Glob, Grep],
-                 instructions="Find all usages of the deprecated API...")
-
-planner = Agent(name="Planner", tools=[Read],
-                instructions="Create a migration plan based on findings...")
-
-worker = Agent(name="Worker", tools=[Read, Edit, Write, Bash],
-               instructions="Execute step N of the migration plan...")
-
-# Orchestrator delegates sequentially
-findings = await Runner.run(explorer, "Map deprecated API usage")
-plan = await Runner.run(planner, f"Plan migration: {findings.output}")
-result = await Runner.run(worker, f"Execute: {plan.output}")</code></pre>
-  </div>
-</section>
-
-<!-- Slide 14: Agent Orchestration -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">ORCHESTRATION</span>
-    <h2>Agent Orchestration</h2>
-  </div>
-  <p>Orchestration manages the lifecycle, coordination, and execution of multiple agents working toward a shared objective.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Managing Multiple Agents</h3>
-      <pre><code class="language-python">from agents import Agent, Runner
-
-orchestrator = Agent(
-    name="ProjectManager",
-    instructions="""You coordinate a team:
-    - frontend_agent: React components
-    - backend_agent: API endpoints
-    - test_agent: Integration tests
-    Delegate tasks appropriately.""",
-    handoffs=[
-        frontend_agent,
-        backend_agent,
-        test_agent,
-    ]
-)
-
-# The orchestrator decides who to call
-result = await Runner.run(
-    orchestrator,
-    "Add a user profile page with API"
-)</code></pre>
-    </div>
-    <div>
-      <div class="card green">
-        <h3>Parallel Execution</h3>
-        <ul>
-          <li>Independent tasks run simultaneously</li>
-          <li>Reduces total wall-clock time</li>
-          <li>Results aggregated by orchestrator</li>
-          <li>Failures isolated per agent</li>
-        </ul>
-        <pre><code class="language-python">import asyncio
-tasks = [
-    Runner.run(lint_agent, code),
-    Runner.run(test_agent, code),
-    Runner.run(docs_agent, code),
-]
-results = await asyncio.gather(*tasks)</code></pre>
-      </div>
-      <div class="card purple" style="margin-top:.3em;">
-        <h3>Coordination Strategies</h3>
-        <ul>
-          <li><span class="p">Sequential:</span> A &rarr; B &rarr; C (pipeline)</li>
-          <li><span class="p">Parallel:</span> A | B | C (fan-out)</li>
-          <li><span class="p">Conditional:</span> If A fails, try B</li>
-          <li><span class="p">Iterative:</span> Repeat until quality bar met</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 15: Guardrails & Safety -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">SAFETY</span>
-    <h2>Guardrails &amp; Safety</h2>
-  </div>
-  <p>Autonomous agents require robust safety measures. Guardrails prevent harmful actions, enforce policies, and maintain human oversight.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Permission Systems</h3>
-      <ul>
-        <li>Tool-level access control</li>
-        <li>File/directory allow-lists</li>
-        <li>Network access restrictions</li>
-        <li>Tiered permission levels</li>
-        <li>Principle of least privilege</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Sandboxing</h3>
-      <ul>
-        <li>Docker containers for execution</li>
-        <li>Read-only filesystem mounts</li>
-        <li>Network isolation</li>
-        <li>Resource limits (CPU, memory)</li>
-        <li>Timeout enforcement</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h3>Human-in-the-Loop</h3>
-      <ul>
-        <li>Approval for destructive actions</li>
-        <li>Review before git push</li>
-        <li>Confirmation for API calls</li>
-        <li>Escalation on uncertainty</li>
-        <li>Audit trail for all actions</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card purple" style="margin-top:.3em;">
-    <h3>Guardrail Implementation</h3>
-    <pre><code class="language-python">from agents import Agent, Guardrail, GuardrailResult
-
-@guardrail
-async def no_secrets_guardrail(ctx, agent, input_text) -> GuardrailResult:
-    """Prevent the agent from outputting secrets or credentials."""
-    patterns = [r"sk-[a-zA-Z0-9]{48}", r"AKIA[0-9A-Z]{16}", r"ghp_[a-zA-Z0-9]{36}"]
-    for pattern in patterns:
-        if re.search(pattern, input_text):
-            return GuardrailResult(should_block=True, message="Blocked: potential secret detected")
-    return GuardrailResult(should_block=False)
-
-agent = Agent(name="SafeAgent", guardrails=[no_secrets_guardrail])</code></pre>
-  </div>
-</section>
-
-<!-- Slide 16: Agent Memory & State -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">STATE</span>
-    <h2>Agent Memory &amp; State</h2>
-  </div>
-  <p>Effective agents maintain context across interactions. Memory systems range from simple conversation history to persistent knowledge bases.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Conversation History</h3>
-      <ul>
-        <li>Full message log per session</li>
-        <li>Tool calls &amp; results preserved</li>
-        <li>Summarization for long sessions</li>
-        <li>Context window management</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Persistent Memory</h3>
-      <ul>
-        <li>Cross-session knowledge store</li>
-        <li>User preferences &amp; patterns</li>
-        <li>Project-specific learnings</li>
-        <li>Claude Code: <code>~/.claude/memory</code></li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Context Management</h3>
-      <ul>
-        <li>Prioritize recent &amp; relevant info</li>
-        <li>Evict stale context intelligently</li>
-        <li>Compress repeated patterns</li>
-        <li>Key-value scratchpad for state</li>
-      </ul>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card blue">
-      <h3>Memory Architecture</h3>
-      <pre><code class="language-python"># Working memory (within session)
-agent.context["current_task"] = task
-agent.context["findings"] = []
-
-# Persistent memory (across sessions)
-memory_store = VectorMemory(
-    path="./agent_memory",
-    embedding_model="voyage-3"
-)
-memory_store.add("User prefers tabs")
-relevant = memory_store.search(query)</code></pre>
-    </div>
-    <div class="card red">
-      <h3>Common Pitfalls</h3>
-      <ul>
-        <li><span class="r">Context overflow</span> &mdash; exceeding token limits causes lost information</li>
-        <li><span class="r">Stale state</span> &mdash; outdated memory leads to wrong decisions</li>
-        <li><span class="r">No summarization</span> &mdash; raw history is expensive</li>
-        <li><span class="r">Missing persistence</span> &mdash; losing learnings between sessions</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 17: Real-world Agent Examples -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">EXAMPLES</span>
-    <h2>Real-world Agent Examples</h2>
-  </div>
-  <div class="cols cols-3" style="margin-top:.2em;">
-    <div class="card amber">
-      <h3>Code Review Bot</h3>
-      <ul>
-        <li>Triggered on PR creation</li>
-        <li>Reads diff &amp; full file context</li>
-        <li>Checks style, logic, security</li>
-        <li>Posts inline review comments</li>
-        <li>Suggests specific fixes</li>
-      </ul>
-      <p style="margin-top:.15em;font-size:.46em;"><span class="a">Tools:</span> GitHub API, Read, Grep</p>
-      <p style="font-size:.46em;"><span class="a">Model:</span> Claude Sonnet (cost-effective)</p>
-    </div>
-    <div class="card green">
-      <h3>Data Pipeline Agent</h3>
-      <ul>
-        <li>Monitors data quality metrics</li>
-        <li>Detects schema changes</li>
-        <li>Auto-generates transformations</li>
-        <li>Runs validation queries</li>
-        <li>Alerts on anomalies</li>
-      </ul>
-      <p style="margin-top:.15em;font-size:.46em;"><span class="g">Tools:</span> SQL, Python, Slack API</p>
-      <p style="font-size:.46em;"><span class="g">Model:</span> Claude Haiku (low-latency)</p>
-    </div>
-    <div class="card purple">
-      <h3>Customer Support</h3>
-      <ul>
-        <li>Triages incoming tickets</li>
-        <li>Searches knowledge base</li>
-        <li>Drafts responses for review</li>
-        <li>Escalates complex issues</li>
-        <li>Learns from past resolutions</li>
-      </ul>
-      <p style="margin-top:.15em;font-size:.46em;"><span class="p">Tools:</span> KB Search, CRM, Email</p>
-      <p style="font-size:.46em;"><span class="p">Model:</span> Claude Sonnet + handoffs</p>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Common Architecture</h3>
-    <p>All three follow the same pattern: <span class="b">trigger event</span> &rarr; <span class="b">gather context</span> &rarr; <span class="b">reason about action</span> &rarr; <span class="b">execute with tools</span> &rarr; <span class="b">verify &amp; report</span>. The difference is in the tools available and the domain-specific instructions.</p>
-  </div>
-</section>
-
-<!-- Slide 18: Debugging Agents -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">DEBUG</span>
-    <h2>Debugging Agents</h2>
-  </div>
-  <p>Agents are harder to debug than traditional software because behavior emerges from LLM reasoning. <span class="a">Observability</span> is the key to understanding agent decisions.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Observability &amp; Logging</h3>
-      <pre><code class="language-python">from agents import Agent, Runner
-from agents.tracing import TracingConfig
-
-# Enable detailed tracing
-config = TracingConfig(
-    log_level="DEBUG",
-    trace_tools=True,
-    trace_reasoning=True,
-    output_dir="./traces"
-)
-
-result = await Runner.run(
-    agent, prompt,
-    tracing=config
-)
-
-# Inspect the trace
-for step in result.trace.steps:
-    print(f"[{step.type}] {step.summary}")
-    if step.type == "tool_call":
-        print(f"  Tool: {step.tool_name}")
-        print(f"  Input: {step.input}")
-        print(f"  Output: {step.output[:200]}")
-    elif step.type == "reasoning":
-        print(f"  Thought: {step.text[:200]}")</code></pre>
-    </div>
-    <div>
-      <div class="card green">
-        <h3>What to Look For</h3>
-        <ul>
-          <li><span class="g">Tool selection errors</span> &mdash; wrong tool for the job</li>
-          <li><span class="g">Input malformation</span> &mdash; bad parameters to tools</li>
-          <li><span class="g">Reasoning loops</span> &mdash; agent repeating the same action</li>
-          <li><span class="g">Context loss</span> &mdash; forgetting earlier findings</li>
-          <li><span class="g">Premature stopping</span> &mdash; declaring done too early</li>
-        </ul>
-      </div>
-      <div class="card purple" style="margin-top:.3em;">
-        <h3>Tracing Agent Decisions</h3>
-        <ul>
-          <li>Log every LLM call with full prompt</li>
-          <li>Record tool inputs &amp; outputs</li>
-          <li>Track token usage per step</li>
-          <li>Measure latency per action</li>
-          <li>Compare traces between runs</li>
-        </ul>
-      </div>
-      <div class="card red" style="margin-top:.3em;">
-        <h3>Common Failure Modes</h3>
-        <ul>
-          <li>Infinite loops on error recovery</li>
-          <li>Hallucinating file paths or APIs</li>
-          <li>Misinterpreting tool output format</li>
-          <li>Overly broad tool calls (e.g., <code>rm -rf</code>)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 19: Agent Performance -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">PERFORMANCE</span>
-    <h2>Agent Performance</h2>
-  </div>
-  <p>Agent systems involve tradeoffs between <span class="a">latency</span>, <span class="g">cost</span>, and <span class="p">accuracy</span>. Understanding these tradeoffs is critical for production deployments.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Latency Optimization</h3>
-      <ul>
-        <li>Use faster models for simple steps</li>
-        <li>Parallelize independent tool calls</li>
-        <li>Cache repeated tool results</li>
-        <li>Minimize context window size</li>
-        <li>Stream responses to users</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Cost Management</h3>
-      <ul>
-        <li>Route to Haiku for triage tasks</li>
-        <li>Use Sonnet for most agent work</li>
-        <li>Reserve Opus for hard reasoning</li>
-        <li>Summarize context to reduce tokens</li>
-        <li>Set max iteration limits</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Accuracy Tradeoffs</h3>
-      <ul>
-        <li>More iterations = higher accuracy</li>
-        <li>Bigger model = better reasoning</li>
-        <li>More context = better decisions</li>
-        <li>Verification steps add cost but quality</li>
-        <li>Self-consistency checks improve reliability</li>
-      </ul>
-    </div>
-  </div>
-  <table style="margin-top:.3em;">
-    <tr><th>Strategy</th><th>Latency Impact</th><th>Cost Impact</th><th>Accuracy Impact</th></tr>
-    <tr><td>Model routing (Haiku/Sonnet/Opus)</td><td style="color:#4ecb8d;">-40% latency</td><td style="color:#4ecb8d;">-60% cost</td><td style="color:#f87171;">-10% accuracy</td></tr>
-    <tr><td>Parallel tool execution</td><td style="color:#4ecb8d;">-50% latency</td><td>Neutral</td><td>Neutral</td></tr>
-    <tr><td>Context summarization</td><td style="color:#4ecb8d;">-20% latency</td><td style="color:#4ecb8d;">-30% cost</td><td style="color:#f87171;">-5% accuracy</td></tr>
-    <tr><td>Verification loop</td><td style="color:#f87171;">+30% latency</td><td style="color:#f87171;">+25% cost</td><td style="color:#4ecb8d;">+15% accuracy</td></tr>
-    <tr><td>Extended thinking</td><td style="color:#f87171;">+20% latency</td><td style="color:#f87171;">+15% cost</td><td style="color:#4ecb8d;">+20% accuracy</td></tr>
-  </table>
-</section>
-
-<!-- Slide 20: Enterprise Agent Deployment -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">ENTERPRISE</span>
-    <h2>Enterprise Agent Deployment</h2>
-  </div>
-  <p>Moving agents from prototype to production requires attention to <span class="a">scaling</span>, <span class="g">monitoring</span>, and <span class="p">compliance</span>.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Scaling</h3>
-      <ul>
-        <li>Horizontal scaling with worker pools</li>
-        <li>Queue-based task distribution</li>
-        <li>Rate limiting per user/team</li>
-        <li>Graceful degradation under load</li>
-        <li>Auto-scaling based on queue depth</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Monitoring</h3>
-      <ul>
-        <li>Dashboard for agent health metrics</li>
-        <li>Success/failure rate tracking</li>
-        <li>Token usage &amp; cost attribution</li>
-        <li>Latency percentiles (p50, p95, p99)</li>
-        <li>Alerting on anomalous behavior</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Compliance</h3>
-      <ul>
-        <li>Audit logs for all agent actions</li>
-        <li>Data residency requirements</li>
-        <li>PII detection &amp; redaction</li>
-        <li>Role-based access controls</li>
-        <li>SOC 2 / HIPAA compliance paths</li>
-      </ul>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card blue">
-      <h3>Infrastructure Pattern</h3>
-      <pre><code class="language-yaml"># Agent deployment architecture
-services:
-  agent-gateway:
-    image: agent-gateway:latest
-    replicas: 3
-    environment:
-      - ANTHROPIC_API_KEY=${API_KEY}
-      - MAX_CONCURRENT_AGENTS=50
-  agent-worker:
-    image: agent-worker:latest
-    replicas: 10
-    resources:
-      limits: { memory: "2Gi", cpu: "1" }
-  redis:
-    image: redis:7-alpine  # Task queue</code></pre>
-    </div>
-    <div class="card red">
-      <h3>Production Checklist</h3>
-      <ul>
-        <li>&#9744; Rate limits &amp; circuit breakers</li>
-        <li>&#9744; Timeout on all agent runs</li>
-        <li>&#9744; Fallback behavior on API errors</li>
-        <li>&#9744; Cost alerting per user/team</li>
-        <li>&#9744; Secrets management (no hardcoded keys)</li>
-        <li>&#9744; Sandbox all tool executions</li>
-        <li>&#9744; Human review for sensitive actions</li>
-        <li>&#9744; Retention policy for traces/logs</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- Slide 21: The Future of Agents -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">FUTURE</span>
-    <h2>The Future of Agents</h2>
-  </div>
-  <p>Agent capabilities are expanding rapidly. The next wave brings more autonomy, richer modalities, and collaborative agent ecosystems.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber">
-      <h3>Autonomous Coding</h3>
-      <ul>
-        <li>End-to-end feature implementation</li>
-        <li>Agents that write &amp; maintain tests</li>
-        <li>Self-reviewing pull requests</li>
-        <li>Automated bug triage &amp; fixing</li>
-        <li>Continuous codebase improvement</li>
-      </ul>
-      <p style="margin-top:.1em;font-size:.46em;color:var(--muted);">Already emerging with Claude Code</p>
-    </div>
-    <div class="card green">
-      <h3>Multi-Modal Agents</h3>
-      <ul>
-        <li>Vision: screenshot analysis, UI testing</li>
-        <li>Audio: voice-driven agent control</li>
-        <li>Video: monitoring &amp; analysis</li>
-        <li>Combined modalities for richer understanding</li>
-        <li>Computer use &amp; browser interaction</li>
-      </ul>
-      <p style="margin-top:.1em;font-size:.46em;color:var(--muted);">Claude's vision capabilities enable this today</p>
-    </div>
-    <div class="card purple">
-      <h3>Agent Swarms</h3>
-      <ul>
-        <li>Dozens of agents collaborating</li>
-        <li>Emergent problem-solving behavior</li>
-        <li>Specialized agent marketplaces</li>
-        <li>Cross-organization agent coordination</li>
-        <li>Self-organizing agent teams</li>
-      </ul>
-      <p style="margin-top:.1em;font-size:.46em;color:var(--muted);">Research frontier, early experiments underway</p>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Key Trends to Watch</h3>
-    <p><span class="b">Longer autonomy windows</span> &mdash; agents running for hours, not minutes. <span class="b">Better tool ecosystems</span> &mdash; standardized tool interfaces (MCP). <span class="b">Agent-to-agent protocols</span> &mdash; standardized communication. <span class="b">Formal verification</span> &mdash; proving agent safety properties mathematically.</p>
-  </div>
-</section>
-
-<!-- Slide 22: Summary & Best Practices -->
-<section>
-  <div class="slide-hdr">
-    <span class="tag">SUMMARY</span>
-    <h2>Summary &amp; Best Practices</h2>
-  </div>
-  <div class="cols cols-2" style="margin-top:.2em;">
-    <div>
-      <div class="card amber">
-        <h3>Key Takeaways</h3>
-        <ul>
-          <li>Agents are LLMs + tools + loops</li>
-          <li>The observe-think-act cycle is fundamental</li>
-          <li><code>agents.md</code> defines agent identity &amp; behavior</li>
-          <li>The Claude Agent SDK enables production agents</li>
-          <li>Multi-agent systems unlock complex workflows</li>
-          <li>Safety guardrails are non-negotiable</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>Design Principles</h3>
-        <ul>
-          <li><span class="g">Start simple</span> &mdash; single agent first</li>
-          <li><span class="g">Scope narrowly</span> &mdash; clear tool boundaries</li>
-          <li><span class="g">Fail gracefully</span> &mdash; always have fallbacks</li>
-          <li><span class="g">Log everything</span> &mdash; observability first</li>
-          <li><span class="g">Test iteratively</span> &mdash; eval-driven development</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card purple">
-        <h3>Best Practices</h3>
-        <ul>
-          <li>Write clear, specific agent instructions</li>
-          <li>Use the right model tier for each task</li>
-          <li>Implement human-in-the-loop for high-stakes actions</li>
-          <li>Set iteration limits to prevent runaway costs</li>
-          <li>Version your <code>agents.md</code> alongside code</li>
-          <li>Monitor token usage and set budgets</li>
-        </ul>
-      </div>
-      <div class="card red" style="margin-top:.3em;">
-        <h3>Anti-patterns to Avoid</h3>
-        <ul>
-          <li><span class="r">God agent</span> &mdash; one agent that does everything</li>
-          <li><span class="r">No guardrails</span> &mdash; unrestricted tool access</li>
-          <li><span class="r">Vague instructions</span> &mdash; ambiguous agent prompts</li>
-          <li><span class="r">No observability</span> &mdash; can't debug what you can't see</li>
-          <li><span class="r">Premature multi-agent</span> &mdash; complexity without need</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <p style="text-align:center;margin-top:.4em;color:var(--muted);font-size:.5em;">Next: <span class="a">08 &mdash; Model Context Protocol (MCP)</span></p>
-</section>
-
-</div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
-<script>
-Reveal.initialize({ hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, center: false, width: 1100, height: 900, margin: 0.01, plugins: [RevealHighlight], highlight: { theme: 'monokai' } });
-</script>
-<script>
-(function(){ var h=Reveal.getConfig().height||900; var m=Reveal.getConfig().margin||0.02; var maxH=Math.floor(h*(1-2*m))+'px'; function fixSlides(){ document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){ s.style.display='block'; s.style.maxHeight=maxH; }); } Reveal.on('ready',fixSlides); Reveal.on('slidechanged',fixSlides); })();
-</script>
+  </script>
 </body>
 </html>

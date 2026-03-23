@@ -3,1258 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Claude API &amp; SDKs</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <title>The Claude API & SDKs — Anthropic Claude Series</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
-  .reveal-viewport { background: var(--bg); }
-  .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
-  .reveal h2 { font-size: 1.1em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .78em; color: var(--green); margin-bottom: .15em; }
-  .reveal p { font-size: .56em; line-height: 1.45; color: var(--text); }
-  .reveal li { font-size: .54em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
-  .reveal pre code { font-size: .52em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .42em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
-  .slide-hdr h2 { margin: 0; font-size: .95em; }
-  .cols { display: grid; gap: .5em; }
-  .cols-2 { grid-template-columns: 1fr 1fr; }
-  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .cols-6040 { grid-template-columns: 6fr 4fr; }
-  .cols-4060 { grid-template-columns: 4fr 6fr; }
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .35em .6em; }
-  .card.amber { border-left: 3px solid var(--amber); }
-  .card.green { border-left: 3px solid var(--green); }
-  .card.purple { border-left: 3px solid var(--purple); }
-  .card.blue { border-left: 3px solid var(--blue); }
-  .card.red { border-left: 3px solid var(--red); }
-  .card h3 { font-size: .64em; margin: 0 0 .12em; }
-  .card p { font-size: .52em; margin: 0; color: #b8b8d0; }
-  .card ul { margin: 0; padding-left: 1em; }
-  .card li { font-size: .52em; color: #b8b8d0; margin-bottom: .02em; }
-  .reveal table { width: 100%; border-collapse: collapse; font-size: .5em; }
-  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
-  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
-  .a { color: var(--amber); font-weight: 600; }
-  .g { color: var(--green); font-weight: 600; }
-  .p { color: var(--purple); font-weight: 600; }
-  .b { color: var(--blue); font-weight: 600; }
-  .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .44em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
-  .pill.amber { color: var(--amber); border-color: var(--amber); }
-  .pill.green { color: var(--green); border-color: var(--green); }
-  .pill.purple { color: var(--purple); border-color: var(--purple); }
-  .pill.blue { color: var(--blue); border-color: var(--blue); }
-  .reveal .slide-footer { display: none; }
-  .title-slide h1 { font-size: 1.8em; }
-  .title-slide .subtitle { font-size: .7em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
-  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(78,203,141,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .accent-border-top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    box-shadow: 0 0 15px rgba(245,166,35,0.3);
+  }
+  .container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 500px;
+  }
+  .series-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .5em;
+  }
+  .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    letter-spacing: .04em;
+    display: inline-block;
+    margin-bottom: .8em;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .15em;
+  }
+  .subtitle {
+    font-size: clamp(.8rem, 2.5vw, .95rem);
+    color: var(--green);
+    font-weight: 300;
+    letter-spacing: .03em;
+    margin-bottom: .5em;
+  }
+  .description {
+    font-size: .85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .bar {
+    width: 50px; height: 2px;
+    background: var(--amber);
+    margin: 0 auto 1.8em;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+    align-items: center;
+  }
+  a.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 400;
+    letter-spacing: .1em;
+    padding: 14px 48px;
+    border-radius: 30px;
+    transition: all .3s ease;
+    width: 260px;
+    text-align: center;
+  }
+  a.btn.primary {
+    color: var(--text);
+    background: rgba(245,166,35,0.12);
+    border: 1px solid rgba(245,166,35,0.4);
+    box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+  }
+  a.btn.primary:hover {
+    background: rgba(245,166,35,0.2);
+    border-color: var(--amber);
+    box-shadow: 0 4px 30px rgba(245,166,35,0.2);
+  }
+  a.btn.secondary {
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  a.btn.secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    color: var(--text);
+  }
+  .badge {
+    font-size: .65rem;
+    letter-spacing: .1em;
+    color: var(--amber);
+    opacity: .7;
+    margin-left: .5rem;
+  }
+  .back {
+    margin-top: 2em;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+  .back a {
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .back a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
-
-<!-- ============ SLIDE 1 — TITLE ============ -->
-<section class="title-slide">
-  <p class="meta" style="margin-top:1.2em;">PRESENTATION 05 OF 10</p>
-  <h1>The Claude API &amp; SDKs</h1>
-  <p class="subtitle">Building with Anthropic's Developer Platform</p>
-  <div style="display:flex; gap:.6em; justify-content:center; margin-top:.4em;">
-    <span class="pill amber">REST API</span>
-    <span class="pill green">Python SDK</span>
-    <span class="pill purple">TypeScript SDK</span>
-    <span class="pill blue">Streaming</span>
+  <div class="accent-border-top"></div>
+  <div class="container">
+    <div class="series-label">ANTHROPIC CLAUDE SERIES</div>
+    <span class="num">05</span>
+    <h1>The Claude API & SDKs</h1>
+    <div class="subtitle">Messages API, Python & TypeScript SDKs, streaming, tool use, vision, and prompt caching</div>
+    <div class="bar"></div>
+    <p class="description">Choose your viewing experience</p>
+    <div class="buttons">
+      <a href="desktop.html" class="btn" id="btnDesktop">DESKTOP</a>
+      <a href="mobile.html" class="btn" id="btnMobile">MOBILE</a>
+    </div>
+    <div class="back"><a href="../">&larr; All presentations</a></div>
   </div>
-  <p class="meta" style="margin-top:1.2em;">Anthropic Claude Series</p>
-</section>
-
-<!-- ============ SLIDE 2 — API OVERVIEW ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">01</span><h2>API Overview</h2></div>
-  <p>The Claude API is a <span class="a">REST API</span> that provides programmatic access to Claude models for building AI-powered applications.</p>
-  <svg class="diagram" viewBox="0 0 700 180" width="650" height="170">
-    <rect x="10" y="60" width="130" height="60" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="75" y="87" text-anchor="middle" fill="#f5a623" font-size="12" font-family="DM Sans">Your Application</text>
-    <text x="75" y="103" text-anchor="middle" fill="#8888a8" font-size="9" font-family="JetBrains Mono">Python / TS / cURL</text>
-    <line x1="140" y1="90" x2="220" y2="90" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrow-g)"/>
-    <text x="180" y="82" text-anchor="middle" fill="#4ecb8d" font-size="9" font-family="JetBrains Mono">HTTPS</text>
-    <rect x="220" y="40" width="180" height="100" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
-    <text x="310" y="62" text-anchor="middle" fill="#a78bfa" font-size="12" font-family="DM Sans" font-weight="600">Anthropic API</text>
-    <text x="310" y="80" text-anchor="middle" fill="#8888a8" font-size="9" font-family="JetBrains Mono">api.anthropic.com</text>
-    <rect x="240" y="90" width="60" height="22" rx="3" fill="#181824" stroke="#2a2a3a"/>
-    <text x="270" y="105" text-anchor="middle" fill="#60a5fa" font-size="8" font-family="JetBrains Mono">Messages</text>
-    <rect x="310" y="90" width="60" height="22" rx="3" fill="#181824" stroke="#2a2a3a"/>
-    <text x="340" y="105" text-anchor="middle" fill="#60a5fa" font-size="8" font-family="JetBrains Mono">Batches</text>
-    <line x1="400" y1="90" x2="480" y2="90" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrow-g)"/>
-    <rect x="480" y="45" width="200" height="90" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="580" y="70" text-anchor="middle" fill="#f5a623" font-size="12" font-family="DM Sans" font-weight="600">Claude Models</text>
-    <text x="580" y="88" text-anchor="middle" fill="#8888a8" font-size="9" font-family="JetBrains Mono">Opus / Sonnet / Haiku</text>
-    <text x="580" y="104" text-anchor="middle" fill="#8888a8" font-size="9" font-family="JetBrains Mono">+ Vision + Tools</text>
-    <text x="580" y="120" text-anchor="middle" fill="#8888a8" font-size="9" font-family="JetBrains Mono">+ Extended Thinking</text>
-    <defs><marker id="arrow-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#4ecb8d"/></marker></defs>
-  </svg>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card amber"><h3>Chat & Generation</h3><p>Build chatbots, content generators, code assistants</p></div>
-    <div class="card green"><h3>Analysis & Vision</h3><p>Analyze text, images, documents, and data</p></div>
-    <div class="card purple"><h3>Tool Use & Agents</h3><p>Create autonomous agents with function calling</p></div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 3 — AUTHENTICATION ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">02</span><h2>Authentication</h2></div>
-  <p>All API requests require an <span class="a">API key</span> passed via the <code>x-api-key</code> header.</p>
-  <div class="cols cols-2">
-    <div class="card amber">
-      <h3>Getting Your Key</h3>
-      <ul>
-        <li>Visit <span class="a">console.anthropic.com</span></li>
-        <li>Create an account or sign in</li>
-        <li>Navigate to <span class="g">API Keys</span> section</li>
-        <li>Generate a new key (starts with <code>sk-ant-</code>)</li>
-        <li>Store securely &mdash; shown only once</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Required Headers</h3>
-      <ul>
-        <li><code>x-api-key: YOUR_API_KEY</code></li>
-        <li><code>content-type: application/json</code></li>
-        <li><code>anthropic-version: 2023-06-01</code></li>
-        <li>Optional: <code>anthropic-beta</code> for beta features</li>
-      </ul>
-    </div>
-  </div>
-  <pre><code class="language-bash"># cURL example
-curl https://api.anthropic.com/v1/messages \
-  -H "x-api-key: $ANTHROPIC_API_KEY" \
-  -H "anthropic-version: 2023-06-01" \
-  -H "content-type: application/json" \
-  -d '{"model":"claude-sonnet-4-20250514","max_tokens":1024,
-       "messages":[{"role":"user","content":"Hello, Claude!"}]}'</code></pre>
-  <p style="color:var(--red);font-size:.48em;">Never commit API keys to source control. Use environment variables or secret managers.</p>
-</section>
-
-<!-- ============ SLIDE 4 — MESSAGES API ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">03</span><h2>Messages API &mdash; The Core Endpoint</h2></div>
-  <p>The <span class="a">Messages API</span> is the primary interface for interacting with Claude. It uses a structured conversation format.</p>
-  <div class="cols cols-6040">
-    <div>
-      <pre><code class="language-http">POST /v1/messages
-
-{
-  "model": "claude-sonnet-4-20250514",
-  "max_tokens": 1024,
-  "system": "You are a helpful assistant.",
-  "messages": [
-    {
-      "role": "user",
-      "content": "What is the capital of France?"
-    }
-  ]
-}</code></pre>
-    </div>
-    <div class="card blue">
-      <h3>Key Features</h3>
-      <ul>
-        <li><span class="a">Structured messages</span> &mdash; explicit role/content pairs</li>
-        <li><span class="g">System prompts</span> &mdash; separate from conversation</li>
-        <li><span class="p">Multi-turn</span> &mdash; pass full conversation history</li>
-        <li><span class="b">Streaming</span> &mdash; real-time token delivery</li>
-        <li><span class="r">Tool use</span> &mdash; function calling built in</li>
-        <li><span class="a">Vision</span> &mdash; send images inline</li>
-      </ul>
-    </div>
-  </div>
-  <p style="font-size:.48em;color:var(--muted);">Base URL: <code>https://api.anthropic.com</code> &mdash; API version: <code>2023-06-01</code></p>
-</section>
-
-<!-- ============ SLIDE 5 — REQUEST ANATOMY ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">04</span><h2>Request Anatomy</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <pre><code class="language-python">import anthropic
-
-client = anthropic.Anthropic()
-
-response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    system="You are a senior developer.",
-    temperature=0.7,
-    top_p=0.9,
-    messages=[
-        {
-            "role": "user",
-            "content": "Explain async/await."
-        }
-    ],
-    metadata={"user_id": "user-123"},
-    stop_sequences=["\n\nHuman:"]
-)</code></pre>
-    </div>
-    <div>
-      <table>
-        <tr><th>Parameter</th><th>Required</th><th>Description</th></tr>
-        <tr><td><code>model</code></td><td class="a">Yes</td><td>Model identifier</td></tr>
-        <tr><td><code>max_tokens</code></td><td class="a">Yes</td><td>Max output tokens</td></tr>
-        <tr><td><code>messages</code></td><td class="a">Yes</td><td>Conversation array</td></tr>
-        <tr><td><code>system</code></td><td>No</td><td>System prompt string</td></tr>
-        <tr><td><code>temperature</code></td><td>No</td><td>Randomness (0&ndash;1)</td></tr>
-        <tr><td><code>top_p</code></td><td>No</td><td>Nucleus sampling</td></tr>
-        <tr><td><code>top_k</code></td><td>No</td><td>Top-k sampling</td></tr>
-        <tr><td><code>stop_sequences</code></td><td>No</td><td>Custom stop strings</td></tr>
-        <tr><td><code>stream</code></td><td>No</td><td>Enable streaming</td></tr>
-        <tr><td><code>metadata</code></td><td>No</td><td>Request metadata</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 6 — RESPONSE STRUCTURE ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">05</span><h2>Response Structure</h2></div>
-  <div class="cols cols-2">
-    <div>
-      <pre><code class="language-json">{
-  "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
-  "type": "message",
-  "role": "assistant",
-  "model": "claude-sonnet-4-20250514",
-  "content": [
-    {
-      "type": "text",
-      "text": "The capital of France is Paris."
-    }
-  ],
-  "stop_reason": "end_turn",
-  "stop_sequence": null,
-  "usage": {
-    "input_tokens": 25,
-    "output_tokens": 12,
-    "cache_creation_input_tokens": 0,
-    "cache_read_input_tokens": 0
+  <script>
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                 (navigator.maxTouchPoints > 1 && window.innerWidth < 768);
+  var btnD = document.getElementById('btnDesktop');
+  var btnM = document.getElementById('btnMobile');
+  if (isMobile) {
+    btnM.classList.add('primary');
+    btnD.classList.add('secondary');
+    btnM.innerHTML += '<span class="badge">RECOMMENDED</span>';
+  } else {
+    btnD.classList.add('primary');
+    btnM.classList.add('secondary');
+    btnD.innerHTML += '<span class="badge">RECOMMENDED</span>';
   }
-}</code></pre>
-    </div>
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>Content Blocks</h3>
-        <ul>
-          <li><code>text</code> &mdash; standard text response</li>
-          <li><code>tool_use</code> &mdash; function call request</li>
-          <li><code>thinking</code> &mdash; extended thinking output</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-bottom:.3em;">
-        <h3>Stop Reasons</h3>
-        <ul>
-          <li><code>end_turn</code> &mdash; natural completion</li>
-          <li><code>max_tokens</code> &mdash; hit token limit</li>
-          <li><code>stop_sequence</code> &mdash; matched stop string</li>
-          <li><code>tool_use</code> &mdash; wants to call a tool</li>
-        </ul>
-      </div>
-      <div class="card purple">
-        <h3>Usage Tracking</h3>
-        <p><code>input_tokens</code> and <code>output_tokens</code> for billing. Includes cache hit/miss counts.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 7 — PYTHON SDK ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">06</span><h2>Python SDK</h2></div>
-  <p>The official <span class="g">Python SDK</span> provides a typed, ergonomic interface to the Claude API.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Installation</h3>
-      <pre><code class="language-bash">pip install anthropic</code></pre>
-      <h3>Basic Usage</h3>
-      <pre><code class="language-python">import anthropic
-
-# Uses ANTHROPIC_API_KEY env var
-client = anthropic.Anthropic()
-
-message = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[
-        {"role": "user",
-         "content": "Write a haiku about Python."}
-    ]
-)
-
-print(message.content[0].text)
-# Indented with care,
-# Whitespace speaks louder than words,
-# Pythonic and clean.</code></pre>
-    </div>
-    <div>
-      <h3>Async Support</h3>
-      <pre><code class="language-python">import anthropic
-import asyncio
-
-async def main():
-    client = anthropic.AsyncAnthropic()
-
-    message = await client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1024,
-        messages=[
-            {"role": "user",
-             "content": "Explain decorators."}
-        ]
-    )
-    print(message.content[0].text)
-
-asyncio.run(main())</code></pre>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>SDK Features</h3>
-        <ul>
-          <li>Full type annotations &amp; autocompletion</li>
-          <li>Automatic retries with backoff</li>
-          <li>Streaming helpers built in</li>
-          <li>Pydantic model responses</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 8 — TYPESCRIPT SDK ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">07</span><h2>TypeScript SDK</h2></div>
-  <p>The official <span class="p">TypeScript SDK</span> provides full type safety and works in Node.js, Deno, and edge runtimes.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Installation</h3>
-      <pre><code class="language-bash">npm install @anthropic-ai/sdk</code></pre>
-      <h3>Basic Usage</h3>
-      <pre><code class="language-typescript">import Anthropic from "@anthropic-ai/sdk";
-
-const client = new Anthropic();
-// Uses ANTHROPIC_API_KEY env var
-
-const message = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
-  max_tokens: 1024,
-  messages: [
-    {
-      role: "user",
-      content: "Explain TypeScript generics."
-    }
-  ],
-});
-
-console.log(message.content[0].text);</code></pre>
-    </div>
-    <div>
-      <h3>With Explicit Key</h3>
-      <pre><code class="language-typescript">const client = new Anthropic({
-  apiKey: process.env.MY_CUSTOM_KEY,
-  maxRetries: 3,
-  timeout: 60_000, // 60 seconds
-});
-
-// Access response metadata
-const msg = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
-  max_tokens: 512,
-  messages: [
-    { role: "user", content: "Hello!" }
-  ],
-});
-
-console.log(`Tokens used:
-  In:  ${msg.usage.input_tokens}
-  Out: ${msg.usage.output_tokens}`);</code></pre>
-      <div class="card purple" style="margin-top:.3em;">
-        <h3>Runtime Compatibility</h3>
-        <p>Works with Node.js 18+, Deno, Bun, Cloudflare Workers, and Vercel Edge.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 9 — MULTI-TURN CONVERSATIONS ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">08</span><h2>Multi-turn Conversations</h2></div>
-  <p>Claude is <span class="a">stateless</span> &mdash; you must pass the full conversation history with each request. Roles must alternate between <code>user</code> and <code>assistant</code>.</p>
-  <div class="cols cols-6040">
-    <div>
-      <pre><code class="language-python">conversation = []
-
-def chat(user_input: str) -> str:
-    conversation.append({
-        "role": "user",
-        "content": user_input
-    })
-
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1024,
-        system="You are a helpful tutor.",
-        messages=conversation
-    )
-
-    assistant_msg = response.content[0].text
-
-    conversation.append({
-        "role": "assistant",
-        "content": assistant_msg
-    })
-
-    return assistant_msg
-
-# Usage
-chat("What is recursion?")
-chat("Can you give me an example?")
-chat("How does the call stack work?")</code></pre>
-    </div>
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>Role Alternation Rules</h3>
-        <ul>
-          <li>First message must be <code>user</code></li>
-          <li>Roles must <span class="a">alternate</span></li>
-          <li>Cannot have two consecutive <code>user</code> or <code>assistant</code> messages</li>
-          <li>Last message should be <code>user</code></li>
-        </ul>
-      </div>
-      <div class="card blue">
-        <h3>Best Practices</h3>
-        <ul>
-          <li>Trim old messages to stay within context limits</li>
-          <li>Summarize earlier turns if conversation grows long</li>
-          <li>Track token count per turn for cost management</li>
-          <li>Consider sliding window approach</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 10 — SYSTEM PROMPTS ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">09</span><h2>System Prompts</h2></div>
-  <p>System prompts set <span class="a">context and behavior</span> for Claude. They are separate from the conversation and apply to the entire interaction.</p>
-  <div class="cols cols-2">
-    <div>
-      <pre><code class="language-python"># Simple system prompt
-response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    system="You are a senior Python developer. "
-           "Respond with clean, well-documented "
-           "code. Use type hints throughout.",
-    messages=[
-        {"role": "user",
-         "content": "Write a binary search."}
-    ]
-)
-
-# System prompt with cache_control
-response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    system=[
-        {
-            "type": "text",
-            "text": "You are an expert analyst...",
-            "cache_control": {
-                "type": "ephemeral"
-            }
-        }
-    ],
-    messages=[...]
-)</code></pre>
-    </div>
-    <div>
-      <div class="card green" style="margin-bottom:.3em;">
-        <h3>Effective System Prompts</h3>
-        <ul>
-          <li>Define <span class="a">role</span> and <span class="a">personality</span></li>
-          <li>Set <span class="g">output format</span> expectations</li>
-          <li>Specify <span class="p">constraints</span> and boundaries</li>
-          <li>Include <span class="b">domain knowledge</span> or context</li>
-          <li>Define <span class="r">tone</span> and communication style</li>
-        </ul>
-      </div>
-      <div class="card purple">
-        <h3>Tips</h3>
-        <ul>
-          <li>Be specific &mdash; vague prompts give vague results</li>
-          <li>Use XML tags to structure complex instructions</li>
-          <li>Put reference material in system prompt for caching</li>
-          <li>System prompt tokens count toward input tokens</li>
-          <li>Can be a string or array of content blocks</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 11 — STREAMING ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">10</span><h2>Streaming</h2></div>
-  <p>Streaming delivers tokens in <span class="g">real-time</span> via Server-Sent Events (SSE), reducing perceived latency.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Python Streaming</h3>
-      <pre><code class="language-python"># Using the stream manager
-with client.messages.stream(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[
-        {"role": "user",
-         "content": "Tell me a story."}
-    ]
-) as stream:
-    for text in stream.text_stream:
-        print(text, end="", flush=True)
-
-# Get final message after stream
-final = stream.get_final_message()
-print(f"\nTokens: {final.usage}")</code></pre>
-    </div>
-    <div>
-      <h3>TypeScript Streaming</h3>
-      <pre><code class="language-typescript">const stream = await client.messages.stream({
-  model: "claude-sonnet-4-20250514",
-  max_tokens: 1024,
-  messages: [
-    { role: "user",
-      content: "Tell me a story." }
-  ],
-});
-
-for await (const event of stream) {
-  if (event.type === "content_block_delta"
-    && event.delta.type === "text_delta") {
-    process.stdout.write(event.delta.text);
-  }
-}
-
-const finalMsg = await stream.finalMessage();
-console.log(finalMsg.usage);</code></pre>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.2em;">
-    <h3>SSE Event Types</h3>
-    <p><code>message_start</code> &rarr; <code>content_block_start</code> &rarr; <code>content_block_delta</code> (repeated) &rarr; <code>content_block_stop</code> &rarr; <code>message_delta</code> &rarr; <code>message_stop</code></p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 12 — TOOL USE (FUNCTION CALLING) ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">11</span><h2>Tool Use (Function Calling)</h2></div>
-  <p>Claude can call <span class="a">external functions</span> you define. You describe tools with JSON Schema, and Claude decides when and how to use them.</p>
-  <svg class="diagram" viewBox="0 0 700 110" width="650" height="100">
-    <rect x="5" y="30" width="110" height="50" rx="5" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="60" y="55" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="DM Sans">User Request</text>
-    <text x="60" y="68" text-anchor="middle" fill="#8888a8" font-size="8" font-family="JetBrains Mono">"What's weather?"</text>
-    <line x1="115" y1="55" x2="175" y2="55" stroke="#4ecb8d" stroke-width="1.2" marker-end="url(#arrow-g)"/>
-    <rect x="175" y="25" width="110" height="60" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="230" y="50" text-anchor="middle" fill="#f5a623" font-size="10" font-family="DM Sans">Claude</text>
-    <text x="230" y="65" text-anchor="middle" fill="#8888a8" font-size="8" font-family="JetBrains Mono">stop: tool_use</text>
-    <text x="230" y="77" text-anchor="middle" fill="#8888a8" font-size="8" font-family="JetBrains Mono">get_weather({...})</text>
-    <line x1="285" y1="55" x2="345" y2="55" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#arrow-p)"/>
-    <text x="315" y="48" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="JetBrains Mono">execute</text>
-    <rect x="345" y="30" width="110" height="50" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
-    <text x="400" y="52" text-anchor="middle" fill="#4ecb8d" font-size="10" font-family="DM Sans">Your Function</text>
-    <text x="400" y="68" text-anchor="middle" fill="#8888a8" font-size="8" font-family="JetBrains Mono">tool_result</text>
-    <line x1="455" y1="55" x2="515" y2="55" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#arrow-p)"/>
-    <text x="485" y="48" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="JetBrains Mono">return</text>
-    <rect x="515" y="25" width="110" height="60" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="570" y="50" text-anchor="middle" fill="#f5a623" font-size="10" font-family="DM Sans">Claude</text>
-    <text x="570" y="65" text-anchor="middle" fill="#8888a8" font-size="8" font-family="JetBrains Mono">stop: end_turn</text>
-    <text x="570" y="77" text-anchor="middle" fill="#8888a8" font-size="8" font-family="JetBrains Mono">"It's 72°F..."</text>
-    <line x1="625" y1="55" x2="685" y2="55" stroke="#4ecb8d" stroke-width="1.2" marker-end="url(#arrow-g)"/>
-    <text x="695" y="58" text-anchor="start" fill="#60a5fa" font-size="10" font-family="DM Sans"></text>
-    <defs><marker id="arrow-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a78bfa"/></marker></defs>
-  </svg>
-  <div class="cols cols-2" style="margin-top:.2em;">
-    <div class="card amber">
-      <h3>Tool Definition</h3>
-      <pre><code class="language-json">{
-  "name": "get_weather",
-  "description": "Get current weather for a city",
-  "input_schema": {
-    "type": "object",
-    "properties": {
-      "city": {"type":"string","description":"City name"},
-      "units": {"type":"string","enum":["celsius","fahrenheit"]}
-    },
-    "required": ["city"]
-  }
-}</code></pre>
-    </div>
-    <div class="card green">
-      <h3>tool_choice Options</h3>
-      <ul>
-        <li><code>{"type": "auto"}</code> &mdash; Claude decides (default)</li>
-        <li><code>{"type": "any"}</code> &mdash; must use a tool</li>
-        <li><code>{"type": "tool", "name": "get_weather"}</code> &mdash; use specific tool</li>
-        <li><code>{"type": "none"}</code> &mdash; no tool use</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 13 — TOOL USE EXAMPLE ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">12</span><h2>Tool Use &mdash; Complete Example</h2></div>
-  <pre><code class="language-python">import anthropic, json
-
-client = anthropic.Anthropic()
-tools = [{
-    "name": "get_weather",
-    "description": "Get current weather for a location.",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "city": {"type": "string", "description": "City name"},
-            "units": {"type": "string", "enum": ["celsius", "fahrenheit"], "default": "celsius"}
-        },
-        "required": ["city"]
-    }
-}]
-
-def get_weather(city: str, units: str = "celsius") -> dict:
-    return {"city": city, "temp": 22, "units": units, "condition": "sunny"}  # Mock
-
-messages = [{"role": "user", "content": "What's the weather in Paris?"}]
-response = client.messages.create(
-    model="claude-sonnet-4-20250514", max_tokens=1024, tools=tools, messages=messages
-)
-
-if response.stop_reason == "tool_use":
-    tool_block = next(b for b in response.content if b.type == "tool_use")
-    result = get_weather(**tool_block.input)  # Execute the function
-
-    messages.append({"role": "assistant", "content": response.content})
-    messages.append({"role": "user", "content": [
-        {"type": "tool_result", "tool_use_id": tool_block.id, "content": json.dumps(result)}
-    ]})
-
-    final = client.messages.create(
-        model="claude-sonnet-4-20250514", max_tokens=1024, tools=tools, messages=messages
-    )
-    print(final.content[0].text)  # "The weather in Paris is currently sunny at 22°C."</code></pre>
-</section>
-
-<!-- ============ SLIDE 14 — VISION / MULTIMODAL ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">13</span><h2>Vision / Multimodal</h2></div>
-  <p>Claude can analyze <span class="a">images</span> alongside text. Supports <span class="g">base64</span> and <span class="p">URL</span> image sources.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Base64 Image</h3>
-      <pre><code class="language-python">import base64
-
-with open("chart.png", "rb") as f:
-    img_data = base64.standard_b64encode(
-        f.read()
-    ).decode("utf-8")
-
-response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[{
-        "role": "user",
-        "content": [
-            {
-                "type": "image",
-                "source": {
-                    "type": "base64",
-                    "media_type": "image/png",
-                    "data": img_data
-                }
-            },
-            {
-                "type": "text",
-                "text": "Describe this chart."
-            }
-        ]
-    }]
-)</code></pre>
-    </div>
-    <div>
-      <h3>URL Image</h3>
-      <pre><code class="language-python">response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[{
-        "role": "user",
-        "content": [
-            {
-                "type": "image",
-                "source": {
-                    "type": "url",
-                    "url": "https://example.com/img.jpg"
-                }
-            },
-            {
-                "type": "text",
-                "text": "What do you see?"
-            }
-        ]
-    }]
-)</code></pre>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>Supported Formats</h3>
-        <p><code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>, <code>image/webp</code>. Max ~20 images per request. Each image costs tokens based on dimensions.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 15 — EXTENDED THINKING ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">14</span><h2>Extended Thinking</h2></div>
-  <p>Extended thinking lets Claude <span class="a">reason step-by-step</span> before responding, producing higher-quality answers for complex tasks.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Enabling Extended Thinking</h3>
-      <pre><code class="language-python">response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=16000,
-    thinking={
-        "type": "enabled",
-        "budget_tokens": 10000
-    },
-    messages=[{
-        "role": "user",
-        "content": "Prove that sqrt(2) "
-                   "is irrational."
-    }]
-)
-
-# Response contains thinking blocks
-for block in response.content:
-    if block.type == "thinking":
-        print("THINKING:", block.thinking)
-    elif block.type == "text":
-        print("ANSWER:", block.text)</code></pre>
-    </div>
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>Key Parameters</h3>
-        <ul>
-          <li><code>budget_tokens</code> &mdash; max tokens for thinking (min 1024)</li>
-          <li><code>max_tokens</code> must be &gt; <code>budget_tokens</code></li>
-          <li>Thinking tokens count toward output billing</li>
-          <li>Cannot use <code>temperature</code> with thinking</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-bottom:.3em;">
-        <h3>Best For</h3>
-        <ul>
-          <li>Math proofs and complex reasoning</li>
-          <li>Multi-step analysis and planning</li>
-          <li>Code architecture decisions</li>
-          <li>Tasks requiring careful deliberation</li>
-        </ul>
-      </div>
-      <div class="card purple">
-        <h3>Response Format</h3>
-        <p>Content array includes <code>thinking</code> blocks (internal reasoning) followed by <code>text</code> blocks (final answer).</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 16 — BATCH API ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">15</span><h2>Batch API</h2></div>
-  <p>The <span class="a">Message Batches API</span> processes large volumes of requests asynchronously at <span class="g">50% reduced cost</span>.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Creating a Batch</h3>
-      <pre><code class="language-python">batch = client.messages.batches.create(
-    requests=[
-        {
-            "custom_id": "req-1",
-            "params": {
-                "model": "claude-sonnet-4-20250514",
-                "max_tokens": 1024,
-                "messages": [
-                    {"role": "user",
-                     "content": "Summarize AI safety."}
-                ]
-            }
-        },
-        {
-            "custom_id": "req-2",
-            "params": {
-                "model": "claude-sonnet-4-20250514",
-                "max_tokens": 1024,
-                "messages": [
-                    {"role": "user",
-                     "content": "Explain RLHF."}
-                ]
-            }
-        }
-    ]
-)
-print(batch.id)  # batch_abc123</code></pre>
-    </div>
-    <div>
-      <h3>Polling &amp; Results</h3>
-      <pre><code class="language-python"># Check status
-batch = client.messages.batches.retrieve(
-    batch.id
-)
-print(batch.processing_status)
-# "in_progress" or "ended"
-
-# Iterate results when complete
-if batch.processing_status == "ended":
-    for result in client.messages.batches \
-            .results(batch.id):
-        print(result.custom_id)
-        if result.result.type == "succeeded":
-            msg = result.result.message
-            print(msg.content[0].text)</code></pre>
-      <div class="card blue" style="margin-top:.3em;">
-        <h3>Batch Limits</h3>
-        <ul>
-          <li>Up to <span class="a">100,000</span> requests per batch</li>
-          <li>Results within <span class="g">24 hours</span></li>
-          <li><span class="p">50% discount</span> on token pricing</li>
-          <li>Results expire after 29 days</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 17 — TOKEN COUNTING ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">16</span><h2>Token Counting</h2></div>
-  <p>Understanding <span class="a">tokenization</span> is essential for cost management and staying within context limits.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Count Tokens API</h3>
-      <pre><code class="language-python"># Count tokens before sending
-count = client.messages.count_tokens(
-    model="claude-sonnet-4-20250514",
-    messages=[
-        {"role": "user",
-         "content": "Hello, how are you?"}
-    ],
-    system="You are helpful."
-)
-print(count.input_tokens)  # e.g., 18
-
-# Check usage after response
-response = client.messages.create(...)
-print(f"Input:  {response.usage.input_tokens}")
-print(f"Output: {response.usage.output_tokens}")
-total_cost = (
-    response.usage.input_tokens * 3 / 1_000_000
-    + response.usage.output_tokens * 15 / 1_000_000
-)
-print(f"Cost: ${total_cost:.4f}")</code></pre>
-    </div>
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>Tokenization Rules</h3>
-        <ul>
-          <li>~1 token = ~4 characters of English</li>
-          <li>~75 words = ~100 tokens</li>
-          <li>Code typically uses more tokens per line</li>
-          <li>Non-English text may use more tokens</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-bottom:.3em;">
-        <h3>Context Windows</h3>
-        <table>
-          <tr><th>Model</th><th>Context</th></tr>
-          <tr><td>Claude Opus 4</td><td>200K tokens</td></tr>
-          <tr><td>Claude Sonnet 4</td><td>200K tokens</td></tr>
-          <tr><td>Claude Haiku 3.5</td><td>200K tokens</td></tr>
-        </table>
-      </div>
-      <div class="card purple">
-        <h3>Cost Control Tips</h3>
-        <ul>
-          <li>Pre-count tokens to estimate costs</li>
-          <li>Use <code>max_tokens</code> to cap output</li>
-          <li>Trim conversation history proactively</li>
-          <li>Use prompt caching for repeated content</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 18 — ERROR HANDLING ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">17</span><h2>Error Handling</h2></div>
-  <p>Robust error handling with <span class="a">retries</span> and <span class="g">exponential backoff</span> ensures reliable API integration.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Python Error Handling</h3>
-      <pre><code class="language-python">import anthropic
-from anthropic import (
-    APIError,
-    RateLimitError,
-    APIConnectionError
-)
-
-client = anthropic.Anthropic(
-    max_retries=3  # Auto-retries built in
-)
-
-try:
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1024,
-        messages=[{"role":"user",
-                   "content":"Hello"}]
-    )
-except RateLimitError as e:
-    print(f"Rate limited: {e.status_code}")
-    # SDK auto-retries with backoff
-except APIError as e:
-    print(f"API error {e.status_code}: {e}")
-except APIConnectionError:
-    print("Network connectivity issue")</code></pre>
-    </div>
-    <div>
-      <div class="card red" style="margin-bottom:.3em;">
-        <h3>Common Error Codes</h3>
-        <table>
-          <tr><th>Code</th><th>Meaning</th></tr>
-          <tr><td><code>400</code></td><td>Invalid request (bad params)</td></tr>
-          <tr><td><code>401</code></td><td>Authentication failure</td></tr>
-          <tr><td><code>403</code></td><td>Permission denied</td></tr>
-          <tr><td><code>404</code></td><td>Resource not found</td></tr>
-          <tr><td><code>429</code></td><td>Rate limit exceeded</td></tr>
-          <tr><td><code>500</code></td><td>Internal server error</td></tr>
-          <tr><td><code>529</code></td><td>API overloaded</td></tr>
-        </table>
-      </div>
-      <div class="card green">
-        <h3>Retry Strategy</h3>
-        <ul>
-          <li>SDK handles retries for <code>429</code> and <code>5xx</code></li>
-          <li>Exponential backoff with jitter</li>
-          <li>Configure <code>max_retries</code> (default: 2)</li>
-          <li>Respect <code>retry-after</code> header</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 19 — PROMPT CACHING ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">18</span><h2>Prompt Caching</h2></div>
-  <p>Prompt caching lets you <span class="a">reuse large prompt prefixes</span> across requests, reducing latency and cost by up to <span class="g">90%</span>.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Enabling Caching</h3>
-      <pre><code class="language-python">response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    system=[
-        {
-            "type": "text",
-            "text": LARGE_REFERENCE_DOC,  # 10K tokens
-            "cache_control": {
-                "type": "ephemeral"
-            }
-        }
-    ],
-    messages=[
-        {"role": "user",
-         "content": "Summarize section 3."}
-    ]
-)
-
-# Check cache performance
-u = response.usage
-print(f"Cache write: {u.cache_creation_input_tokens}")
-print(f"Cache read:  {u.cache_read_input_tokens}")
-print(f"Uncached:    {u.input_tokens}")</code></pre>
-    </div>
-    <div>
-      <div class="card amber" style="margin-bottom:.3em;">
-        <h3>How It Works</h3>
-        <ul>
-          <li>Add <code>cache_control</code> to content blocks</li>
-          <li>First request writes to cache (small premium)</li>
-          <li>Subsequent requests read from cache (<span class="g">90% cheaper</span>)</li>
-          <li>Cache TTL: <span class="a">5 minutes</span> (resets on use)</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-bottom:.3em;">
-        <h3>Cacheable Locations</h3>
-        <ul>
-          <li>System prompt blocks</li>
-          <li>User message content blocks</li>
-          <li>Tool definitions</li>
-          <li>Minimum 1024 tokens to cache</li>
-        </ul>
-      </div>
-      <div class="card purple">
-        <h3>Cost Breakdown</h3>
-        <p>Cache write: <span class="a">1.25x</span> base price. Cache read: <span class="g">0.1x</span> base price. Net savings on repeated prompts: up to 90%.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 20 — EMBEDDINGS & TEXT CLASSIFICATION ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">19</span><h2>Embeddings &amp; Text Classification</h2></div>
-  <p>While Claude does not have a dedicated embeddings endpoint, it excels at <span class="a">text classification</span> and structured extraction tasks.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Classification with Claude</h3>
-      <pre><code class="language-python">def classify_text(text: str) -> dict:
-    response = client.messages.create(
-        model="claude-haiku-3-5-20241022",
-        max_tokens=100,
-        system="""Classify the given text into
-exactly one category: positive, negative,
-or neutral. Respond with JSON only:
-{"sentiment": "...", "confidence": 0.0}""",
-        messages=[
-            {"role": "user", "content": text}
-        ]
-    )
-    return json.loads(
-        response.content[0].text
-    )
-
-result = classify_text(
-    "This product exceeded my expectations!"
-)
-# {"sentiment": "positive",
-#  "confidence": 0.95}</code></pre>
-    </div>
-    <div>
-      <h3>Multi-label Classification</h3>
-      <pre><code class="language-python">def tag_support_ticket(ticket: str):
-    response = client.messages.create(
-        model="claude-haiku-3-5-20241022",
-        max_tokens=200,
-        system="""Tag the support ticket.
-Return JSON: {"priority": "low|med|high",
-"category": "billing|technical|account",
-"requires_human": true|false}""",
-        messages=[
-            {"role": "user",
-             "content": ticket}
-        ]
-    )
-    return json.loads(
-        response.content[0].text
-    )</code></pre>
-      <div class="card blue" style="margin-top:.3em;">
-        <h3>For Embeddings</h3>
-        <p>Use dedicated embedding models (e.g., Voyage AI via <code>voyageai</code> package) for vector search, RAG, and similarity tasks. Claude pairs well with these for the generation step.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 21 — API BEST PRACTICES ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">20</span><h2>API Best Practices</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Security</h3>
-      <ul>
-        <li>Store API keys in env vars or secret managers</li>
-        <li>Never expose keys in client-side code</li>
-        <li>Use a backend proxy for browser apps</li>
-        <li>Rotate keys periodically</li>
-        <li>Set per-key spending limits in Console</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Cost Optimization</h3>
-      <ul>
-        <li>Use <span class="a">Haiku</span> for simple tasks</li>
-        <li>Enable <span class="g">prompt caching</span> for repeated context</li>
-        <li>Set appropriate <code>max_tokens</code></li>
-        <li>Use <span class="p">Batch API</span> for offline jobs</li>
-        <li>Trim conversation history</li>
-        <li>Pre-count tokens to estimate cost</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>Prompt Engineering</h3>
-      <ul>
-        <li>Be specific and explicit</li>
-        <li>Use <span class="a">XML tags</span> for structure</li>
-        <li>Provide examples (few-shot)</li>
-        <li>Put long content in system prompt</li>
-        <li>Request structured output (JSON)</li>
-        <li>Use <code>temperature=0</code> for determinism</li>
-      </ul>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card blue">
-      <h3>Reliability</h3>
-      <ul>
-        <li>Use SDK auto-retries (set <code>max_retries</code>)</li>
-        <li>Implement request timeouts</li>
-        <li>Handle all error codes gracefully</li>
-        <li>Log requests and responses for debugging</li>
-        <li>Monitor usage via Anthropic Console</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h3>Model Selection Guide</h3>
-      <ul>
-        <li><span class="a">Opus</span> &mdash; hardest tasks, max quality</li>
-        <li><span class="g">Sonnet</span> &mdash; balanced performance/cost</li>
-        <li><span class="b">Haiku</span> &mdash; fast, cheap, simple tasks</li>
-        <li>Start with Sonnet, upgrade/downgrade as needed</li>
-        <li>Test with evals before switching models</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 22 — RATE LIMITS & PRICING ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">21</span><h2>Rate Limits &amp; Pricing</h2></div>
-  <p>Rate limits scale with your <span class="a">usage tier</span>. Pricing is per-token, varying by model.</p>
-  <div class="cols cols-2">
-    <div>
-      <h3>Pricing (per million tokens)</h3>
-      <table>
-        <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td><span class="a">Claude Opus 4</span></td><td>$15</td><td>$75</td></tr>
-        <tr><td><span class="g">Claude Sonnet 4</span></td><td>$3</td><td>$15</td></tr>
-        <tr><td><span class="b">Claude Haiku 3.5</span></td><td>$0.80</td><td>$4</td></tr>
-      </table>
-      <p style="font-size:.45em;color:var(--muted);margin-top:.2em;">Batch API: 50% discount. Prompt caching read: 90% discount.</p>
-    </div>
-    <div>
-      <h3>Usage Tiers</h3>
-      <table>
-        <tr><th>Tier</th><th>Spend</th><th>RPM</th></tr>
-        <tr><td>Tier 1 (Free)</td><td>$0</td><td>5</td></tr>
-        <tr><td>Tier 1</td><td>$5+ credit</td><td>50</td></tr>
-        <tr><td>Tier 2</td><td>$40+ spent</td><td>1,000</td></tr>
-        <tr><td>Tier 3</td><td>$200+ spent</td><td>2,000</td></tr>
-        <tr><td>Tier 4</td><td>$400+ spent</td><td>4,000</td></tr>
-        <tr><td>Scale</td><td>Custom</td><td>Custom</td></tr>
-      </table>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:.3em;">
-    <h3>Rate Limit Headers</h3>
-    <p>Responses include <code>x-ratelimit-limit-requests</code>, <code>x-ratelimit-limit-tokens</code>, <code>x-ratelimit-remaining-requests</code>, <code>x-ratelimit-remaining-tokens</code>, and <code>x-ratelimit-reset</code> headers for proactive management.</p>
-  </div>
-</section>
-
-<!-- ============ SLIDE 23 — SUMMARY & RESOURCES ============ -->
-<section>
-  <div class="slide-hdr"><span class="tag">22</span><h2>Summary &amp; Resources</h2></div>
-  <div class="cols cols-3">
-    <div class="card amber">
-      <h3>Core Concepts</h3>
-      <ul>
-        <li>REST API with Messages endpoint</li>
-        <li>API key authentication</li>
-        <li>Stateless &mdash; pass full history</li>
-        <li>Content blocks for rich responses</li>
-        <li>Token-based pricing</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Key Features</h3>
-      <ul>
-        <li>Streaming via SSE</li>
-        <li>Tool use / function calling</li>
-        <li>Vision &amp; multimodal input</li>
-        <li>Extended thinking</li>
-        <li>Batch processing</li>
-        <li>Prompt caching</li>
-      </ul>
-    </div>
-    <div class="card purple">
-      <h3>SDKs &amp; Tools</h3>
-      <ul>
-        <li>Python: <code>pip install anthropic</code></li>
-        <li>TypeScript: <code>npm i @anthropic-ai/sdk</code></li>
-        <li>Full async support in both</li>
-        <li>Auto-retries &amp; type safety</li>
-        <li>Anthropic Console for monitoring</li>
-      </ul>
-    </div>
-  </div>
-  <div class="cols cols-2" style="margin-top:.4em;">
-    <div class="card blue">
-      <h3>Documentation</h3>
-      <ul>
-        <li><span class="a">docs.anthropic.com</span> &mdash; Full API reference</li>
-        <li><span class="g">console.anthropic.com</span> &mdash; Dashboard &amp; keys</li>
-        <li><span class="p">github.com/anthropics</span> &mdash; SDK source code</li>
-      </ul>
-    </div>
-    <div class="card green">
-      <h3>Next: Presentation 6</h3>
-      <p style="font-size:.54em;"><span class="a">Claude in the Enterprise</span> &mdash; deployment patterns, Amazon Bedrock, Google Vertex AI, and production architectures.</p>
-    </div>
-  </div>
-</section>
-
-</div><!-- /slides -->
-</div><!-- /reveal -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
-<script>
-Reveal.initialize({
-  hash: true,
-  center: false,
-  progress: true,
-  slideNumber: 'c/t',
-  width: 960,
-  height: 700,
-  margin: 0.04,
-  transition: 'slide',
-  transitionSpeed: 'default'
-});
-
-function fixSlides(){
-  document.querySelectorAll('.reveal .slides > section').forEach(function(s){
-    s.style.display='flex';
-    s.style.flexDirection='column';
-    s.style.alignItems='stretch';
-    s.style.justifyContent='flex-start';
-  });
-}
-Reveal.on('ready', fixSlides);
-Reveal.on('slidechanged', fixSlides);
-</script>
+  </script>
 </body>
 </html>

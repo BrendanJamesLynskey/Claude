@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Future Capabilities &amp; Roadmap</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+  .cols-2, .cols-3, .cols-6040, .cols-4060 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible;  max-width: 100%; height: auto; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+  <div style="margin-top:1.5em;">
+    <p style="font-size:.5em;color:var(--muted);margin-bottom:.2em;" class="mono">Anthropic Claude Series &mdash; Presentation 9 of 10</p>
+    <h1>Future Capabilities &amp; Roadmap</h1>
+    <p class="subtitle">Where Claude is heading &mdash; and what it means for you</p>
+    <div class="meta">
+      <span class="pill amber">ROADMAP</span>
+      <span class="pill green">RESEARCH</span>
+      <span class="pill purple">SPECULATION</span>
+    </div>
+    <p style="font-size:.42em;color:var(--muted);margin-top:1.2em;">Note: This presentation distinguishes between <span class="g">announced/shipped features</span>, <span class="a">publicly stated directions</span>, and <span class="p">informed speculation</span>.</p>
+  </div>
+</section>
+
+<!-- Slide 2: Where We Are Today -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">TODAY</span>
+    <h2>Where We Are Today</h2>
+  </div>
+  <p>Claude has evolved from a research prototype to a production-grade AI system used by millions.</p>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Intelligence</h3>
+      <ul>
+        <li>State-of-the-art reasoning</li>
+        <li>200K token context window</li>
+        <li>Strong code generation</li>
+        <li>Nuanced instruction following</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Modalities</h3>
+      <ul>
+        <li>Text in &amp; out</li>
+        <li>Image understanding</li>
+        <li>PDF &amp; document analysis</li>
+        <li>Computer use (beta)</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Ecosystem</h3>
+      <ul>
+        <li>API, SDKs, MCP protocol</li>
+        <li>Claude Code (CLI agent)</li>
+        <li>AWS Bedrock &amp; GCP Vertex</li>
+        <li>Enterprise deployments</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.4em;">
+    <p><span class="b">Model family:</span> Claude Opus 4 (flagship), Sonnet 4 (balanced), Haiku 3.5 (fast) &mdash; each optimized for different use cases and cost profiles.</p>
+  </div>
+</section>
+
+<!-- Slide 3: Pace of Progress -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">TIMELINE</span>
+    <h2>The Pace of Progress</h2>
+  </div>
+  <p>Each generation has brought substantial capability jumps in a remarkably compressed timeline.</p>
+  <svg class="diagram" viewBox="0 0 860 260" width="820" height="250">
+    <!-- Timeline axis -->
+    <line x1="40" y1="180" x2="820" y2="180" stroke="#2a2a3a" stroke-width="2"/>
+    <!-- Era markers -->
+    <rect x="60" y="100" width="140" height="60" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+    <text x="130" y="122" fill="#f5a623" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 1</text>
+    <text x="130" y="140" fill="#8888a8" font-size="9" font-family="DM Sans" text-anchor="middle">Mar 2023</text>
+    <text x="130" y="152" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">100K ctx, text only</text>
+
+    <rect x="230" y="80" width="140" height="80" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="300" y="102" fill="#4ecb8d" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 2</text>
+    <text x="300" y="120" fill="#8888a8" font-size="9" font-family="DM Sans" text-anchor="middle">Jul 2023</text>
+    <text x="300" y="132" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">200K ctx, better reasoning</text>
+    <text x="300" y="148" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">coding improvements</text>
+
+    <rect x="400" y="60" width="140" height="100" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="470" y="82" fill="#a78bfa" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 3</text>
+    <text x="470" y="100" fill="#8888a8" font-size="9" font-family="DM Sans" text-anchor="middle">Mar 2024</text>
+    <text x="470" y="112" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Vision, model family</text>
+    <text x="470" y="128" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Opus/Sonnet/Haiku tiers</text>
+    <text x="470" y="148" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Extended thinking</text>
+
+    <rect x="570" y="40" width="140" height="120" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="640" y="62" fill="#60a5fa" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 4</text>
+    <text x="640" y="80" fill="#8888a8" font-size="9" font-family="DM Sans" text-anchor="middle">2025</text>
+    <text x="640" y="92" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Frontier intelligence</text>
+    <text x="640" y="108" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Computer use, MCP</text>
+    <text x="640" y="124" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Claude Code, agentic</text>
+    <text x="640" y="148" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Multi-modal advances</text>
+
+    <rect x="740" y="20" width="80" height="140" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="780" y="50" fill="#f87171" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Next?</text>
+    <text x="780" y="70" fill="#8888a8" font-size="9" font-family="DM Sans" text-anchor="middle">2025&ndash;2026</text>
+    <text x="780" y="86" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Longer context</text>
+    <text x="780" y="100" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Deeper agents</text>
+    <text x="780" y="114" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">New modalities</text>
+    <text x="780" y="128" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Memory</text>
+    <text x="780" y="142" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Customization</text>
+
+    <!-- Dots on timeline -->
+    <circle cx="130" cy="180" r="5" fill="#f5a623"/>
+    <circle cx="300" cy="180" r="5" fill="#4ecb8d"/>
+    <circle cx="470" cy="180" r="5" fill="#a78bfa"/>
+    <circle cx="640" cy="180" r="5" fill="#60a5fa"/>
+    <circle cx="780" cy="180" r="5" fill="#f87171" stroke="#f87171" stroke-width="2" fill-opacity="0.3"/>
+
+    <!-- Capability arrow -->
+    <text x="40" y="230" fill="#8888a8" font-size="9" font-family="JetBrains Mono">capability</text>
+    <line x1="40" y1="220" x2="820" y2="220" stroke="#8888a8" stroke-width="1" marker-end="url(#arrow)"/>
+    <defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#8888a8"/></marker></defs>
+  </svg>
+  <p style="font-size:.46em;color:var(--muted);text-align:center;">Dashed border indicates speculative / not yet announced.</p>
+</section>
+
+<!-- Slide 4: Longer Context Windows -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CONTEXT</span>
+    <h2>Longer Context Windows</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <p>Context windows have grown from 8K to 200K tokens. The trajectory points toward <span class="a">1M+ tokens</span>, enabling entirely new categories of use.</p>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>What 1M+ Tokens Enables</h3>
+        <ul>
+          <li>Entire codebases in a single prompt (~50K lines of code)</li>
+          <li>Full book-length documents for analysis</li>
+          <li>Multi-day conversation continuity without summarization loss</li>
+          <li>Complex multi-document reasoning and cross-referencing</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Challenges Remaining</h3>
+        <ul>
+          <li>Maintaining attention quality across very long contexts</li>
+          <li>Latency and cost at extreme context lengths</li>
+          <li>"Lost in the middle" retrieval accuracy</li>
+          <li>Efficient caching and prompt reuse strategies</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 300 280" width="280" height="270">
+        <text x="150" y="20" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Context Window Growth</text>
+        <!-- Bars -->
+        <rect x="30" y="230" width="40" height="10" rx="2" fill="#f5a623" opacity="0.6"/>
+        <text x="50" y="260" fill="#8888a8" font-size="8" font-family="DM Sans" text-anchor="middle">8K</text>
+        <text x="50" y="224" fill="#b8b8d0" font-size="7" font-family="JetBrains Mono" text-anchor="middle">GPT-3 era</text>
+
+        <rect x="90" y="200" width="40" height="40" rx="2" fill="#4ecb8d" opacity="0.7"/>
+        <text x="110" y="260" fill="#8888a8" font-size="8" font-family="DM Sans" text-anchor="middle">100K</text>
+        <text x="110" y="194" fill="#b8b8d0" font-size="7" font-family="JetBrains Mono" text-anchor="middle">Claude 1</text>
+
+        <rect x="150" y="160" width="40" height="80" rx="2" fill="#a78bfa" opacity="0.7"/>
+        <text x="170" y="260" fill="#8888a8" font-size="8" font-family="DM Sans" text-anchor="middle">200K</text>
+        <text x="170" y="154" fill="#b8b8d0" font-size="7" font-family="JetBrains Mono" text-anchor="middle">Claude 3+</text>
+
+        <rect x="210" y="80" width="40" height="160" rx="2" fill="#60a5fa" opacity="0.5" stroke="#60a5fa" stroke-dasharray="3,2"/>
+        <text x="230" y="260" fill="#8888a8" font-size="8" font-family="DM Sans" text-anchor="middle">1M+</text>
+        <text x="230" y="74" fill="#b8b8d0" font-size="7" font-family="JetBrains Mono" text-anchor="middle">Expected</text>
+
+        <!-- Labels -->
+        <text x="150" y="280" fill="#8888a8" font-size="8" font-family="JetBrains Mono" text-anchor="middle">tokens</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: Improved Reasoning -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">REASONING</span>
+    <h2>Improved Reasoning</h2>
+  </div>
+  <p>Extended thinking and chain-of-thought have transformed Claude's reasoning. The next frontier: deeper planning, self-correction, and mathematical proof.</p>
+  <div class="cols cols-2">
+    <div class="card green">
+      <h3>Already Shipped</h3>
+      <ul>
+        <li><span class="g">Extended thinking</span> &mdash; visible chain-of-thought for complex tasks</li>
+        <li><span class="g">Multi-step reasoning</span> &mdash; breaking problems into sub-steps</li>
+        <li><span class="g">Self-correction</span> &mdash; catching and fixing errors mid-reasoning</li>
+        <li><span class="g">Tool use reasoning</span> &mdash; deciding when and how to invoke tools</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Expected Directions</h3>
+      <ul>
+        <li><span class="p">Formal verification</span> &mdash; mathematical proof assistance</li>
+        <li><span class="p">Planning horizons</span> &mdash; longer-range strategic thinking</li>
+        <li><span class="p">Metacognition</span> &mdash; better awareness of own uncertainty</li>
+        <li><span class="p">Iterative refinement</span> &mdash; revisiting and improving own outputs</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card amber" style="margin-top:.3em;">
+    <h3>Why This Matters</h3>
+    <p>Better reasoning is arguably the single most impactful improvement vector. It compounds across every use case &mdash; coding, analysis, writing, decision-making &mdash; because reasoning quality is the foundation of output quality.</p>
+  </div>
+</section>
+
+<!-- Slide 6: Better Code Generation -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CODE</span>
+    <h2>Better Code Generation</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <p>Claude is already a leading coding assistant. Future models will move toward <span class="a">autonomous software engineering</span> with full-project awareness.</p>
+      <div class="card green">
+        <h3>Current Strengths (Claude Code)</h3>
+        <ul>
+          <li>Agentic coding: read, edit, test, commit</li>
+          <li>Multi-file refactoring with context</li>
+          <li>Test generation and bug diagnosis</li>
+          <li>Git-aware workflow integration</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Emerging Capabilities</h3>
+        <ul>
+          <li>Full-repository understanding and architecture reasoning</li>
+          <li>Autonomous PR creation, review, and iteration</li>
+          <li>Long-running background tasks (hours, not seconds)</li>
+          <li>Cross-language migration and modernization</li>
+          <li>Performance optimization with profiling feedback</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 280 290" width="260" height="280">
+        <text x="140" y="18" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Coding Autonomy Levels</text>
+        <!-- Pyramid -->
+        <polygon points="140,40 260,260 20,260" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+        <!-- Level fills -->
+        <rect x="45" y="220" width="190" height="35" rx="3" fill="#4ecb8d" opacity="0.2"/>
+        <text x="140" y="238" fill="#4ecb8d" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Autocomplete</text>
+        <text x="140" y="250" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Line/block suggestions</text>
+
+        <rect x="65" y="175" width="150" height="35" rx="3" fill="#60a5fa" opacity="0.2"/>
+        <text x="140" y="193" fill="#60a5fa" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Task Completion</text>
+        <text x="140" y="205" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Implement feature from description</text>
+
+        <rect x="80" y="130" width="120" height="35" rx="3" fill="#a78bfa" opacity="0.2"/>
+        <text x="140" y="148" fill="#a78bfa" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Agentic Coding</text>
+        <text x="140" y="160" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Multi-step, tool-using</text>
+
+        <rect x="95" y="85" width="90" height="35" rx="3" fill="#f5a623" opacity="0.2"/>
+        <text x="140" y="103" fill="#f5a623" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Autonomous SWE</text>
+        <text x="140" y="115" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Full project ownership</text>
+
+        <rect x="110" y="45" width="60" height="30" rx="3" fill="#f87171" opacity="0.15" stroke="#f87171" stroke-dasharray="3,2"/>
+        <text x="140" y="63" fill="#f87171" font-size="8" font-family="DM Sans" text-anchor="middle" font-weight="600">System Architect</text>
+
+        <!-- "We are here" -->
+        <line x1="268" y1="150" x2="205" y2="150" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrowG)"/>
+        <text x="270" y="148" fill="#4ecb8d" font-size="8" font-family="JetBrains Mono" text-anchor="start">we are here</text>
+        <defs><marker id="arrowG" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#4ecb8d"/></marker></defs>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 7: Enhanced Multimodal -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MULTIMODAL</span>
+    <h2>Enhanced Multimodal</h2>
+  </div>
+  <p>Claude already understands images and PDFs. The trajectory is toward <span class="a">richer input and output modalities</span>.</p>
+  <div class="cols cols-3">
+    <div class="card green">
+      <h3>Shipped Today</h3>
+      <ul>
+        <li>Image understanding &amp; analysis</li>
+        <li>Chart &amp; diagram interpretation</li>
+        <li>PDF document processing</li>
+        <li>Screenshot analysis</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Announced / In Progress</h3>
+      <ul>
+        <li>Audio input processing</li>
+        <li>Voice conversation mode</li>
+        <li>Improved image detail recognition</li>
+        <li>Multi-image reasoning</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Speculative Directions</h3>
+      <ul>
+        <li>Video understanding &amp; summarization</li>
+        <li>Image generation / editing</li>
+        <li>Native audio output (speech)</li>
+        <li>3D/spatial reasoning</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.4em;">
+    <p><span class="b">Key insight:</span> Multimodal is not just about supporting more formats &mdash; it is about <em>unified reasoning</em> across modalities. The goal is a model that thinks as fluidly about images, audio, and video as it does about text.</p>
+  </div>
+</section>
+
+<!-- Slide 8: Computer Use -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">COMPUTER USE</span>
+    <h2>Computer Use &amp; GUI Agents</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <p>Claude can interact with computer screens &mdash; clicking, typing, scrolling, and navigating GUIs. This is a <span class="g">shipped beta feature</span> with enormous growth potential.</p>
+      <div class="card green">
+        <h3>Current State (Beta)</h3>
+        <ul>
+          <li>Screenshot-based screen understanding</li>
+          <li>Mouse &amp; keyboard action generation</li>
+          <li>Form filling, web navigation</li>
+          <li>Basic desktop application interaction</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Future Potential</h3>
+        <ul>
+          <li>Real-time screen streaming (not just screenshots)</li>
+          <li>Complex multi-application workflows</li>
+          <li>Software QA testing automation</li>
+          <li>Accessibility assistance for users with disabilities</li>
+          <li>Legacy system automation (no API needed)</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 280 270" width="260" height="260">
+        <text x="140" y="18" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Computer Use Flow</text>
+        <!-- Monitor -->
+        <rect x="60" y="35" width="160" height="100" rx="6" fill="#10101a" stroke="#2a2a3a" stroke-width="1.5"/>
+        <rect x="70" y="42" width="140" height="78" rx="3" fill="#181824"/>
+        <text x="140" y="75" fill="#60a5fa" font-size="9" font-family="DM Sans" text-anchor="middle">Application UI</text>
+        <text x="140" y="90" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">(screenshot captured)</text>
+        <rect x="110" y="135" width="60" height="4" rx="2" fill="#2a2a3a"/>
+        <!-- Arrow down -->
+        <line x1="140" y1="145" x2="140" y2="170" stroke="#f5a623" stroke-width="1.5" marker-end="url(#arrowA)"/>
+        <defs><marker id="arrowA" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#f5a623"/></marker></defs>
+        <!-- Claude brain -->
+        <rect x="80" y="175" width="120" height="35" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+        <text x="140" y="192" fill="#f5a623" font-size="10" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude</text>
+        <text x="140" y="204" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">analyzes &amp; decides action</text>
+        <!-- Arrow down -->
+        <line x1="140" y1="215" x2="140" y2="235" stroke="#4ecb8d" stroke-width="1.5" marker-end="url(#arrowB)"/>
+        <defs><marker id="arrowB" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#4ecb8d"/></marker></defs>
+        <!-- Action -->
+        <rect x="60" y="240" width="160" height="25" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+        <text x="140" y="256" fill="#4ecb8d" font-size="9" font-family="JetBrains Mono" text-anchor="middle">click(x, y) / type("...")</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 9: Persistent Memory -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MEMORY</span>
+    <h2>Persistent Memory</h2>
+  </div>
+  <p>Today each conversation starts fresh. The future includes <span class="a">persistent memory</span> that spans conversations, enabling true personalization.</p>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>What Memory Enables</h3>
+      <ul>
+        <li>Remembering user preferences and style</li>
+        <li>Building on prior conversation context</li>
+        <li>Accumulating project-specific knowledge</li>
+        <li>Personalized recommendations over time</li>
+        <li>Reducing repetitive setup instructions</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Design Challenges</h3>
+      <ul>
+        <li>Privacy: what should be remembered vs. forgotten?</li>
+        <li>User control: explicit opt-in, review, deletion</li>
+        <li>Accuracy: preventing memory corruption</li>
+        <li>Scale: managing memories across millions of users</li>
+        <li>Security: memory as an attack surface</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card green" style="margin-top:.3em;">
+    <h3>Early Implementations</h3>
+    <p>Project-level context via system prompts, <code>CLAUDE.md</code> files in Claude Code, and user-specified preferences in claude.ai are precursors to richer memory systems. Anthropic has begun shipping memory features on claude.ai.</p>
+  </div>
+</section>
+
+<!-- Slide 10: Real-time Capabilities -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">REAL-TIME</span>
+    <h2>Real-time Capabilities</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <p>AI interactions are moving from <span class="a">request-response</span> to <span class="g">continuous collaboration</span>.</p>
+      <div class="card amber">
+        <h3>Voice Mode</h3>
+        <ul>
+          <li>Natural speech conversation with Claude</li>
+          <li>Low-latency audio processing</li>
+          <li>Interruption handling and turn-taking</li>
+          <li>Emotional tone awareness</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Real-time Collaboration</h3>
+        <ul>
+          <li>Pair-programming with live feedback</li>
+          <li>Document co-editing as a collaborator</li>
+          <li>Streaming analysis of live data</li>
+          <li>Interactive tutoring and coaching</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 280 250" width="260" height="240">
+        <text x="140" y="18" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Interaction Models</text>
+        <!-- Old model -->
+        <rect x="20" y="40" width="240" height="60" rx="6" fill="#10101a" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="140" y="56" fill="#8888a8" font-size="9" font-family="DM Sans" text-anchor="middle">Traditional: Request &rarr; Response</text>
+        <rect x="40" y="65" width="60" height="22" rx="3" fill="#f5a623" opacity="0.2" stroke="#f5a623" stroke-width="1"/>
+        <text x="70" y="80" fill="#f5a623" font-size="8" font-family="DM Sans" text-anchor="middle">User</text>
+        <line x1="105" y1="76" x2="145" y2="76" stroke="#8888a8" stroke-width="1" marker-end="url(#arrowC)"/>
+        <rect x="150" y="65" width="80" height="22" rx="3" fill="#4ecb8d" opacity="0.2" stroke="#4ecb8d" stroke-width="1"/>
+        <text x="190" y="80" fill="#4ecb8d" font-size="8" font-family="DM Sans" text-anchor="middle">Claude responds</text>
+        <!-- New model -->
+        <rect x="20" y="120" width="240" height="110" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="140" y="138" fill="#a78bfa" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Future: Continuous Collaboration</text>
+        <!-- Bidirectional arrows -->
+        <rect x="40" y="150" width="60" height="22" rx="3" fill="#f5a623" opacity="0.2" stroke="#f5a623" stroke-width="1"/>
+        <text x="70" y="165" fill="#f5a623" font-size="8" font-family="DM Sans" text-anchor="middle">User</text>
+        <rect x="160" y="150" width="80" height="22" rx="3" fill="#4ecb8d" opacity="0.2" stroke="#4ecb8d" stroke-width="1"/>
+        <text x="200" y="165" fill="#4ecb8d" font-size="8" font-family="DM Sans" text-anchor="middle">Claude</text>
+        <line x1="100" y1="157" x2="155" y2="157" stroke="#a78bfa" stroke-width="1" marker-end="url(#arrowD)"/>
+        <line x1="155" y1="167" x2="100" y2="167" stroke="#a78bfa" stroke-width="1" marker-end="url(#arrowD)"/>
+        <text x="140" y="198" fill="#b8b8d0" font-size="7.5" font-family="DM Sans" text-anchor="middle">Shared context, proactive suggestions,</text>
+        <text x="140" y="210" fill="#b8b8d0" font-size="7.5" font-family="DM Sans" text-anchor="middle">ambient awareness, live updates</text>
+        <defs><marker id="arrowC" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#8888a8"/></marker><marker id="arrowD" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#a78bfa"/></marker></defs>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 11: Advanced Agents -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">AGENTS</span>
+    <h2>Advanced Agents</h2>
+  </div>
+  <p>Agents move beyond chat into <span class="a">autonomous, multi-step task execution</span> with tool use, error recovery, and long-running workflows.</p>
+  <div class="cols cols-6040">
+    <div>
+      <div class="card green">
+        <h3>Shipped Agent Capabilities</h3>
+        <ul>
+          <li>Claude Code: agentic software engineering</li>
+          <li>MCP: standardized tool integration protocol</li>
+          <li>Multi-turn tool use with reasoning</li>
+          <li>Parallel tool execution</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Next-Generation Agents</h3>
+        <ul>
+          <li>Hours-long autonomous work sessions</li>
+          <li>Self-monitoring and error recovery</li>
+          <li>Sub-task delegation and orchestration</li>
+          <li>Human-in-the-loop escalation when uncertain</li>
+          <li>Background processing with progress reports</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 280 250" width="260" height="240">
+        <text x="140" y="18" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Agent Architecture</text>
+        <!-- Central agent -->
+        <rect x="90" y="35" width="100" height="30" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+        <text x="140" y="54" fill="#f5a623" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">Claude Agent</text>
+        <!-- Tools -->
+        <rect x="10" y="95" width="72" height="24" rx="4" fill="#10101a" stroke="#4ecb8d" stroke-width="1"/>
+        <text x="46" y="111" fill="#4ecb8d" font-size="8" font-family="JetBrains Mono" text-anchor="middle">code tools</text>
+        <rect x="94" y="95" width="72" height="24" rx="4" fill="#10101a" stroke="#60a5fa" stroke-width="1"/>
+        <text x="130" y="111" fill="#60a5fa" font-size="8" font-family="JetBrains Mono" text-anchor="middle">web/APIs</text>
+        <rect x="178" y="95" width="72" height="24" rx="4" fill="#10101a" stroke="#a78bfa" stroke-width="1"/>
+        <text x="214" y="111" fill="#a78bfa" font-size="8" font-family="JetBrains Mono" text-anchor="middle">databases</text>
+        <!-- Lines to tools -->
+        <line x1="120" y1="65" x2="46" y2="95" stroke="#2a2a3a" stroke-width="1"/>
+        <line x1="140" y1="65" x2="130" y2="95" stroke="#2a2a3a" stroke-width="1"/>
+        <line x1="160" y1="65" x2="214" y2="95" stroke="#2a2a3a" stroke-width="1"/>
+        <!-- Reasoning loop -->
+        <rect x="50" y="145" width="180" height="55" rx="6" fill="#10101a" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="140" y="162" fill="#f5a623" font-size="8" font-family="DM Sans" text-anchor="middle" font-weight="600">Reasoning Loop</text>
+        <text x="140" y="176" fill="#b8b8d0" font-size="7" font-family="DM Sans" text-anchor="middle">Plan &rarr; Execute &rarr; Observe &rarr; Adjust</text>
+        <text x="140" y="190" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">(repeat until goal achieved)</text>
+        <!-- Loop arrow -->
+        <path d="M230,172 A 20 20 0 1 1 230,170" fill="none" stroke="#f5a623" stroke-width="1" stroke-dasharray="2,2"/>
+        <!-- Output -->
+        <rect x="70" y="220" width="140" height="24" rx="4" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+        <text x="140" y="236" fill="#4ecb8d" font-size="9" font-family="DM Sans" text-anchor="middle">Task Completed + Report</text>
+        <line x1="140" y1="200" x2="140" y2="220" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowB)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 12: Multi-Agent Ecosystems -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MULTI-AGENT</span>
+    <h2>Multi-Agent Ecosystems</h2>
+  </div>
+  <p>Beyond single agents: systems where <span class="p">multiple specialized agents collaborate</span> on complex problems.</p>
+  <svg class="diagram" viewBox="0 0 780 200" width="740" height="190">
+    <text x="390" y="18" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Multi-Agent Collaboration Pattern</text>
+    <!-- Orchestrator -->
+    <rect x="300" y="35" width="180" height="35" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+    <text x="390" y="57" fill="#f5a623" font-size="11" font-family="DM Sans" text-anchor="middle" font-weight="600">Orchestrator Agent</text>
+    <!-- Specialist agents -->
+    <rect x="20" y="110" width="130" height="55" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="85" y="132" fill="#4ecb8d" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Research Agent</text>
+    <text x="85" y="148" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Web search, data gathering</text>
+    <text x="85" y="160" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">source validation</text>
+
+    <rect x="170" y="110" width="130" height="55" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="235" y="132" fill="#60a5fa" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Coding Agent</text>
+    <text x="235" y="148" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Implementation, testing</text>
+    <text x="235" y="160" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">code review</text>
+
+    <rect x="320" y="110" width="130" height="55" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="385" y="132" fill="#a78bfa" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Analysis Agent</text>
+    <text x="385" y="148" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Data processing</text>
+    <text x="385" y="160" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">insights, visualization</text>
+
+    <rect x="470" y="110" width="130" height="55" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
+    <text x="535" y="132" fill="#f87171" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Review Agent</text>
+    <text x="535" y="148" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Quality assurance</text>
+    <text x="535" y="160" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">safety checks</text>
+
+    <rect x="620" y="110" width="130" height="55" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+    <text x="685" y="132" fill="#f5a623" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Comms Agent</text>
+    <text x="685" y="148" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Report generation</text>
+    <text x="685" y="160" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">stakeholder updates</text>
+
+    <!-- Connection lines -->
+    <line x1="340" y1="70" x2="85" y2="110" stroke="#2a2a3a" stroke-width="1"/>
+    <line x1="360" y1="70" x2="235" y2="110" stroke="#2a2a3a" stroke-width="1"/>
+    <line x1="390" y1="70" x2="385" y2="110" stroke="#2a2a3a" stroke-width="1"/>
+    <line x1="420" y1="70" x2="535" y2="110" stroke="#2a2a3a" stroke-width="1"/>
+    <line x1="440" y1="70" x2="685" y2="110" stroke="#2a2a3a" stroke-width="1"/>
+    <!-- Lateral connections -->
+    <line x1="150" y1="137" x2="170" y2="137" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="300" y1="137" x2="320" y2="137" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="450" y1="137" x2="470" y2="137" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="600" y1="137" x2="620" y2="137" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,2"/>
+  </svg>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card blue">
+      <h3>Enabled By</h3>
+      <p>MCP provides the inter-agent communication standard. Each agent can expose tools that other agents consume, creating composable AI systems.</p>
+    </div>
+    <div class="card red">
+      <h3>Open Questions</h3>
+      <p>Coordination overhead, error propagation, trust boundaries between agents, and debugging complex multi-agent interactions remain active research areas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 13: Enterprise Features -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">ENTERPRISE</span>
+    <h2>Enterprise Features</h2>
+  </div>
+  <p>Enterprise adoption requires features beyond raw capability: <span class="a">compliance, governance, and deep integration</span>.</p>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Integration Depth</h3>
+      <ul>
+        <li>Native SSO / SAML / SCIM</li>
+        <li>Data warehouse connectors</li>
+        <li>ERP and CRM integrations</li>
+        <li>Custom API endpoints</li>
+        <li>On-premise deployment options</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Governance &amp; Compliance</h3>
+      <ul>
+        <li>Audit logging and traceability</li>
+        <li>Data residency controls</li>
+        <li>SOC 2, HIPAA, FedRAMP alignment</li>
+        <li>Usage policies and guardrails</li>
+        <li>PII detection and redaction</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Custom Models</h3>
+      <ul>
+        <li>Fine-tuning for domain vocabulary</li>
+        <li>Custom evaluation benchmarks</li>
+        <li>Specialized safety policies</li>
+        <li>Dedicated model instances</li>
+        <li>Performance SLAs</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Platform maturity:</span> AWS Bedrock and Google Vertex AI already provide enterprise-grade Claude access. Expect deeper native integrations into cloud workflows, including serverless triggers, data pipelines, and CI/CD systems.</p>
+  </div>
+</section>
+
+<!-- Slide 14: Fine-tuning & Customization -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">CUSTOMIZATION</span>
+    <h2>Fine-tuning &amp; Customization</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <p>Making Claude <span class="a">your own</span>: adapting the model to specific domains, styles, and organizational knowledge.</p>
+      <div class="card green">
+        <h3>Available Now</h3>
+        <ul>
+          <li>System prompts for behavior customization</li>
+          <li>Few-shot examples in context</li>
+          <li>Project-level knowledge via documentation</li>
+          <li>API-based prompt caching for efficiency</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Emerging Options</h3>
+        <ul>
+          <li>Fine-tuning API for domain-specific training</li>
+          <li>RLHF with custom preference data</li>
+          <li>Knowledge distillation from larger to smaller models</li>
+          <li>Retrieval-augmented generation (RAG) integrations</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Customization Spectrum</h3>
+        <table>
+          <tr><th>Method</th><th>Effort</th><th>Impact</th></tr>
+          <tr><td>System prompt</td><td style="color:var(--green)">Low</td><td>Moderate</td></tr>
+          <tr><td>Few-shot examples</td><td style="color:var(--green)">Low</td><td>Moderate</td></tr>
+          <tr><td>RAG / knowledge base</td><td style="color:var(--amber)">Medium</td><td>High</td></tr>
+          <tr><td>Fine-tuning</td><td style="color:var(--red)">High</td><td>Very high</td></tr>
+          <tr><td>Custom training</td><td style="color:var(--red)">Very high</td><td>Maximum</td></tr>
+        </table>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Best Practice</h3>
+        <p>Start with the lightest-weight approach (system prompts + RAG) and only move to fine-tuning when those prove insufficient. Most use cases are well-served without fine-tuning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 15: Safety & Alignment Advances -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SAFETY</span>
+    <h2>Safety &amp; Alignment Advances</h2>
+  </div>
+  <p>Safety is not a constraint bolted on &mdash; it is <span class="a">core to Anthropic's mission</span> and a competitive differentiator.</p>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Constitutional AI Evolution</h3>
+      <ul>
+        <li>More nuanced value alignment</li>
+        <li>Reduced over-refusals</li>
+        <li>Context-aware safety boundaries</li>
+        <li>Customizable safety policies for enterprises</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Interpretability</h3>
+      <ul>
+        <li>Understanding what the model "knows"</li>
+        <li>Tracing reasoning pathways</li>
+        <li>Detecting hallucination sources</li>
+        <li>Anthropic's published interpretability research</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Responsible Scaling</h3>
+      <ul>
+        <li>AI Safety Levels (ASL) framework</li>
+        <li>Capability evaluations before deployment</li>
+        <li>Red-teaming and adversarial testing</li>
+        <li>Third-party safety audits</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Why it matters for users:</span> Better alignment means Claude becomes more helpful (fewer false refusals), more trustworthy (fewer hallucinations), and more predictable (consistent behavior). Safety and capability advance together, not in opposition.</p>
+  </div>
+</section>
+
+<!-- Slide 16: Industry Impact -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">IMPACT</span>
+    <h2>Industry Impact</h2>
+  </div>
+  <p>AI is reshaping how knowledge work is done. The effects will be uneven but widespread.</p>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Software Engineering</h3>
+      <ul>
+        <li><span class="a">Already happening:</span> AI-assisted coding is standard practice</li>
+        <li>Code review, testing, and documentation automation</li>
+        <li>Shift from "writing code" to "directing AI + reviewing output"</li>
+        <li>Junior developer productivity multiplied; senior developers freed for architecture</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Knowledge Work</h3>
+      <ul>
+        <li>Research synthesis across thousands of documents</li>
+        <li>Draft generation for legal, financial, medical fields</li>
+        <li>Data analysis accessible to non-technical users</li>
+        <li>Customer support quality/speed improvements</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card purple">
+      <h3>New Job Categories</h3>
+      <ul>
+        <li>Prompt engineers and AI workflow designers</li>
+        <li>AI safety and alignment specialists</li>
+        <li>Human-AI interaction designers</li>
+        <li>AI auditors and ethics reviewers</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Honest Uncertainties</h3>
+      <ul>
+        <li>Pace of capability improvement is hard to predict</li>
+        <li>Economic effects will vary by industry and role</li>
+        <li>Regulation will shape deployment patterns</li>
+        <li>Human adaptability has been historically underestimated</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 17: Competitive Landscape -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">LANDSCAPE</span>
+    <h2>Competitive Landscape</h2>
+  </div>
+  <p>Where Claude fits in the broader AI ecosystem. <span class="a">Note:</span> this landscape evolves rapidly.</p>
+  <table>
+    <tr>
+      <th>Dimension</th>
+      <th>Claude (Anthropic)</th>
+      <th>GPT (OpenAI)</th>
+      <th>Gemini (Google)</th>
+      <th>Open Source</th>
+    </tr>
+    <tr>
+      <td><span class="a">Reasoning</span></td>
+      <td>Frontier (extended thinking)</td>
+      <td>Frontier (o1/o3 reasoning)</td>
+      <td>Strong (Gemini 2.5)</td>
+      <td>Improving rapidly (DeepSeek, Llama)</td>
+    </tr>
+    <tr>
+      <td><span class="g">Coding</span></td>
+      <td>Top tier; Claude Code agent</td>
+      <td>Top tier; Codex, Copilot</td>
+      <td>Strong; Gemini Code Assist</td>
+      <td>Competitive (Codestral, Qwen)</td>
+    </tr>
+    <tr>
+      <td><span class="p">Safety</span></td>
+      <td>Core mission; Constitutional AI</td>
+      <td>Strong; RLHF focus</td>
+      <td>Strong; Google scale</td>
+      <td>Variable; community-driven</td>
+    </tr>
+    <tr>
+      <td><span class="b">Multimodal</span></td>
+      <td>Vision + docs; audio emerging</td>
+      <td>Vision, audio, video, image gen</td>
+      <td>Native multimodal; broadest</td>
+      <td>Growing; specialized models</td>
+    </tr>
+    <tr>
+      <td><span class="r">Ecosystem</span></td>
+      <td>API, MCP, Bedrock/Vertex</td>
+      <td>Largest ecosystem; plugins</td>
+      <td>Deep Google integration</td>
+      <td>Most flexible; self-hosted</td>
+    </tr>
+    <tr>
+      <td>Context length</td>
+      <td>200K tokens</td>
+      <td>128K tokens</td>
+      <td>1M+ tokens</td>
+      <td>Varies (8K&ndash;128K typical)</td>
+    </tr>
+  </table>
+  <p style="font-size:.46em;color:var(--muted);margin-top:.3em;">Landscape as of early 2025. Rankings shift frequently as all providers release new models.</p>
+</section>
+
+<!-- Slide 18: Preparing for the Future -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">PREPARATION</span>
+    <h2>Preparing for the Future</h2>
+  </div>
+  <p>How to position yourself and your organization as AI capabilities continue to grow.</p>
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Skills to Develop</h3>
+      <ul>
+        <li><span class="a">Prompt engineering</span> &mdash; the skill of communicating intent to AI effectively</li>
+        <li><span class="a">AI-assisted workflows</span> &mdash; integrating AI into your daily process</li>
+        <li><span class="a">Evaluation &amp; judgment</span> &mdash; knowing when AI output is good enough</li>
+        <li><span class="a">System design</span> &mdash; architecting applications around AI capabilities</li>
+        <li><span class="a">Domain expertise</span> &mdash; becomes more valuable, not less, with AI</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Staying Current</h3>
+      <ul>
+        <li>Follow <span class="g">anthropic.com/research</span> for technical publications</li>
+        <li>Read the <span class="g">Claude changelog</span> for new feature launches</li>
+        <li>Experiment with new capabilities on day one</li>
+        <li>Join developer communities (Discord, forums)</li>
+        <li>Build small projects that stretch current boundaries</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card purple" style="margin-top:.3em;">
+    <h3>Organizational Readiness</h3>
+    <ul>
+      <li>Establish AI usage policies and governance frameworks now, before the need becomes urgent</li>
+      <li>Invest in data quality &mdash; AI amplifies the value of well-structured organizational knowledge</li>
+      <li>Create "AI champion" roles: people who bridge domain expertise and AI capability awareness</li>
+      <li>Start with high-impact, low-risk use cases and expand from demonstrated success</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Slide 19: Anthropic's Mission -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">MISSION</span>
+    <h2>Anthropic's Mission</h2>
+  </div>
+  <p>Anthropic exists to build AI systems that are <span class="a">reliable, interpretable, and steerable</span> &mdash; with safety as a core objective, not an afterthought.</p>
+  <div class="cols cols-6040">
+    <div>
+      <div class="card amber">
+        <h3>Responsible Scaling Policy</h3>
+        <p>Anthropic commits to evaluating each new model against defined AI Safety Levels (ASLs) before deployment. More capable models require stronger safety measures.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Research Priorities</h3>
+        <ul>
+          <li><span class="g">Interpretability:</span> understanding what models learn and why they produce specific outputs</li>
+          <li><span class="g">Alignment:</span> ensuring models pursue intended goals</li>
+          <li><span class="g">Robustness:</span> reliable behavior under adversarial conditions</li>
+          <li><span class="g">Societal impact:</span> studying how AI affects work, education, and society</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <svg class="diagram" viewBox="0 0 280 260" width="260" height="250">
+        <text x="140" y="18" fill="#f5a623" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Responsible Scaling</text>
+        <!-- ASL Levels -->
+        <rect x="30" y="35" width="220" height="35" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+        <text x="140" y="50" fill="#4ecb8d" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-1: No meaningful risk</text>
+        <text x="140" y="63" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Basic models, standard deployment</text>
+
+        <rect x="30" y="80" width="220" height="35" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+        <text x="140" y="95" fill="#60a5fa" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-2: Current level</text>
+        <text x="140" y="108" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Today's frontier models; standard safeguards</text>
+
+        <rect x="30" y="125" width="220" height="35" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+        <text x="140" y="140" fill="#f5a623" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-3: Elevated risk</text>
+        <text x="140" y="153" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Enhanced safeguards required</text>
+
+        <rect x="30" y="170" width="220" height="35" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
+        <text x="140" y="185" fill="#f87171" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-4+: Significant risk</text>
+        <text x="140" y="198" fill="#8888a8" font-size="7" font-family="DM Sans" text-anchor="middle">Extraordinary safeguards; may not deploy</text>
+
+        <!-- Arrow -->
+        <text x="275" y="60" fill="#8888a8" font-size="7" font-family="JetBrains Mono" transform="rotate(90,275,110)">increasing capability &amp; risk</text>
+
+        <text x="140" y="230" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">Each level triggers proportional safety investment</text>
+        <text x="140" y="245" fill="#b8b8d0" font-size="8" font-family="DM Sans" text-anchor="middle">before deployment is permitted</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 20: Summary & Series Conclusion -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>Summary &amp; Series Conclusion</h2>
+  </div>
+  <p>We have covered the full landscape of Claude &mdash; from fundamentals to the frontier.</p>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Key Trends</h3>
+      <ul>
+        <li>Longer context, deeper reasoning</li>
+        <li>More modalities, richer understanding</li>
+        <li>From chatbot to autonomous agent</li>
+        <li>Safety and capability advancing together</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>What to Watch</h3>
+      <ul>
+        <li>Agent reliability improvements</li>
+        <li>Memory and personalization features</li>
+        <li>Multi-agent coordination patterns</li>
+        <li>Enterprise customization options</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Your Next Steps</h3>
+      <ul>
+        <li>Experiment with current capabilities</li>
+        <li>Build one real project with Claude</li>
+        <li>Establish AI workflows in your team</li>
+        <li>Stay informed as the field evolves</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.4em;">
+    <h3>The Series: All 10 Presentations</h3>
+    <div class="cols cols-2" style="margin-top:.15em;">
+      <div>
+        <ol style="padding-left:1.2em;">
+          <li style="font-size:.46em;color:#b8b8d0;">Introduction to Claude</li>
+          <li style="font-size:.46em;color:#b8b8d0;">Getting Started</li>
+          <li style="font-size:.46em;color:#b8b8d0;">Claude AI Models &amp; Capabilities</li>
+          <li style="font-size:.46em;color:#b8b8d0;">Claude Code</li>
+          <li style="font-size:.46em;color:#b8b8d0;">API &amp; SDKs</li>
+        </ol>
+      </div>
+      <div>
+        <ol start="6" style="padding-left:1.2em;">
+          <li style="font-size:.46em;color:#b8b8d0;">Claude in the Enterprise</li>
+          <li style="font-size:.46em;color:#b8b8d0;">Advanced Techniques</li>
+          <li style="font-size:.46em;color:#b8b8d0;">Safety &amp; Responsible AI</li>
+          <li style="font-size:.46em;color:var(--amber);font-weight:600;">Future Capabilities &amp; Roadmap (this deck)</li>
+          <li style="font-size:.46em;color:#b8b8d0;">Hands-on Workshop</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:.5em;text-align:center;color:var(--muted);margin-top:.4em;">Next: <span class="a">Presentation 10 &mdash; Hands-on Workshop</span></p>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  center: false,
+  progress: true,
+  slideNumber: 'c/t',
+  width: 420,
+  height: 780,
+  margin: 0.02,
+  transition: 'slide',
+  transitionSpeed: 'default'
+});
+
+function fixSlides(){
+  document.querySelectorAll('.reveal .slides > section').forEach(function(s){
+    s.style.display='flex';
+    s.style.flexDirection='column';
+    s.style.alignItems='stretch';
+    s.style.justifyContent='flex-start';
+  });
+}
+Reveal.on('ready', fixSlides);
+Reveal.on('slidechanged', fixSlides);
+</script>
+</body>
+</html>
