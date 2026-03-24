@@ -25,9 +25,9 @@
 
 .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
 .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: var(--text); }
-.reveal h2 { font-size: 1.6em; margin-bottom: 0.5em; }
-.reveal h3 { font-size: 1.15em; margin-bottom: 0.4em; }
-.reveal p, .reveal li { font-size: 0.72em; line-height: 1.55; color: var(--text); }
+.reveal h2 { font-size: 1.0em; margin-bottom: 0.5em; }
+.reveal h3 { font-size: .72em; margin-bottom: 0.4em; }
+.reveal p, .reveal li { font-size: .50em; line-height: 1.55; color: var(--text); }
 .reveal ul, .reveal ol { margin-left: 0.6em; }
 .reveal li { margin-bottom: 0.25em; }
 .reveal section { background: var(--bg) !important; padding: 1.2em 1.5em !important; text-align: left; }
@@ -44,7 +44,7 @@
 .tag {
   display: inline-block; background: var(--amber); color: #000;
   font-family: 'JetBrains Mono', monospace; font-weight: 500;
-  font-size: 0.55em; padding: 0.15em 0.55em; border-radius: 4px;
+  font-size: 0.42em; padding: 0.1em 0.4em; border-radius: 4px;
   margin-right: 0.5em; vertical-align: middle; position: relative; top: -2px;
 }
 
@@ -80,8 +80,8 @@
 .card.blue { border-left-color: var(--blue); }
 .card.red { border-left-color: var(--red); }
 
-.card h3 { margin-top: 0; font-size: 0.85em; }
-.card p, .card li { font-size: 0.65em; }
+.card h3 { margin-top: 0; font-size: .60em; }
+.card p, .card li { font-size: .48em; }
 
 /* Title Slide */
 .title-slide { text-align: center !important; justify-content: center !important; }
@@ -90,7 +90,7 @@
   color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase;
   margin-bottom: 0.8em;
 }
-.title-slide h1 { font-size: 2.6em; margin-bottom: 0.2em; }
+.title-slide h1 { font-size: 1.7em; margin-bottom: 0.2em; }
 .title-slide .divider {
   width: 100px; height: 4px; background: var(--amber);
   margin: 0.6em auto; border-radius: 2px;
@@ -104,7 +104,7 @@
 }
 
 /* Tables */
-.reveal table { width: 100%; border-collapse: collapse; font-size: 0.6em; margin: 0.5em 0; }
+.reveal table { width: 100%; border-collapse: collapse; font-size: .46em; margin: 0.5em 0; }
 .reveal table th {
   background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em;
   text-align: left; border-bottom: 2px solid var(--amber);
@@ -129,8 +129,15 @@
 .reveal blockquote {
   background: var(--bg2); border-left: 3px solid var(--amber);
   padding: 0.6em 1em; font-style: italic; color: var(--muted);
-  font-size: 0.7em; margin: 0.5em 0;
+  font-size: 0.50em; margin: 0.5em 0;
 }
+
+/* ── scrollbar styling ── */
+.reveal .slides > section::-webkit-scrollbar { width: 6px; }
+.reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+.reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.reveal .slides > section::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+.reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
 </style>
 </head>
 <body>
