@@ -30,7 +30,7 @@
 .reveal p, .reveal li { font-size: .44em; line-height: 1.55; color: var(--text); }
 .reveal ul, .reveal ol { margin-left: 0.6em; }
 .reveal li { margin-bottom: 0.25em; }
-.reveal section { background: var(--bg) !important; padding: 1.2em 1.5em !important; text-align: left; }
+.reveal section { background: var(--bg) !important; padding: .8em 1.2em !important; text-align: left; }
 .reveal .slides > section {
   display: flex !important;
   flex-direction: column !important;
@@ -166,7 +166,7 @@
         <li>Trained using <span class="a">Constitutional AI (CAI)</span> — a novel alignment approach that sets Claude apart from competitors</li>
         <li>Designed with <span class="g">safety</span> as a first-class priority, not an afterthought</li>
         <li>Available via web interface, API, and developer tools</li>
-        <li>Supports <span class="b">200K token context windows</span> — equivalent to roughly 150,000 words or a 500-page book</li>
+        <li>Supports <span class="b">200K–1M token context windows</span> — up to roughly 750,000 words</li>
       </ul>
       <blockquote>"Claude is designed to be an AI assistant that is helpful, harmless, and honest." — Anthropic</blockquote>
     </div>
@@ -282,7 +282,7 @@
       <tr><th>Feature</th><th>Haiku 4.5</th><th>Sonnet 4.6</th><th>Opus 4.6</th></tr>
     </thead>
     <tbody>
-      <tr><td>Context Window</td><td>200K tokens</td><td>200K tokens</td><td>200K tokens</td></tr>
+      <tr><td>Context Window</td><td>200K tokens</td><td>1M tokens</td><td>1M tokens</td></tr>
       <tr><td>Max Output</td><td>8,192 tokens</td><td>16,384 tokens</td><td>32,768 tokens</td></tr>
       <tr><td>Speed</td><td class="g">Fastest</td><td class="b">Moderate</td><td class="p">Slower</td></tr>
       <tr><td>Reasoning</td><td>Good</td><td class="b">Strong</td><td class="p">Best-in-class</td></tr>
@@ -471,13 +471,13 @@
   <div class="slide-header"><span class="tag">07</span><h2>Context Windows</h2></div>
   <div class="cols-6040">
     <div>
-      <p>Claude supports a <span class="a">200,000 token context window</span> across all model tiers, enabling work with massive amounts of text in a single conversation.</p>
+      <p>Claude supports a <span class="a">200K–1M token context window</span> depending on model. Opus 4.6 and Sonnet 4.6 support 1M tokens at standard pricing, while Haiku 4.5 supports 200K.</p>
       <div class="svg-container">
         <svg width="420" height="180" viewBox="0 0 420 180">
           <!-- Context bar visualization -->
           <rect x="10" y="20" width="400" height="30" rx="4" fill="#10101a" stroke="#2a2a3a"/>
           <rect x="10" y="20" width="400" height="30" rx="4" fill="rgba(245,166,35,0.2)"/>
-          <text x="210" y="40" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">200K Tokens (~150,000 words)</text>
+          <text x="210" y="40" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">Claude: 200K–1M Tokens</text>
 
           <!-- Comparisons -->
           <rect x="10" y="65" width="80" height="22" rx="3" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="0.5"/>
@@ -490,7 +490,7 @@
           <text x="290" y="80" text-anchor="middle" fill="#4ecb8d" font-family="DM Sans" font-size="9">Gemini 2.5 Pro: 1M tokens</text>
 
           <!-- What fits -->
-          <text x="10" y="115" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">What fits in 200K tokens?</text>
+          <text x="10" y="115" fill="#f5a623" font-family="JetBrains Mono" font-size="11" font-weight="500">What fits in 200K–1M tokens?</text>
 
           <text x="10" y="138" fill="#4ecb8d" font-family="JetBrains Mono" font-size="9">~</text>
           <text x="25" y="138" fill="#e8e8f0" font-family="DM Sans" font-size="10">500 pages of text (a full novel)</text>
@@ -520,7 +520,7 @@
           <li>Model reasons step-by-step before answering</li>
           <li>Dramatically improves accuracy on hard problems</li>
           <li>Thinking tokens are separate from output tokens</li>
-          <li>Configurable thinking budget</li>
+          <li>Configurable via <span class="a">effort</span> parameter (recommended for 4.6 models) or <span class="mono">budget_tokens</span></li>
         </ul>
       </div>
       <div class="card green" style="margin-top:0.6em;">
@@ -535,7 +535,7 @@
 <section>
   <div class="slide-header"><span class="tag">08</span><h2>The Claude Ecosystem</h2></div>
   <div class="svg-container">
-    <svg width="780" height="420" viewBox="0 0 780 420">
+    <svg viewBox="0 0 780 420" style="width:100%;max-width:700px;height:auto;">
       <!-- Central node -->
       <circle cx="390" cy="210" r="55" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
       <text x="390" y="205" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-size="16" font-weight="700">Claude</text>
@@ -563,7 +563,7 @@
       <line x1="440" y1="245" x2="580" y2="340" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4"/>
       <rect x="500" y="315" width="160" height="60" rx="8" fill="#10101a" stroke="#f87171" stroke-width="1.5"/>
       <text x="580" y="342" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="12" font-weight="500">Integrations</text>
-      <text x="580" y="360" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">AWS, GCP, Partners</text>
+      <text x="580" y="360" text-anchor="middle" fill="#8888a8" font-family="DM Sans" font-size="9">AWS, GCP, Azure, Partners</text>
 
       <!-- Sub-items: Claude.ai -->
       <text x="42" y="135" fill="#4ecb8d" font-family="DM Sans" font-size="9">• Projects &amp; Artifacts</text>
@@ -580,8 +580,9 @@
       <text x="42" y="408" fill="#a78bfa" font-family="DM Sans" font-size="9">• Agentic file editing</text>
 
       <!-- Sub-items: Integrations -->
-      <text x="530" y="393" fill="#f87171" font-family="DM Sans" font-size="9">• Amazon Bedrock</text>
-      <text x="530" y="408" fill="#f87171" font-family="DM Sans" font-size="9">• Google Vertex AI</text>
+      <text x="530" y="388" fill="#f87171" font-family="DM Sans" font-size="9">• Amazon Bedrock</text>
+      <text x="530" y="401" fill="#f87171" font-family="DM Sans" font-size="9">• Google Vertex AI</text>
+      <text x="530" y="414" fill="#f87171" font-family="DM Sans" font-size="9">• Microsoft Azure AI Foundry</text>
 
       <!-- MCP -->
       <line x1="390" y1="155" x2="390" y2="35" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4"/>
@@ -611,6 +612,12 @@
         <td>$20/mo</td>
         <td>Sonnet, Opus, Haiku</td>
         <td>5x more usage, extended thinking, Projects, priority access</td>
+      </tr>
+      <tr>
+        <td><span class="r">Max</span></td>
+        <td>$100–$200/mo</td>
+        <td>All models</td>
+        <td>20x more usage than Pro, extended thinking at highest limits, longer outputs</td>
       </tr>
       <tr>
         <td><span class="b">Team</span></td>
@@ -765,7 +772,7 @@
       <tr><th>Dimension</th><th class="a">Claude (Anthropic)</th><th>GPT-4o (OpenAI)</th><th>Gemini 2.5 (Google)</th></tr>
     </thead>
     <tbody>
-      <tr><td>Context Window</td><td>200K tokens</td><td>128K tokens</td><td class="g">1M tokens</td></tr>
+      <tr><td>Context Window</td><td class="a">200K–1M tokens</td><td>128K tokens</td><td class="g">1M tokens</td></tr>
       <tr><td>Safety Approach</td><td class="a">Constitutional AI</td><td>RLHF + rules</td><td>RLHF + filters</td></tr>
       <tr><td>Coding</td><td class="a">Excellent (SWE-bench leader)</td><td>Strong</td><td>Strong</td></tr>
       <tr><td>Reasoning</td><td class="a">Excellent</td><td>Strong</td><td>Strong</td></tr>
@@ -1133,7 +1140,7 @@
           <li>Claude is Anthropic's family of AI models — <span class="g">Haiku</span>, <span class="b">Sonnet</span>, and <span class="p">Opus</span></li>
           <li>Built with <span class="a">Constitutional AI</span> — a novel safety-first alignment approach</li>
           <li>Excels at reasoning, coding, writing, and analysis</li>
-          <li>200K token context window across all models</li>
+          <li>200K–1M token context window (up to 1M on Sonnet &amp; Opus 4.6)</li>
           <li>Available via <span class="b">Claude.ai</span>, <span class="p">API</span>, and <span class="g">Claude Code</span></li>
           <li>Competitive performance with strong safety guarantees</li>
           <li>Flexible pricing from free to enterprise</li>

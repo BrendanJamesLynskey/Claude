@@ -15,15 +15,15 @@
   .reveal .slides section { background: transparent; }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .15em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
   .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
   .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .74em; }
   .cols { display: grid; gap: .35em; }
@@ -103,7 +103,7 @@
       <h3>Intelligence</h3>
       <ul>
         <li>State-of-the-art reasoning</li>
-        <li>200K token context window</li>
+        <li>Up to 1M token context window</li>
         <li>Strong code generation</li>
         <li>Nuanced instruction following</li>
       </ul>
@@ -122,7 +122,7 @@
       <ul>
         <li>API, SDKs, MCP protocol</li>
         <li>Claude Code (CLI agent)</li>
-        <li>AWS Bedrock &amp; GCP Vertex</li>
+        <li>AWS Bedrock, GCP Vertex &amp; Azure AI Foundry</li>
         <li>Enterprise deployments</li>
       </ul>
     </div>
@@ -201,7 +201,7 @@
   </div>
   <div class="cols cols-6040">
     <div>
-      <p>Context windows have grown from 8K to 200K tokens. The trajectory points toward <span class="a">1M+ tokens</span>, enabling entirely new categories of use.</p>
+      <p>Context windows have grown from 8K to 1M tokens (Opus 4.6 and Sonnet 4.6 at standard pricing since March 2026; Haiku 4.5 at 200K). This scale enables entirely new categories of use.</p>
       <div class="card green" style="margin-top:.3em;">
         <h3>What 1M+ Tokens Enables</h3>
         <ul>
@@ -546,7 +546,7 @@
         <h3>Shipped Agent Capabilities</h3>
         <ul>
           <li>Claude Code: agentic software engineering</li>
-          <li>MCP: standardized tool integration protocol</li>
+          <li>MCP: standardized tool integration protocol (now under the Linux Foundation's Agentic AI Foundation)</li>
           <li>Multi-turn tool use with reasoning</li>
           <li>Parallel tool execution</li>
         </ul>
@@ -648,7 +648,7 @@
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card blue">
       <h3>Enabled By</h3>
-      <p>MCP provides the inter-agent communication standard. Each agent can expose tools that other agents consume, creating composable AI systems.</p>
+      <p>MCP (now under the Linux Foundation's Agentic AI Foundation) provides the inter-agent communication standard. Each agent can expose tools that other agents consume, creating composable AI systems.</p>
     </div>
     <div class="card red">
       <h3>Open Questions</h3>
@@ -697,7 +697,7 @@
     </div>
   </div>
   <div class="card blue" style="margin-top:.3em;">
-    <p><span class="b">Platform maturity:</span> AWS Bedrock and Google Vertex AI already provide enterprise-grade Claude access. Expect deeper native integrations into cloud workflows, including serverless triggers, data pipelines, and CI/CD systems.</p>
+    <p><span class="b">Platform maturity:</span> AWS Bedrock, Google Vertex AI, and Microsoft Azure AI Foundry already provide enterprise-grade Claude access. Expect deeper native integrations into cloud workflows, including serverless triggers, data pipelines, and CI/CD systems.</p>
   </div>
 </section>
 
@@ -884,14 +884,14 @@
     </tr>
     <tr>
       <td><span class="r">Ecosystem</span></td>
-      <td>API, MCP, Bedrock/Vertex</td>
+      <td>API, MCP, Bedrock/Vertex/Azure</td>
       <td>Largest ecosystem; plugins</td>
       <td>Deep Google integration</td>
       <td>Most flexible; self-hosted</td>
     </tr>
     <tr>
       <td>Context length</td>
-      <td>200K tokens</td>
+      <td>200K&ndash;1M tokens</td>
       <td>128K tokens</td>
       <td>1M+ tokens</td>
       <td>Varies (8K&ndash;128K typical)</td>

@@ -15,15 +15,15 @@
 .reveal .slides section { background: transparent; }
 .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
 .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-.reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
+.reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
 .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
-.reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .15em; }
+.reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
 .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
 .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-.reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-.reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+.reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+.reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
 .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-.slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+.slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
 .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
 .slide-hdr h2 { margin: 0; font-size: .74em; }
 .cols { display: grid; gap: .35em; }
@@ -196,6 +196,7 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
         <th>Feature</th>
         <th>Free</th>
         <th>Pro ($20/mo)</th>
+        <th>Max ($100/mo)</th>
         <th>Team ($25/user/mo)</th>
         <th>Enterprise (Custom)</th>
       </tr>
@@ -206,12 +207,14 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
         <td>Sonnet (limited)</td>
         <td>Opus, Sonnet, Haiku</td>
         <td>Opus, Sonnet, Haiku</td>
+        <td>Opus, Sonnet, Haiku</td>
         <td>All models + fine-tuning</td>
       </tr>
       <tr>
         <td><span class="a">Usage</span></td>
         <td>Limited messages/day</td>
         <td>5x more usage</td>
+        <td>20x more usage</td>
         <td>Higher team limits</td>
         <td>Custom volume</td>
       </tr>
@@ -219,12 +222,14 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
         <td><span class="a">Projects</span></td>
         <td>Basic</td>
         <td>Full access</td>
+        <td>Full access</td>
         <td>Shared projects</td>
         <td>Org-wide projects</td>
       </tr>
       <tr>
         <td><span class="a">File Uploads</span></td>
         <td>Limited</td>
+        <td>Expanded</td>
         <td>Expanded</td>
         <td>Expanded</td>
         <td>Custom limits</td>
@@ -235,16 +240,19 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
         <td>Yes</td>
         <td>Yes</td>
         <td>Yes</td>
+        <td>Yes</td>
       </tr>
       <tr>
         <td><span class="a">Priority Access</span></td>
         <td>No</td>
         <td>Yes</td>
         <td>Yes</td>
+        <td>Yes</td>
         <td>Dedicated capacity</td>
       </tr>
       <tr>
         <td><span class="a">Admin Controls</span></td>
+        <td>No</td>
         <td>No</td>
         <td>No</td>
         <td>Basic admin</td>
@@ -254,12 +262,14 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
         <td><span class="a">Data Retention</span></td>
         <td>Standard</td>
         <td>Standard</td>
+        <td>Standard</td>
         <td>Configurable</td>
         <td>Custom policies</td>
       </tr>
       <tr>
         <td><span class="a">Support</span></td>
         <td>Community</td>
+        <td>Email</td>
         <td>Email</td>
         <td>Priority email</td>
         <td>Dedicated CSM</td>
@@ -280,7 +290,7 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
           <li><span class="g">System prompt</span> — hidden instructions that shape behavior (set via Projects or API)</li>
           <li><span class="a">User message</span> — your input: questions, instructions, data</li>
           <li><span class="b">Assistant response</span> — Claude's reply, which may include text, code, or artifacts</li>
-          <li><span class="p">Context window</span> — the full conversation history Claude can see (up to 200K tokens)</li>
+          <li><span class="p">Context window</span> — the full conversation history Claude can see (up to 200K&ndash;1M tokens depending on model)</li>
         </ul>
       </div>
       <div class="card amber">
@@ -519,7 +529,7 @@ the result of an HTTP request...
           <li>Documentation &amp; style guides</li>
           <li>Codebase files &amp; configs</li>
           <li>Research papers &amp; references</li>
-          <li>Up to <span class="a">~200K tokens</span> of knowledge</li>
+          <li>Up to <span class="a">~200K tokens</span> of knowledge (up to ~1M on Opus/Sonnet 4.6)</li>
         </ul>
       </div>
       <div class="card blue">
@@ -684,7 +694,10 @@ echo $ANTHROPIC_API_KEY</code></pre>
     <div>
       <div class="card green" style="margin-bottom:.4em;">
         <h3>Installation</h3>
-        <pre><code class="language-bash"># Install globally via npm
+        <pre><code class="language-bash"># Recommended: native installer (no Node.js required)
+curl -fsSL https://claude.ai/install.sh | sh
+
+# Alternative: install via npm
 npm install -g @anthropic-ai/claude-code
 
 # Verify installation
@@ -692,7 +705,7 @@ claude --version
 
 # First run — authenticates via browser
 claude</code></pre>
-        <p style="margin-top:.2em;"><span class="g">Requirements:</span> Node.js 18+, npm, a terminal emulator, and an Anthropic account.</p>
+        <p style="margin-top:.2em;"><span class="g">Requirements:</span> A terminal emulator and an Anthropic account. Node.js 18+ needed only for npm install method.</p>
       </div>
       <div class="card amber">
         <h3>Authentication</h3>

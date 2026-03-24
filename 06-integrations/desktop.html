@@ -15,15 +15,15 @@
   .reveal .slides section { background: transparent; }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .15em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
   .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
   .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .74em; }
   .cols { display: grid; gap: .35em; }
@@ -404,7 +404,7 @@ jobs:
     <span class="tag">MCP</span>
     <h2>Model Context Protocol</h2>
   </div>
-  <p>MCP is an open standard that lets Claude connect to external data sources and tools through a unified protocol.</p>
+  <p>MCP is an open standard &mdash; donated to the Linux Foundation's Agentic AI Foundation &mdash; that lets Claude connect to external data sources and tools through a unified protocol.</p>
   <svg class="diagram" viewBox="0 0 800 340" width="750">
     <!-- Host Application -->
     <rect x="280" y="10" width="240" height="50" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
@@ -1031,7 +1031,7 @@ for await (const event of stream) {
           <li><span class="a">Python</span> &mdash; <code>anthropic</code></li>
           <li><span class="a">TypeScript</span> &mdash; <code>@anthropic-ai/sdk</code></li>
           <li><span class="a">Java</span> &mdash; <code>anthropic-sdk-java</code></li>
-          <li><span class="a">Go, Rust</span> &mdash; community SDKs</li>
+          <li><span class="a">Go, Ruby, C#, PHP</span> &mdash; official SDKs</li>
           <li><span class="a">REST</span> &mdash; direct HTTP for any language</li>
         </ul>
       </div>
@@ -1187,7 +1187,7 @@ for await (const event of stream) {
         <li><span class="a">VS Code, JetBrains, Cursor</span> &mdash; AI in your editor</li>
         <li><span class="a">GitHub Actions</span> &mdash; automated code review and CI</li>
         <li><span class="a">LangChain, LlamaIndex</span> &mdash; orchestration frameworks</li>
-        <li><span class="a">SDKs</span> &mdash; Python, TypeScript, Java, and REST</li>
+        <li><span class="a">SDKs</span> &mdash; Python, TypeScript, Java, Go, Ruby, C#, PHP, and REST</li>
       </ul>
     </div>
     <div class="card green" style="margin-bottom: .3em;">
@@ -1204,6 +1204,7 @@ for await (const event of stream) {
       <ul>
         <li><span class="b">AWS Bedrock</span> &mdash; VPC, IAM, compliance</li>
         <li><span class="b">Google Vertex AI</span> &mdash; GCP-native integration</li>
+        <li><span class="b">Microsoft Azure AI Foundry</span> &mdash; Azure-native access</li>
         <li><span class="b">SSO, RBAC, data residency</span> for enterprise</li>
         <li><span class="b">SOC 2, GDPR, HIPAA</span> compliance paths</li>
       </ul>

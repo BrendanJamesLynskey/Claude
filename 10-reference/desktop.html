@@ -15,15 +15,15 @@
   .reveal .slides section { background: transparent; }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .15em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
   .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
   .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .74em; }
   .cols { display: grid; gap: .35em; }
@@ -116,7 +116,7 @@
     <tr><td>Speed (tokens/sec)</td><td>Fastest (~100+ t/s)</td><td>Fast (~80 t/s)</td><td>Moderate (~50 t/s)</td></tr>
     <tr><td>Input $/1M tokens</td><td>$0.80</td><td>$3.00</td><td>$15.00</td></tr>
     <tr><td>Output $/1M tokens</td><td>$4.00</td><td>$15.00</td><td>$75.00</td></tr>
-    <tr><td>Context Window</td><td>200K tokens</td><td>200K tokens</td><td>200K tokens</td></tr>
+    <tr><td>Context Window</td><td>200K tokens</td><td>1M tokens</td><td>1M tokens</td></tr>
     <tr><td>Max Output</td><td>8,192 tokens</td><td>16,000 tokens</td><td>32,000 tokens</td></tr>
     <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
     <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
@@ -137,6 +137,7 @@
         <tr><th>Plan</th><th>Price</th><th>Includes</th></tr>
         <tr><td>Free</td><td>$0/mo</td><td>Limited Sonnet access, basic features</td></tr>
         <tr><td>Pro</td><td>$20/mo</td><td>All models, 5x more usage, Projects</td></tr>
+        <tr><td>Max</td><td>$100&ndash;$200/mo</td><td>Pro + highest usage limits</td></tr>
         <tr><td>Team</td><td>$30/seat/mo</td><td>Pro + admin, sharing, higher limits</td></tr>
         <tr><td>Enterprise</td><td>Custom</td><td>SSO, SCIM, audit logs, SLA, dedicated</td></tr>
       </table>
@@ -582,9 +583,10 @@ by searching and reading relevant files.</code></pre>
       <h3>Context Windows</h3>
       <table style="font-size:.4em;">
         <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td>All Claude 3.5/4</td><td>200K tokens</td><td>8K-32K tokens</td></tr>
+        <tr><td>Haiku 4.5</td><td>200K tokens</td><td>8K tokens</td></tr>
+        <tr><td>Sonnet 4.6, Opus 4.6</td><td>1M tokens</td><td>16K-32K tokens</td></tr>
       </table>
-      <p style="font-size:.4em; margin-top:.2em;">1 token ~ 4 characters ~ 0.75 words (English). 200K tokens ~ 150K words ~ 500 pages.</p>
+      <p style="font-size:.4em; margin-top:.2em;">1 token ~ 4 characters ~ 0.75 words (English). 1M tokens ~ 750K words ~ 2,500 pages.</p>
     </div>
     <div class="card green">
       <h3>Cost Formulas</h3>
@@ -679,7 +681,7 @@ total = input_cost + output_cost
     <div>
       <table style="font-size:.4em;">
         <tr><th>Term</th><th>Definition</th></tr>
-        <tr><td><span class="p">MCP</span></td><td>Model Context Protocol &mdash; open standard for connecting AI to external tools and data</td></tr>
+        <tr><td><span class="p">MCP</span></td><td>Model Context Protocol &mdash; open standard (donated to the Linux Foundation's Agentic AI Foundation) for connecting AI to external tools and data</td></tr>
         <tr><td><span class="a">Tool Use</span></td><td>Ability for Claude to call defined functions and process their results</td></tr>
         <tr><td><span class="g">Artifacts</span></td><td>Rich, interactive outputs (code, documents, diagrams) in Claude.ai</td></tr>
         <tr><td><span class="b">Extended Thinking</span></td><td>Mode where Claude shows its reasoning process (chain-of-thought)</td></tr>
@@ -710,7 +712,7 @@ total = input_cost + output_cost
       <ul>
         <li><span class="g">docs.anthropic.com</span> &mdash; API docs</li>
         <li><span class="g">docs.anthropic.com/en/docs/claude-code</span> &mdash; Claude Code</li>
-        <li><span class="g">modelcontextprotocol.io</span> &mdash; MCP spec</li>
+        <li><span class="g">modelcontextprotocol.io</span> &mdash; MCP spec (Linux Foundation Agentic AI Foundation)</li>
         <li><span class="g">github.com/anthropics</span> &mdash; SDKs</li>
       </ul>
     </div>
@@ -719,6 +721,9 @@ total = input_cost + output_cost
       <ul>
         <li><span class="p">anthropic-ai/anthropic-sdk-python</span></li>
         <li><span class="p">anthropic-ai/anthropic-sdk-typescript</span></li>
+        <li><span class="p">anthropic-ai/anthropic-sdk-java</span></li>
+        <li><span class="p">anthropic-ai/anthropic-sdk-go</span></li>
+        <li><span class="p">anthropic-ai/anthropic-sdk-ruby, C#, PHP</span></li>
         <li><span class="p">anthropics/claude-code</span> &mdash; CLI</li>
         <li><span class="p">modelcontextprotocol/servers</span> &mdash; MCP</li>
       </ul>

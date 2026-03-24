@@ -15,15 +15,15 @@
   .reveal .slides section { background: transparent; }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
-  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
-  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .15em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
   .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
-  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
   .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
-  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .74em; }
   .cols { display: grid; gap: .35em; }
@@ -150,8 +150,11 @@
   </div>
   <div class="cols cols-6040">
     <div>
-      <h3>Install via npm</h3>
-      <pre><code class="language-bash"># Install globally
+      <h3>Install (Recommended: Native Installer)</h3>
+      <pre><code class="language-bash"># Native installer — no Node.js required
+curl -fsSL https://claude.ai/install.sh | sh
+
+# Alternative: install via npm
 npm install -g @anthropic-ai/claude-code
 
 # Verify installation
@@ -162,7 +165,7 @@ npm update -g @anthropic-ai/claude-code</code></pre>
       <h3 style="margin-top:.3em;">Prerequisites</h3>
       <table>
         <tr><th>Requirement</th><th>Minimum</th></tr>
-        <tr><td>Node.js</td><td>v18.0.0+</td></tr>
+        <tr><td>Node.js</td><td>v18.0.0+ (npm method only)</td></tr>
         <tr><td>Operating System</td><td>macOS 12+, Ubuntu 20.04+, Windows via WSL2</td></tr>
         <tr><td>RAM</td><td>4 GB recommended</td></tr>
         <tr><td>Git</td><td>Recommended (not required)</td></tr>
@@ -221,7 +224,10 @@ claude login
 export CLAUDE_CODE_USE_BEDROCK=1
 
 # Google Vertex AI
-export CLAUDE_CODE_USE_VERTEX=1</code></pre>
+export CLAUDE_CODE_USE_VERTEX=1
+
+# Microsoft Azure AI Foundry
+export CLAUDE_CODE_USE_AZURE=1</code></pre>
       <p style="margin-top:.15em;">Route through your cloud provider. Use existing AWS or GCP credentials and billing.</p>
     </div>
   </div>
@@ -493,7 +499,7 @@ claude -p "list files" --json</code></pre>
       <table>
         <tr><th>Command</th><th>Description</th></tr>
         <tr><td><code>/commit</code></td><td>Generate a commit for staged changes</td></tr>
-        <tr><td><code>/review-pr</code></td><td>Review a pull request</td></tr>
+        <tr><td><code>/pr</code></td><td>Review a pull request</td></tr>
         <tr><td><code>/pr-comments</code></td><td>View and address PR feedback</td></tr>
         <tr><td><code>/init</code></td><td>Generate a CLAUDE.md for current project</td></tr>
         <tr><td><code>/bug</code></td><td>Report a bug to Anthropic</td></tr>
@@ -932,7 +938,7 @@ claude mcp remove github</code></pre>
 &gt; create a PR for this branch
 
 # Review an existing PR
-/review-pr 123
+/pr 123
 
 # Address PR comments
 /pr-comments</code></pre>
@@ -1115,6 +1121,7 @@ code --install-extension anthropic.claude-code</code></pre>
           <tr><td><code>CLAUDE_MODEL</code></td><td>Override default model</td></tr>
           <tr><td><code>CLAUDE_CODE_USE_BEDROCK</code></td><td>Use AWS Bedrock</td></tr>
           <tr><td><code>CLAUDE_CODE_USE_VERTEX</code></td><td>Use Google Vertex</td></tr>
+          <tr><td><code>CLAUDE_CODE_USE_AZURE</code></td><td>Use Microsoft Azure AI Foundry</td></tr>
           <tr><td><code>ANTHROPIC_BASE_URL</code></td><td>Custom API endpoint</td></tr>
           <tr><td><code>CLAUDE_CODE_MAX_TURNS</code></td><td>Limit agent turns</td></tr>
         </table>
@@ -1306,7 +1313,7 @@ Claude will:
     </div>
     <div class="card purple">
       <h3>Code Review</h3>
-      <pre><code class="language-text">&gt; /review-pr 456
+      <pre><code class="language-text">&gt; /pr 456
 
 Claude will:
 1. Fetch the PR diff via gh CLI
@@ -1435,7 +1442,7 @@ Claude will:
   <div class="card blue" style="margin-top:.3em;">
     <p style="font-size:.55em; text-align:center;">
       <span class="b">Get started:</span> &nbsp;
-      <code>npm install -g @anthropic-ai/claude-code &amp;&amp; cd your-project &amp;&amp; claude</code>
+      <code>curl -fsSL https://claude.ai/install.sh | sh &amp;&amp; cd your-project &amp;&amp; claude</code>
     </p>
   </div>
   <div style="margin-top:.5em; text-align:center;">
