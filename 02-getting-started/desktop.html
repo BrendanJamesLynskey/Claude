@@ -1129,18 +1129,25 @@ Reveal.initialize({
   plugins: [RevealHighlight]
 });
 
-// fixSlides script
-function fixSlides() {
-  document.querySelectorAll('.reveal .slides > section').forEach(function(slide) {
-    slide.style.display = 'flex';
-    slide.style.flexDirection = 'column';
-    slide.style.overflowY = 'auto';
-    slide.style.alignItems = 'stretch';
-    slide.style.justifyContent = 'flex-start';
-  });
-}
-Reveal.on('ready', fixSlides);
-Reveal.on('slidechanged', fixSlides);
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
 </script>
 </body>
 </html>
