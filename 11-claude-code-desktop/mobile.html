@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Desktop — The Native GUI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-3 { grid-template-columns: 1fr; }
+  .cols-6040 { grid-template-columns: 1fr; }
+  .cols-4060 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; max-width: 100%; height: auto; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: Title -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 11</p>
+    <h1>Claude Code Desktop</h1>
+    <div class="subtitle">The Native GUI for Agentic Coding</div>
+    <p style="font-size:.55em; color:var(--muted); max-width:32em;">
+      The same agent as the CLI, wrapped in a native desktop app &mdash; sessions, diffs, permissions, and MCP servers in a single window.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">Desktop App</span>
+      <span class="pill green">Agentic</span>
+      <span class="pill purple">macOS &middot; Win &middot; Linux</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section>
+  <div class="slide-hdr"><span class="tag">01</span><h2>What Is Claude Code Desktop?</h2></div>
+  <p>A <span class="a">native application</span> that wraps the Claude Code agent in a graphical interface. Not a different agent &mdash; the same Claude Code you know from the CLI, with a GUI layered on top.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Same Core, New Surface</h3><ul><li>Identical agent to the CLI</li><li>Same tools (Read, Edit, Bash, Grep, Glob)</li><li>Same hooks, skills, sub-agents</li><li>Same MCP server ecosystem</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>What&rsquo;s New</h3><ul><li>Native windowing &amp; multi-session layout</li><li>Visual diff viewer for every edit</li><li>Permission prompts as OS-native dialogs</li><li>Workspace switcher</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>What It Is Not</h3><ul><li>Not an IDE &mdash; doesn&rsquo;t edit files by hand</li><li>Not Claude.ai &mdash; runs locally</li><li>Not a replacement for the CLI &mdash; both coexist</li></ul></div>
+</section>
+
+<!-- SLIDE 3 -->
+<section>
+  <div class="slide-hdr"><span class="tag">02</span><h2>Why a Desktop App?</h2></div>
+  <h3>Limits of the Terminal UX</h3>
+  <ul>
+    <li><span class="a">Diff review</span> painful with wrapped lines</li>
+    <li>Managing <span class="a">parallel sessions</span> needs tmux</li>
+    <li>Permission prompts break typing flow</li>
+    <li>Copy/paste across sessions clumsy</li>
+    <li>Not every developer is a terminal power user</li>
+  </ul>
+  <h3 style="margin-top:.4em;">What the GUI Unlocks</h3>
+  <ul>
+    <li>Side-by-side diff view with syntax highlighting</li>
+    <li>Multiple sessions in tabs or panes</li>
+    <li>OS-native notifications on long tasks</li>
+    <li>Searchable session history</li>
+  </ul>
+  <div class="card amber" style="margin-top:.4em;"><h3>Design Principle</h3><p>Never hides the underlying agent. Every action is still a tool call; every edit is reviewable; every permission is explicit.</p></div>
+</section>
+
+<!-- SLIDE 4 -->
+<section>
+  <div class="slide-hdr"><span class="tag">03</span><h2>Installation</h2></div>
+  <h3>macOS</h3>
+  <pre><code class="language-bash">open ~/Downloads/Claude-Code-Desktop.dmg
+# or
+brew install --cask claude-code-desktop</code></pre>
+  <h3 style="margin-top:.3em;">Windows</h3>
+  <pre><code class="language-powershell">Claude-Code-Desktop-Setup.exe
+# or
+winget install Anthropic.ClaudeCodeDesktop</code></pre>
+  <h3 style="margin-top:.3em;">Linux</h3>
+  <pre><code class="language-bash">chmod +x Claude-Code-Desktop.AppImage
+./Claude-Code-Desktop.AppImage</code></pre>
+  <div class="card amber" style="margin-top:.4em;"><h3>Minimums</h3><ul><li>macOS 13+, Windows 10/11, Ubuntu 22.04+</li><li>8 GB RAM recommended</li><li>Bundles the <code>claude</code> CLI on <code>$PATH</code></li></ul></div>
+</section>
+
+<!-- SLIDE 5 -->
+<section>
+  <div class="slide-hdr"><span class="tag">04</span><h2>First Launch &amp; Auth</h2></div>
+  <h3>Onboarding Flow</h3>
+  <ol>
+    <li>Welcome &amp; product tour</li>
+    <li>Auth: Claude.ai OAuth, API key, or SSO</li>
+    <li>Permission grants (filesystem, notifications)</li>
+    <li>Pick initial workspace</li>
+    <li>Drop into an empty session</li>
+  </ol>
+  <div class="card amber" style="margin-top:.4em;"><h3>Credential Storage</h3><ul><li>macOS &rarr; Keychain</li><li>Windows &rarr; Credential Manager</li><li>Linux &rarr; libsecret</li><li>Never in plaintext config</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Billing</h3><ul><li>Included with Claude Pro / Max / Team / Enterprise</li><li>Or attach an API key billed per-token</li><li>Mixed mode supported per workspace</li></ul></div>
+</section>
+
+<!-- SLIDE 6 -->
+<section>
+  <div class="slide-hdr"><span class="tag">05</span><h2>The Main Interface</h2></div>
+  <p>Three-pane layout.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Sidebar (left)</h3><ul><li>Workspace picker</li><li>Recent sessions</li><li>MCP servers, skills, sub-agents, hooks</li><li>Settings &amp; logs</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Transcript (center)</h3><ul><li>Messages, tool calls, permission prompts</li><li>Plan mode toggle in header</li><li>Input box at the bottom</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Inspector (right)</h3><ul><li>Live diff viewer</li><li>Accept / Revert buttons</li><li>Session status (model, context, cost, duration)</li><li>Transcript export</li></ul></div>
+</section>
+
+<!-- SLIDE 7 -->
+<section>
+  <div class="slide-hdr"><span class="tag">06</span><h2>Workspaces &amp; Projects</h2></div>
+  <p>A <span class="a">workspace</span> is a named directory Claude treats as a project root. Each has its own <code>CLAUDE.md</code>, <code>settings.json</code>, MCP config, and session history.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Worktree-Aware</h3><p>Git worktrees surface as sibling workspaces &mdash; same repo, different branches, parallel agents.</p></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Session History</h3><p>Every session saved locally with full transcript, tool calls, diffs. Searchable across workspaces, exportable as JSON or Markdown.</p></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Resume &amp; Multi-Session</h3><p>Reopen a session and the full context rebuilds. Split view runs two sessions side-by-side in the same workspace.</p></div>
+</section>
+
+<!-- SLIDE 8 -->
+<section>
+  <div class="slide-hdr"><span class="tag">07</span><h2>Diff Viewer &amp; Review</h2></div>
+  <p>Every edit appears in the Inspector as a side-by-side diff with syntax highlighting. One of the biggest wins over the CLI.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Review Actions</h3><ul><li><span class="g">Accept</span> &mdash; commit edit to disk</li><li><span class="r">Revert</span> &mdash; undo</li><li><span class="a">Refine</span> &mdash; ask Claude to modify the proposal</li><li><span class="b">Open in Editor</span> &mdash; hand off to VS Code, Cursor</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Batch Review</h3><p>Multi-file changes review one at a time. Accept-all, accept-subset, revert-all. Syntax highlighting via Monaco (same as VS Code).</p></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Git Integration</h3><p>Stage hunks, generate commit messages, open PRs without leaving the app.</p></div>
+</section>
+
+<!-- SLIDE 9 -->
+<section>
+  <div class="slide-hdr"><span class="tag">08</span><h2>Plan Mode &amp; Permissions</h2></div>
+  <h3>Plan Mode</h3>
+  <p>The <span class="a">PLAN</span> toggle enters a read-only mode &mdash; Claude can investigate but cannot modify anything. Useful for surveying before acting.</p>
+  <h3 style="margin-top:.4em;">Permission Levels</h3>
+  <ul>
+    <li><span class="g">Allow once</span> &mdash; one-shot approval</li>
+    <li><span class="a">Allow always</span> &mdash; persist this session</li>
+    <li><span class="r">Deny</span> &mdash; block and explain why</li>
+  </ul>
+  <div class="card red" style="margin-top:.4em;"><h3>Danger Warnings</h3><p>Red banners for destructive ops: <code>rm -rf</code>, force-push, DROP TABLE. Explicit confirm required even in Trusted mode.</p></div>
+</section>
+
+<!-- SLIDE 10 -->
+<section>
+  <div class="slide-hdr"><span class="tag">09</span><h2>MCP Servers</h2></div>
+  <p>Full MCP host. What&rsquo;s new is the GUI around server management.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>MCP Server Panel</h3><ul><li>List configured servers with health indicators</li><li>Enable / disable per workspace</li><li>Browse tools and resources</li><li>Live logs for debugging</li><li>Install from MCP Registry</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>OAuth Flows</h3><p>Remote MCP servers open browser for OAuth 2.1 consent. Tokens stored in OS keychain, refreshed automatically.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Config Portability</h3><p>MCP config lives in <code>.mcp.json</code> &mdash; same as the CLI. Works identically whichever surface you use.</p></div>
+</section>
+
+<!-- SLIDE 11 -->
+<section>
+  <div class="slide-hdr"><span class="tag">10</span><h2>Sub-agents, Skills, Hooks</h2></div>
+  <div class="card amber"><h3>Sub-agents</h3><ul><li>Same definitions as CLI</li><li>Visual graph of parent/child calls</li><li>Drill into any sub-agent&rsquo;s transcript</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Skills</h3><ul><li>Skills library UI with tags</li><li>Per-workspace or global enable/disable</li><li>Marketplace install &amp; author mode</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Hooks</h3><ul><li>Visual hook manager in settings</li><li>Test hook firing from the UI</li><li>Same shell-command contract as CLI</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><p>All live in the <span class="b">same files</span> as the CLI. The desktop app is a view onto your config, not a parallel system.</p></div>
+</section>
+
+<!-- SLIDE 12 -->
+<section>
+  <div class="slide-hdr"><span class="tag">11</span><h2>Settings &amp; Shortcuts</h2></div>
+  <h3>Settings Panels</h3>
+  <ul>
+    <li>General, Account, Model, Tools</li>
+    <li>MCP, Appearance, Keyboard, Privacy</li>
+  </ul>
+  <h3 style="margin-top:.4em;">Themes</h3>
+  <ul>
+    <li>Midnight, Graphite, Solarized variants</li>
+    <li>Custom via CSS overrides</li>
+    <li>Follow system theme option</li>
+  </ul>
+  <div class="card amber" style="margin-top:.4em;"><h3>Key Shortcuts</h3><ul><li><code>&#8984;N</code> / <code>Ctrl+N</code> &mdash; new session</li><li><code>&#8984;&#8679;P</code> / <code>Ctrl+Shift+P</code> &mdash; plan mode</li><li><code>&#8984;&crarr;</code> / <code>Ctrl+Enter</code> &mdash; accept diff</li><li><code>&#8984;K</code> / <code>Ctrl+K</code> &mdash; command palette</li><li><code>Esc Esc</code> &mdash; stop the agent</li></ul></div>
+</section>
+
+<!-- SLIDE 13 -->
+<section>
+  <div class="slide-hdr"><span class="tag">12</span><h2>Desktop &harr; CLI &harr; Cloud</h2></div>
+  <p>Three surfaces, one agent.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Desktop</h3><p>Native GUI &mdash; sessions, diffs, MCP UI, visual review.</p></div>
+  <div class="card green" style="margin-top:.4em;"><h3>CLI</h3><p>Terminal &mdash; scripting, CI/CD, SSH, headless automation.</p></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Cloud</h3><p>Managed agents &mdash; PR reviews, issue triage, long-running tasks via GitHub App.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Shared Config</h3><p><code>~/.claude/settings.json</code>, <code>CLAUDE.md</code>, <code>.mcp.json</code>, agents, credentials &mdash; all three surfaces read the same files. Start in desktop, resume in CLI, hand off to cloud.</p></div>
+</section>
+
+<!-- SLIDE 14 -->
+<section>
+  <div class="slide-hdr"><span class="tag">13</span><h2>When to Use Which</h2></div>
+  <table>
+    <thead><tr><th>Scenario</th><th>Best surface</th></tr></thead>
+    <tbody>
+      <tr><td>Daily feature work (local)</td><td>Desktop / IDE ext</td></tr>
+      <tr><td>Scripting &amp; CI/CD</td><td>CLI</td></tr>
+      <tr><td>Remote dev box over SSH</td><td>CLI</td></tr>
+      <tr><td>Reviewing large refactors</td><td>Desktop</td></tr>
+      <tr><td>VS Code / JetBrains users</td><td>IDE extension</td></tr>
+      <tr><td>GitHub PR review</td><td>Cloud</td></tr>
+      <tr><td>Long background task</td><td>Cloud / CLI+tmux</td></tr>
+      <tr><td>Non-terminal users</td><td>Desktop</td></tr>
+      <tr><td>Many parallel sessions</td><td>Desktop</td></tr>
+    </tbody>
+  </table>
+  <div class="card green" style="margin-top:.4em;"><p>Mix surfaces per task. Same config, no cost to switching.</p></div>
+</section>
+
+<!-- SLIDE 15 -->
+<section>
+  <div class="slide-hdr"><span class="tag">14</span><h2>Limits &amp; Closing</h2></div>
+  <h3>Known Limitations</h3>
+  <ul>
+    <li>No headless mode &mdash; use the CLI for automation</li>
+    <li>Workspace must be local (SSH via CLI)</li>
+    <li>Heavier startup than the CLI</li>
+    <li>Updates lag the CLI by a few days</li>
+  </ul>
+  <div class="card amber" style="margin-top:.4em;"><h3>Avoid It If&hellip;</h3><ul><li>You live in tmux</li><li>Primarily remote dev boxes</li><li>Unattended automation</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>It Shines When&hellip;</h3><ul><li>You want visual diff review</li><li>Managing parallel projects</li><li>Collaborating with non-terminal users</li><li>Browsing MCP servers visually</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><p><span class="b">One configuration, many cockpits.</span></p></div>
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.52em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 11
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 420, height: 780, margin: 0.02,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 780;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Desktop — The Native GUI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .74em; }
+  .cols { display: grid; gap: .35em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .25em .5em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .50em; margin: 0 0 .12em; }
+  .card p { font-size: .40em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .40em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .38em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.3em; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 11</p>
+    <h1>Claude Code Desktop</h1>
+    <div class="subtitle">The Native GUI for Agentic Coding</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      The same agent as the CLI, wrapped in a native desktop app &mdash; sessions, diffs, permissions, and MCP servers in a single window.
+      For developers who want Claude Code without living in the terminal.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">Desktop App</span>
+      <span class="pill green">Agentic</span>
+      <span class="pill purple">macOS &middot; Windows &middot; Linux</span>
+      <span class="pill blue">Same Core Engine</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: What is Claude Code Desktop? -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">01</span>
+    <h2>What Is Claude Code Desktop?</h2>
+  </div>
+  <p>Claude Code Desktop is a <span class="a">native application</span> that wraps the Claude Code agent in a graphical interface. It is not a different agent, a different model, or a different feature set &mdash; it is the same Claude Code you know from the CLI, with a GUI layered on top for users who prefer visual tools.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Same Core, New Surface</h3>
+      <ul>
+        <li>Identical underlying agent to the CLI</li>
+        <li>Same tools (Read, Edit, Bash, Grep, Glob)</li>
+        <li>Same hooks, skills, sub-agents</li>
+        <li>Same MCP server ecosystem</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>What&rsquo;s New</h3>
+      <ul>
+        <li>Native windowing &amp; multi-session layout</li>
+        <li>Visual diff viewer for every edit</li>
+        <li>Permission prompts as OS-native dialogs</li>
+        <li>Project picker and workspace switcher</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>What It Is Not</h3>
+      <ul>
+        <li>Not an IDE &mdash; it doesn&rsquo;t edit files by hand</li>
+        <li>Not Claude.ai &mdash; it runs locally</li>
+        <li>Not a replacement for the CLI &mdash; both coexist</li>
+        <li>Not limited in capability vs. the terminal</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Positioning:</span> Claude Code Desktop targets developers who want the agent but find the terminal UX limiting &mdash; PMs, designers, data scientists, and developers who prefer a GUI for reviewing changes and managing sessions.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Why a desktop app? -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">02</span>
+    <h2>Why a Desktop App?</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Limits of the Terminal UX</h3>
+      <ul>
+        <li><span class="a">Diff review</span> is painful with wrapped lines and tiny fonts</li>
+        <li>Managing <span class="a">multiple parallel sessions</span> requires tmux or several terminal windows</li>
+        <li><span class="a">Permission prompts</span> interrupt the typing flow</li>
+        <li><span class="a">Copy/paste</span> across sessions is clumsy</li>
+        <li>Not every developer is a terminal power user</li>
+      </ul>
+      <h3 style="margin-top:.3em;">What the GUI Unlocks</h3>
+      <ul>
+        <li>Side-by-side diff view with syntax highlighting</li>
+        <li>Multiple sessions in tabs or panes</li>
+        <li>OS-native notifications on long-running tasks</li>
+        <li>Searchable session history and transcripts</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Design Principle</h3>
+        <p>The desktop app never hides the underlying agent. Every action is still a tool call, every edit is still reviewable, every permission is still explicit. The GUI <span class="a">surfaces</span> the agent&rsquo;s work &mdash; it does not obscure it.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Same Skill Tree</h3>
+        <p>Skills, slash commands, hooks, CLAUDE.md, and <code>settings.json</code> all work identically. Users who learn in the CLI can switch to desktop without relearning.</p>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Not an IDE Replacement</h3>
+        <p>Users still open their editor of choice for manual editing. The desktop app is an <span class="p">agent cockpit</span>, not a code editor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: Installation -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">03</span>
+    <h2>Installation &amp; System Requirements</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <h3>macOS</h3>
+      <pre><code class="language-bash"># Download universal DMG from claude.ai/desktop
+open ~/Downloads/Claude-Code-Desktop.dmg
+
+# Or via Homebrew
+brew install --cask claude-code-desktop
+
+# First launch will prompt for Accessibility
+# &amp; Full Disk Access permissions</code></pre>
+      <h3 style="margin-top:.3em;">Windows</h3>
+      <pre><code class="language-powershell"># Download installer from claude.ai/desktop
+Claude-Code-Desktop-Setup.exe
+
+# Or via winget
+winget install Anthropic.ClaudeCodeDesktop
+
+# Elevated install optional &mdash; user-local by default</code></pre>
+      <h3 style="margin-top:.3em;">Linux</h3>
+      <pre><code class="language-bash"># AppImage (universal)
+chmod +x Claude-Code-Desktop.AppImage
+./Claude-Code-Desktop.AppImage
+
+# Or via distribution packages
+sudo apt install claude-code-desktop
+sudo dnf install claude-code-desktop</code></pre>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>System Requirements</h3>
+        <table>
+          <tr><th>Platform</th><th>Minimum</th></tr>
+          <tr><td>macOS</td><td>13 (Ventura)+</td></tr>
+          <tr><td>Windows</td><td>11 or 10 22H2+</td></tr>
+          <tr><td>Linux</td><td>Ubuntu 22.04+, Fedora 38+</td></tr>
+          <tr><td>RAM</td><td>8 GB recommended</td></tr>
+          <tr><td>Disk</td><td>500 MB + project size</td></tr>
+          <tr><td>Network</td><td>Internet for API calls</td></tr>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Bundled CLI</h3>
+        <p>The desktop app bundles the <code>claude</code> CLI and keeps it on <code>$PATH</code>. Install once, use either surface.</p>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Auto-Update</h3>
+        <p>Built-in update channel with delta patches. Settings let you choose stable or beta channels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: First Launch & Authentication -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">04</span>
+    <h2>First Launch &amp; Authentication</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Onboarding Flow</h3>
+      <ol>
+        <li>Welcome screen with product tour</li>
+        <li>Authentication choice:
+          <ul>
+            <li><span class="a">Claude.ai subscription</span> &mdash; OAuth in browser</li>
+            <li><span class="a">API key</span> &mdash; console.anthropic.com</li>
+            <li><span class="a">Enterprise SSO</span> &mdash; SAML/OIDC</li>
+          </ul>
+        </li>
+        <li>Permission grants (filesystem, notifications, accessibility)</li>
+        <li>Pick an initial workspace (optional)</li>
+        <li>Drop into an empty session ready for input</li>
+      </ol>
+      <h3 style="margin-top:.3em;">Credential Storage</h3>
+      <ul>
+        <li>macOS &rarr; <span class="g">Keychain</span></li>
+        <li>Windows &rarr; <span class="g">Credential Manager</span></li>
+        <li>Linux &rarr; <span class="g">libsecret</span> (gnome-keyring, kwallet)</li>
+        <li>Never stored in plaintext config</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Billing Model</h3>
+        <ul>
+          <li>Included with Claude Pro / Max / Team / Enterprise</li>
+          <li>Usage counts against the same subscription quota as Claude Code CLI</li>
+          <li>Can also attach an API key &mdash; billed per-token to the Anthropic Console account</li>
+          <li>Mixed mode: some workspaces on subscription, others on API key</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Privacy Defaults</h3>
+        <ul>
+          <li>Telemetry opt-in only</li>
+          <li>No code sent to Anthropic beyond the API payload you authorise</li>
+          <li>Local session storage, encrypted at rest</li>
+          <li>You can wipe all local data from Settings &rarr; Privacy</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: The Main Interface -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">05</span>
+    <h2>The Main Interface</h2>
+  </div>
+  <svg class="diagram" viewBox="0 0 1080 520" width="1050" height="510">
+    <!-- Window frame -->
+    <rect x="20" y="20" width="1040" height="480" rx="10" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+    <text x="540" y="45" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="16" font-weight="700">Claude Code Desktop &mdash; Main Window Layout</text>
+    <!-- Sidebar -->
+    <rect x="40" y="65" width="200" height="420" rx="6" fill="#181824" stroke="#2a2a3a"/>
+    <text x="140" y="85" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600">SIDEBAR</text>
+    <rect x="55" y="100" width="170" height="28" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="140" y="119" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="10">&plus; New Session</text>
+    <rect x="55" y="140" width="170" height="22" rx="4" fill="#10101a" stroke="#2a2a3a"/>
+    <text x="140" y="156" text-anchor="middle" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">Workspace: my-project</text>
+    <line x1="55" y1="175" x2="225" y2="175" stroke="#2a2a3a"/>
+    <text x="62" y="192" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">RECENT SESSIONS</text>
+    <rect x="55" y="200" width="170" height="22" rx="3" fill="#181824" stroke="#f5a623"/>
+    <text x="62" y="215" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="9">&#9679; auth refactor (active)</text>
+    <rect x="55" y="228" width="170" height="22" rx="3" fill="#10101a"/>
+    <text x="62" y="243" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">fix webhook handler</text>
+    <rect x="55" y="256" width="170" height="22" rx="3" fill="#10101a"/>
+    <text x="62" y="271" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">write migration script</text>
+    <rect x="55" y="284" width="170" height="22" rx="3" fill="#10101a"/>
+    <text x="62" y="299" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">onboarding polish</text>
+    <line x1="55" y1="320" x2="225" y2="320" stroke="#2a2a3a"/>
+    <text x="62" y="337" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">TOOLS</text>
+    <text x="62" y="355" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">&#8250; MCP Servers (4)</text>
+    <text x="62" y="372" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">&#8250; Skills (12)</text>
+    <text x="62" y="389" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">&#8250; Sub-agents (3)</text>
+    <text x="62" y="406" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">&#8250; Hooks (2)</text>
+    <line x1="55" y1="420" x2="225" y2="420" stroke="#2a2a3a"/>
+    <text x="62" y="440" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="9">Settings &middot; Docs &middot; Logs</text>
+
+    <!-- Main area header -->
+    <rect x="260" y="65" width="780" height="40" rx="6" fill="#181824" stroke="#2a2a3a"/>
+    <text x="275" y="90" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="11">auth refactor &middot; main.py, auth.py, tests/</text>
+    <rect x="900" y="72" width="60" height="26" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="930" y="89" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">PLAN</text>
+    <rect x="970" y="72" width="60" height="26" rx="4" fill="#10101a" stroke="#2a2a3a"/>
+    <text x="1000" y="89" text-anchor="middle" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">&hellip;</text>
+
+    <!-- Transcript area -->
+    <rect x="260" y="120" width="550" height="320" rx="6" fill="#10101a" stroke="#2a2a3a"/>
+    <text x="275" y="140" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600">TRANSCRIPT &amp; TOOL CALLS</text>
+    <rect x="275" y="155" width="520" height="20" rx="3" fill="#181824"/>
+    <text x="285" y="170" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">You: refactor auth.py to use the new token format</text>
+    <rect x="275" y="182" width="520" height="18" rx="3" fill="#0e0e18"/>
+    <text x="285" y="195" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">&#9889; Tool: Read auth.py</text>
+    <rect x="275" y="205" width="520" height="18" rx="3" fill="#0e0e18"/>
+    <text x="285" y="218" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">&#9889; Tool: Grep pattern="token_format"</text>
+    <rect x="275" y="228" width="520" height="18" rx="3" fill="#0e0e18"/>
+    <text x="285" y="241" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="8">&#10003; Edit auth.py &mdash; +12 &minus;4</text>
+    <rect x="275" y="251" width="520" height="40" rx="3" fill="#181824"/>
+    <text x="285" y="268" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">&#9888; Permission: run pytest tests/auth</text>
+    <text x="285" y="283" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="8">[Allow once] [Allow always] [Deny]</text>
+    <rect x="275" y="300" width="520" height="20" rx="3" fill="#0e0e18"/>
+    <text x="285" y="314" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="8">&#10003; 34 tests passed, 0 failed</text>
+    <rect x="275" y="330" width="520" height="50" rx="3" fill="#181824"/>
+    <text x="285" y="347" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">Claude: Refactor complete. Changed token parsing</text>
+    <text x="285" y="362" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">to the v2 format in 3 files. Ready to commit?</text>
+
+    <rect x="275" y="395" width="520" height="32" rx="16" fill="#181824" stroke="#4ecb8d"/>
+    <text x="295" y="416" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="10">Type a message&hellip;</text>
+
+    <!-- Inspector panel -->
+    <rect x="820" y="120" width="220" height="320" rx="6" fill="#181824" stroke="#2a2a3a"/>
+    <text x="930" y="140" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600">INSPECTOR</text>
+    <text x="830" y="158" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">DIFF &middot; auth.py</text>
+    <rect x="830" y="165" width="200" height="130" rx="3" fill="#0e0e18"/>
+    <text x="838" y="180" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="7">- token = parse_v1(raw)</text>
+    <text x="838" y="192" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="7">- expires = raw[&ldquo;exp&rdquo;]</text>
+    <text x="838" y="207" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="7">+ token = parse_v2(raw)</text>
+    <text x="838" y="219" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="7">+ expires = token.exp_at</text>
+    <text x="838" y="231" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="7">+ if token.is_refresh():</text>
+    <text x="838" y="243" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="7">+ &nbsp; return refresh_flow(t)</text>
+    <text x="838" y="262" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="7">12 insertions, 4 deletions</text>
+    <rect x="830" y="280" width="90" height="22" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="875" y="295" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="8">Accept</text>
+    <rect x="930" y="280" width="90" height="22" rx="4" fill="#10101a" stroke="#f87171"/>
+    <text x="975" y="295" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="8">Revert</text>
+    <text x="830" y="320" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">STATUS</text>
+    <text x="830" y="335" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">Model: claude-opus-4-6</text>
+    <text x="830" y="348" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">Context: 47k / 1M</text>
+    <text x="830" y="361" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">Cost: $0.24</text>
+    <text x="830" y="374" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">Tools used: 7</text>
+    <text x="830" y="387" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">Duration: 2m 13s</text>
+    <text x="830" y="410" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="8">[View full transcript]</text>
+    <text x="830" y="425" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="8">[Export session]</text>
+  </svg>
+  <p style="margin-top:.3em; font-size:.4em; color:var(--muted); text-align:center;">Three-pane layout: sidebar for workspaces and tools, transcript in the middle, inspector on the right for live diffs, status, and actions.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Workspaces & Projects -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">06</span>
+    <h2>Workspaces &amp; Projects</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Workspaces</h3>
+      <p>A <span class="a">workspace</span> is a named directory that Claude Code treats as a project root. Each workspace has its own <code>CLAUDE.md</code>, <code>settings.json</code>, MCP configuration, and session history.</p>
+      <ul>
+        <li>Drag-and-drop a folder to create a workspace</li>
+        <li>Or <code>File &rarr; Open Workspace&hellip;</code></li>
+        <li>Switch workspaces from the sidebar dropdown</li>
+        <li>Multiple workspaces can be pinned simultaneously</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Per-Workspace Settings</h3>
+      <ul>
+        <li>Tool allow/deny lists persist per workspace</li>
+        <li>MCP servers scoped to the workspace</li>
+        <li>Custom slash commands per project</li>
+        <li>Shared via <code>.claude/</code> checked into git</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Worktree-Aware</h3>
+        <p>When you open a directory that contains git worktrees, the desktop app surfaces them as sibling workspaces &mdash; same repo, different branches, independent sessions. Lets you run multiple agents in parallel on the same codebase.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Session History</h3>
+        <p>Every session is saved locally with full transcript, tool calls, diffs, and final state. Searchable across workspaces. Exportable as JSON or Markdown.</p>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Resuming Sessions</h3>
+        <p>Reopen a previous session and the desktop app rebuilds the full context (files read, tools available, prior messages) so you can pick up where you left off. Equivalent to the CLI&rsquo;s <code>--resume</code> flag.</p>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Multi-Session</h3>
+        <p>Split view lets you run two sessions side-by-side in the same workspace. Useful for comparing approaches or running a long task in one pane while exploring in the other.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Diff Viewer & Change Review -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">07</span>
+    <h2>Diff Viewer &amp; Change Review</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <p>Every file edit appears in the <span class="a">Inspector panel</span> as a side-by-side diff with syntax highlighting. This is one of the biggest wins over the CLI &mdash; reviewing changes no longer requires squinting at a wall of <code>+</code>/<code>-</code> lines in a terminal.</p>
+      <h3 style="margin-top:.3em;">Review Actions</h3>
+      <ul>
+        <li><span class="g">Accept</span> &mdash; commit the edit to disk</li>
+        <li><span class="r">Revert</span> &mdash; undo the edit</li>
+        <li><span class="a">Refine</span> &mdash; ask Claude to modify the proposal</li>
+        <li><span class="b">Open in Editor</span> &mdash; hand off to VS Code, Cursor, etc.</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Batch Review</h3>
+      <ul>
+        <li>When Claude modifies multiple files, review them one at a time</li>
+        <li>Skip forward and back with arrow keys</li>
+        <li>Accept all, accept changed-subset, or revert all</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Diff Modes</h3>
+        <table>
+          <tr><th>Mode</th><th>Use Case</th></tr>
+          <tr><td>Side-by-side</td><td>Default for wide screens</td></tr>
+          <tr><td>Inline</td><td>Narrow windows or long lines</td></tr>
+          <tr><td>Word-level</td><td>Fine-grained prose changes</td></tr>
+          <tr><td>Hunks only</td><td>Focus on what changed</td></tr>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Syntax Highlighting</h3>
+        <p>Monaco-based editor (same engine as VS Code). Language detection from file extension; 100+ languages supported out of the box.</p>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Git Integration</h3>
+        <p>If the workspace is a git repo, the diff viewer also shows how each edit relates to the current branch HEAD. You can stage hunks, generate commit messages, and open PRs without leaving the app.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Plan Mode & Permissions -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">08</span>
+    <h2>Plan Mode &amp; Permission Controls</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Plan Mode</h3>
+      <p>The <span class="a">PLAN</span> button in the header toggles a read-only mode in which Claude can investigate but cannot modify anything. Useful for surveying a codebase, drafting an approach, or asking &ldquo;what would you do?&rdquo; without any risk.</p>
+      <ul>
+        <li>All read tools work: Read, Grep, Glob, Bash (read-only subset)</li>
+        <li>Write tools are disabled</li>
+        <li>Exit plan mode to execute the plan</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Permission Prompts</h3>
+      <p>Permission decisions are OS-native dialogs rather than terminal prompts. Three levels per tool:</p>
+      <ul>
+        <li><span class="g">Allow once</span> &mdash; one-shot approval</li>
+        <li><span class="a">Allow always</span> &mdash; persist for this session</li>
+        <li><span class="r">Deny</span> &mdash; block and explain why</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Permission Modes</h3>
+        <table>
+          <tr><th>Mode</th><th>Prompts</th></tr>
+          <tr><td>Default</td><td>Ask for each dangerous tool</td></tr>
+          <tr><td>Plan</td><td>No writes at all</td></tr>
+          <tr><td>Trusted</td><td>Auto-allow pre-approved tools</td></tr>
+          <tr><td>Yolo</td><td>All tools auto-allowed &mdash; for isolated envs only</td></tr>
+        </table>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Danger Warnings</h3>
+        <p>The desktop app shows red banners for destructive operations: <code>rm -rf</code>, <code>git push --force</code>, DROP TABLE, and similar. You must explicitly confirm, even in Trusted mode.</p>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Rules Engine</h3>
+        <p>The same <code>settings.json</code> permission rules as the CLI. Block specific commands, allow-list safe ones, require confirmation on writes outside the workspace.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: MCP Servers in the Desktop App -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">09</span>
+    <h2>MCP Servers in the Desktop App</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <p>The Model Context Protocol ecosystem works identically to the CLI &mdash; the desktop app is a full MCP host. What&rsquo;s new is the GUI around server management.</p>
+      <h3>MCP Server Panel</h3>
+      <ul>
+        <li>List all configured servers with health indicators</li>
+        <li>One-click enable / disable per workspace</li>
+        <li>Browse each server&rsquo;s tools and resources</li>
+        <li>Live logs when debugging a misbehaving server</li>
+        <li>Add server from a URL, a command, or the <span class="a">MCP Registry</span></li>
+      </ul>
+      <h3 style="margin-top:.3em;">Transport Support</h3>
+      <ul>
+        <li>stdio (local processes)</li>
+        <li>Streamable HTTP (remote servers)</li>
+        <li>SSE (legacy, for compatibility)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Registry Integration</h3>
+        <p>Browse and install MCP servers from the public registry without editing JSON config files. Search by capability (&ldquo;database,&rdquo; &ldquo;github,&rdquo; &ldquo;jira&rdquo;), preview the tool list, and click to install.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>OAuth Flows</h3>
+        <p>Remote MCP servers requiring OAuth 2.1 open the browser for user consent. Tokens are stored in the OS keychain and refreshed automatically. No manual token copying.</p>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Sandboxed Local Servers</h3>
+        <p>Local stdio MCP servers run with the same sandboxing as the agent itself. Each server gets an isolated working directory and cannot see other workspaces.</p>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Config Portability</h3>
+        <p>MCP configuration lives in <code>.mcp.json</code> &mdash; same as the CLI. A project&rsquo;s MCP setup works identically whether you open it in the desktop app or the terminal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Sub-agents, Skills, and Hooks -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">10</span>
+    <h2>Sub-agents, Skills, and Hooks</h2>
+  </div>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3>Sub-agents</h3>
+      <ul>
+        <li>Same sub-agent definitions as the CLI</li>
+        <li>Managed from the sidebar</li>
+        <li>Visual graph of parent/child agent calls</li>
+        <li>Drill into any sub-agent&rsquo;s transcript independently</li>
+        <li>Background sub-agents stream progress to notifications</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Skills</h3>
+      <ul>
+        <li>Skills library UI with descriptions and tags</li>
+        <li>Enable / disable per workspace or globally</li>
+        <li>Install from marketplace or local directory</li>
+        <li>Skill author mode with live reload</li>
+        <li>See which skills were used in each session</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Hooks</h3>
+      <ul>
+        <li>Visual hook manager in settings</li>
+        <li>Shows current <code>PreToolUse</code>, <code>PostToolUse</code>, <code>Stop</code>, etc.</li>
+        <li>Test hook firing from the UI</li>
+        <li>Inspect captured inputs and outputs per hook</li>
+        <li>Same shell-command contract as the CLI</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Key principle:</span> all of these feature surfaces live in the same files as the CLI (<code>~/.claude/agents/</code>, <code>.claude/skills/</code>, <code>settings.json</code>). The desktop app is a <span class="b">view onto</span> your Claude Code configuration &mdash; it never introduces its own parallel config system.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: Settings, Themes, and Keyboard Shortcuts -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">11</span>
+    <h2>Settings, Themes, and Keyboard Shortcuts</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Settings Panels</h3>
+      <ul>
+        <li><span class="a">General</span> &mdash; startup behavior, default workspace, updates</li>
+        <li><span class="a">Account</span> &mdash; sign in/out, billing, plan</li>
+        <li><span class="a">Model</span> &mdash; default model, temperature, thinking budget</li>
+        <li><span class="a">Tools</span> &mdash; allow/deny lists, permission mode</li>
+        <li><span class="a">MCP</span> &mdash; server management</li>
+        <li><span class="a">Appearance</span> &mdash; theme, font, density</li>
+        <li><span class="a">Keyboard</span> &mdash; customisable shortcuts</li>
+        <li><span class="a">Privacy</span> &mdash; telemetry, session storage</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Themes</h3>
+      <ul>
+        <li>Midnight (default), Graphite, Solarized Dark, Solarized Light</li>
+        <li>Custom themes via CSS variables override file</li>
+        <li>Follow system theme option</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Keyboard Shortcuts (Default)</h3>
+        <table>
+          <tr><th>Action</th><th>macOS</th><th>Windows/Linux</th></tr>
+          <tr><td>New session</td><td>&#8984;N</td><td>Ctrl+N</td></tr>
+          <tr><td>Open workspace</td><td>&#8984;O</td><td>Ctrl+O</td></tr>
+          <tr><td>Toggle plan mode</td><td>&#8984;&#8679;P</td><td>Ctrl+Shift+P</td></tr>
+          <tr><td>Accept diff</td><td>&#8984;&crarr;</td><td>Ctrl+Enter</td></tr>
+          <tr><td>Revert diff</td><td>&#8984;Z</td><td>Ctrl+Z</td></tr>
+          <tr><td>Next session</td><td>&#8984;&#8997;&rarr;</td><td>Ctrl+Alt+&rarr;</td></tr>
+          <tr><td>Inspector toggle</td><td>&#8984;I</td><td>Ctrl+I</td></tr>
+          <tr><td>Sidebar toggle</td><td>&#8984;B</td><td>Ctrl+B</td></tr>
+          <tr><td>Command palette</td><td>&#8984;K</td><td>Ctrl+K</td></tr>
+          <tr><td>Stop agent</td><td>Esc Esc</td><td>Esc Esc</td></tr>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Command Palette</h3>
+        <p><code>&#8984;K</code> opens a fuzzy-searchable palette for every action, slash command, workspace, and recent session. Keyboard-first users can stay off the mouse entirely.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: Desktop ↔ CLI ↔ Cloud Interop -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">12</span>
+    <h2>Desktop &harr; CLI &harr; Cloud Interop</h2>
+  </div>
+  <svg class="diagram" viewBox="0 0 1080 380" width="1050" height="380">
+    <!-- Three boxes across the top -->
+    <rect x="40" y="40" width="280" height="140" rx="10" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
+    <text x="180" y="70" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="14" font-weight="700">Claude Code Desktop</text>
+    <text x="180" y="92" text-anchor="middle" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">Native GUI</text>
+    <text x="180" y="108" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">macOS / Windows / Linux</text>
+    <text x="180" y="130" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="8">Sessions &middot; Diffs &middot; MCP UI</text>
+    <text x="180" y="146" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="8">Visual diff review</text>
+    <text x="180" y="162" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="8">Multi-workspace</text>
+
+    <rect x="400" y="40" width="280" height="140" rx="10" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
+    <text x="540" y="70" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="14" font-weight="700">Claude Code CLI</text>
+    <text x="540" y="92" text-anchor="middle" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">Terminal interface</text>
+    <text x="540" y="108" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">Any POSIX shell</text>
+    <text x="540" y="130" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="8">Scripting &middot; CI/CD</text>
+    <text x="540" y="146" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="8">SSH &middot; remote dev boxes</text>
+    <text x="540" y="162" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="8">Headless automation</text>
+
+    <rect x="760" y="40" width="280" height="140" rx="10" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
+    <text x="900" y="70" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display,serif" font-size="14" font-weight="700">Claude Code Cloud</text>
+    <text x="900" y="92" text-anchor="middle" fill="#e8e8f0" font-family="JetBrains Mono,monospace" font-size="9">Managed agents</text>
+    <text x="900" y="108" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono,monospace" font-size="8">claude.ai &amp; GitHub App</text>
+    <text x="900" y="130" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="8">PR reviews &middot; issue triage</text>
+    <text x="900" y="146" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="8">Long-running tasks</text>
+    <text x="900" y="162" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="8">Background agents</text>
+
+    <!-- Shared layer -->
+    <rect x="40" y="220" width="1000" height="120" rx="10" fill="#181824" stroke="#2a2a3a" stroke-width="2"/>
+    <text x="540" y="248" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="13" font-weight="700">Shared Configuration &amp; State</text>
+    <rect x="60" y="265" width="170" height="28" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="145" y="283" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">~/.claude/settings.json</text>
+    <rect x="240" y="265" width="170" height="28" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="325" y="283" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">project/.claude/*</text>
+    <rect x="420" y="265" width="170" height="28" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="505" y="283" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">project/.mcp.json</text>
+    <rect x="600" y="265" width="170" height="28" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="685" y="283" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">CLAUDE.md</text>
+    <rect x="780" y="265" width="170" height="28" rx="4" fill="#10101a" stroke="#4ecb8d"/>
+    <text x="865" y="283" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">~/.claude/agents/</text>
+
+    <rect x="60" y="300" width="980" height="28" rx="4" fill="#10101a" stroke="#a78bfa"/>
+    <text x="550" y="318" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Session history &middot; Credentials (OS keychain) &middot; Tool approvals</text>
+
+    <!-- Arrows from top to bottom -->
+    <line x1="180" y1="180" x2="180" y2="220" stroke="#f5a623" stroke-width="1.5"/>
+    <line x1="540" y1="180" x2="540" y2="220" stroke="#4ecb8d" stroke-width="1.5"/>
+    <line x1="900" y1="180" x2="900" y2="220" stroke="#a78bfa" stroke-width="1.5"/>
+  </svg>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">One configuration, three surfaces.</span> Desktop, CLI, and Cloud all read the same <code>CLAUDE.md</code>, the same <code>settings.json</code>, the same <code>.mcp.json</code>, and the same sub-agent definitions. You can start a session in the desktop app, resume it in the CLI on an SSH box, and hand off to a cloud agent for a long-running task &mdash; all without reconfiguration.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: When to Use Desktop vs CLI vs IDE Extension -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">13</span>
+    <h2>When to Use Which Surface</h2>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Recommended surface</th>
+        <th>Why</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Daily feature work on a local project</td>
+        <td><span class="a">Desktop or IDE extension</span></td>
+        <td>Visual diff review, fast iteration, persistent sessions</td>
+      </tr>
+      <tr>
+        <td>Scripting, CI/CD, headless automation</td>
+        <td><span class="g">CLI</span></td>
+        <td>No GUI, composable with shell, runs unattended</td>
+      </tr>
+      <tr>
+        <td>Remote dev box over SSH</td>
+        <td><span class="g">CLI</span></td>
+        <td>No display needed; works over any terminal</td>
+      </tr>
+      <tr>
+        <td>Reviewing an agent&rsquo;s large refactor</td>
+        <td><span class="a">Desktop</span></td>
+        <td>Side-by-side diff viewer and accept/revert per file</td>
+      </tr>
+      <tr>
+        <td>Pair-programming inside VS Code / JetBrains</td>
+        <td><span class="p">IDE extension</span></td>
+        <td>Inline code actions and editor context</td>
+      </tr>
+      <tr>
+        <td>PR review on GitHub, issue triage</td>
+        <td><span class="b">Cloud (GitHub App)</span></td>
+        <td>Runs where the work lives; no local setup</td>
+      </tr>
+      <tr>
+        <td>Long-running background task (hours)</td>
+        <td><span class="b">Cloud or CLI in tmux</span></td>
+        <td>Survives laptop sleep; notifications on completion</td>
+      </tr>
+      <tr>
+        <td>Onboarding a non-terminal user</td>
+        <td><span class="a">Desktop</span></td>
+        <td>Lowest friction, GUI-native onboarding</td>
+      </tr>
+      <tr>
+        <td>Managing many parallel sessions</td>
+        <td><span class="a">Desktop</span></td>
+        <td>Tabs, split panes, notifications</td>
+      </tr>
+      <tr>
+        <td>Reviewing an MCP server&rsquo;s tool surface</td>
+        <td><span class="a">Desktop</span></td>
+        <td>Visual tool explorer and log panel</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="card green" style="margin-top:.3em;">
+    <p><span class="g">Practical pattern:</span> use the desktop app as your daily driver, drop to the CLI for automation and remote boxes, and use the cloud agents for PR workflows. All three share the same config, so there is no cost to mixing and matching.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15: Limitations & Closing -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">14</span>
+    <h2>Limitations &amp; Closing Notes</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Known Limitations</h3>
+      <ul>
+        <li><span class="r">No headless mode</span> &mdash; the desktop app requires a window; use the CLI for automation</li>
+        <li><span class="r">Workspace must be local</span> &mdash; no direct remote filesystem support (use CLI over SSH instead)</li>
+        <li><span class="r">Heavier startup</span> than the CLI (Electron-based bundle)</li>
+        <li><span class="r">Updates lag the CLI</span> by a few days for new features</li>
+        <li><span class="r">Accessibility prompts</span> on macOS require Accessibility and Full Disk Access for full filesystem tools</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Not Included (Yet)</h3>
+      <ul>
+        <li>Built-in code editor (intentional &mdash; not an IDE)</li>
+        <li>Team session sharing (on the roadmap)</li>
+        <li>Native mobile companion</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>When to Avoid It</h3>
+        <ul>
+          <li>You live in tmux and your workflow is terminal-first</li>
+          <li>You primarily work on remote dev boxes over SSH</li>
+          <li>Your use case is unattended automation</li>
+          <li>You need lowest-possible memory footprint</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>When It Shines</h3>
+        <ul>
+          <li>You want to review diffs visually before accepting</li>
+          <li>You manage multiple projects / worktrees in parallel</li>
+          <li>You collaborate with non-terminal users</li>
+          <li>You care about polished permission dialogs and notifications</li>
+          <li>You want to browse MCP servers and skills visually</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>The Big Picture</h3>
+        <p>Claude Code Desktop is not a different product &mdash; it is a new surface for the same agent. The winning pattern is to mix surfaces based on the task, not to pick one and stick with it. <span class="b">One configuration, many cockpits.</span></p>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 11<br/>
+      Companion to: <span class="a">Claude Code (CLI)</span> &middot; <span class="a">Claude.ai</span> &middot; <span class="a">API &amp; SDKs</span>
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

@@ -18,6 +18,7 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 | 08 | [Productivity & Workflows](08-productivity/) | Prompt engineering, coding workflows, research, content creation, TDD, team patterns, and measuring ROI |
 | 09 | [Future Capabilities & Roadmap](09-future/) | Longer context, computer use, persistent memory, advanced agents, safety advances, and Anthropic's mission |
 | 10 | [Summary & Quick Reference](10-reference/) | Cheat sheets for models, pricing, commands, API, SDKs, prompt patterns, MCP config, and a full glossary |
+| 11 | [Claude Code Desktop — The Native GUI](11-claude-code-desktop/) | The desktop app for Claude Code — installation, interface, diffs, permissions, MCP management, and CLI/cloud interop |
 
 ## Reports
 
