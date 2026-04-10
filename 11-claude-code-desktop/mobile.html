@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code Desktop — The Native GUI</title>
+  <title>Claude Code Desktop — The Code Tab in the Claude Desktop App</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,202 +74,185 @@
   <div style="margin-top: 2em;">
     <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 11</p>
     <h1>Claude Code Desktop</h1>
-    <div class="subtitle">The Native GUI for Agentic Coding</div>
+    <div class="subtitle">The Code Tab in the Claude Desktop App</div>
     <p style="font-size:.55em; color:var(--muted); max-width:32em;">
-      The same agent as the CLI, wrapped in a native desktop app &mdash; sessions, diffs, permissions, and MCP servers in a single window.
+      A graphical interface for Claude Code &mdash; visual diff review, parallel Git-worktree sessions, app previews, PR monitoring, and computer use. Same engine as the CLI.
     </p>
     <div style="margin-top:1.2em;">
-      <span class="pill amber">Desktop App</span>
-      <span class="pill green">Agentic</span>
-      <span class="pill purple">macOS &middot; Win &middot; Linux</span>
+      <span class="pill amber">Code Tab</span>
+      <span class="pill green">macOS &amp; Windows</span>
+      <span class="pill purple">Visual Diffs</span>
     </div>
+    <p style="font-size:.42em; color:var(--muted); margin-top:1.2em;">Sources: <code>code.claude.com/docs/en/desktop-quickstart</code> and <code>/en/desktop</code></p>
   </div>
 </section>
 
 <!-- SLIDE 2 -->
 <section>
-  <div class="slide-hdr"><span class="tag">01</span><h2>What Is Claude Code Desktop?</h2></div>
-  <p>A <span class="a">native application</span> that wraps the Claude Code agent in a graphical interface. Not a different agent &mdash; the same Claude Code you know from the CLI, with a GUI layered on top.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>Same Core, New Surface</h3><ul><li>Identical agent to the CLI</li><li>Same tools (Read, Edit, Bash, Grep, Glob)</li><li>Same hooks, skills, sub-agents</li><li>Same MCP server ecosystem</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>What&rsquo;s New</h3><ul><li>Native windowing &amp; multi-session layout</li><li>Visual diff viewer for every edit</li><li>Permission prompts as OS-native dialogs</li><li>Workspace switcher</li></ul></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>What It Is Not</h3><ul><li>Not an IDE &mdash; doesn&rsquo;t edit files by hand</li><li>Not Claude.ai &mdash; runs locally</li><li>Not a replacement for the CLI &mdash; both coexist</li></ul></div>
+  <div class="slide-hdr"><span class="tag">01</span><h2>What Is It?</h2></div>
+  <p>&ldquo;Claude Code Desktop&rdquo; is the <span class="a">Code tab</span> inside the <span class="a">Claude Desktop app</span>. The app has three tabs:</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Chat</h3><ul><li>General conversation</li><li>No file access</li><li>Similar to claude.ai</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Cowork</h3><ul><li>Autonomous background agent</li><li>Runs in a cloud VM</li><li>Hosts <span class="b">Dispatch</span> (task from your phone)</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Code &laquo; this deck</h3><ul><li>Interactive coding assistant</li><li>Direct access to local files</li><li>You review and approve each change</li><li>Same engine as the CLI</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><p><span class="g">Desktop adds:</span> visual diff review, live app preview, computer use, PR monitoring with auto-fix/auto-merge, parallel sessions with Git worktrees, Dispatch, scheduled tasks, connectors, and Local/SSH/Cloud environments.</p></div>
 </section>
 
 <!-- SLIDE 3 -->
 <section>
-  <div class="slide-hdr"><span class="tag">02</span><h2>Why a Desktop App?</h2></div>
-  <h3>Limits of the Terminal UX</h3>
-  <ul>
-    <li><span class="a">Diff review</span> painful with wrapped lines</li>
-    <li>Managing <span class="a">parallel sessions</span> needs tmux</li>
-    <li>Permission prompts break typing flow</li>
-    <li>Copy/paste across sessions clumsy</li>
-    <li>Not every developer is a terminal power user</li>
-  </ul>
-  <h3 style="margin-top:.4em;">What the GUI Unlocks</h3>
-  <ul>
-    <li>Side-by-side diff view with syntax highlighting</li>
-    <li>Multiple sessions in tabs or panes</li>
-    <li>OS-native notifications on long tasks</li>
-    <li>Searchable session history</li>
-  </ul>
-  <div class="card amber" style="margin-top:.4em;"><h3>Design Principle</h3><p>Never hides the underlying agent. Every action is still a tool call; every edit is reviewable; every permission is explicit.</p></div>
+  <div class="slide-hdr"><span class="tag">02</span><h2>Platforms &amp; Install</h2></div>
+  <h3>Supported</h3>
+  <table>
+    <thead><tr><th>Platform</th><th>Build</th></tr></thead>
+    <tbody>
+      <tr><td><span class="a">macOS</span></td><td>Universal (Intel + Apple Silicon)</td></tr>
+      <tr><td><span class="a">Windows x64</span></td><td>Setup <code>.exe</code></td></tr>
+      <tr><td><span class="a">Windows ARM64</span></td><td>Separate installer</td></tr>
+      <tr><td><span class="r">Linux</span></td><td><span class="r">Not currently supported</span></td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.4em;"><h3>Download</h3><p>All installers come from <code>claude.ai/api/desktop/&hellip;</code> via links on <code>code.claude.com/docs/en/desktop-quickstart</code>. No Homebrew, winget, or Linux packages are documented.</p></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Subscription</h3><p>Requires a <span class="g">Pro, Max, Team, or Enterprise</span> plan. Clicking the Code tab on a free plan prompts you to upgrade.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Cowork Tab Caveat</h3><p>The Cowork tab requires Apple Silicon (M1 or later) on macOS. Intel Macs still get Chat and Code.</p></div>
 </section>
 
 <!-- SLIDE 4 -->
 <section>
-  <div class="slide-hdr"><span class="tag">03</span><h2>Installation</h2></div>
-  <h3>macOS</h3>
-  <pre><code class="language-bash">open ~/Downloads/Claude-Code-Desktop.dmg
-# or
-brew install --cask claude-code-desktop</code></pre>
-  <h3 style="margin-top:.3em;">Windows</h3>
-  <pre><code class="language-powershell">Claude-Code-Desktop-Setup.exe
-# or
-winget install Anthropic.ClaudeCodeDesktop</code></pre>
-  <h3 style="margin-top:.3em;">Linux</h3>
-  <pre><code class="language-bash">chmod +x Claude-Code-Desktop.AppImage
-./Claude-Code-Desktop.AppImage</code></pre>
-  <div class="card amber" style="margin-top:.4em;"><h3>Minimums</h3><ul><li>macOS 13+, Windows 10/11, Ubuntu 22.04+</li><li>8 GB RAM recommended</li><li>Bundles the <code>claude</code> CLI on <code>$PATH</code></li></ul></div>
+  <div class="slide-hdr"><span class="tag">03</span><h2>First Launch</h2></div>
+  <ol>
+    <li>Run the installer</li>
+    <li>Launch from Applications / Start menu</li>
+    <li>Sign in with your Anthropic account</li>
+    <li>Click the <span class="a">Code</span> tab at the top center</li>
+    <li>If you get a 403, sign out and back in from the app menu</li>
+  </ol>
+  <div class="card blue" style="margin-top:.4em;"><h3>CLI Is Separate</h3><p>The desktop app includes Claude Code internally &mdash; you don&rsquo;t need Node.js or the CLI for the Code tab. To use <code>claude</code> from the terminal as well, install the CLI separately.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows: Git Required</h3><p>Git is required for the Code tab to start local sessions on Windows. Install Git for Windows and restart the app.</p></div>
 </section>
 
 <!-- SLIDE 5 -->
 <section>
-  <div class="slide-hdr"><span class="tag">04</span><h2>First Launch &amp; Auth</h2></div>
-  <h3>Onboarding Flow</h3>
-  <ol>
-    <li>Welcome &amp; product tour</li>
-    <li>Auth: Claude.ai OAuth, API key, or SSO</li>
-    <li>Permission grants (filesystem, notifications)</li>
-    <li>Pick initial workspace</li>
-    <li>Drop into an empty session</li>
-  </ol>
-  <div class="card amber" style="margin-top:.4em;"><h3>Credential Storage</h3><ul><li>macOS &rarr; Keychain</li><li>Windows &rarr; Credential Manager</li><li>Linux &rarr; libsecret</li><li>Never in plaintext config</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Billing</h3><ul><li>Included with Claude Pro / Max / Team / Enterprise</li><li>Or attach an API key billed per-token</li><li>Mixed mode supported per workspace</li></ul></div>
+  <div class="slide-hdr"><span class="tag">04</span><h2>Starting a Session</h2></div>
+  <p>Configure four things before sending your first message:</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>1. Environment</h3><ul><li><span class="a">Local</span> &mdash; your machine, direct file access</li><li><span class="a">Remote</span> &mdash; Anthropic cloud, continues if app closed</li><li><span class="a">SSH</span> &mdash; remote machine you manage</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>2. Project Folder</h3><p>Click <span class="g">Select folder</span>. Remote sessions support multiple repositories via the <strong>+</strong> button next to the repo pill.</p></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>3. Model</h3><p>Dropdown next to the send button. Opus, Sonnet, Haiku. <span class="r">Locked once the session starts</span>.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>4. Permission Mode</h3><p>Mode selector next to the send button. Can be changed during the session. Defaults to Ask permissions.</p></div>
 </section>
 
 <!-- SLIDE 6 -->
 <section>
-  <div class="slide-hdr"><span class="tag">05</span><h2>The Main Interface</h2></div>
-  <p>Three-pane layout.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>Sidebar (left)</h3><ul><li>Workspace picker</li><li>Recent sessions</li><li>MCP servers, skills, sub-agents, hooks</li><li>Settings &amp; logs</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Transcript (center)</h3><ul><li>Messages, tool calls, permission prompts</li><li>Plan mode toggle in header</li><li>Input box at the bottom</li></ul></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>Inspector (right)</h3><ul><li>Live diff viewer</li><li>Accept / Revert buttons</li><li>Session status (model, context, cost, duration)</li><li>Transcript export</li></ul></div>
+  <div class="slide-hdr"><span class="tag">05</span><h2>Permission Modes</h2></div>
+  <table>
+    <thead><tr><th>Mode</th><th>Key</th></tr></thead>
+    <tbody>
+      <tr><td><span class="a">Ask permissions</span></td><td><code>default</code></td></tr>
+      <tr><td><span class="g">Auto accept edits</span></td><td><code>acceptEdits</code></td></tr>
+      <tr><td><span class="p">Plan mode</span></td><td><code>plan</code></td></tr>
+      <tr><td><span class="b">Auto</span></td><td><code>auto</code></td></tr>
+      <tr><td><span class="r">Bypass permissions</span></td><td><code>bypassPermissions</code></td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.4em;"><h3>Ask &amp; Auto Accept</h3><ul><li>Ask: shows a diff, approve or reject each change</li><li>Auto accept: auto-accepts file edits and common fs commands (<code>mkdir</code>, <code>touch</code>, <code>mv</code>)</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Plan Mode</h3><p>Reads files and explores but does not edit source code. Proposes a plan first. Good before a large refactor.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Auto Mode</h3><p><span class="b">Research preview.</span> Team, Enterprise, and API plans only. Requires Sonnet 4.6 or Opus 4.6. Enable in Settings &rarr; Claude Code.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Bypass Permissions</h3><p>No prompts. Equivalent to <code>--dangerously-skip-permissions</code>. Enable in Settings &rarr; Claude Code &rarr; &ldquo;Allow bypass permissions mode&rdquo;. Enterprise admins can disable this.</p></div>
 </section>
 
 <!-- SLIDE 7 -->
 <section>
-  <div class="slide-hdr"><span class="tag">06</span><h2>Workspaces &amp; Projects</h2></div>
-  <p>A <span class="a">workspace</span> is a named directory Claude treats as a project root. Each has its own <code>CLAUDE.md</code>, <code>settings.json</code>, MCP config, and session history.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>Worktree-Aware</h3><p>Git worktrees surface as sibling workspaces &mdash; same repo, different branches, parallel agents.</p></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Session History</h3><p>Every session saved locally with full transcript, tool calls, diffs. Searchable across workspaces, exportable as JSON or Markdown.</p></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>Resume &amp; Multi-Session</h3><p>Reopen a session and the full context rebuilds. Split view runs two sessions side-by-side in the same workspace.</p></div>
+  <div class="slide-hdr"><span class="tag">06</span><h2>Diff View &amp; Comments</h2></div>
+  <ul>
+    <li>After Claude edits files, a <code>+12 -1</code> indicator appears</li>
+    <li>Click it to open the diff viewer &mdash; file list on the left, changes on the right</li>
+    <li>Click any line to open a comment box</li>
+    <li>Submit all comments: <span class="a">Cmd+Enter</span> (macOS) / <span class="a">Ctrl+Enter</span> (Windows)</li>
+    <li>Claude reads the comments and revises</li>
+  </ul>
+  <div class="card amber" style="margin-top:.4em;"><h3>Review Code Button</h3><p>Top-right of the diff view. Claude evaluates current diffs and leaves inline suggestions. Focuses on compile errors, logic errors, security issues, and obvious bugs &mdash; not style, formatting, or lint-level issues.</p></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Add Context</h3><ul><li><code>@filename</code> with autocomplete (local/SSH only)</li><li>Attach images, PDFs via button</li><li>Drag and drop into the prompt</li></ul></div>
 </section>
 
 <!-- SLIDE 8 -->
 <section>
-  <div class="slide-hdr"><span class="tag">07</span><h2>Diff Viewer &amp; Review</h2></div>
-  <p>Every edit appears in the Inspector as a side-by-side diff with syntax highlighting. One of the biggest wins over the CLI.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>Review Actions</h3><ul><li><span class="g">Accept</span> &mdash; commit edit to disk</li><li><span class="r">Revert</span> &mdash; undo</li><li><span class="a">Refine</span> &mdash; ask Claude to modify the proposal</li><li><span class="b">Open in Editor</span> &mdash; hand off to VS Code, Cursor</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Batch Review</h3><p>Multi-file changes review one at a time. Accept-all, accept-subset, revert-all. Syntax highlighting via Monaco (same as VS Code).</p></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>Git Integration</h3><p>Stage hunks, generate commit messages, open PRs without leaving the app.</p></div>
+  <div class="slide-hdr"><span class="tag">07</span><h2>Parallel Sessions</h2></div>
+  <p>Click <span class="a">+ New session</span> in the sidebar to work on multiple tasks in parallel.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Automatic Git Worktrees</h3><ul><li>For Git repos, each session gets its own isolated copy</li><li>Default location: <code>&lt;project-root&gt;/.claude/worktrees/</code></li><li>Custom location: Settings &rarr; Claude Code &rarr; &ldquo;Worktree location&rdquo;</li><li>Branch prefix option</li><li>Archive icon in sidebar to remove a worktree</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Context Compaction</h3><p>When context fills up, Claude automatically summarizes and continues. Type <code>/compact</code> to trigger earlier.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Continue in Another Surface</h3><p>From the VS Code icon in the bottom-right: move to <span class="b">Claude Code on the Web</span> (clean working tree required; not for SSH) or open in <span class="b">Your IDE</span> at the current working directory.</p></div>
 </section>
 
 <!-- SLIDE 9 -->
 <section>
-  <div class="slide-hdr"><span class="tag">08</span><h2>Plan Mode &amp; Permissions</h2></div>
-  <h3>Plan Mode</h3>
-  <p>The <span class="a">PLAN</span> toggle enters a read-only mode &mdash; Claude can investigate but cannot modify anything. Useful for surveying before acting.</p>
-  <h3 style="margin-top:.4em;">Permission Levels</h3>
-  <ul>
-    <li><span class="g">Allow once</span> &mdash; one-shot approval</li>
-    <li><span class="a">Allow always</span> &mdash; persist this session</li>
-    <li><span class="r">Deny</span> &mdash; block and explain why</li>
-  </ul>
-  <div class="card red" style="margin-top:.4em;"><h3>Danger Warnings</h3><p>Red banners for destructive ops: <code>rm -rf</code>, force-push, DROP TABLE. Explicit confirm required even in Trusted mode.</p></div>
+  <div class="slide-hdr"><span class="tag">08</span><h2>Environments</h2></div>
+  <div class="card amber"><h3>Local</h3><ul><li>Runs on your machine, direct file access</li><li>PATH and a fixed set of Claude Code vars read from shell profile on macOS</li><li>Set other env vars via the local environment editor (gear icon on Local)</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Remote (Cloud)</h3><ul><li>Runs on Anthropic&rsquo;s cloud</li><li>Continues even if you close the app</li><li>Counts toward subscription plan limits &mdash; no separate compute charges</li><li>Monitor from claude.ai/code or the Claude iOS app</li><li>Supports multiple repositories per session</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>SSH</h3><ul><li>Environment dropdown &rarr; <span class="p">+ Add SSH connection</span></li><li>Fields: Name, SSH Host, SSH Port (default 22), Identity File</li><li>Claude Code must be installed on the remote machine</li><li>Supports permission modes, connectors, plugins, MCP</li></ul></div>
 </section>
 
 <!-- SLIDE 10 -->
 <section>
-  <div class="slide-hdr"><span class="tag">09</span><h2>MCP Servers</h2></div>
-  <p>Full MCP host. What&rsquo;s new is the GUI around server management.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>MCP Server Panel</h3><ul><li>List configured servers with health indicators</li><li>Enable / disable per workspace</li><li>Browse tools and resources</li><li>Live logs for debugging</li><li>Install from MCP Registry</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>OAuth Flows</h3><p>Remote MCP servers open browser for OAuth 2.1 consent. Tokens stored in OS keychain, refreshed automatically.</p></div>
-  <div class="card blue" style="margin-top:.4em;"><h3>Config Portability</h3><p>MCP config lives in <code>.mcp.json</code> &mdash; same as the CLI. Works identically whichever surface you use.</p></div>
+  <div class="slide-hdr"><span class="tag">09</span><h2>App Preview &amp; Auto-Verify</h2></div>
+  <p>Claude can start a dev server and open an embedded browser to verify its changes. Works for frontend and backend servers.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Preview Panel</h3><ul><li>Interact with your running app</li><li>Watch Claude screenshot, click, fill forms, fix issues</li><li>Start/stop servers from the <span class="a">Preview</span> dropdown</li><li>Persist cookies and local storage across restarts</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Auto-Verify</h3><p><span class="g">On by default.</span> Claude verifies changes after every edit &mdash; screenshots, error checks, confirmation. Disable per-project with <code>"autoVerify": false</code> in <code>.claude/launch.json</code>.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Configuration File</h3><p><code>.claude/launch.json</code> with JSON-with-comments. Fields include <code>runtimeExecutable</code>, <code>runtimeArgs</code>, <code>port</code>, <code>cwd</code>, <code>env</code>, <code>autoPort</code>, and <code>program</code>/<code>args</code>.</p></div>
 </section>
 
 <!-- SLIDE 11 -->
 <section>
-  <div class="slide-hdr"><span class="tag">10</span><h2>Sub-agents, Skills, Hooks</h2></div>
-  <div class="card amber"><h3>Sub-agents</h3><ul><li>Same definitions as CLI</li><li>Visual graph of parent/child calls</li><li>Drill into any sub-agent&rsquo;s transcript</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Skills</h3><ul><li>Skills library UI with tags</li><li>Per-workspace or global enable/disable</li><li>Marketplace install &amp; author mode</li></ul></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>Hooks</h3><ul><li>Visual hook manager in settings</li><li>Test hook firing from the UI</li><li>Same shell-command contract as CLI</li></ul></div>
-  <div class="card blue" style="margin-top:.4em;"><p>All live in the <span class="b">same files</span> as the CLI. The desktop app is a view onto your config, not a parallel system.</p></div>
+  <div class="slide-hdr"><span class="tag">10</span><h2>Pull Request Monitoring</h2></div>
+  <p>After opening a pull request, a <span class="a">CI status bar</span> appears in the session. Claude Code uses the <code>gh</code> CLI to poll check results.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Auto-Fix</h3><p>Toggle in the CI status bar. Claude reads failure output and iterates to fix failing CI checks.</p></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Auto-Merge</h3><p>Toggle in the CI status bar. Merges the PR once all checks pass. <span class="g">Merge method is squash.</span> Must also be enabled in your GitHub repository settings.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Prerequisite</h3><p>Requires the <span class="r">GitHub CLI (<code>gh</code>)</span> installed and authenticated. If not installed, Desktop prompts you to install it the first time you try to create a PR.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Notification</h3><p>Claude Code sends a desktop notification when CI finishes.</p></div>
 </section>
 
 <!-- SLIDE 12 -->
 <section>
-  <div class="slide-hdr"><span class="tag">11</span><h2>Settings &amp; Shortcuts</h2></div>
-  <h3>Settings Panels</h3>
-  <ul>
-    <li>General, Account, Model, Tools</li>
-    <li>MCP, Appearance, Keyboard, Privacy</li>
-  </ul>
-  <h3 style="margin-top:.4em;">Themes</h3>
-  <ul>
-    <li>Midnight, Graphite, Solarized variants</li>
-    <li>Custom via CSS overrides</li>
-    <li>Follow system theme option</li>
-  </ul>
-  <div class="card amber" style="margin-top:.4em;"><h3>Key Shortcuts</h3><ul><li><code>&#8984;N</code> / <code>Ctrl+N</code> &mdash; new session</li><li><code>&#8984;&#8679;P</code> / <code>Ctrl+Shift+P</code> &mdash; plan mode</li><li><code>&#8984;&crarr;</code> / <code>Ctrl+Enter</code> &mdash; accept diff</li><li><code>&#8984;K</code> / <code>Ctrl+K</code> &mdash; command palette</li><li><code>Esc Esc</code> &mdash; stop the agent</li></ul></div>
+  <div class="slide-hdr"><span class="tag">11</span><h2>Computer Use</h2></div>
+  <p>Lets Claude open apps, control your screen, and work the way you would &mdash; native apps, mobile simulators, GUIs without an API.</p>
+  <div class="card red" style="margin-top:.4em;"><h3>Availability</h3><ul><li><span class="r">Research preview</span> on macOS and Windows</li><li><span class="r">Pro or Max plan only</span> &mdash; not on Team/Enterprise</li><li>Off by default &mdash; enable in Settings &rarr; General &rarr; Computer use</li><li>macOS also needs Accessibility + Screen Recording</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Tool Choice Order</h3><ol><li>Connector if one exists</li><li>Bash for shell commands</li><li>Claude in Chrome for browser work</li><li>Computer use as the fallback</li></ol></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Per-App Tiers</h3><ul><li><span class="g">View only</span> &mdash; browsers, trading platforms</li><li><span class="g">Click only</span> &mdash; terminals, IDEs</li><li><span class="g">Full control</span> &mdash; everything else</li></ul></div>
 </section>
 
 <!-- SLIDE 13 -->
 <section>
-  <div class="slide-hdr"><span class="tag">12</span><h2>Desktop &harr; CLI &harr; Cloud</h2></div>
-  <p>Three surfaces, one agent.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>Desktop</h3><p>Native GUI &mdash; sessions, diffs, MCP UI, visual review.</p></div>
-  <div class="card green" style="margin-top:.4em;"><h3>CLI</h3><p>Terminal &mdash; scripting, CI/CD, SSH, headless automation.</p></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>Cloud</h3><p>Managed agents &mdash; PR reviews, issue triage, long-running tasks via GitHub App.</p></div>
-  <div class="card blue" style="margin-top:.4em;"><h3>Shared Config</h3><p><code>~/.claude/settings.json</code>, <code>CLAUDE.md</code>, <code>.mcp.json</code>, agents, credentials &mdash; all three surfaces read the same files. Start in desktop, resume in CLI, hand off to cloud.</p></div>
+  <div class="slide-hdr"><span class="tag">12</span><h2>Connectors, Plugins, Skills, MCP</h2></div>
+  <div class="card amber"><h3>Connectors</h3><ul><li><strong>+</strong> next to prompt box &rarr; Connectors</li><li>Google Calendar, Slack, GitHub, Linear, Notion, more</li><li>Graphical setup &mdash; MCP servers under the hood</li><li>Not available in remote sessions</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Plugins</h3><ul><li><strong>+</strong> &rarr; Plugins &mdash; browse, install, manage</li><li>Marketplaces including the official Anthropic marketplace</li><li>User, project, or local-only scope</li><li>Not available for remote sessions</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Skills / Slash Commands</h3><ul><li>Type <code>/</code> or click <strong>+</strong> &rarr; Slash commands</li><li>Built-in commands, custom skills, project skills, plugin skills</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>MCP Servers</h3><p>Configure in <code>~/.claude.json</code> or <code>.mcp.json</code>. MCP servers in the separate <code>claude_desktop_config.json</code> (for the chat app) do <span class="r">not</span> appear in the Code tab.</p></div>
 </section>
 
 <!-- SLIDE 14 -->
 <section>
-  <div class="slide-hdr"><span class="tag">13</span><h2>When to Use Which</h2></div>
-  <table>
-    <thead><tr><th>Scenario</th><th>Best surface</th></tr></thead>
-    <tbody>
-      <tr><td>Daily feature work (local)</td><td>Desktop / IDE ext</td></tr>
-      <tr><td>Scripting &amp; CI/CD</td><td>CLI</td></tr>
-      <tr><td>Remote dev box over SSH</td><td>CLI</td></tr>
-      <tr><td>Reviewing large refactors</td><td>Desktop</td></tr>
-      <tr><td>VS Code / JetBrains users</td><td>IDE extension</td></tr>
-      <tr><td>GitHub PR review</td><td>Cloud</td></tr>
-      <tr><td>Long background task</td><td>Cloud / CLI+tmux</td></tr>
-      <tr><td>Non-terminal users</td><td>Desktop</td></tr>
-      <tr><td>Many parallel sessions</td><td>Desktop</td></tr>
-    </tbody>
-  </table>
-  <div class="card green" style="margin-top:.4em;"><p>Mix surfaces per task. Same config, no cost to switching.</p></div>
+  <div class="slide-hdr"><span class="tag">13</span><h2>Coming from the CLI</h2></div>
+  <p>Desktop and CLI share the same engine and configuration files. Run both simultaneously on the same project &mdash; they share config but keep separate session history.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Shared Config</h3><ul><li><code>CLAUDE.md</code> and <code>CLAUDE.local.md</code></li><li>MCP servers in <code>~/.claude.json</code>, <code>.mcp.json</code></li><li>Hooks, skills, settings</li><li>Sonnet, Opus, Haiku models</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Move CLI &rarr; Desktop</h3><p>Run <code>/desktop</code> in the terminal. Claude saves the session and opens it in the desktop app, then exits the CLI. <span class="r">macOS and Windows only.</span></p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>When to Use Which (from the docs)</h3><p>&ldquo;Use Desktop when you want visual diff review, file attachments, or session management in a sidebar. Use the CLI when you need scripting, automation, third-party providers, or prefer a terminal workflow.&rdquo;</p></div>
 </section>
 
 <!-- SLIDE 15 -->
 <section>
-  <div class="slide-hdr"><span class="tag">14</span><h2>Limits &amp; Closing</h2></div>
-  <h3>Known Limitations</h3>
+  <div class="slide-hdr"><span class="tag">14</span><h2>Not in Desktop &amp; Troubleshooting</h2></div>
+  <h3>Not Available in Desktop</h3>
   <ul>
-    <li>No headless mode &mdash; use the CLI for automation</li>
-    <li>Workspace must be local (SSH via CLI)</li>
-    <li>Heavier startup than the CLI</li>
-    <li>Updates lag the CLI by a few days</li>
+    <li><span class="r">Linux</span> &mdash; macOS and Windows only</li>
+    <li><span class="r">Third-party providers</span> &mdash; Bedrock, Vertex, Foundry</li>
+    <li><span class="r">Inline suggestions</span></li>
+    <li><span class="r">Agent teams</span> (multi-agent)</li>
+    <li><span class="r">Scripting</span> / <code>--print</code> / Agent SDK headless</li>
+    <li><span class="r"><code>--allowedTools</code></span> / <code>--disallowedTools</code></li>
+    <li><span class="r"><code>dontAsk</code></span> mode (CLI only)</li>
   </ul>
-  <div class="card amber" style="margin-top:.4em;"><h3>Avoid It If&hellip;</h3><ul><li>You live in tmux</li><li>Primarily remote dev boxes</li><li>Unattended automation</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>It Shines When&hellip;</h3><ul><li>You want visual diff review</li><li>Managing parallel projects</li><li>Collaborating with non-terminal users</li><li>Browsing MCP servers visually</li></ul></div>
-  <div class="card blue" style="margin-top:.4em;"><p><span class="b">One configuration, many cockpits.</span></p></div>
-  <div style="margin-top:.5em; text-align:center;">
-    <p style="font-size:.52em; color:var(--muted);">
-      Anthropic Claude Series &mdash; Presentation 11
+  <div class="card amber" style="margin-top:.4em;"><h3>Common Fixes</h3><ul><li>403 / auth &rarr; sign out and back in from the app menu</li><li>Blank screen &rarr; restart (auto-updates on launch)</li><li>&ldquo;Git is required&rdquo; on Windows &rarr; install Git for Windows, restart</li><li>Can&rsquo;t find <code>npm</code>/<code>node</code> &rarr; check shell profile PATH, restart app</li></ul></div>
+  <div style="margin-top:.4em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 11<br/>
+      Based on <code>code.claude.com/docs/en/desktop-quickstart</code> and <code>/en/desktop</code>
     </p>
   </div>
 </section>
