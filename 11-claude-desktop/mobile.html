@@ -65,17 +65,17 @@
 
 <section class="title-slide">
   <div style="margin-top: 2em;">
-    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 12</p>
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 11</p>
     <h1>Claude Desktop</h1>
     <div class="subtitle">The Native Claude App</div>
     <p style="font-size:.55em; color:var(--muted); max-width:32em;">
-      One window with three tabs &mdash; Chat, Cowork, and Code &mdash; plus a global hotkey, tray icon, connectors, and native notifications.
+      One window, three tabs &mdash; Chat, Code, and Cowork &mdash; plus a global hotkey, tray icon, connectors, and native notifications.
     </p>
     <div style="margin-top:1.2em;">
       <span class="pill amber">Native App</span>
       <span class="pill purple">Chat</span>
-      <span class="pill blue">Cowork</span>
       <span class="pill amber">Code</span>
+      <span class="pill blue">Cowork</span>
     </div>
   </div>
 </section>
@@ -111,6 +111,7 @@
   <div class="card green" style="margin-top:.4em;"><h3>Artifacts</h3><ul><li>Code, HTML, SVG, Markdown, React</li><li>Live preview in a side pane</li><li>Versioned drafts</li></ul></div>
   <div class="card amber" style="margin-top:.4em;"><h3>Input</h3><ul><li>Drag files from Finder/Explorer</li><li>Paste screenshots</li><li>Voice dictation (OS-level)</li></ul></div>
   <div class="card blue" style="margin-top:.4em;"><h3>Controls</h3><ul><li>Model picker: Opus/Sonnet/Haiku</li><li>Extended thinking toggle</li><li>Styles &mdash; concise, explanatory, custom</li></ul></div>
+  <p style="margin-top:.3em;">&rarr; Presentation <span class="p">14</span> is the Chat tab deep dive.</p>
 </section>
 
 <section>
@@ -119,7 +120,7 @@
   <div class="card blue" style="margin-top:.4em;"><h3>Typical Uses</h3><ul><li>Research and comparison writeups</li><li>Clone repo, run tests, open PR</li><li>Monitor a PR queue</li><li>Draft status emails from tickets</li></ul></div>
   <div class="card purple" style="margin-top:.4em;"><h3>Free in the VM</h3><ul><li>Browser, terminal, Python, Node, Git</li><li>Persistent workspace</li><li>Live video of progress</li><li>Dispatch from phone</li></ul></div>
   <div class="card red" style="margin-top:.4em;"><h3>Caveat</h3><p>macOS Cowork requires <span class="r">Apple Silicon (M1+)</span>. Windows: all supported hardware.</p></div>
-  <p style="margin-top:.3em;">&rarr; Presentation 13 is a dedicated deep dive.</p>
+  <p style="margin-top:.3em;">&rarr; Presentation <span class="b">13</span> is the Cowork deep dive.</p>
 </section>
 
 <section>
@@ -127,7 +128,7 @@
   <p>GUI for the same engine as the <code>claude</code> CLI. Pick a folder (local / SSH / Anthropic cloud) and Claude edits files with you.</p>
   <div class="card amber" style="margin-top:.4em;"><h3>What&rsquo;s Graphical</h3><ul><li>Side-by-side visual diffs</li><li>Permission dialogs</li><li>Live app preview pane</li><li>Parallel sessions in Git worktrees</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><h3>Shared With CLI</h3><ul><li><code>CLAUDE.md</code>, hooks, sub-agents</li><li>Slash commands, skills, memory</li><li>MCP servers configured once</li></ul></div>
-  <p style="margin-top:.3em;">&rarr; Presentation 11 covers this in depth.</p>
+  <p style="margin-top:.3em;">&rarr; Presentation <span class="a">12</span> is the Code tab deep dive.</p>
 </section>
 
 <section>
@@ -181,14 +182,33 @@
 </section>
 
 <section>
-  <div class="slide-hdr"><span class="tag">10</span><h2>Troubleshooting</h2></div>
+  <div class="slide-hdr"><span class="tag">10</span><h2>MCP Across Products</h2></div>
+  <p>MCP comes in two flavours: <span class="a">local stdio</span> (subprocess on your machine) and <span class="g">remote HTTP</span> (Connectors).</p>
+  <table>
+    <thead><tr><th>Surface</th><th>Local</th><th>Remote</th></tr></thead>
+    <tbody>
+      <tr><td>Code CLI</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Desktop &mdash; Chat</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Desktop &mdash; Code</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Desktop &mdash; Cowork</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>claude.ai web</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Mobile apps</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Messages API</td><td class="r">No</td><td class="g">Yes</td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.4em;"><h3>Gotcha</h3><p>The Chat tab uses <code>claude_desktop_config.json</code>; the Code tab uses <code>~/.claude.json</code>. They&rsquo;re <strong>separate</strong> &mdash; an MCP server added to one does not appear in the other.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Rule of Thumb</h3><p>Local process tools only work where the runtime is on your machine. Cowork, web, mobile, API &rarr; remote MCP only.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">11</span><h2>Troubleshooting</h2></div>
   <div class="card red" style="margin-top:.4em;"><h3>Sign-in Loops</h3><ul><li>Quit fully, relaunch, sign in again</li><li>Clear OAuth from the keychain</li><li>403 &rarr; sign out from app menu</li></ul></div>
   <div class="card amber" style="margin-top:.4em;"><h3>Cowork Missing</h3><ul><li>macOS: check <code>uname -m</code> &rarr; <code>arm64</code></li><li>Free plans: no Cowork tab</li><li>Region rollout &mdash; see Account</li></ul></div>
   <div class="card blue" style="margin-top:.4em;"><h3>Connectors</h3><ul><li>Local ones need the target app installed</li><li>Remote ones need OAuth</li><li>Corporate firewall may block MCP WebSocket</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><h3>Logs</h3><ul><li><code>~/Library/Logs/Claude</code> (mac)</li><li><code>%APPDATA%\Claude\logs</code> (win)</li><li>Help &rarr; Send Feedback attaches them</li></ul></div>
   <div style="margin-top:.4em; text-align:center;">
     <p style="font-size:.48em; color:var(--muted);">
-      Anthropic Claude Series &mdash; Presentation 12<br/>
+      Anthropic Claude Series &mdash; Presentation 11<br/>
       Based on <code>claude.com/download</code> and <code>support.anthropic.com</code>
     </p>
   </div>

@@ -79,13 +79,13 @@
 <!-- ============================================================ -->
 <section class="title-slide">
   <div style="margin-top: 2em;">
-    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 12</p>
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 11</p>
     <h1>Claude Desktop</h1>
     <div class="subtitle">The Native Claude App for macOS and Windows</div>
     <p style="font-size:.5em; color:var(--muted); max-width:32em;">
       One window, three tabs &mdash; <span class="p">Chat</span> for conversation,
-      <span class="b">Cowork</span> for autonomous background agents, and <span class="a">Code</span> for
-      interactive pair programming. Always-on tray icon, global shortcut, connectors, and native notifications.
+      <span class="a">Code</span> for interactive pair programming, and <span class="b">Cowork</span>
+      for autonomous background agents. Menu-bar icon, global shortcut, connectors, and native notifications.
     </p>
     <div style="margin-top:1.2em;">
       <span class="pill amber">Native App</span>
@@ -251,6 +251,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
   <div class="card amber" style="margin-top:.3em;">
     <p><span class="a">Desktop-only niceties:</span> a global hotkey (configurable) to summon a new chat from any app, a menu-bar / tray popover for a quick question without switching windows, and native OS notifications when a long response finishes while you&rsquo;re in another app.</p>
   </div>
+  <p style="margin-top:.3em;">&rarr; <span class="p">Presentation 14</span> is the dedicated deep dive on the Chat tab &mdash; Projects, Artifacts, Styles, file handling, voice, and the classic <code>claude_desktop_config.json</code> MCP surface.</p>
 </section>
 
 <!-- ============================================================ -->
@@ -286,7 +287,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <h3>Platform Caveat</h3>
     <p>On macOS the Cowork tab currently requires <span class="r">Apple Silicon (M1 or later)</span>. On Intel Macs the Chat and Code tabs still work, but Cowork is hidden. On Windows, Cowork is available on all supported hardware.</p>
   </div>
-  <p style="margin-top:.3em;">Presentation 13 of this series is a dedicated deep dive on the Cowork tab &mdash; architecture, session lifecycle, Dispatch, parallel agents, costs, and limits.</p>
+  <p style="margin-top:.3em;">&rarr; <span class="b">Presentation 13</span> is the dedicated deep dive on Cowork &mdash; architecture, session lifecycle, Dispatch, parallel agents, costs, and limits.</p>
 </section>
 
 <!-- ============================================================ -->
@@ -326,7 +327,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </ul>
     </div>
   </div>
-  <p style="margin-top:.3em;">Presentation 11 covers the Code tab in depth &mdash; permission modes, diff review workflow, parallel sessions, PR monitoring, and computer use.</p>
+  <p style="margin-top:.3em;">&rarr; <span class="a">Presentation 12</span> covers the Code tab in depth &mdash; permission modes, diff review workflow, parallel sessions, PR monitoring, and computer use.</p>
 </section>
 
 <!-- ============================================================ -->
@@ -564,6 +565,95 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
 </section>
 
 <!-- ============================================================ -->
+<!-- SLIDE 11: MCP Across the Claude Product Range -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">11</span>
+    <h2>MCP Across the Claude Product Range</h2>
+  </div>
+  <p>The Model Context Protocol is the common tool-server protocol used by every Claude surface, but <em>how much of it you get</em> depends on where the model runs and whether Claude can spawn local processes on your machine. Two flavours matter: <span class="a">local stdio MCP servers</span> (a subprocess on your box talking over stdin/stdout) and <span class="g">remote HTTP MCP servers</span> (Anthropic-brokered Connectors, or SSE/HTTP endpoints on the network).</p>
+  <table style="margin-top:.25em;">
+    <thead>
+      <tr>
+        <th>Surface</th>
+        <th>Local stdio MCP</th>
+        <th>Remote HTTP MCP</th>
+        <th>Config / how to add</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="a">Claude Code CLI</span></td>
+        <td class="g">Yes</td>
+        <td class="g">Yes</td>
+        <td><code>claude mcp add</code> &middot; <code>~/.claude.json</code> &middot; project <code>.mcp.json</code></td>
+        <td>Full host. Per-user, per-project, and local scopes. Hooks and skills apply.</td>
+      </tr>
+      <tr>
+        <td><span class="p">Desktop &mdash; Chat tab</span></td>
+        <td class="g">Yes</td>
+        <td class="g">Yes (as Connectors)</td>
+        <td><code>claude_desktop_config.json</code> &middot; Settings &rarr; Connectors</td>
+        <td>Original MCP launch surface (Nov 2024). Config file is <em>separate</em> from the Code tab.</td>
+      </tr>
+      <tr>
+        <td><span class="a">Desktop &mdash; Code tab</span></td>
+        <td class="g">Yes</td>
+        <td class="g">Yes</td>
+        <td>Reads the same files as the CLI (<code>~/.claude.json</code>, <code>.mcp.json</code>)</td>
+        <td>Chat-tab MCP servers do <span class="r">not</span> appear here, and vice versa.</td>
+      </tr>
+      <tr>
+        <td><span class="b">Desktop &mdash; Cowork tab</span></td>
+        <td class="r">No</td>
+        <td class="g">Yes (brokered)</td>
+        <td>Connectors you&rsquo;ve authorised in the app</td>
+        <td>Code runs in an Anthropic-hosted cloud VM, so it can&rsquo;t reach stdio on your machine.</td>
+      </tr>
+      <tr>
+        <td><span class="p">claude.ai (web)</span></td>
+        <td class="r">No</td>
+        <td class="g">Yes (Connectors)</td>
+        <td>Settings &rarr; Connectors in the web UI</td>
+        <td>Browser sandbox &mdash; no local processes. Custom remote MCP on Team / Enterprise.</td>
+      </tr>
+      <tr>
+        <td><span class="p">Claude mobile apps</span></td>
+        <td class="r">No</td>
+        <td class="g">Yes (Connectors)</td>
+        <td>Managed account-wide</td>
+        <td>Connector catalogue is a subset of what desktop sees.</td>
+      </tr>
+      <tr>
+        <td><span class="g">Messages API</span></td>
+        <td class="r">No (not directly)</td>
+        <td class="g">Yes</td>
+        <td><code>mcp_servers</code> parameter; or run your own MCP client</td>
+        <td>Bring-your-own: the API forwards to HTTP MCP servers you point it at.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Rule of Thumb</h3>
+      <p>If a tool is a <span class="a">local process</span> (filesystem, iMessage, a database on <code>localhost</code>, a shell script), only the three <em>runs-on-your-machine</em> surfaces can use it: <strong>Claude Code CLI</strong>, the <strong>Chat tab</strong>, and the <strong>Code tab</strong>. Everything cloud &mdash; Cowork, web, mobile, the API &mdash; needs an HTTP endpoint or an Anthropic-hosted Connector.</p>
+    </div>
+    <div class="card red">
+      <h3>Common Pitfalls</h3>
+      <ul>
+        <li>Configuring an MCP server in <code>claude_desktop_config.json</code> and wondering why the <em>Code</em> tab can&rsquo;t see it &mdash; they&rsquo;re separate files.</li>
+        <li>Expecting Cowork to run a stdio MCP binary from your laptop &mdash; it can&rsquo;t; publish it as a remote MCP server or wrap it in a Connector.</li>
+        <li>Corporate networks blocking outbound WebSocket &rarr; Connectors silently fail to install. Check firewalls.</li>
+        <li>Permission dialogs for MCP tool calls stack with the app&rsquo;s own permissions &mdash; both have to allow.</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:.38em; color:var(--muted); margin-top:.2em;">Deck 12 covers the Code tab&rsquo;s MCP config in detail; deck 14 covers the Chat tab&rsquo;s; deck 04 introduces the protocol itself.</p>
+</section>
+
+<!-- ============================================================ -->
 <!-- SLIDE 12: Closing -->
 <!-- ============================================================ -->
 <section class="title-slide">
@@ -572,16 +662,16 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <div class="subtitle">One window. Three modes. Everywhere Claude lives.</div>
     <div class="cols cols-3" style="margin-top:1em; gap:.5em;">
       <div class="card purple">
-        <h3>Chat</h3>
-        <p>Day-to-day conversation with Projects, Artifacts, files, and voice.</p>
-      </div>
-      <div class="card blue">
-        <h3>Cowork</h3>
-        <p>Autonomous background agents in cloud VMs &mdash; see presentation 13.</p>
+        <h3>Chat &mdash; deck 14</h3>
+        <p>Day-to-day conversation with Projects, Artifacts, files, voice, and Connectors.</p>
       </div>
       <div class="card amber">
-        <h3>Code</h3>
-        <p>Pair-programming assistant with visual diffs &mdash; see presentation 11.</p>
+        <h3>Code &mdash; deck 12</h3>
+        <p>Pair-programming assistant with visual diffs, worktrees, PR monitoring, and MCP.</p>
+      </div>
+      <div class="card blue">
+        <h3>Cowork &mdash; deck 13</h3>
+        <p>Autonomous background agents running in Anthropic-hosted cloud VMs.</p>
       </div>
     </div>
     <div style="margin-top:1.4em;">
@@ -589,7 +679,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <span class="pill green">macOS &amp; Windows</span>
     </div>
     <p style="font-size:.48em; color:var(--muted); margin-top:1.4em;">
-      Anthropic Claude Series &mdash; Presentation 12<br/>
+      Anthropic Claude Series &mdash; Presentation 11<br/>
       Based on <code>claude.com/download</code> and <code>support.anthropic.com</code>
     </p>
   </div>

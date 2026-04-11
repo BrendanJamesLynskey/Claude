@@ -18,9 +18,10 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 | 08 | [Productivity & Workflows](08-productivity/) | Prompt engineering, coding workflows, research, content creation, TDD, team patterns, and measuring ROI |
 | 09 | [Future Capabilities & Roadmap](09-future/) | Longer context, computer use, persistent memory, advanced agents, safety advances, and Anthropic's mission |
 | 10 | [Summary & Quick Reference](10-reference/) | Cheat sheets for models, pricing, commands, API, SDKs, prompt patterns, MCP config, and a full glossary |
-| 11 | [Claude Code Desktop — The Native GUI](11-claude-code-desktop/) | The desktop app for Claude Code — installation, interface, diffs, permissions, MCP management, and CLI/cloud interop |
-| 12 | [Claude Desktop — The Native Claude App](12-claude-desktop/) | The native Claude app for macOS and Windows — Chat, Cowork, and Code tabs, connectors, shortcuts, and enterprise controls |
+| 11 | [Claude Desktop — The Native Claude App](11-claude-desktop/) | The native Claude app for macOS and Windows — Chat, Code, and Cowork tabs, connectors, shortcuts, enterprise controls, and an MCP-across-products matrix |
+| 12 | [Claude Code Desktop — The Code Tab](12-claude-code-desktop/) | Deep dive on the Code tab — visual diffs, permission modes, Git worktrees, app preview, PR monitoring, computer use, and shared config with the CLI |
 | 13 | [Claude Cowork — Autonomous Background Agents](13-claude-cowork/) | Deep dive on the Cowork tab — cloud VMs, computer use, Dispatch, parallel agents, budgets, and limits |
+| 14 | [Claude Chat Desktop — The Chat Tab](14-claude-chat-desktop/) | Deep dive on the Chat tab — Projects, Artifacts, Styles, input modalities, Connectors, and the original stdio MCP surface via `claude_desktop_config.json` |
 
 ## Reports
 

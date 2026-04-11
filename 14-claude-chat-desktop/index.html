@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code Desktop — The Native GUI — Anthropic Claude Series</title>
+  <title>Claude Chat Desktop — The Chat Tab in the Claude Desktop App — Anthropic Claude Series</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -36,16 +36,16 @@
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 60%),
-      radial-gradient(ellipse at 50% 100%, rgba(78,203,141,0.06) 0%, transparent 50%);
+      radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(96,165,250,0.06) 0%, transparent 50%);
     pointer-events: none;
   }
   .accent-border-top {
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--amber), transparent);
-    box-shadow: 0 0 15px rgba(245,166,35,0.3);
+    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+    box-shadow: 0 0 15px rgba(167,139,250,0.3);
   }
   .container {
     position: relative;
@@ -65,7 +65,7 @@
     font-size: .8em;
     font-weight: 500;
     color: var(--bg);
-    background: var(--amber);
+    background: var(--purple);
     padding: .1em .45em;
     border-radius: 3px;
     letter-spacing: .04em;
@@ -76,7 +76,7 @@
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     font-size: clamp(1.6rem, 5vw, 2.2rem);
-    color: var(--amber);
+    color: var(--purple);
     line-height: 1.15;
     margin-bottom: .15em;
   }
@@ -96,7 +96,7 @@
   }
   .bar {
     width: 50px; height: 2px;
-    background: var(--amber);
+    background: var(--purple);
     margin: 0 auto 1.8em;
   }
   .buttons {
@@ -120,14 +120,14 @@
   }
   a.btn.primary {
     color: var(--text);
-    background: rgba(245,166,35,0.12);
-    border: 1px solid rgba(245,166,35,0.4);
-    box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+    background: rgba(167,139,250,0.12);
+    border: 1px solid rgba(167,139,250,0.4);
+    box-shadow: 0 4px 20px rgba(167,139,250,0.1);
   }
   a.btn.primary:hover {
-    background: rgba(245,166,35,0.2);
-    border-color: var(--amber);
-    box-shadow: 0 4px 30px rgba(245,166,35,0.2);
+    background: rgba(167,139,250,0.2);
+    border-color: var(--purple);
+    box-shadow: 0 4px 30px rgba(167,139,250,0.2);
   }
   a.btn.secondary {
     color: var(--muted);
@@ -142,7 +142,7 @@
   .badge {
     font-size: .65rem;
     letter-spacing: .1em;
-    color: var(--amber);
+    color: var(--purple);
     opacity: .7;
     margin-left: .5rem;
   }
@@ -152,7 +152,7 @@
     color: var(--muted);
   }
   .back a {
-    color: var(--amber);
+    color: var(--purple);
     text-decoration: none;
     letter-spacing: .04em;
   }
@@ -163,9 +163,9 @@
   <div class="accent-border-top"></div>
   <div class="container">
     <div class="series-label">ANTHROPIC CLAUDE SERIES</div>
-    <span class="num">11</span>
-    <h1>Claude Code Desktop</h1>
-    <div class="subtitle">The native GUI for agentic coding &mdash; sessions, diffs, permissions, and MCP in one window</div>
+    <span class="num">14</span>
+    <h1>Claude Chat Desktop</h1>
+    <div class="subtitle">The Chat tab in the Claude Desktop app &mdash; Projects, Artifacts, Styles, Connectors</div>
     <div class="bar"></div>
     <p class="description">Choose your viewing experience</p>
     <div class="buttons">

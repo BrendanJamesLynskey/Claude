@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Chat Desktop — The Chat Tab in the Claude Desktop App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--purple); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--purple); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--purple); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--purple); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 14</p>
+    <h1>Claude Chat Desktop</h1>
+    <div class="subtitle">The Chat Tab in the Claude Desktop App</div>
+    <p style="font-size:.55em; color:var(--muted); max-width:32em;">
+      Projects, Artifacts, Styles, Connectors, and the original MCP surface via <code>claude_desktop_config.json</code>.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill purple">Chat</span>
+      <span class="pill green">Projects</span>
+      <span class="pill amber">Connectors</span>
+      <span class="pill blue">Local MCP</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">01</span><h2>What It Is</h2></div>
+  <p>The Chat tab is <code>claude.ai</code> in a native window: same account, same models, same history. The native shell adds ergonomics and local reach.</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Is</h3><ul><li>Turn-by-turn conversation, synced</li><li>Projects, Artifacts, Styles</li><li>Extended thinking, voice</li><li>Local stdio MCP via <code>claude_desktop_config.json</code></li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Is Not</h3><ul><li>Not a file editor (Code tab does that)</li><li>Not autonomous (Cowork does that)</li><li>Not a separate product from <code>claude.ai</code></li><li>Not plan-locked &mdash; Free plans get it</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><p><span class="g">Mental model:</span> Claude for you, not Claude for your repo.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">02</span><h2>Platforms &amp; Plans</h2></div>
+  <table>
+    <thead><tr><th>Platform</th><th>Chat tab</th></tr></thead>
+    <tbody>
+      <tr><td>macOS</td><td class="g">Yes</td></tr>
+      <tr><td>Windows x64 / ARM64</td><td class="g">Yes</td></tr>
+      <tr><td>Linux</td><td class="r">No app &mdash; use <code>claude.ai</code></td></tr>
+    </tbody>
+  </table>
+  <div class="card purple" style="margin-top:.4em;"><h3>Plans</h3><ul><li><span class="g">Free</span> &mdash; small budget, smaller models</li><li><span class="g">Pro</span> &mdash; Opus, extended thinking</li><li><span class="g">Max</span> &mdash; 5&times; / 20&times; Pro budget</li><li><span class="g">Team / Enterprise</span> &mdash; SSO, shared Projects</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Desktop-only</h3><ul><li>Global hotkey / menu-bar popover</li><li>Drag-drop from Finder / Explorer</li><li>Local stdio MCP</li><li>Native notifications</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">03</span><h2>Projects</h2></div>
+  <p>A Project = system prompt + file library + chat history. Every chat in the Project sees all three.</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Contents</h3><ul><li>Custom instructions (system prompt)</li><li>Knowledge: PDFs, docs, images, code</li><li>Pinned chats</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Common Shapes</h3><ul><li>Book / manuscript</li><li>Client dossier</li><li>Read-only codebase reference</li><li>Research dossier</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Sharing</h3><ul><li>Personal = private</li><li>Team / Enterprise: share with org</li><li>Shared Projects: shared Knowledge, private chats</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Limits</h3><ul><li>Plan-dependent file count / size</li><li>Very large Knowledge is retrieved, not attached in full</li><li>Re-upload replaces files (no diff)</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">04</span><h2>Artifacts</h2></div>
+  <p>Substantial outputs lift out of the chat into a dedicated side pane with live preview.</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Types</h3><ul><li>HTML / CSS / JS (live preview)</li><li>React components (sandboxed)</li><li>SVG, Mermaid, Markdown</li><li>Code in any language</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>What You Can Do</h3><ul><li>Interact with the preview</li><li>Copy / download</li><li>Ask to update &mdash; new version</li><li>Jump between versions</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Publishing</h3><ul><li>Public link (Pro / Max)</li><li>Recipients see rendered preview</li><li>Frozen or live</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><p><span class="b">Desktop advantage:</span> preview pane accepts drag-and-drop and clipboard. For actual file writes, use deck <span class="a">12</span>.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">05</span><h2>Input Modalities</h2></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Text</h3><ul><li>Markdown renders on send</li><li><code>Shift+Enter</code> newline, <code>Enter</code> send</li><li>Long pastes auto-wrap into attachments</li><li>Edit a previous message to branch</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Files</h3><ul><li>Drag from Finder / Explorer</li><li>PDF, DOCX, PPTX, XLSX, CSV, code, YAML</li><li>Images via vision</li><li>Per-plan caps</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Screenshots</h3><ul><li>Paste system screenshots directly</li><li>Rich-text clipboard preserved</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Voice</h3><ul><li>OS dictation in prompt field</li><li>Voice Mode: push-to-talk, spoken replies</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Can&rsquo;t Drop</h3><ul><li>Folders (use a Project)</li><li>Oversize files</li><li>Executables</li><li>Live cloud links</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">06</span><h2>Models &amp; Styles</h2></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Model Picker</h3><ul><li>Per-message choice</li><li>Opus, Sonnet, Haiku</li><li>Free limited to smaller models</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Extended Thinking</h3><ul><li>Pro and above</li><li>Visible scratchpad</li><li>Adaptive on 4.6 models</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Styles</h3><ul><li>Formal, Concise, Explanatory, Normal</li><li>Custom: paste a writing sample</li><li>Per-chat, changeable mid-conversation</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Choosing</h3><ul><li><span class="b">Haiku</span> &mdash; short, fast, bulk</li><li><span class="b">Sonnet</span> &mdash; default for most chats</li><li><span class="b">Opus + thinking</span> &mdash; hard multi-step problems</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">07</span><h2>Connectors &amp; MCP</h2></div>
+  <p>The Chat tab is the <em>original</em> MCP surface (Nov 2024).</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Connectors (GUI)</h3><ul><li>Settings &rarr; Connectors</li><li>Local: filesystem, iMessage, calendar</li><li>Remote: GitHub, Linear, Slack, Gmail, Drive</li><li>Each is MCP under the hood</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Skills</h3><ul><li>PDF, Excel, slides, diagrams</li><li>Auto-selected or toggled</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Raw MCP config</h3><ul><li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li><li>Win: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li><li>Spawn any stdio MCP server</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Biggest Gotcha</h3><p>The Chat-tab config is <strong>separate</strong> from the Code-tab config. Servers added here do not appear in the Code tab. See deck 11 for the full matrix.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">08</span><h2>Ergonomics</h2></div>
+  <table>
+    <thead><tr><th>Action</th><th>macOS</th><th>Windows</th></tr></thead>
+    <tbody>
+      <tr><td>New chat</td><td><code>&#8984;N</code></td><td><code>Ctrl+N</code></td></tr>
+      <tr><td>Send</td><td><code>Return</code></td><td><code>Enter</code></td></tr>
+      <tr><td>Search</td><td><code>&#8984;K</code></td><td><code>Ctrl+K</code></td></tr>
+      <tr><td>Switch tab</td><td><code>&#8984;1/2/3</code></td><td><code>Ctrl+1/2/3</code></td></tr>
+      <tr><td>Summon</td><td><code>&#8984;Shift+Space</code></td><td><code>Ctrl+Shift+Space</code></td></tr>
+    </tbody>
+  </table>
+  <div class="card purple" style="margin-top:.4em;"><h3>Tray Popover</h3><ul><li>One-field quick prompt</li><li>Drop file onto icon &rarr; new chat</li><li>Mute, sign out, quit</li><li>Start at login</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Notifications</h3><ul><li>Long reply finishing while you&rsquo;re elsewhere</li><li>Project updates (Team / Ent)</li><li>Mute per-chat or globally</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">09</span><h2>Chat vs Web vs Code vs Cowork</h2></div>
+  <table>
+    <thead><tr><th>Feature</th><th>Chat</th><th>Web</th><th>Code</th><th>Cowork</th></tr></thead>
+    <tbody>
+      <tr><td>Projects</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Drag-drop</td><td class="g">Yes</td><td class="a">Partial</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Hotkey/tray</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Local MCP</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td><td class="r">No</td></tr>
+      <tr><td>Edits files</td><td class="r">No</td><td class="r">No</td><td class="g">Yes</td><td class="r">No</td></tr>
+      <tr><td>Autonomous</td><td class="r">No</td><td class="r">No</td><td class="a">Opt-in</td><td class="g">Yes</td></tr>
+      <tr><td>Free plan</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+    </tbody>
+  </table>
+  <div class="card purple" style="margin-top:.4em;"><p><span class="p">Boundary with Code:</span> changing files in your repo &rarr; Code tab. Thinking about the code &rarr; Chat tab. Many people use both in one session.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">10</span><h2>Good Uses &amp; Tips</h2></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Great Fit</h3><ul><li>Writing and editing in a Project</li><li>Explaining code, papers, docs</li><li>Data analysis on pasted tables</li><li>&ldquo;What is this?&rdquo; screenshots</li><li>Research via Connectors</li><li>Voice brainstorming</li><li>Power-user local stdio MCP</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Bad Fit</h3><ul><li>Editing repo files (&rarr; deck 12)</li><li>Autonomous work (&rarr; deck 13)</li><li>Scripting (&rarr; API / CLI)</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Prompting Tips</h3><ul><li>Durable context &rarr; Project instructions</li><li>Authoritative docs &rarr; Knowledge</li><li>Ask for artefacts explicitly</li><li>Styles per venue</li><li>Branch, don&rsquo;t re-correct</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Housekeeping</h3><ul><li>Archive finished chats</li><li>Prune Knowledge &mdash; tokens cost every turn</li><li>Rename chats for search</li><li>Keep Chat / Code MCP configs separate</li></ul></div>
+  <div style="margin-top:.4em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 14<br/>
+      Companion to 11 (Claude Desktop), 12 (Claude Code Desktop), 13 (Claude Cowork)
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 420, height: 780, margin: 0.02,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 780;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>
