@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Cowork — Autonomous Background Agents in Cloud VMs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--blue); line-height: 1.1; }
+  .reveal h2 { font-size: .82em; color: var(--blue); margin-bottom: .2em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--blue); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .74em; }
+  .cols { display: grid; gap: .35em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .25em .5em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .50em; margin: 0 0 .12em; }
+  .card p { font-size: .40em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .40em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .38em; }
+  .reveal table th { background: var(--bg3); color: var(--blue); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.3em; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 13</p>
+    <h1>Claude Cowork</h1>
+    <div class="subtitle">Autonomous Background Agents in Anthropic-Hosted Cloud VMs</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:34em;">
+      Hand Claude a task and walk away. Each Cowork session is a real virtual machine &mdash; browser, terminal, Python,
+      Node, Git &mdash; that Claude drives autonomously while you watch live, or ignore, or queue up five more.
+      Pair it with <span class="b">Dispatch</span> and you can kick off the same task from your phone.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill blue">Cowork Tab</span>
+      <span class="pill green">Cloud VMs</span>
+      <span class="pill purple">Dispatch</span>
+      <span class="pill amber">Parallel Agents</span>
+    </div>
+    <p style="font-size:.38em; color:var(--muted); margin-top:1.4em;">Based on <code>support.anthropic.com</code> Cowork docs and the Claude Desktop app</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: What Cowork Is -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">01</span>
+    <h2>What Cowork Is &mdash; and What It Isn&rsquo;t</h2>
+  </div>
+  <p>Cowork is the <span class="b">autonomous</span> mode of the Claude Desktop app. Unlike Chat (stateless turn-by-turn) or Code (you approve every edit), a Cowork session is handed a goal and then runs on its own inside a cloud-hosted virtual machine until it finishes, asks for input, or hits its budget.</p>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card blue">
+      <h3>What It Is</h3>
+      <ul>
+        <li>An agent loop running inside a real VM &mdash; filesystem, network, desktop environment</li>
+        <li>Detached from your machine &mdash; close the app, it keeps running</li>
+        <li>Live video feed so you can watch it click, type, and browse</li>
+        <li>Persistent workspace for the task&rsquo;s lifetime</li>
+        <li>Composable &mdash; tasks can trigger other tasks, or report back on a schedule</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>What It Is Not</h3>
+      <ul>
+        <li><span class="r">Not</span> a rented server you SSH into &mdash; Claude is the only user</li>
+        <li><span class="r">Not</span> a container on your machine &mdash; it runs in Anthropic&rsquo;s cloud</li>
+        <li><span class="r">Not</span> the Code tab &mdash; Cowork is for goals you&rsquo;d rather not supervise</li>
+        <li><span class="r">Not</span> the API&rsquo;s managed-agent endpoint &mdash; this is the consumer-product surface</li>
+        <li><span class="r">Not</span> offline &mdash; a network and your Anthropic account are required</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card green" style="margin-top:.3em;">
+    <p><span class="g">Core idea:</span> Cowork gives Claude a body &mdash; a computer it can actually use &mdash; so you can delegate tasks that don&rsquo;t fit in a chat turn. Research, repo work, data wrangling, triage, PR monitoring, content drafting from web sources. The desktop app is just the viewport onto that remote body.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Requirements and Availability -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">02</span>
+    <h2>Requirements and Availability</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Platforms</h3>
+      <table>
+        <thead><tr><th>Host OS</th><th>Cowork Tab</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><span class="a">macOS (Apple Silicon)</span></td><td class="g">Supported</td><td>M1 / M2 / M3 / M4</td></tr>
+          <tr><td><span class="a">macOS (Intel)</span></td><td class="r">Hidden</td><td>Chat and Code still work</td></tr>
+          <tr><td><span class="a">Windows x64</span></td><td class="g">Supported</td><td>Win 10 and later</td></tr>
+          <tr><td><span class="a">Windows ARM64</span></td><td class="g">Supported</td><td>Native build</td></tr>
+          <tr><td><span class="r">Linux</span></td><td class="r">No desktop app</td><td>Use <code>claude.ai</code> or the CLI</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top:.3em;">Plans</h3>
+      <ul>
+        <li><span class="r">Free</span> &mdash; no Cowork</li>
+        <li><span class="g">Pro</span> &mdash; Cowork with per-session limits</li>
+        <li><span class="g">Max</span> &mdash; higher concurrency, longer sessions</li>
+        <li><span class="g">Team / Enterprise</span> &mdash; pooled quota, admin controls, audit log</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Network</h3>
+      <p>Your machine only needs outbound HTTPS to Anthropic. The VM&rsquo;s own outbound network goes through Anthropic&rsquo;s infrastructure &mdash; so any site that allow-lists by IP will see an Anthropic range, not yours.</p>
+    </div>
+    <div>
+      <div class="card blue">
+        <h3>The VM Image</h3>
+        <ul>
+          <li>Linux desktop environment (browser, terminal, file manager)</li>
+          <li>Pre-installed: <code>git</code>, <code>python</code>, <code>node</code>, <code>npm</code>, <code>curl</code>, <code>jq</code>, <code>ffmpeg</code>, common build tools</li>
+          <li>Headless Chromium for browsing</li>
+          <li>Ephemeral root filesystem with a persistent <code>~/workspace</code></li>
+          <li>Snapshots taken when the task pauses for your input</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Budgets &amp; Timeouts</h3>
+        <ul>
+          <li>Each task has a plan-dependent <span class="p">compute budget</span> (wall-clock + tool calls)</li>
+          <li>Tasks auto-pause when the budget is nearly spent and ask if you want to continue</li>
+          <li>Idle sessions are hibernated; resuming restores the VM state</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Rollout Note</h3>
+        <p>Cowork is still rolling out region-by-region. If the tab is missing on a supported platform and plan, check Settings &rarr; Account for region status.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: Starting a Cowork Task -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">03</span>
+    <h2>Starting a Cowork Task</h2>
+  </div>
+  <p>The Cowork tab has a prompt box, a model picker, and an <em>attach</em> button. That&rsquo;s it. Everything else happens after you hit send.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card blue">
+        <h3>1. Write the Goal</h3>
+        <ul>
+          <li>Describe the outcome, not the steps (&ldquo;produce X&rdquo; beats &ldquo;open Y, click Z&rdquo;)</li>
+          <li>State success criteria &mdash; how will you know it&rsquo;s done?</li>
+          <li>Paste URLs, file excerpts, or ticket numbers as context</li>
+          <li>Mention credentials or connectors the task will need</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>2. Attach Context (Optional)</h3>
+        <ul>
+          <li>Drag files from your machine &mdash; they land in <code>~/workspace</code></li>
+          <li>Link a Project &mdash; its files and system prompt apply</li>
+          <li>Enable connectors: GitHub, Linear, Slack, Gmail, Google Drive</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>3. Model &amp; Mode</h3>
+        <ul>
+          <li>Model picker &mdash; Opus for hard reasoning, Sonnet for most work, Haiku for fast jobs</li>
+          <li>Extended thinking toggle for multi-step research</li>
+          <li>&ldquo;Ask before risky actions&rdquo; vs &ldquo;run until done&rdquo;</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>4. Launch</h3>
+        <ul>
+          <li>Click send &mdash; a VM spins up in a few seconds</li>
+          <li>Live desktop feed appears on the right</li>
+          <li>Chat transcript on the left mirrors Claude&rsquo;s reasoning and tool calls</li>
+          <li>You can close the window &mdash; the task keeps running</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <pre><code>Good: &ldquo;Clone github.com/acme/pipeline, run the test suite,
+       open a PR that fixes any failing tests, and post a
+       summary in #eng-notes when done.&rdquo;
+
+Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: Inside the VM -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">04</span>
+    <h2>Inside the VM &mdash; What Claude Can Do</h2>
+  </div>
+  <div class="cols cols-3">
+    <div class="card blue">
+      <h3>Computer Use</h3>
+      <ul>
+        <li>Move the mouse, click, type, scroll</li>
+        <li>Read the screen with vision</li>
+        <li>Drive a real browser &mdash; fill forms, click through modals, handle cookies</li>
+        <li>Screenshot the desktop at any step</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Shell &amp; Dev Tools</h3>
+      <ul>
+        <li>Open a terminal &mdash; <code>bash</code>, <code>zsh</code></li>
+        <li>Clone repos, run builds, start servers</li>
+        <li>Install packages (<code>apt</code>, <code>pip</code>, <code>npm</code>)</li>
+        <li>Edit files with <code>vim</code> or VS Code server</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Data &amp; Files</h3>
+      <ul>
+        <li>Python / Jupyter for analysis</li>
+        <li><code>pandas</code>, <code>numpy</code>, <code>matplotlib</code> pre-installed</li>
+        <li>Read and write to <code>~/workspace</code></li>
+        <li>Export results back to your machine via the chat transcript</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card amber" style="margin-top:.3em;">
+    <h3>Connectors Projected Into the VM</h3>
+    <p>Any connector you&rsquo;ve authorised in the desktop app is visible inside the VM as a tool call. Cowork doesn&rsquo;t install a browser extension or store your tokens on the VM disk &mdash; each call is brokered through Anthropic&rsquo;s connector layer, so revoking a connector in Settings immediately cuts off in-progress tasks from it.</p>
+  </div>
+  <div class="card red" style="margin-top:.3em;">
+    <h3>What It Can&rsquo;t Do</h3>
+    <ul>
+      <li>Reach your local network / localhost unless you tunnel it in</li>
+      <li>Persist state between unrelated tasks (each task gets a fresh VM)</li>
+      <li>Run GPU workloads &mdash; the VM is CPU-only</li>
+      <li>Bypass the connector permission layer &mdash; every external write is still gated</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Monitoring, Pausing, Resuming -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">05</span>
+    <h2>Monitoring, Pausing, and Resuming</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card blue">
+        <h3>The Live Feed</h3>
+        <ul>
+          <li>Right pane shows the VM desktop in real time</li>
+          <li>Left pane shows Claude&rsquo;s reasoning and tool calls</li>
+          <li>Click on a tool call to jump to the moment in the feed</li>
+          <li>Scrub backwards to see what Claude saw before a decision</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Interrupting</h3>
+        <ul>
+          <li><span class="g">Stop</span> &mdash; kills the task and snapshots the VM</li>
+          <li><span class="g">Pause</span> &mdash; halts after the current tool call</li>
+          <li><span class="g">Message</span> &mdash; type a correction; Claude resumes with it in context</li>
+          <li><span class="g">Take control</span> &mdash; grab the mouse/keyboard yourself, then hand back</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>When Claude Pauses Itself</h3>
+        <ul>
+          <li>Risky action pending &mdash; delete, send, publish, pay</li>
+          <li>Credential or 2FA challenge in a web flow</li>
+          <li>Ambiguous instruction &mdash; asks for clarification</li>
+          <li>Budget running low &mdash; asks before continuing</li>
+          <li>Desktop app surfaces an OS notification so you don&rsquo;t miss the prompt</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Resuming Later</h3>
+        <ul>
+          <li>Close the app and come back &mdash; task history is on the left sidebar</li>
+          <li>Click a paused task &mdash; VM rehydrates in seconds from its snapshot</li>
+          <li>Past tasks can be <em>forked</em> into a new session with the same workspace state</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Dispatch -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">06</span>
+    <h2>Dispatch &mdash; Kick Off Cowork From Your Phone</h2>
+  </div>
+  <p><span class="b">Dispatch</span> is the mobile entry point to Cowork. It lives inside the <code>claude.ai</code> mobile apps and lets you queue up autonomous tasks without having to open the desktop.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card blue">
+        <h3>How It Works</h3>
+        <ul>
+          <li>Open the Claude mobile app &rarr; Dispatch tab</li>
+          <li>Type a goal or dictate with voice</li>
+          <li>Tap send &mdash; Anthropic provisions a Cowork VM</li>
+          <li>Push notification when the task is done or needs input</li>
+          <li>Open the desktop app later to see the full transcript and artefacts</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Why It Matters</h3>
+        <ul>
+          <li>You&rsquo;re away from your machine and remember something &mdash; &ldquo;research X by tonight&rdquo;</li>
+          <li>You want to chain work: Cowork runs a 30-minute task while you&rsquo;re in a meeting</li>
+          <li>Voice-first task capture while walking, commuting, or driving</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Templates</h3>
+        <ul>
+          <li>Save a prompt as a <span class="p">template</span> &mdash; &ldquo;daily news digest&rdquo;, &ldquo;PR triage&rdquo;, &ldquo;weekly status&rdquo;</li>
+          <li>Tap once to launch without retyping</li>
+          <li>Templates sync with desktop &mdash; pick them up anywhere</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Limits vs Desktop</h3>
+        <ul>
+          <li>No live video feed on mobile &mdash; status updates only</li>
+          <li>You can&rsquo;t take control of the VM from the phone</li>
+          <li>File drops are awkward &mdash; use iCloud / Drive / connectors instead</li>
+          <li>Long approval flows are best handled on desktop</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Parallel Coworkers -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">07</span>
+    <h2>Parallel Coworkers</h2>
+  </div>
+  <p>Because each task is its own VM, you can have many of them running at once &mdash; each in its own isolated environment, each pursuing a different goal. The desktop app surfaces them as cards on the left sidebar, colour-coded by status.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card green">
+      <h3>Status Colours</h3>
+      <ul>
+        <li><span class="g">Green</span> &mdash; running</li>
+        <li><span class="a">Amber</span> &mdash; waiting for you</li>
+        <li><span class="b">Blue</span> &mdash; paused (budget)</li>
+        <li><span class="p">Purple</span> &mdash; completed</li>
+        <li><span class="r">Red</span> &mdash; failed or stopped</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Concurrency Limits</h3>
+      <ul>
+        <li>Pro: small handful of concurrent tasks</li>
+        <li>Max: more concurrent tasks and longer runs</li>
+        <li>Team / Enterprise: pooled across the org</li>
+        <li>Hard cap per account to prevent runaway spend</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>Patterns</h3>
+      <ul>
+        <li><span class="p">Fan-out research:</span> five coworkers, five angles, one report</li>
+        <li><span class="p">Watcher tasks:</span> one coworker polls and only pages you on change</li>
+        <li><span class="p">Pipelines:</span> task A produces a file, task B consumes it</li>
+        <li><span class="p">PR bots:</span> a coworker per repo, all feeding one Slack channel</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card amber" style="margin-top:.3em;">
+    <p><span class="a">Heads-up:</span> coworkers <strong>do not share state</strong> by default. If you want task B to see task A&rsquo;s output, either wire them up through a connector (drop to Drive, write to a GitHub branch) or copy the artefact into task B&rsquo;s prompt yourself. A shared workspace is on the roadmap but isn&rsquo;t available today.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Cowork vs Code vs CLI -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">08</span>
+    <h2>Cowork vs the Code Tab vs the CLI</h2>
+  </div>
+  <table>
+    <thead><tr><th>Dimension</th><th>Cowork</th><th>Code Tab</th><th>Claude Code CLI</th></tr></thead>
+    <tbody>
+      <tr><td>Where it runs</td><td class="b">Anthropic cloud VM</td><td class="a">Local / SSH / cloud</td><td class="a">Local / SSH</td></tr>
+      <tr><td>Supervision</td><td class="b">Autonomous</td><td class="a">Interactive, approve each step</td><td class="a">Interactive (with modes)</td></tr>
+      <tr><td>Access to your files</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Runs while app is closed</td><td class="g">Yes</td><td class="g">Yes (remote)</td><td class="r">No</td></tr>
+      <tr><td>Computer use / GUI apps</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
+      <tr><td>Mobile entry point</td><td class="g">Dispatch</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Good for long research</td><td class="g">Excellent</td><td class="a">OK</td><td class="a">OK</td></tr>
+      <tr><td>Good for editing your codebase</td><td class="r">Awkward &mdash; needs clone + PR</td><td class="g">Excellent</td><td class="g">Excellent</td></tr>
+      <tr><td>Good for terminal-native flow</td><td class="r">No</td><td class="a">OK</td><td class="g">Excellent</td></tr>
+      <tr><td>Cost model</td><td class="b">Plan-based, budgeted</td><td class="a">Plan or API</td><td class="a">Plan or API</td></tr>
+    </tbody>
+  </table>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Rule of thumb:</span> reach for <span class="b">Cowork</span> when the goal is &ldquo;go and do this&rdquo; and you don&rsquo;t want to babysit. Reach for the <span class="a">Code tab</span> or <span class="a">CLI</span> when the work is in <em>your</em> codebase and you want to review every change. Many workflows combine both &mdash; Cowork does the research, the Code tab lands the patch.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: Security, Cost, and Limits -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">09</span>
+    <h2>Security, Cost, and Limits</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card green">
+        <h3>Security Posture</h3>
+        <ul>
+          <li>VM is ephemeral &mdash; destroyed when the task is archived</li>
+          <li>No connector tokens written to the VM disk</li>
+          <li>Connectors enforce per-tool allow-lists &mdash; risky writes still prompt you</li>
+          <li>Audit log of every tool call (Enterprise)</li>
+          <li>VM outbound traffic goes via Anthropic infrastructure</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Risks to Manage</h3>
+        <ul>
+          <li>Prompt-injection from web content the VM browses</li>
+          <li>Credential prompts in a web flow &mdash; never paste passwords into Cowork prompts; use connectors</li>
+          <li>Auto-approve of tool calls can produce unintended writes &mdash; keep &ldquo;ask before risky&rdquo; on for important tasks</li>
+          <li>Long-running tasks can burn budget on loops &mdash; set a wall-clock limit</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Cost &amp; Budgets</h3>
+        <ul>
+          <li>Pro / Max: included in the plan, subject to per-session and per-day caps</li>
+          <li>Team / Enterprise: pooled quota, org-admin can set per-user caps</li>
+          <li>Cowork sessions show live token and tool-call counts in the sidebar</li>
+          <li>Hitting the cap pauses the task and asks you to approve continuation</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Hard Limits (at time of writing)</h3>
+        <ul>
+          <li>Max wall-clock per task (plan-dependent &mdash; minutes to hours)</li>
+          <li>Max concurrent tasks per account</li>
+          <li>No GPU, no inbound network, no access to your LAN</li>
+          <li>No custom base VM image &mdash; the OS image is managed by Anthropic</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Good Tasks, Bad Tasks -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">10</span>
+    <h2>Good Tasks, Bad Tasks, and Prompting Tips</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card green">
+        <h3>Great Fit</h3>
+        <ul>
+          <li>Multi-source research with a written deliverable</li>
+          <li>Repo cloning, test running, PR opening</li>
+          <li>Form filling, account setup, web scraping of public data</li>
+          <li>Scheduled &ldquo;watcher&rdquo; tasks that only ping you on change</li>
+          <li>Data cleanup in Python / pandas on files you upload</li>
+          <li>Drafting content from browsed sources</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Bad Fit</h3>
+        <ul>
+          <li>Anything needing access to your local filesystem &mdash; use the Code tab</li>
+          <li>Heavy compute (GPU, big training runs)</li>
+          <li>Interactive pair-programming &mdash; the feedback loop is too slow</li>
+          <li>Sites with strict bot detection &mdash; Cowork looks like a headless browser</li>
+          <li>Anything you&rsquo;d struggle to describe in a prompt</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card blue">
+        <h3>Prompting Tips</h3>
+        <ul>
+          <li>State the <em>deliverable</em> and where it should end up (file name, channel, PR)</li>
+          <li>Give success criteria: &ldquo;done when the failing tests pass and CI is green&rdquo;</li>
+          <li>List the tools Claude should prefer: &ldquo;use the GitHub connector, not the CLI&rdquo;</li>
+          <li>Budget guidance: &ldquo;give up after 20 minutes and summarise what you learned&rdquo;</li>
+          <li>Attach any data once rather than pasting it over and over</li>
+          <li>Set failure behaviour: &ldquo;if you get stuck, ask before retrying&rdquo;</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Debugging a Stuck Task</h3>
+        <ul>
+          <li>Scrub the live feed backwards to the last visible progress</li>
+          <li>Take control of the VM, do the next step manually, hand back</li>
+          <li>Pause and paste a clarifying message</li>
+          <li>Fork the task at the last good checkpoint instead of restarting from zero</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: Closing -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top:2em;">
+    <h1>Claude Cowork</h1>
+    <div class="subtitle">Give Claude a computer. Hand it a goal. Come back later.</div>
+    <div class="cols cols-3" style="margin-top:1em; gap:.5em;">
+      <div class="card blue">
+        <h3>Where</h3>
+        <p>Desktop app &mdash; Cowork tab. Mobile &mdash; Dispatch.</p>
+      </div>
+      <div class="card green">
+        <h3>What For</h3>
+        <p>Autonomous research, repo work, PR monitoring, data cleanup, watchers.</p>
+      </div>
+      <div class="card purple">
+        <h3>What Not For</h3>
+        <p>Interactive edits to your local code &mdash; use the Code tab for that.</p>
+      </div>
+    </div>
+    <div style="margin-top:1.4em;">
+      <span class="pill blue">Cowork Tab</span>
+      <span class="pill green">Cloud VMs</span>
+      <span class="pill purple">Dispatch</span>
+      <span class="pill amber">Parallel Agents</span>
+    </div>
+    <p style="font-size:.48em; color:var(--muted); margin-top:1.4em;">
+      Anthropic Claude Series &mdash; Presentation 13<br/>
+      Companion to presentations 11 (Claude Code Desktop) and 12 (Claude Desktop)
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

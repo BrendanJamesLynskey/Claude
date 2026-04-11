@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Cowork — Autonomous Background Agents in Cloud VMs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--blue); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--blue); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--blue); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--blue); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 13</p>
+    <h1>Claude Cowork</h1>
+    <div class="subtitle">Autonomous Agents in Cloud VMs</div>
+    <p style="font-size:.55em; color:var(--muted); max-width:32em;">
+      Hand Claude a task and walk away. Each session is a real VM with browser, terminal, Python, Node, and Git &mdash; driven autonomously.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill blue">Cowork</span>
+      <span class="pill green">Cloud VMs</span>
+      <span class="pill purple">Dispatch</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">01</span><h2>What It Is</h2></div>
+  <p>Cowork is the <span class="b">autonomous</span> tab of Claude Desktop. Hand it a goal; it runs in an Anthropic-hosted VM until done.</p>
+  <div class="card blue" style="margin-top:.4em;"><h3>Is</h3><ul><li>Agent loop in a real VM</li><li>Detached &mdash; keeps running if you close the app</li><li>Live video feed of progress</li><li>Persistent workspace for the task</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Is Not</h3><ul><li>Not a server you SSH into</li><li>Not running on your machine</li><li>Not the Code tab</li><li>Not offline</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><p><span class="g">Core idea:</span> give Claude a body &mdash; a computer it can use &mdash; so you can delegate tasks that don&rsquo;t fit in a chat turn.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">02</span><h2>Requirements</h2></div>
+  <table>
+    <thead><tr><th>Host</th><th>Cowork</th></tr></thead>
+    <tbody>
+      <tr><td>macOS (Apple Silicon)</td><td class="g">Yes</td></tr>
+      <tr><td>macOS (Intel)</td><td class="r">No</td></tr>
+      <tr><td>Windows x64</td><td class="g">Yes</td></tr>
+      <tr><td>Windows ARM64</td><td class="g">Yes</td></tr>
+      <tr><td>Linux</td><td class="r">No app</td></tr>
+    </tbody>
+  </table>
+  <div class="card blue" style="margin-top:.4em;"><h3>VM Image</h3><ul><li>Linux desktop, browser, terminal</li><li><code>git</code>, <code>python</code>, <code>node</code>, build tools</li><li>Persistent <code>~/workspace</code></li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Budgets</h3><ul><li>Per-task compute budget</li><li>Auto-pause near limit</li><li>Idle sessions hibernate</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Plans</h3><ul><li>Free &mdash; no Cowork</li><li>Pro / Max &mdash; included</li><li>Team / Enterprise &mdash; pooled quota</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">03</span><h2>Starting a Task</h2></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>1. Goal</h3><ul><li>Describe the outcome, not the steps</li><li>State success criteria</li><li>Paste URLs / ticket numbers</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>2. Context</h3><ul><li>Drag files &rarr; land in <code>~/workspace</code></li><li>Link a Project</li><li>Enable connectors</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>3. Model &amp; Mode</h3><ul><li>Opus / Sonnet / Haiku</li><li>Extended thinking</li><li>Ask-before-risky toggle</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>4. Launch</h3><ul><li>VM spins up in seconds</li><li>Live feed on the right</li><li>Close the app &mdash; it keeps going</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">04</span><h2>Inside the VM</h2></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Computer Use</h3><ul><li>Mouse, keyboard, vision</li><li>Real browser &mdash; fills forms</li><li>Screenshots at any step</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Shell &amp; Dev</h3><ul><li>Terminal, <code>git</code>, builds</li><li>Install pkgs (<code>apt</code>, <code>pip</code>, <code>npm</code>)</li><li>VS Code server</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Data</h3><ul><li>Python, pandas, matplotlib</li><li>Read/write <code>~/workspace</code></li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Can&rsquo;t</h3><ul><li>Reach your localhost</li><li>Share state between tasks</li><li>GPU workloads</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">05</span><h2>Monitoring</h2></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Live Feed</h3><ul><li>Right: VM desktop</li><li>Left: reasoning + tool calls</li><li>Click a call &rarr; jump in feed</li><li>Scrub backwards</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Interrupting</h3><ul><li>Stop / Pause</li><li>Message &mdash; Claude resumes with it</li><li>Take control, hand back</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Claude Pauses When</h3><ul><li>Risky action pending</li><li>Credential / 2FA</li><li>Ambiguous instruction</li><li>Budget low</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Resuming</h3><ul><li>Task history in sidebar</li><li>VM rehydrates from snapshot</li><li>Fork into a new session</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">06</span><h2>Dispatch</h2></div>
+  <p>Mobile entry point. Queue Cowork tasks from the phone.</p>
+  <div class="card blue" style="margin-top:.4em;"><h3>How</h3><ul><li>Claude mobile app &rarr; Dispatch tab</li><li>Type or dictate a goal</li><li>Push notification on completion</li><li>Review transcript on desktop later</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Why</h3><ul><li>Capture tasks while away from the machine</li><li>Voice-first while walking / commuting</li><li>Chain work during meetings</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Templates</h3><ul><li>Save prompts as one-tap templates</li><li>Sync with desktop</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Limits</h3><ul><li>No live video on mobile</li><li>Can&rsquo;t take VM control from phone</li><li>Long approvals better on desktop</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">07</span><h2>Parallel Coworkers</h2></div>
+  <p>Each task is its own VM. Run many at once &mdash; colour-coded cards in the sidebar.</p>
+  <div class="card green" style="margin-top:.4em;"><h3>Status</h3><ul><li><span class="g">Green</span> running &middot; <span class="a">Amber</span> waiting</li><li><span class="b">Blue</span> paused &middot; <span class="p">Purple</span> done</li><li><span class="r">Red</span> failed / stopped</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Patterns</h3><ul><li>Fan-out research (many angles, one report)</li><li>Watchers &mdash; ping on change</li><li>Pipelines &mdash; A produces, B consumes</li><li>PR bots per repo feeding Slack</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><p><span class="a">Heads-up:</span> coworkers don&rsquo;t share state. Wire them via a connector (Drive, Git) or copy the artefact yourself.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">08</span><h2>Cowork vs Code vs CLI</h2></div>
+  <table>
+    <thead><tr><th>Dimension</th><th>Cowork</th><th>Code</th><th>CLI</th></tr></thead>
+    <tbody>
+      <tr><td>Runs in</td><td class="b">Cloud VM</td><td class="a">Local/SSH</td><td class="a">Local</td></tr>
+      <tr><td>Supervision</td><td class="b">Auto</td><td class="a">Approve</td><td class="a">Approve</td></tr>
+      <tr><td>Your files</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Runs when closed</td><td class="g">Yes</td><td class="g">Remote</td><td class="r">No</td></tr>
+      <tr><td>Mobile launch</td><td class="g">Dispatch</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Long research</td><td class="g">Best</td><td class="a">OK</td><td class="a">OK</td></tr>
+      <tr><td>Edit your code</td><td class="r">Awkward</td><td class="g">Best</td><td class="g">Best</td></tr>
+    </tbody>
+  </table>
+  <div class="card blue" style="margin-top:.4em;"><p><span class="b">Rule:</span> Cowork for &ldquo;go do this&rdquo;. Code/CLI for your codebase. Often combine &mdash; Cowork researches, Code lands the patch.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">09</span><h2>Security &amp; Limits</h2></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Posture</h3><ul><li>Ephemeral VMs</li><li>No tokens on VM disk</li><li>Per-tool allow-lists</li><li>Outbound via Anthropic network</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Risks</h3><ul><li>Prompt injection from browsed pages</li><li>Never paste passwords &mdash; use connectors</li><li>Auto-approve can loop &mdash; set limits</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Cost</h3><ul><li>Included in Pro/Max</li><li>Per-session + per-day caps</li><li>Live token / tool count</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Hard Limits</h3><ul><li>Max wall-clock per task</li><li>Max concurrent tasks</li><li>No GPU, no inbound, no LAN</li><li>No custom VM image</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">10</span><h2>Good / Bad Tasks &amp; Tips</h2></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Great Fit</h3><ul><li>Multi-source research writeups</li><li>Clone, test, open PR</li><li>Web scraping public data</li><li>Scheduled watchers</li><li>Data cleanup in pandas</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Bad Fit</h3><ul><li>Needs your local files</li><li>GPU / heavy compute</li><li>Interactive pair programming</li><li>Strict bot-detect sites</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Prompting</h3><ul><li>State deliverable and where it goes</li><li>Success criteria</li><li>Preferred tools</li><li>Time budget</li><li>Failure behaviour</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Stuck Task</h3><ul><li>Scrub feed backwards</li><li>Take control, do the step, hand back</li><li>Fork at last good checkpoint</li></ul></div>
+  <div style="margin-top:.4em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 13<br/>
+      Companion to 11 (Claude Code Desktop) and 12 (Claude Desktop)
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 420, height: 780, margin: 0.02,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 780;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>

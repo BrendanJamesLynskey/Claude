@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Desktop — The Native Claude App for macOS and Windows</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .74em; }
+  .cols { display: grid; gap: .35em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .25em .5em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .50em; margin: 0 0 .12em; }
+  .card p { font-size: .40em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .40em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .38em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.3em; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 12</p>
+    <h1>Claude Desktop</h1>
+    <div class="subtitle">The Native Claude App for macOS and Windows</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      One window, three tabs &mdash; <span class="p">Chat</span> for conversation,
+      <span class="b">Cowork</span> for autonomous background agents, and <span class="a">Code</span> for
+      interactive pair programming. Always-on tray icon, global shortcut, connectors, and native notifications.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">Native App</span>
+      <span class="pill green">macOS &amp; Windows</span>
+      <span class="pill purple">Chat</span>
+      <span class="pill blue">Cowork</span>
+      <span class="pill amber">Code</span>
+    </div>
+    <p style="font-size:.38em; color:var(--muted); margin-top:1.4em;">Based on <code>claude.com/download</code> and <code>support.anthropic.com</code></p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: What Is Claude Desktop? -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">01</span>
+    <h2>What Is Claude Desktop?</h2>
+  </div>
+  <p>Claude Desktop is the <span class="a">native application</span> for talking to Claude on your own computer. It is a thin, signed-in wrapper around the same backend that powers <code>claude.ai</code>, but with a handful of things the browser cannot give you &mdash; a persistent tray/menu-bar icon, a global keyboard shortcut, native file-picker and drag &amp; drop, desktop notifications, and (via connectors) access to local and remote tools.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card purple">
+      <h3>Chat</h3>
+      <ul>
+        <li>General conversation</li>
+        <li>Projects, Artifacts, Styles</li>
+        <li>Files, images, PDFs</li>
+        <li>Extended thinking</li>
+        <li>Voice mode (where available)</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Cowork</h3>
+      <ul>
+        <li>Autonomous background agent</li>
+        <li>Runs in an Anthropic-hosted VM</li>
+        <li>Works while you do something else</li>
+        <li>Dispatched from desktop <em>or</em> phone</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Code</h3>
+      <ul>
+        <li>Interactive pair-programming assistant</li>
+        <li>Direct access to local files</li>
+        <li>Visual diffs, parallel Git worktrees</li>
+        <li>Same engine as the Claude Code CLI</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card green" style="margin-top:.3em;">
+    <p><span class="g">Why a native app?</span> You get system-wide integration: a global hotkey to summon Claude from anywhere, a menu-bar / tray icon for quick access, native file dialogs, OS-level notifications when a long-running Cowork task finishes, and installable <span class="g">connectors</span> that plug into local tools (filesystem, iMessage, calendars) or remote services (GitHub, Slack, Gmail) via MCP.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Platforms, Install, Account -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">02</span>
+    <h2>Platforms, Install, and Accounts</h2>
+  </div>
+  <div class="cols cols-6040">
+    <div>
+      <h3>Downloads</h3>
+      <table>
+        <thead><tr><th>Platform</th><th>Build</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><span class="a">macOS</span></td><td>Universal <code>.dmg</code></td><td>Intel + Apple Silicon</td></tr>
+          <tr><td><span class="a">Windows x64</span></td><td><code>Setup.exe</code></td><td>Win 10 and later</td></tr>
+          <tr><td><span class="a">Windows ARM64</span></td><td>Separate installer</td><td>Native ARM build</td></tr>
+          <tr><td><span class="r">Linux</span></td><td colspan="2"><span class="r">No official build</span> &mdash; use <code>claude.ai</code> or the CLI</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top:.3em;">Where It Lives</h3>
+      <ul>
+        <li><span class="a">macOS:</span> <code>/Applications/Claude.app</code> &middot; menu-bar icon &middot; <code>~/Library/Application Support/Claude</code> for config</li>
+        <li><span class="a">Windows:</span> Start menu &middot; system-tray icon &middot; <code>%APPDATA%\Claude</code> for config</li>
+      </ul>
+      <h3 style="margin-top:.3em;">Install Source</h3>
+      <p>The official installers are linked from <code>claude.com/download</code>. There is no Homebrew cask or winget package published by Anthropic at the time of writing.</p>
+      <pre><code>macOS    &rarr; Claude.dmg  (universal)
+Win x64  &rarr; Setup.exe
+Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Signing In</h3>
+        <ol>
+          <li>Launch the app &mdash; browser opens for OAuth</li>
+          <li>Sign in with the same account as <code>claude.ai</code></li>
+          <li>Approve the redirect back to the desktop app</li>
+          <li>Your plan, Projects, and chat history all follow the account</li>
+        </ol>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Plans &amp; Tabs</h3>
+        <ul>
+          <li><span class="g">Free</span> &mdash; Chat only, limited model and rate</li>
+          <li><span class="g">Pro / Max</span> &mdash; Chat + Cowork + Code; higher limits; extended thinking</li>
+          <li><span class="g">Team / Enterprise</span> &mdash; everything plus org admin, SSO, audit</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Auto-Update</h3>
+        <p>The app checks on launch and installs updates in the background. A blank screen or a stale tab after a release is almost always fixed by a full restart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: The Chat Tab -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">03</span>
+    <h2>The Chat Tab &mdash; Conversation, Projects, Artifacts</h2>
+  </div>
+  <p>Chat is the default tab and the one most people will use every day. It mirrors <code>claude.ai</code> feature-for-feature but adds the native ergonomics of a real app.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card purple">
+        <h3>Conversations &amp; Projects</h3>
+        <ul>
+          <li>Left sidebar lists recent chats, starred chats, and <span class="p">Projects</span></li>
+          <li>A Project bundles a system prompt, uploaded files, and its own chats &mdash; great for a book, a codebase, a client</li>
+          <li>Synced with the web &mdash; start on desktop, continue on phone</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Artifacts</h3>
+        <ul>
+          <li>Claude renders long outputs (code, HTML, SVG, Markdown, React components) into a side pane</li>
+          <li>Live preview for HTML and React &mdash; you can click around inside</li>
+          <li>Versioned &mdash; earlier drafts are one click away</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Input Modalities</h3>
+        <ul>
+          <li>Drag files from Finder / Explorer &mdash; <code>.pdf</code>, <code>.docx</code>, images, code, CSVs</li>
+          <li>Screenshot paste (&#8984;V / Ctrl+V straight from the clipboard)</li>
+          <li>Voice dictation (OS-level on macOS and Windows)</li>
+          <li>Multi-file uploads up to the plan&rsquo;s context limit</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Model &amp; Thinking Controls</h3>
+        <ul>
+          <li>Model picker next to the send button: Opus, Sonnet, Haiku</li>
+          <li><span class="b">Extended thinking</span> toggle for harder problems</li>
+          <li><span class="b">Styles</span> &mdash; concise, explanatory, formal, or your own writing sample</li>
+          <li>Per-message regenerate, edit, and branch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card amber" style="margin-top:.3em;">
+    <p><span class="a">Desktop-only niceties:</span> a global hotkey (configurable) to summon a new chat from any app, a menu-bar / tray popover for a quick question without switching windows, and native OS notifications when a long response finishes while you&rsquo;re in another app.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: The Cowork Tab (Overview) -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">04</span>
+    <h2>The Cowork Tab &mdash; Autonomous Background Agents</h2>
+  </div>
+  <p>Cowork is where you hand Claude a task and walk away. Each task runs inside an <span class="b">Anthropic-hosted cloud VM</span> with its own filesystem, network, and tools &mdash; independent of your machine. When the task finishes (or needs your input), the desktop app surfaces a notification.</p>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card blue">
+      <h3>Typical Uses</h3>
+      <ul>
+        <li>&ldquo;Research the top five open-source vector DBs and write a comparison&rdquo;</li>
+        <li>&ldquo;Clone this repo, set up the project, run the tests, and open a PR for the failing ones&rdquo;</li>
+        <li>&ldquo;Monitor this PR queue and comment on anything that breaks CI&rdquo;</li>
+        <li>&ldquo;Draft a weekly status email from these Linear tickets&rdquo;</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>What You Get for Free</h3>
+      <ul>
+        <li>Browser, terminal, Python, Node, Git &mdash; pre-installed</li>
+        <li>Persistent workspace for the task&rsquo;s lifetime</li>
+        <li>Live video of the VM so you can watch progress</li>
+        <li><span class="p">Dispatch</span> integration &mdash; kick off the same task from your phone</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card red" style="margin-top:.3em;">
+    <h3>Platform Caveat</h3>
+    <p>On macOS the Cowork tab currently requires <span class="r">Apple Silicon (M1 or later)</span>. On Intel Macs the Chat and Code tabs still work, but Cowork is hidden. On Windows, Cowork is available on all supported hardware.</p>
+  </div>
+  <p style="margin-top:.3em;">Presentation 13 of this series is a dedicated deep dive on the Cowork tab &mdash; architecture, session lifecycle, Dispatch, parallel agents, costs, and limits.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: The Code Tab (Overview) -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">05</span>
+    <h2>The Code Tab &mdash; Interactive Pair Programming</h2>
+  </div>
+  <p>Code is the graphical interface to the same engine that runs the <code>claude</code> CLI. You pick a local folder (or a remote machine over SSH, or an Anthropic cloud session), and Claude edits files, runs commands, and reviews diffs with you.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>What Makes It Graphical</h3>
+      <ul>
+        <li>Side-by-side <span class="a">visual diffs</span> with inline comments</li>
+        <li>Permission prompts as dialogs, not terminal questions</li>
+        <li>Live app preview pane for web projects</li>
+        <li>Parallel sessions automatically isolated in Git worktrees</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Shared With the CLI</h3>
+      <ul>
+        <li><code>CLAUDE.md</code> project instructions</li>
+        <li>Hooks, sub-agents, memory, skills</li>
+        <li>Slash commands and keybindings</li>
+        <li>MCP servers configured once and reused</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Environments</h3>
+      <ul>
+        <li><span class="b">Local</span> &mdash; your machine, your files</li>
+        <li><span class="b">Remote</span> &mdash; Anthropic cloud, continues if you close the app</li>
+        <li><span class="b">SSH</span> &mdash; a server you control, Claude Code installed remotely</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:.3em;">Presentation 11 covers the Code tab in depth &mdash; permission modes, diff review workflow, parallel sessions, PR monitoring, and computer use.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Connectors, Skills, Tools -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">06</span>
+    <h2>Connectors, Skills, and Tools</h2>
+  </div>
+  <p>The desktop app exposes Claude&rsquo;s tool layer directly in the UI. You add capabilities without touching config files.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3>Connectors (MCP)</h3>
+        <ul>
+          <li>Installable via <span class="a">Settings &rarr; Connectors</span></li>
+          <li>Local: filesystem, iMessage, calendar, shell</li>
+          <li>Remote: GitHub, Linear, Slack, Gmail, Google Drive, Notion</li>
+          <li>Each connector is an <span class="a">MCP server</span> under the hood &mdash; the same protocol the CLI uses</li>
+          <li>Per-connector permission prompts the first time a tool is called</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Skills</h3>
+        <ul>
+          <li>Bundled procedures the app can invoke on your behalf</li>
+          <li>Examples: PDF generation, Excel, slide decks, diagram rendering</li>
+          <li>Managed from <span class="g">Settings &rarr; Skills</span> &mdash; toggle on or off</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Built-in Tools</h3>
+        <ul>
+          <li>Web search &mdash; on by default for recent-info questions</li>
+          <li>File analysis &mdash; Claude reads uploaded docs, images, and data</li>
+          <li>Code execution in a sandbox for Chat and Cowork</li>
+          <li>Computer use (Cowork &amp; Code) &mdash; Claude drives a virtual desktop</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Permission Model</h3>
+        <ul>
+          <li>First call of a new tool &rarr; dialog asks you to allow</li>
+          <li>Allow once, allow this session, or allow always</li>
+          <li>Revoke any time from <span class="b">Settings &rarr; Permissions</span></li>
+          <li>Org admins can lock the allow-list in enterprise plans</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Settings, Shortcuts, Ergonomics -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">07</span>
+    <h2>Settings, Shortcuts, and Ergonomics</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <h3>Keyboard Shortcuts</h3>
+      <table>
+        <thead><tr><th>Action</th><th>macOS</th><th>Windows</th></tr></thead>
+        <tbody>
+          <tr><td>New chat</td><td><code>&#8984;N</code></td><td><code>Ctrl+N</code></td></tr>
+          <tr><td>Send message</td><td><code>Return</code></td><td><code>Enter</code></td></tr>
+          <tr><td>New line</td><td><code>Shift+Return</code></td><td><code>Shift+Enter</code></td></tr>
+          <tr><td>Summon (global)</td><td><code>&#8984;Shift+Space</code>*</td><td><code>Ctrl+Shift+Space</code>*</td></tr>
+          <tr><td>Switch tab</td><td><code>&#8984;1/2/3</code></td><td><code>Ctrl+1/2/3</code></td></tr>
+          <tr><td>Search chats</td><td><code>&#8984;K</code></td><td><code>Ctrl+K</code></td></tr>
+          <tr><td>Settings</td><td><code>&#8984;,</code></td><td><code>Ctrl+,</code></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.36em; color:var(--muted); margin-top:.2em;">* Global shortcut is configurable from Settings &rarr; General.</p>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Settings Pane</h3>
+        <ul>
+          <li><span class="a">Account</span> &mdash; sign-in, plan, usage</li>
+          <li><span class="a">General</span> &mdash; theme, startup, global shortcut, tray behaviour</li>
+          <li><span class="a">Privacy</span> &mdash; training opt-out, local-only mode for enterprise</li>
+          <li><span class="a">Connectors</span> &mdash; install / remove MCP servers</li>
+          <li><span class="a">Skills</span> &mdash; bundled procedures</li>
+          <li><span class="a">Permissions</span> &mdash; tool-call allow-list</li>
+          <li><span class="a">Keyboard</span> &mdash; rebind shortcuts</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Menu-Bar / Tray Popover</h3>
+        <ul>
+          <li>Click the icon for a one-field prompt &mdash; no window switch</li>
+          <li>Drop files onto the tray icon to start a new chat with context</li>
+          <li>Right-click for quick toggles: mute, pause Cowork, sign out</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Desktop vs Web vs CLI -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">08</span>
+    <h2>Desktop vs <code>claude.ai</code> vs Claude Code CLI</h2>
+  </div>
+  <table>
+    <thead><tr><th>Capability</th><th>Desktop App</th><th><code>claude.ai</code></th><th>Claude Code CLI</th></tr></thead>
+    <tbody>
+      <tr><td>Chat, Projects, Artifacts</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
+      <tr><td>Extended thinking, Styles</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes (via model)</td></tr>
+      <tr><td>Cowork (cloud VM)</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Interactive file editing</td><td class="g">Yes (Code tab)</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Visual diff review</td><td class="g">Yes</td><td class="r">No</td><td class="r">No (text diff)</td></tr>
+      <tr><td>Global hotkey, tray icon</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Native notifications</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Local MCP connectors</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Linux</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Air-gapped / fully offline</td><td class="r">No</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Good for long autonomous tasks</td><td class="g">Yes (Cowork)</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Good for terminal / scripting</td><td class="r">No</td><td class="r">No</td><td class="g">Yes</td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.3em;">
+    <p><span class="a">Rule of thumb:</span> use <span class="a">Desktop</span> when you want one window for everything and native OS integration, <span class="a"><code>claude.ai</code></span> when you&rsquo;re on a machine you don&rsquo;t control (or on Linux), and the <span class="a">CLI</span> when you live in a terminal or you&rsquo;re scripting. The three share the same account, projects, and chat history.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: Privacy, Data, Enterprise -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">09</span>
+    <h2>Privacy, Data, and Enterprise Controls</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card green">
+        <h3>Data Defaults</h3>
+        <ul>
+          <li>Consumer plans (Free / Pro / Max): conversations are <span class="g">not</span> used for model training by default</li>
+          <li>Team / Enterprise: contractually excluded from training</li>
+          <li>Chat history synced to Anthropic and retained per your plan&rsquo;s policy</li>
+          <li>Cowork VMs are ephemeral &mdash; destroyed when the task is archived</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>What the App Sends</h3>
+        <ul>
+          <li>Your prompts and any files you attach</li>
+          <li>Tool-call inputs and outputs (for diagnostics and billing)</li>
+          <li>Crash reports and anonymised telemetry &mdash; opt-out in Settings</li>
+          <li>OAuth token for your account &mdash; stored in OS keychain</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Enterprise Configuration</h3>
+        <ul>
+          <li>SSO via SAML or OIDC &mdash; Okta, Google, Entra</li>
+          <li>SCIM user provisioning</li>
+          <li>Admin console: model allow-list, connector allow-list, data-retention window</li>
+          <li>Audit log of every chat, tool call, and file access</li>
+          <li>DLP integrations via the API for outbound content inspection</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Managed Deployment</h3>
+        <ul>
+          <li>Silent install via MDM (Jamf, Intune)</li>
+          <li>Config profile can lock the global shortcut, disable Cowork, or pin a region</li>
+          <li>AWS Bedrock and GCP Vertex routes available for regulated customers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Troubleshooting -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">10</span>
+    <h2>Troubleshooting &amp; Common Gotchas</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card red">
+        <h3>Sign-in Loops</h3>
+        <ul>
+          <li>Kill the app fully, re-open, click &ldquo;Sign in&rdquo; again</li>
+          <li>Clear the OAuth token from the OS keychain if the browser keeps redirecting</li>
+          <li>403 or &ldquo;unauthorised&rdquo; &mdash; sign out from the app menu and back in</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Cowork Tab Missing</h3>
+        <ul>
+          <li>macOS: check you&rsquo;re on Apple Silicon (<code>uname -m</code> &rarr; <code>arm64</code>)</li>
+          <li>Check your plan &mdash; Free plans don&rsquo;t see Cowork</li>
+          <li>Region: Cowork availability is rolling out by region &mdash; check Settings &rarr; Account</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card blue">
+        <h3>Connectors Won&rsquo;t Install</h3>
+        <ul>
+          <li>Local connectors need the target app installed (e.g. iMessage)</li>
+          <li>Remote connectors need you to OAuth into the service in a browser</li>
+          <li>Corporate networks may block the MCP WebSocket &mdash; check with IT</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3>Performance &amp; Hygiene</h3>
+        <ul>
+          <li>Blank screen after update &rarr; quit fully and relaunch</li>
+          <li>High memory &rarr; too many open chats; close unused tabs</li>
+          <li>Logs: <code>~/Library/Logs/Claude/</code> (mac) / <code>%APPDATA%\Claude\logs</code> (win)</li>
+          <li>Report bugs from <span class="g">Help &rarr; Send Feedback</span> &mdash; attaches logs automatically</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: Closing -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top:2em;">
+    <h1>Claude Desktop</h1>
+    <div class="subtitle">One window. Three modes. Everywhere Claude lives.</div>
+    <div class="cols cols-3" style="margin-top:1em; gap:.5em;">
+      <div class="card purple">
+        <h3>Chat</h3>
+        <p>Day-to-day conversation with Projects, Artifacts, files, and voice.</p>
+      </div>
+      <div class="card blue">
+        <h3>Cowork</h3>
+        <p>Autonomous background agents in cloud VMs &mdash; see presentation 13.</p>
+      </div>
+      <div class="card amber">
+        <h3>Code</h3>
+        <p>Pair-programming assistant with visual diffs &mdash; see presentation 11.</p>
+      </div>
+    </div>
+    <div style="margin-top:1.4em;">
+      <span class="pill amber">Download: claude.com/download</span>
+      <span class="pill green">macOS &amp; Windows</span>
+    </div>
+    <p style="font-size:.48em; color:var(--muted); margin-top:1.4em;">
+      Anthropic Claude Series &mdash; Presentation 12<br/>
+      Based on <code>claude.com/download</code> and <code>support.anthropic.com</code>
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

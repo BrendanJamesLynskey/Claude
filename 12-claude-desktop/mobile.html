@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Desktop — The Native Claude App for macOS and Windows</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 12</p>
+    <h1>Claude Desktop</h1>
+    <div class="subtitle">The Native Claude App</div>
+    <p style="font-size:.55em; color:var(--muted); max-width:32em;">
+      One window with three tabs &mdash; Chat, Cowork, and Code &mdash; plus a global hotkey, tray icon, connectors, and native notifications.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">Native App</span>
+      <span class="pill purple">Chat</span>
+      <span class="pill blue">Cowork</span>
+      <span class="pill amber">Code</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">01</span><h2>What Is It?</h2></div>
+  <p>Claude Desktop is the <span class="a">native app</span> for Claude on macOS and Windows. A signed-in wrapper around <code>claude.ai</code> with system integration a browser can&rsquo;t give you.</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Chat</h3><ul><li>Conversation, Projects, Artifacts</li><li>Files, images, voice</li><li>Extended thinking, Styles</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Cowork</h3><ul><li>Autonomous background agent</li><li>Runs in an Anthropic-hosted VM</li><li>Dispatch from your phone</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Code</h3><ul><li>Interactive pair programming</li><li>Local files, visual diffs</li><li>Same engine as the CLI</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><p><span class="g">Why native?</span> Global hotkey, menu-bar/tray icon, drag-and-drop, native notifications, and installable MCP connectors.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">02</span><h2>Install &amp; Sign In</h2></div>
+  <table>
+    <thead><tr><th>Platform</th><th>Build</th></tr></thead>
+    <tbody>
+      <tr><td><span class="a">macOS</span></td><td>Universal <code>.dmg</code></td></tr>
+      <tr><td><span class="a">Windows x64</span></td><td><code>Setup.exe</code></td></tr>
+      <tr><td><span class="a">Windows ARM64</span></td><td>Separate installer</td></tr>
+      <tr><td><span class="r">Linux</span></td><td><span class="r">Not supported</span></td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.4em;"><h3>First Launch</h3><ol><li>Run the installer</li><li>Sign in with your Anthropic account</li><li>Approve the OAuth redirect</li><li>Your plan, Projects, chat history follow the account</li></ol></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Plans</h3><ul><li><span class="g">Free</span> &mdash; Chat only</li><li><span class="g">Pro / Max</span> &mdash; all three tabs</li><li><span class="g">Team / Enterprise</span> &mdash; SSO, audit, admin</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">03</span><h2>Chat Tab</h2></div>
+  <p>The default tab. Mirrors <code>claude.ai</code> with native ergonomics.</p>
+  <div class="card purple" style="margin-top:.4em;"><h3>Conversations &amp; Projects</h3><ul><li>Left sidebar: recent chats, starred, Projects</li><li>Project bundles system prompt + files + chats</li><li>Synced with web &mdash; start desktop, continue mobile</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Artifacts</h3><ul><li>Code, HTML, SVG, Markdown, React</li><li>Live preview in a side pane</li><li>Versioned drafts</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Input</h3><ul><li>Drag files from Finder/Explorer</li><li>Paste screenshots</li><li>Voice dictation (OS-level)</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Controls</h3><ul><li>Model picker: Opus/Sonnet/Haiku</li><li>Extended thinking toggle</li><li>Styles &mdash; concise, explanatory, custom</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">04</span><h2>Cowork Tab</h2></div>
+  <p>Hand Claude a task and walk away. Each task runs in an <span class="b">Anthropic-hosted VM</span> with its own filesystem, network, and tools.</p>
+  <div class="card blue" style="margin-top:.4em;"><h3>Typical Uses</h3><ul><li>Research and comparison writeups</li><li>Clone repo, run tests, open PR</li><li>Monitor a PR queue</li><li>Draft status emails from tickets</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Free in the VM</h3><ul><li>Browser, terminal, Python, Node, Git</li><li>Persistent workspace</li><li>Live video of progress</li><li>Dispatch from phone</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Caveat</h3><p>macOS Cowork requires <span class="r">Apple Silicon (M1+)</span>. Windows: all supported hardware.</p></div>
+  <p style="margin-top:.3em;">&rarr; Presentation 13 is a dedicated deep dive.</p>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">05</span><h2>Code Tab</h2></div>
+  <p>GUI for the same engine as the <code>claude</code> CLI. Pick a folder (local / SSH / Anthropic cloud) and Claude edits files with you.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>What&rsquo;s Graphical</h3><ul><li>Side-by-side visual diffs</li><li>Permission dialogs</li><li>Live app preview pane</li><li>Parallel sessions in Git worktrees</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Shared With CLI</h3><ul><li><code>CLAUDE.md</code>, hooks, sub-agents</li><li>Slash commands, skills, memory</li><li>MCP servers configured once</li></ul></div>
+  <p style="margin-top:.3em;">&rarr; Presentation 11 covers this in depth.</p>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">06</span><h2>Connectors, Skills, Tools</h2></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Connectors (MCP)</h3><ul><li>Settings &rarr; Connectors</li><li>Local: filesystem, iMessage, calendar</li><li>Remote: GitHub, Linear, Slack, Gmail, Drive</li><li>Each is an MCP server under the hood</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Skills</h3><ul><li>PDF, Excel, slides, diagrams</li><li>Toggle from Settings &rarr; Skills</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Built-in</h3><ul><li>Web search, file analysis</li><li>Code execution sandbox</li><li>Computer use (Cowork &amp; Code)</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Permissions</h3><ul><li>First call &rarr; dialog</li><li>Allow once / session / always</li><li>Revoke from Settings &rarr; Permissions</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">07</span><h2>Shortcuts</h2></div>
+  <table>
+    <thead><tr><th>Action</th><th>macOS</th><th>Windows</th></tr></thead>
+    <tbody>
+      <tr><td>New chat</td><td><code>&#8984;N</code></td><td><code>Ctrl+N</code></td></tr>
+      <tr><td>Send</td><td><code>Return</code></td><td><code>Enter</code></td></tr>
+      <tr><td>New line</td><td><code>Shift+Return</code></td><td><code>Shift+Enter</code></td></tr>
+      <tr><td>Summon</td><td><code>&#8984;Shift+Space</code></td><td><code>Ctrl+Shift+Space</code></td></tr>
+      <tr><td>Switch tab</td><td><code>&#8984;1/2/3</code></td><td><code>Ctrl+1/2/3</code></td></tr>
+      <tr><td>Search</td><td><code>&#8984;K</code></td><td><code>Ctrl+K</code></td></tr>
+      <tr><td>Settings</td><td><code>&#8984;,</code></td><td><code>Ctrl+,</code></td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.4em;"><h3>Settings Pane</h3><ul><li>Account, General, Privacy</li><li>Connectors, Skills, Permissions</li><li>Keyboard &mdash; rebind shortcuts</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">08</span><h2>Desktop vs Web vs CLI</h2></div>
+  <table>
+    <thead><tr><th>Capability</th><th>Desktop</th><th>Web</th><th>CLI</th></tr></thead>
+    <tbody>
+      <tr><td>Chat, Projects, Artifacts</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
+      <tr><td>Cowork</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>File editing</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Visual diffs</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Global hotkey</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Local MCP</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Linux</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+    </tbody>
+  </table>
+  <div class="card amber" style="margin-top:.4em;"><p><span class="a">Rule of thumb:</span> Desktop for one window with OS integration; Web on a machine you don&rsquo;t control or on Linux; CLI in a terminal or scripts. Same account across all three.</p></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">09</span><h2>Privacy &amp; Enterprise</h2></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Defaults</h3><ul><li>Consumer: not used for training by default</li><li>Team / Enterprise: contractually excluded</li><li>Cowork VMs are ephemeral</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>What the App Sends</h3><ul><li>Prompts and attached files</li><li>Tool-call in/out</li><li>OAuth token in OS keychain</li><li>Anonymous telemetry &mdash; opt out</li></ul></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Enterprise</h3><ul><li>SSO (SAML/OIDC), SCIM</li><li>Connector and model allow-lists</li><li>Audit log of chats and tool calls</li><li>Bedrock / Vertex routes</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>MDM</h3><ul><li>Silent install via Jamf / Intune</li><li>Lock shortcut, disable Cowork, pin region</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">10</span><h2>Troubleshooting</h2></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Sign-in Loops</h3><ul><li>Quit fully, relaunch, sign in again</li><li>Clear OAuth from the keychain</li><li>403 &rarr; sign out from app menu</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Cowork Missing</h3><ul><li>macOS: check <code>uname -m</code> &rarr; <code>arm64</code></li><li>Free plans: no Cowork tab</li><li>Region rollout &mdash; see Account</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Connectors</h3><ul><li>Local ones need the target app installed</li><li>Remote ones need OAuth</li><li>Corporate firewall may block MCP WebSocket</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Logs</h3><ul><li><code>~/Library/Logs/Claude</code> (mac)</li><li><code>%APPDATA%\Claude\logs</code> (win)</li><li>Help &rarr; Send Feedback attaches them</li></ul></div>
+  <div style="margin-top:.4em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Presentation 12<br/>
+      Based on <code>claude.com/download</code> and <code>support.anthropic.com</code>
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 420, height: 780, margin: 0.02,
+  plugins: [RevealHighlight], highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 780;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>
