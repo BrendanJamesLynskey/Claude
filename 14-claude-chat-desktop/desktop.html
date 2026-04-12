@@ -436,30 +436,51 @@
     <div>
       <div class="card blue">
         <h3>Raw MCP via <code>claude_desktop_config.json</code></h3>
-        <p>For MCP servers that aren&rsquo;t in the Connectors gallery &mdash; your own, a third-party stdio server, anything that wants to spawn a subprocess on your machine &mdash; edit the config file directly:</p>
+        <p>For servers not in the Connectors gallery &mdash; your own stdio server, a custom tool, a third-party integration &mdash; edit the config file directly:</p>
         <ul>
           <li><span class="b">macOS:</span> <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
           <li><span class="b">Windows:</span> <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
         </ul>
+        <p style="margin-top:.15em;">Supports both transport types:</p>
+        <ul>
+          <li><span class="b">stdio</span> &mdash; <code>"command"</code> + <code>"args"</code> &mdash; Claude spawns the process locally</li>
+          <li><span class="b">Streamable HTTP</span> &mdash; <code>"url"</code> pointing to an <span class="r">HTTPS</span> endpoint with a CA-signed certificate</li>
+        </ul>
       </div>
-      <pre style="margin-top:.3em;"><code>{
+      <pre style="margin-top:.3em;"><code>// stdio example (local process)
+{
   "mcpServers": {
     "filesystem": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem",
                "/Users/me/Documents"]
-    },
-    "sqlite": {
-      "command": "uvx",
-      "args": ["mcp-server-sqlite", "--db-path", "/tmp/test.db"]
+    }
+  }
+}
+
+// Streamable HTTP example (remote, HTTPS required)
+{
+  "mcpServers": {
+    "my-api": {
+      "url": "https://mcp.example.com/v1/mcp"
     }
   }
 }</code></pre>
     </div>
   </div>
-  <div class="card red" style="margin-top:.3em;">
-    <h3>The Biggest Gotcha</h3>
-    <p>MCP servers listed in <code>claude_desktop_config.json</code> are visible to the <span class="p">Chat tab only</span>. The Code tab reads a completely separate set of files (<code>~/.claude.json</code> and per-project <code>.mcp.json</code>) shared with the CLI. If you add a server in the Chat-tab config and it doesn&rsquo;t appear in the Code tab, that&rsquo;s why &mdash; you&rsquo;ve configured the wrong surface. See the MCP matrix in deck <span class="a">11</span> for the full picture.</p>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card red">
+      <h3>Separate Config Files &mdash; The Biggest Gotcha</h3>
+      <p>MCP servers listed in <code>claude_desktop_config.json</code> are visible to the <span class="p">Chat tab only</span>. The Code tab reads <code>~/.claude.json</code> and per-project <code>.mcp.json</code> (shared with the CLI). If a server appears in one tab but not the other, that&rsquo;s why. See deck <span class="a">11</span> for the full MCP matrix.</p>
+    </div>
+    <div class="card amber">
+      <h3>HTTPS &amp; Private-Network Limits</h3>
+      <ul>
+        <li>Remote MCP servers <span class="r">must</span> use HTTPS with a CA-signed certificate &mdash; no plain HTTP, no self-signed certs</li>
+        <li>URLs on <code>localhost</code>, your LAN, or a VPN <span class="r">cannot</span> be reached via the remote transport &mdash; use <span class="a">stdio</span> for local tools, or tunnel via ngrok / Cloudflare Tunnel for a valid HTTPS URL</li>
+        <li>Restart the app after editing the config file</li>
+      </ul>
+    </div>
   </div>
 </section>
 

@@ -285,13 +285,15 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
     </div>
   </div>
   <div class="card amber" style="margin-top:.3em;">
-    <h3>Connectors Projected Into the VM</h3>
-    <p>Any connector you&rsquo;ve authorised in the desktop app is visible inside the VM as a tool call. Cowork doesn&rsquo;t install a browser extension or store your tokens on the VM disk &mdash; each call is brokered through Anthropic&rsquo;s connector layer, so revoking a connector in Settings immediately cuts off in-progress tasks from it.</p>
+    <h3>MCP in Cowork &mdash; Connectors Only, No stdio</h3>
+    <p>Any connector (remote MCP server) you&rsquo;ve authorised in the desktop app is projected into the VM as a tool call. Each call is brokered through Anthropic &mdash; the VM never sees your tokens. Revoking a connector in Settings immediately cuts off in-progress tasks. <span class="a">Local stdio MCP servers on your machine are unreachable</span> &mdash; the VM is in the cloud. Remote MCP endpoints must be <span class="r">HTTPS with a CA-signed certificate</span>; private-network or localhost URLs are not routable from the VM.</p>
   </div>
   <div class="card red" style="margin-top:.3em;">
     <h3>What It Can&rsquo;t Do</h3>
     <ul>
-      <li>Reach your local network / localhost unless you tunnel it in</li>
+      <li>Reach your local network, localhost, or LAN hosts &mdash; the VM resolves DNS from Anthropic&rsquo;s infrastructure</li>
+      <li>Run stdio MCP servers from your machine &mdash; use the Code or Chat tab for those</li>
+      <li>Connect to plain HTTP (no TLS) or self-signed-certificate MCP endpoints</li>
       <li>Persist state between unrelated tasks (each task gets a fresh VM)</li>
       <li>Run GPU workloads &mdash; the VM is CPU-only</li>
       <li>Bypass the connector permission layer &mdash; every external write is still gated</li>

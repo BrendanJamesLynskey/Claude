@@ -565,20 +565,71 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 11: MCP Across the Claude Product Range -->
+<!-- SLIDE 11: MCP Transports -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">11</span>
+    <h2>MCP Transports &mdash; stdio, Streamable HTTP, and the Legacy SSE</h2>
+  </div>
+  <p>The MCP specification defines three transport layers. Which one you use depends on whether the server lives on your machine or on the network.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>stdio</h3>
+      <ul>
+        <li>The MCP host spawns a subprocess; communication is over stdin / stdout</li>
+        <li>Fastest and simplest for tools that run on the <em>same machine</em> as Claude</li>
+        <li>Works on: <span class="a">Claude Code CLI</span>, <span class="p">Chat tab</span>, <span class="a">Code tab</span></li>
+        <li>Config: a <code>command</code> + <code>args</code> entry in the relevant config file</li>
+        <li><span class="r">Cannot</span> reach anything on the network &mdash; strictly local</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Streamable HTTP <span style="font-size:.7em;">(current standard)</span></h3>
+      <ul>
+        <li>Introduced in the MCP spec of March 2025; <span class="g">recommended for all new remote servers</span></li>
+        <li>Single HTTPS endpoint: client sends <code>POST</code>, server responds with JSON or SSE stream</li>
+        <li>Optional <code>GET</code> with <code>Last-Event-ID</code> for connection recovery</li>
+        <li>Firewall-friendly &mdash; one URL, one port, standard CORS</li>
+        <li>Works on every surface that supports remote MCP</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>HTTP+SSE <span style="font-size:.7em;">(deprecated)</span></h3>
+      <ul>
+        <li>The original remote transport from the Nov 2024 spec</li>
+        <li>Two channels: one SSE stream for server&rarr;client, one POST endpoint for client&rarr;server</li>
+        <li>Deprecated in March 2025 in favour of Streamable HTTP</li>
+        <li>All Claude surfaces still accept it for backwards compatibility</li>
+        <li>Planned removal from the spec by mid-2026; migrate to Streamable HTTP</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card red" style="margin-top:.3em;">
+    <h3>HTTPS Only &mdash; No Exceptions for Remote MCP</h3>
+    <ul>
+      <li><span class="r">All</span> remote MCP connections &mdash; across every Claude surface &mdash; require <span class="r">HTTPS with a CA-signed certificate</span></li>
+      <li>Plain HTTP (no TLS) is rejected; <span class="r">self-signed certificates are also rejected</span></li>
+      <li>This applies to Streamable HTTP, the legacy SSE transport, and Connectors configured via the UI</li>
+      <li>For development/testing: use a tunnelling service like <span class="a">ngrok</span>, <span class="a">Cloudflare Tunnel</span>, or <span class="a">Tailscale Funnel</span> to give a localhost server a valid HTTPS URL</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: MCP Across the Claude Product Range -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">12</span>
     <h2>MCP Across the Claude Product Range</h2>
   </div>
-  <p>The Model Context Protocol is the common tool-server protocol used by every Claude surface, but <em>how much of it you get</em> depends on where the model runs and whether Claude can spawn local processes on your machine. Two flavours matter: <span class="a">local stdio MCP servers</span> (a subprocess on your box talking over stdin/stdout) and <span class="g">remote HTTP MCP servers</span> (Anthropic-brokered Connectors, or SSE/HTTP endpoints on the network).</p>
-  <table style="margin-top:.25em;">
+  <table>
     <thead>
       <tr>
         <th>Surface</th>
-        <th>Local stdio MCP</th>
-        <th>Remote HTTP MCP</th>
+        <th>stdio</th>
+        <th>Streamable HTTP</th>
         <th>Config / how to add</th>
         <th>Notes</th>
       </tr>
@@ -589,68 +640,74 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <td class="g">Yes</td>
         <td class="g">Yes</td>
         <td><code>claude mcp add</code> &middot; <code>~/.claude.json</code> &middot; project <code>.mcp.json</code></td>
-        <td>Full host. Per-user, per-project, and local scopes. Hooks and skills apply.</td>
+        <td>Full host. Per-user, per-project, and local scopes.</td>
       </tr>
       <tr>
         <td><span class="p">Desktop &mdash; Chat tab</span></td>
         <td class="g">Yes</td>
-        <td class="g">Yes (as Connectors)</td>
+        <td class="g">Yes</td>
         <td><code>claude_desktop_config.json</code> &middot; Settings &rarr; Connectors</td>
-        <td>Original MCP launch surface (Nov 2024). Config file is <em>separate</em> from the Code tab.</td>
+        <td>Original MCP surface (Nov 2024). Config is <em>separate</em> from Code tab.</td>
       </tr>
       <tr>
         <td><span class="a">Desktop &mdash; Code tab</span></td>
         <td class="g">Yes</td>
         <td class="g">Yes</td>
-        <td>Reads the same files as the CLI (<code>~/.claude.json</code>, <code>.mcp.json</code>)</td>
-        <td>Chat-tab MCP servers do <span class="r">not</span> appear here, and vice versa.</td>
+        <td>Same files as CLI: <code>~/.claude.json</code>, <code>.mcp.json</code></td>
+        <td>Chat-tab servers do <span class="r">not</span> appear here, and vice versa.</td>
       </tr>
       <tr>
-        <td><span class="b">Desktop &mdash; Cowork tab</span></td>
-        <td class="r">No</td>
+        <td><span class="b">Desktop &mdash; Cowork</span></td>
+        <td class="r">No *</td>
         <td class="g">Yes (brokered)</td>
-        <td>Connectors you&rsquo;ve authorised in the app</td>
-        <td>Code runs in an Anthropic-hosted cloud VM, so it can&rsquo;t reach stdio on your machine.</td>
+        <td>Connectors authorised in the app</td>
+        <td>Cloud VM &mdash; can&rsquo;t spawn stdio on <em>your</em> machine. Remote MCP via Connectors only.</td>
       </tr>
       <tr>
         <td><span class="p">claude.ai (web)</span></td>
         <td class="r">No</td>
         <td class="g">Yes (Connectors)</td>
         <td>Settings &rarr; Connectors in the web UI</td>
-        <td>Browser sandbox &mdash; no local processes. Custom remote MCP on Team / Enterprise.</td>
+        <td>Browser sandbox. Custom remote MCP on Team / Enterprise.</td>
       </tr>
       <tr>
-        <td><span class="p">Claude mobile apps</span></td>
+        <td><span class="p">Claude mobile</span></td>
         <td class="r">No</td>
         <td class="g">Yes (Connectors)</td>
-        <td>Managed account-wide</td>
-        <td>Connector catalogue is a subset of what desktop sees.</td>
+        <td>Synced from web / account-wide</td>
+        <td>Connector catalogue synced from <code>claude.ai</code>.</td>
       </tr>
       <tr>
         <td><span class="g">Messages API</span></td>
-        <td class="r">No (not directly)</td>
+        <td class="r">No</td>
         <td class="g">Yes</td>
-        <td><code>mcp_servers</code> parameter; or run your own MCP client</td>
-        <td>Bring-your-own: the API forwards to HTTP MCP servers you point it at.</td>
+        <td><code>mcp_servers</code> param on the request</td>
+        <td>Bring-your-own. HTTPS endpoints you point the API at.</td>
       </tr>
     </tbody>
   </table>
-  <div class="cols cols-2" style="margin-top:.3em;">
+  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork&rsquo;s cloud VM <em>could</em> spawn a stdio process inside the VM itself, but it cannot reach a process on your local machine. For practical purposes, treat Cowork as remote-only.</p>
+  <div class="cols cols-2" style="margin-top:.25em;">
     <div class="card amber">
-      <h3>Rule of Thumb</h3>
-      <p>If a tool is a <span class="a">local process</span> (filesystem, iMessage, a database on <code>localhost</code>, a shell script), only the three <em>runs-on-your-machine</em> surfaces can use it: <strong>Claude Code CLI</strong>, the <strong>Chat tab</strong>, and the <strong>Code tab</strong>. Everything cloud &mdash; Cowork, web, mobile, the API &mdash; needs an HTTP endpoint or an Anthropic-hosted Connector.</p>
+      <h3>Private-Network &amp; Localhost MCP Servers</h3>
+      <ul>
+        <li><span class="a">stdio</span> reaches localhost tools trivially (it&rsquo;s a subprocess)</li>
+        <li><span class="r">Remote</span> HTTP MCP <span class="r">cannot</span> reach private networks, LAN hosts, or <code>localhost</code> &mdash; every surface resolves the URL from Anthropic&rsquo;s infrastructure or the browser sandbox</li>
+        <li>To expose a LAN / localhost server: tunnel it through <span class="a">ngrok</span>, <span class="a">Cloudflare Tunnel</span>, or <span class="a">Tailscale Funnel</span> to get a valid HTTPS URL</li>
+        <li>Alternatively, wrap the tool as a <span class="a">stdio</span> MCP server and use it from the CLI, Chat tab, or Code tab locally</li>
+      </ul>
     </div>
     <div class="card red">
       <h3>Common Pitfalls</h3>
       <ul>
-        <li>Configuring an MCP server in <code>claude_desktop_config.json</code> and wondering why the <em>Code</em> tab can&rsquo;t see it &mdash; they&rsquo;re separate files.</li>
-        <li>Expecting Cowork to run a stdio MCP binary from your laptop &mdash; it can&rsquo;t; publish it as a remote MCP server or wrap it in a Connector.</li>
-        <li>Corporate networks blocking outbound WebSocket &rarr; Connectors silently fail to install. Check firewalls.</li>
-        <li>Permission dialogs for MCP tool calls stack with the app&rsquo;s own permissions &mdash; both have to allow.</li>
+        <li>Configuring a server in <code>claude_desktop_config.json</code> and expecting the Code tab to see it &mdash; they&rsquo;re separate config files</li>
+        <li>Pointing remote MCP at <code>http://</code> (no TLS) or a self-signed cert &mdash; both are rejected</li>
+        <li>Expecting Cowork to reach a stdio binary on your laptop &mdash; publish it as a remote HTTPS server or use a Connector</li>
+        <li>Corporate firewalls blocking outbound connections &rarr; Connectors silently fail</li>
       </ul>
     </div>
   </div>
-  <p style="font-size:.38em; color:var(--muted); margin-top:.2em;">Deck 12 covers the Code tab&rsquo;s MCP config in detail; deck 14 covers the Chat tab&rsquo;s; deck 04 introduces the protocol itself.</p>
+  <p style="font-size:.38em; color:var(--muted); margin-top:.15em;">Deck 12 covers the Code tab&rsquo;s MCP config in detail; deck 14 covers the Chat tab&rsquo;s <code>claude_desktop_config.json</code> surface; deck 04 introduces the protocol itself.</p>
 </section>
 
 <!-- ============================================================ -->

@@ -630,10 +630,12 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
       <div class="card green" style="margin-top:.3em;">
         <h3>MCP Servers</h3>
         <ul>
-          <li>Desktop is a full MCP host for local and SSH sessions</li>
-          <li>Connectors UI <em>or</em> settings files</li>
-          <li>Configure in <code>~/.claude.json</code> or project <code>.mcp.json</code></li>
-          <li>MCP servers configured for the Claude Desktop <em>chat</em> app in <code>claude_desktop_config.json</code> are separate and do <span class="r">not</span> appear in the Code tab</li>
+          <li>Code tab is a full MCP host for local and SSH sessions</li>
+          <li>Supports <span class="g">stdio</span> (local subprocess) and <span class="g">Streamable HTTP</span> (remote HTTPS)</li>
+          <li>Configure via Connectors UI, <code>~/.claude.json</code>, or project <code>.mcp.json</code></li>
+          <li>Add from CLI: <code>claude mcp add &lt;name&gt; &lt;cmd&gt;</code> (stdio) or <code>claude mcp add --transport http &lt;name&gt; &lt;url&gt;</code></li>
+          <li>Remote MCP requires <span class="r">HTTPS with a CA-signed certificate</span> &mdash; no plain HTTP, no self-signed certs</li>
+          <li>Chat-tab MCP config (<code>claude_desktop_config.json</code>) is <span class="r">separate</span> and does not appear here</li>
         </ul>
       </div>
       <div class="card purple" style="margin-top:.3em;">
@@ -673,7 +675,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <tbody>
           <tr><td>Permission modes</td><td>All, including <code>dontAsk</code></td><td>Ask, Auto accept, Plan, Auto, Bypass</td></tr>
           <tr><td>Third-party providers</td><td>Bedrock, Vertex, Foundry</td><td>Not available</td></tr>
-          <tr><td>MCP servers</td><td>Settings files</td><td>Connectors UI or settings files</td></tr>
+          <tr><td>MCP transports</td><td>stdio, Streamable HTTP</td><td>stdio, Streamable HTTP, Connectors UI</td></tr>
           <tr><td>Plugins</td><td><code>/plugin</code></td><td>Plugin manager UI</td></tr>
           <tr><td>@mention files</td><td>Text-based</td><td>With autocomplete; local/SSH only</td></tr>
           <tr><td>File attachments</td><td>Not available</td><td>Images, PDFs</td></tr>

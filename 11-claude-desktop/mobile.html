@@ -182,26 +182,34 @@
 </section>
 
 <section>
-  <div class="slide-hdr"><span class="tag">10</span><h2>MCP Across Products</h2></div>
-  <p>MCP comes in two flavours: <span class="a">local stdio</span> (subprocess on your machine) and <span class="g">remote HTTP</span> (Connectors).</p>
+  <div class="slide-hdr"><span class="tag">10</span><h2>MCP Transports</h2></div>
+  <p>Three transports: <span class="a">stdio</span> (local subprocess), <span class="g">Streamable HTTP</span> (current remote standard), and deprecated <span class="p">HTTP+SSE</span>.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>stdio</h3><ul><li>Subprocess on your machine, stdin/stdout</li><li>Works on: CLI, Chat tab, Code tab</li><li>Cannot reach the network</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Streamable HTTP</h3><ul><li>Single HTTPS endpoint, POST + optional SSE</li><li>Current standard (March 2025 spec)</li><li>Works on every surface</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>HTTPS Required</h3><ul><li><span class="r">All</span> remote MCP requires HTTPS + CA-signed cert</li><li>No plain HTTP, no self-signed certs</li><li>Dev/test: use ngrok or Cloudflare Tunnel</li></ul></div>
+</section>
+
+<section>
+  <div class="slide-hdr"><span class="tag">11</span><h2>MCP Across Products</h2></div>
   <table>
-    <thead><tr><th>Surface</th><th>Local</th><th>Remote</th></tr></thead>
+    <thead><tr><th>Surface</th><th>stdio</th><th>Remote</th></tr></thead>
     <tbody>
       <tr><td>Code CLI</td><td class="g">Yes</td><td class="g">Yes</td></tr>
       <tr><td>Desktop &mdash; Chat</td><td class="g">Yes</td><td class="g">Yes</td></tr>
       <tr><td>Desktop &mdash; Code</td><td class="g">Yes</td><td class="g">Yes</td></tr>
-      <tr><td>Desktop &mdash; Cowork</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Desktop &mdash; Cowork</td><td class="r">No*</td><td class="g">Yes</td></tr>
       <tr><td>claude.ai web</td><td class="r">No</td><td class="g">Yes</td></tr>
       <tr><td>Mobile apps</td><td class="r">No</td><td class="g">Yes</td></tr>
       <tr><td>Messages API</td><td class="r">No</td><td class="g">Yes</td></tr>
     </tbody>
   </table>
-  <div class="card amber" style="margin-top:.4em;"><h3>Gotcha</h3><p>The Chat tab uses <code>claude_desktop_config.json</code>; the Code tab uses <code>~/.claude.json</code>. They&rsquo;re <strong>separate</strong> &mdash; an MCP server added to one does not appear in the other.</p></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Rule of Thumb</h3><p>Local process tools only work where the runtime is on your machine. Cowork, web, mobile, API &rarr; remote MCP only.</p></div>
+  <p style="font-size:.5em; color:var(--muted);">* Cowork&rsquo;s cloud VM cannot reach a process on your machine.</p>
+  <div class="card amber" style="margin-top:.4em;"><h3>Config Gotcha</h3><p>Chat tab &rarr; <code>claude_desktop_config.json</code>. Code tab &rarr; <code>~/.claude.json</code>. <strong>Separate</strong> &mdash; servers in one don&rsquo;t appear in the other.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Private Network</h3><p>Remote MCP can&rsquo;t reach localhost or LAN. Use stdio locally, or tunnel via ngrok / Cloudflare / Tailscale for a valid HTTPS URL.</p></div>
 </section>
 
 <section>
-  <div class="slide-hdr"><span class="tag">11</span><h2>Troubleshooting</h2></div>
+  <div class="slide-hdr"><span class="tag">12</span><h2>Troubleshooting</h2></div>
   <div class="card red" style="margin-top:.4em;"><h3>Sign-in Loops</h3><ul><li>Quit fully, relaunch, sign in again</li><li>Clear OAuth from the keychain</li><li>403 &rarr; sign out from app menu</li></ul></div>
   <div class="card amber" style="margin-top:.4em;"><h3>Cowork Missing</h3><ul><li>macOS: check <code>uname -m</code> &rarr; <code>arm64</code></li><li>Free plans: no Cowork tab</li><li>Region rollout &mdash; see Account</li></ul></div>
   <div class="card blue" style="margin-top:.4em;"><h3>Connectors</h3><ul><li>Local ones need the target app installed</li><li>Remote ones need OAuth</li><li>Corporate firewall may block MCP WebSocket</li></ul></div>

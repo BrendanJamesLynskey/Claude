@@ -142,8 +142,8 @@
   <p>The Chat tab is the <em>original</em> MCP surface (Nov 2024).</p>
   <div class="card purple" style="margin-top:.4em;"><h3>Connectors (GUI)</h3><ul><li>Settings &rarr; Connectors</li><li>Local: filesystem, iMessage, calendar</li><li>Remote: GitHub, Linear, Slack, Gmail, Drive</li><li>Each is MCP under the hood</li></ul></div>
   <div class="card amber" style="margin-top:.4em;"><h3>Skills</h3><ul><li>PDF, Excel, slides, diagrams</li><li>Auto-selected or toggled</li></ul></div>
-  <div class="card blue" style="margin-top:.4em;"><h3>Raw MCP config</h3><ul><li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li><li>Win: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li><li>Spawn any stdio MCP server</li></ul></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Biggest Gotcha</h3><p>The Chat-tab config is <strong>separate</strong> from the Code-tab config. Servers added here do not appear in the Code tab. See deck 11 for the full matrix.</p></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Raw MCP config</h3><ul><li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li><li>Win: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li><li>Supports <span class="b">stdio</span> (<code>command</code> + <code>args</code>) and <span class="b">Streamable HTTP</span> (<code>url</code>)</li><li>Restart the app after editing</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>HTTPS &amp; Gotchas</h3><ul><li>Remote MCP: <span class="r">HTTPS + CA-signed cert only</span> &mdash; no HTTP, no self-signed</li><li>Can&rsquo;t reach localhost/LAN via remote transport &mdash; use stdio or tunnel (ngrok)</li><li>Chat-tab config is <strong>separate</strong> from Code-tab config &mdash; servers don&rsquo;t cross. See deck 11.</li></ul></div>
 </section>
 
 <section>
