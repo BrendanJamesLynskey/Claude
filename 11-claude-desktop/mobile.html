@@ -185,27 +185,26 @@
   <div class="slide-hdr"><span class="tag">10</span><h2>MCP Transports</h2></div>
   <p>Three transports: <span class="a">stdio</span> (local subprocess), <span class="g">Streamable HTTP</span> (current remote standard), and deprecated <span class="p">HTTP+SSE</span>.</p>
   <div class="card amber" style="margin-top:.4em;"><h3>stdio</h3><ul><li>Subprocess on your machine, stdin/stdout</li><li>Works on: CLI, Chat tab, Code tab</li><li>Cannot reach the network</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Streamable HTTP</h3><ul><li>Single HTTPS endpoint, POST + optional SSE</li><li>Current standard (March 2025 spec)</li><li>Works on every surface</li></ul></div>
-  <div class="card red" style="margin-top:.4em;"><h3>HTTPS Required</h3><ul><li><span class="r">All</span> remote MCP requires HTTPS + CA-signed cert</li><li>No plain HTTP, no self-signed certs</li><li>Dev/test: use ngrok or Cloudflare Tunnel</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Streamable HTTP</h3><ul><li>Single HTTP(S) endpoint, POST + optional SSE</li><li>Current standard (March 2025 spec)</li><li>CLI, Chat, Code &rarr; <span class="g">plain HTTP + private IPs OK</span></li><li>Cowork, Web, Mobile, API &rarr; <span class="r">HTTPS + CA cert required</span></li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Key Distinction</h3><p>CLI / Chat tab / Code tab connect <em>directly from your machine</em>. Cowork / Web / Mobile / API are <em>brokered by Anthropic</em> and require public HTTPS.</p></div>
 </section>
 
 <section>
   <div class="slide-hdr"><span class="tag">11</span><h2>MCP Across Products</h2></div>
   <table>
-    <thead><tr><th>Surface</th><th>stdio</th><th>Remote</th></tr></thead>
+    <thead><tr><th>Surface</th><th>stdio</th><th>HTTP</th><th>Priv IP</th></tr></thead>
     <tbody>
-      <tr><td>Code CLI</td><td class="g">Yes</td><td class="g">Yes</td></tr>
-      <tr><td>Desktop &mdash; Chat</td><td class="g">Yes</td><td class="g">Yes</td></tr>
-      <tr><td>Desktop &mdash; Code</td><td class="g">Yes</td><td class="g">Yes</td></tr>
-      <tr><td>Desktop &mdash; Cowork</td><td class="r">No*</td><td class="g">Yes</td></tr>
-      <tr><td>claude.ai web</td><td class="r">No</td><td class="g">Yes</td></tr>
-      <tr><td>Mobile apps</td><td class="r">No</td><td class="g">Yes</td></tr>
-      <tr><td>Messages API</td><td class="r">No</td><td class="g">Yes</td></tr>
+      <tr><td>Code CLI</td><td class="g">Yes</td><td class="g">HTTP/S</td><td class="g">Yes</td></tr>
+      <tr><td>Desktop Chat</td><td class="g">Yes</td><td class="g">HTTP/S</td><td class="g">Yes</td></tr>
+      <tr><td>Desktop Code</td><td class="g">Yes</td><td class="g">HTTP/S</td><td class="g">Yes</td></tr>
+      <tr><td>Cowork</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
+      <tr><td>Web</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
+      <tr><td>Mobile</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
+      <tr><td>API</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
     </tbody>
   </table>
-  <p style="font-size:.5em; color:var(--muted);">* Cowork&rsquo;s cloud VM cannot reach a process on your machine.</p>
-  <div class="card amber" style="margin-top:.4em;"><h3>Config Gotcha</h3><p>Chat tab &rarr; <code>claude_desktop_config.json</code>. Code tab &rarr; <code>~/.claude.json</code>. <strong>Separate</strong> &mdash; servers in one don&rsquo;t appear in the other.</p></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Private Network</h3><p>Remote MCP can&rsquo;t reach localhost or LAN. Use stdio locally, or tunnel via ngrok / Cloudflare / Tailscale for a valid HTTPS URL.</p></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Private Network</h3><p>CLI, Chat, Code connect from <em>your machine</em> &mdash; plain HTTP and LAN IPs work: <code>http://10.60.12.34:3001/mcp</code>. Brokered surfaces need public HTTPS &mdash; tunnel via ngrok if needed.</p></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Config Gotcha</h3><p>Chat tab &rarr; <code>claude_desktop_config.json</code>. Code tab &rarr; <code>~/.claude.json</code>. <strong>Separate</strong> &mdash; servers don&rsquo;t cross.</p></div>
 </section>
 
 <section>

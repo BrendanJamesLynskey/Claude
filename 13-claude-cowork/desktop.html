@@ -285,8 +285,9 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
     </div>
   </div>
   <div class="card amber" style="margin-top:.3em;">
-    <h3>MCP in Cowork &mdash; Connectors Only, No stdio</h3>
-    <p>Any connector (remote MCP server) you&rsquo;ve authorised in the desktop app is projected into the VM as a tool call. Each call is brokered through Anthropic &mdash; the VM never sees your tokens. Revoking a connector in Settings immediately cuts off in-progress tasks. <span class="a">Local stdio MCP servers on your machine are unreachable</span> &mdash; the VM is in the cloud. Remote MCP endpoints must be <span class="r">HTTPS with a CA-signed certificate</span>; private-network or localhost URLs are not routable from the VM.</p>
+    <h3>MCP in Cowork &mdash; Connectors Only, HTTPS Only</h3>
+    <p>Any connector (remote MCP server) you&rsquo;ve authorised in the desktop app is projected into the VM as a tool call. Each call is <em>brokered through Anthropic</em> &mdash; the VM never sees your tokens. Revoking a connector cuts off in-progress tasks immediately.</p>
+    <p style="margin-top:.15em;">Unlike the CLI, Chat, or Code tabs &mdash; which connect from <em>your machine</em> and accept plain HTTP / private IPs &mdash; <span class="a">Cowork is Anthropic-brokered</span> and requires <span class="r">HTTPS with a CA-signed certificate</span>. Private-network, localhost, and plain-HTTP URLs are not routable from the VM. To expose a private server: tunnel via ngrok, Cloudflare Tunnel, or Tailscale Funnel.</p>
   </div>
   <div class="card red" style="margin-top:.3em;">
     <h3>What It Can&rsquo;t Do</h3>

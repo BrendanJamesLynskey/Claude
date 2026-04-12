@@ -631,10 +631,10 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <h3>MCP Servers</h3>
         <ul>
           <li>Code tab is a full MCP host for local and SSH sessions</li>
-          <li>Supports <span class="g">stdio</span> (local subprocess) and <span class="g">Streamable HTTP</span> (remote HTTPS)</li>
+          <li>Supports <span class="g">stdio</span> (local subprocess) and <span class="g">Streamable HTTP</span> (HTTP or HTTPS)</li>
           <li>Configure via Connectors UI, <code>~/.claude.json</code>, or project <code>.mcp.json</code></li>
           <li>Add from CLI: <code>claude mcp add &lt;name&gt; &lt;cmd&gt;</code> (stdio) or <code>claude mcp add --transport http &lt;name&gt; &lt;url&gt;</code></li>
-          <li>Remote MCP requires <span class="r">HTTPS with a CA-signed certificate</span> &mdash; no plain HTTP, no self-signed certs</li>
+          <li>The Code tab connects <em>from your machine</em> &mdash; plain <span class="g">HTTP and private-network IPs work</span> (e.g. <code>http://10.60.12.34:3001/mcp</code>)</li>
           <li>Chat-tab MCP config (<code>claude_desktop_config.json</code>) is <span class="r">separate</span> and does not appear here</li>
         </ul>
       </div>
