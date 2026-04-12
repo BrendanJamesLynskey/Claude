@@ -128,7 +128,7 @@
   <div class="slide-hdr"><span class="tag">05</span><h2>Code Tab</h2></div>
   <p>GUI for the same engine as the <code>claude</code> CLI. Pick a folder (local / SSH / Anthropic cloud) and Claude edits files with you.</p>
   <div class="card amber" style="margin-top:.4em;"><h3>What&rsquo;s Graphical</h3><ul><li>Side-by-side visual diffs</li><li>Permission dialogs</li><li>Live app preview pane</li><li>Parallel sessions in Git worktrees</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Shared With CLI</h3><ul><li><code>CLAUDE.md</code>, hooks, sub-agents</li><li>Slash commands, skills, memory</li><li>MCP servers configured once</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Shared With CLI (macOS)</h3><ul><li><code>CLAUDE.md</code>, hooks, sub-agents</li><li>Slash commands, skills, memory</li><li>MCP servers configured once</li><li><span class="r">Windows:</span> MSIX sandbox breaks sharing &mdash; use Desktop UI for MCP</li></ul></div>
   <p style="margin-top:.3em;">&rarr; Presentation <span class="a">12</span> is the Code tab deep dive.</p>
 </section>
 
@@ -172,7 +172,7 @@
     </tbody>
   </table>
   <div class="card amber" style="margin-top:.4em;"><p><span class="a">Rule of thumb:</span> Desktop for one window with OS integration; Web on a machine you don&rsquo;t control or on Linux; CLI in a terminal or scripts. Same account across all three.</p></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Windows + WSL2</h3><p>CLI in WSL2 reads <code>/home/user/.claude.json</code>; Desktop reads <code>C:\Users\user\.claude.json</code>. <span class="r">Separate</span> filesystems &mdash; config doesn&rsquo;t cross. Use symlinks or run CLI natively on Windows.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows: Config Not Shared</h3><p>The MSIX installer sandboxes Desktop. CLI (PowerShell) writes to <code>%USERPROFILE%\.claude.json</code>; Desktop reads from a virtualized path. <code>claude mcp add</code> <span class="r">does not reach Desktop</span>. Add MCP servers through the Desktop UI. WSL2 adds a third separate config. On <span class="g">macOS</span>, CLI and Desktop share config seamlessly.</p></div>
 </section>
 
 <section>
@@ -186,9 +186,9 @@
 <section>
   <div class="slide-hdr"><span class="tag">10</span><h2>Config by Platform</h2></div>
   <div class="card amber" style="margin-top:.4em;"><h3>macOS</h3><ul><li>Chat MCP: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li><li>Code CLI / Code tab: <code>~/.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>~/.claude/settings.json</code></li><li>Logs: <code>~/Library/Logs/Claude/</code></li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Windows (native)</h3><ul><li>Chat MCP: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li><li>Code CLI / Code tab: <code>%USERPROFILE%\.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>%USERPROFILE%\.claude\settings.json</code></li><li>Logs: <code>%APPDATA%\Claude\logs\</code></li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Windows (CLI paths)</h3><ul><li>Chat MCP: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li><li>Code CLI: <code>%USERPROFILE%\.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>%USERPROFILE%\.claude\settings.json</code></li><li>Logs: <code>%APPDATA%\Claude\logs\</code></li></ul></div>
   <div class="card purple" style="margin-top:.4em;"><h3>Linux</h3><ul><li>No Desktop app</li><li>Code CLI: <code>~/.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>~/.claude/settings.json</code></li><li>Logs: <code>~/.claude/logs/</code></li></ul></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Windows + WSL2</h3><p>Three separate configs: WSL2 CLI (<code>/home/user/.claude.json</code>), Desktop Code tab (<code>C:\Users\user\.claude.json</code>), Desktop Chat (<code>%APPDATA%\Claude\...</code>). Nothing is shared. Symlink or run CLI natively to fix.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows: MSIX Sandbox</h3><p>Desktop&rsquo;s MSIX package virtualizes its filesystem. CLI paths above are what the <em>CLI</em> reads &mdash; Desktop reads from <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\</code>. <code>claude mcp add</code> does not reach Desktop. WSL2 adds a third config surface. Use the Desktop UI for MCP on Windows.</p></div>
   <div class="card blue" style="margin-top:.4em;"><h3>All Platforms</h3><p>Project instructions: <code>CLAUDE.md</code> / <code>CLAUDE.local.md</code> in project root. Project MCP: <code>.mcp.json</code> in project root.</p></div>
 </section>
 

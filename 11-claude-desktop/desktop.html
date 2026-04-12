@@ -463,8 +463,8 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <p><span class="a">Rule of thumb:</span> use <span class="a">Desktop</span> when you want one window for everything and native OS integration, <span class="a"><code>claude.ai</code></span> when you&rsquo;re on a machine you don&rsquo;t control (or on Linux), and the <span class="a">CLI</span> when you live in a terminal or you&rsquo;re scripting. The three share the same account, projects, and chat history.</p>
   </div>
   <div class="card red" style="margin-top:.3em;">
-    <h3>Windows + WSL2: Config Split</h3>
-    <p>The &ldquo;Desktop and CLI share config&rdquo; claim assumes a shared filesystem. On <span class="r">Windows with WSL2</span>, Claude Code in WSL2 reads <code>/home/user/.claude.json</code> (Linux fs) while the Desktop Code tab reads <code>C:\Users\user\.claude.json</code> (Windows fs). MCP servers, hooks, and settings configured in one <span class="r">will not appear in the other</span>. Workaround: use symlinks between filesystems, or run Claude Code natively on Windows (PowerShell / CMD) instead of WSL2.</p>
+    <h3>Windows: CLI and Desktop Config Are Separate</h3>
+    <p>On <span class="r">Windows</span>, the standard MSIX installer sandboxes Desktop&rsquo;s filesystem. The CLI (PowerShell) writes to <code>C:\Users\user\.claude.json</code>, but Desktop reads from a virtualized path inside <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\</code>. MCP servers added via <code>claude mcp add</code> <span class="r">do not appear</span> in the Desktop Code tab &mdash; add them through the Desktop UI instead. WSL2 creates a <em>third</em> separate config. On <span class="g">macOS</span> this problem does not exist &mdash; CLI and Desktop share the same <code>~/.claude.json</code>.</p>
   </div>
 </section>
 
@@ -580,7 +580,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
   <p>Claude stores configuration in several files whose locations vary by OS. Understanding where each file lives &mdash; and which surface reads it &mdash; is essential before configuring MCP servers, hooks, or settings.</p>
   <table style="margin-top:.25em;">
     <thead>
-      <tr><th>Config file</th><th>Read by</th><th>macOS</th><th>Windows (native)</th><th>Linux</th></tr>
+      <tr><th>Config file</th><th>Read by</th><th>macOS</th><th>Windows (CLI path *)</th><th>Linux</th></tr>
     </thead>
     <tbody>
       <tr>
@@ -632,21 +632,21 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
   </table>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card red">
-      <h3>Windows + WSL2 &mdash; The Filesystem Split</h3>
+      <h3>Windows &mdash; MSIX Sandbox Breaks Shared Config</h3>
       <ul>
-        <li>Claude Code in WSL2 reads <code>/home/user/.claude.json</code> (Linux fs)</li>
-        <li>Desktop Code tab reads <code>C:\Users\user\.claude.json</code> (Windows fs)</li>
-        <li>Desktop Chat tab reads <code>%APPDATA%\Claude\claude_desktop_config.json</code> (Win fs)</li>
-        <li>That&rsquo;s <span class="r">three separate config surfaces</span> on one machine</li>
-        <li>Fix: symlink <code>/home/user/.claude.json</code> &rarr; <code>/mnt/c/Users/user/.claude.json</code></li>
-        <li>Or run Claude Code natively on Windows to avoid the split</li>
+        <li>The standard Windows installer is an <span class="r">MSIX package</span> that sandboxes Desktop&rsquo;s filesystem</li>
+        <li>CLI (PowerShell) writes to <code>C:\Users\user\.claude.json</code> (real filesystem)</li>
+        <li>Desktop reads from <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\LocalCache\</code> (virtualized)</li>
+        <li>MCP servers added via <code>claude mcp add</code> <span class="r">do not appear</span> in the Desktop Code tab</li>
+        <li>Add MCP servers through the Desktop UI (Connectors / <strong>+</strong> button) instead</li>
+        <li>WSL2 adds a <em>third</em> separate config surface (<code>/home/user/.claude.json</code>)</li>
       </ul>
     </div>
     <div class="card blue">
       <h3>Key Points</h3>
       <ul>
         <li>The <span class="p">Chat tab</span> always has its own config file &mdash; separate from Code/CLI</li>
-        <li>The <span class="a">Code tab</span> and <span class="a">CLI</span> share the same files &mdash; unless they&rsquo;re on different filesystems (WSL2)</li>
+        <li>The <span class="a">Code tab</span> and <span class="a">CLI</span> share config on <span class="g">macOS</span> but <span class="r">not on Windows</span> (MSIX sandbox)</li>
         <li>The <span class="b">Cowork tab</span> and <span class="p">claude.ai web</span> have no local config &mdash; Connectors only</li>
         <li><code>CLAUDE.md</code> and <code>.mcp.json</code> in the project root are shared with the team via Git</li>
         <li>Linux has the CLI only &mdash; no Desktop app, no Chat-tab MCP surface</li>
@@ -757,7 +757,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <td class="g">Yes</td>
         <td class="g">HTTP &amp; HTTPS</td>
         <td class="g">Yes</td>
-        <td>Same files as CLI: <code>~/.claude.json</code>, <code>.mcp.json</code></td>
+        <td>Same files as CLI on <span class="g">macOS</span>; <span class="r">sandboxed on Windows</span> (MSIX) &mdash; use Desktop UI</td>
       </tr>
       <tr>
         <td><span class="b">Desktop &mdash; Cowork</span></td>
@@ -805,7 +805,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <ul>
         <li>Configuring a server in <code>claude_desktop_config.json</code> and expecting the Code tab to see it &mdash; they&rsquo;re separate config files</li>
         <li>Expecting Cowork to reach a private-network MCP server or one running on <code>http://</code> &mdash; it&rsquo;s in Anthropic&rsquo;s cloud and requires HTTPS + CA-signed cert</li>
-        <li><span class="r">Windows + WSL2:</span> CLI in WSL2 reads <code>/home/user/.claude.json</code>; the Desktop Code tab reads <code>C:\Users\user\.claude.json</code> &mdash; these are separate filesystems, so MCP servers configured in one won&rsquo;t appear in the other</li>
+        <li><span class="r">Windows (all):</span> the MSIX-packaged Desktop sandboxes its filesystem &mdash; <code>claude mcp add</code> in PowerShell or WSL2 does <em>not</em> reach the Desktop Code tab. Add MCP servers through the Desktop UI</li>
         <li>Corporate firewalls blocking outbound connections &rarr; Connectors silently fail</li>
       </ul>
     </div>

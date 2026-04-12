@@ -655,20 +655,29 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
     <span class="tag">12</span>
     <h2>Coming from the CLI: Shared Config &amp; Comparison</h2>
   </div>
-  <p>Desktop and CLI run the same underlying engine and read the same configuration files &mdash; you can run both simultaneously on the same project. Each maintains separate session history.</p>
+  <p>Desktop and CLI run the same underlying engine. On <span class="g">macOS</span>, they read the same config files &mdash; MCP servers added via the CLI appear in the Desktop Code tab automatically. On <span class="r">Windows</span>, the standard MSIX installer sandboxes Desktop&rsquo;s filesystem, so config is <em>not</em> shared.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div>
-      <h3>Shared Between Desktop and CLI</h3>
-      <ul>
-        <li><code>CLAUDE.md</code> and <code>CLAUDE.local.md</code> in your project</li>
-        <li>MCP servers in <code>~/.claude.json</code> or <code>.mcp.json</code></li>
-        <li>Hooks and skills defined in settings</li>
-        <li>Settings in <code>~/.claude.json</code> and <code>~/.claude/settings.json</code></li>
-        <li>Models: Sonnet, Opus, Haiku</li>
-      </ul>
+      <div class="card green">
+        <h3>macOS &mdash; Config Is Shared</h3>
+        <ul>
+          <li><code>CLAUDE.md</code> and <code>CLAUDE.local.md</code> in your project</li>
+          <li>MCP servers in <code>~/.claude.json</code> or <code>.mcp.json</code></li>
+          <li>Hooks and skills defined in settings</li>
+          <li>Settings in <code>~/.claude.json</code> and <code>~/.claude/settings.json</code></li>
+          <li>Add an MCP server via <code>claude mcp add</code> and it appears in both CLI and Desktop Code tab</li>
+        </ul>
+      </div>
       <div class="card red" style="margin-top:.3em;">
-        <h3>Windows + WSL2 Caveat</h3>
-        <p>The &ldquo;shared config&rdquo; promise assumes CLI and Desktop read from the <em>same filesystem</em>. On macOS and native-Windows Claude Code this is automatic. But if you run <span class="r">Claude Code inside WSL2</span>, its config lives in the Linux filesystem (<code>/home/user/.claude.json</code>) while the Desktop Code tab reads from the Windows filesystem (<code>C:\Users\user\.claude.json</code>). These are <span class="r">completely separate</span> &mdash; MCP servers, hooks, and settings configured in one will not appear in the other. Workarounds: use symlinks across filesystems, or run Claude Code natively on Windows instead of WSL2.</p>
+        <h3>Windows (MSIX) &mdash; Config Is Not Shared</h3>
+        <ul>
+          <li>The standard Windows installer is an MSIX package that <span class="r">sandboxes Desktop&rsquo;s filesystem</span></li>
+          <li>CLI writes to <code>C:\Users\user\.claude.json</code> (real filesystem)</li>
+          <li>Desktop reads from <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\LocalCache\</code> (virtualized)</li>
+          <li>MCP servers added via <code>claude mcp add</code> in PowerShell <span class="r">do not appear</span> in the Desktop Code tab</li>
+          <li>Add MCP servers through the Desktop&rsquo;s own UI (Connectors / <strong>+</strong> button) instead</li>
+          <li>WSL2 adds a <em>third</em> separate config surface (<code>/home/user/.claude.json</code>)</li>
+        </ul>
       </div>
       <h3 style="margin-top:.3em;">Move a Session into Desktop</h3>
       <p>Run <code>/desktop</code> in the terminal. Claude saves your session and opens it in the desktop app, then exits the CLI. <span class="r">macOS and Windows only.</span></p>
@@ -788,8 +797,8 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <p>From the docs: &ldquo;Use Desktop when you want visual diff review, file attachments, or session management in a sidebar. Use the CLI when you need scripting, automation, third-party providers, or prefer a terminal workflow.&rdquo;</p>
       </div>
       <div class="card green" style="margin-top:.3em;">
-        <h3>One Configuration, Multiple Surfaces *</h3>
-        <p>CLI, Desktop, Claude Code on the Web, and SSH share the same CLAUDE.md, settings, MCP config, and skills &mdash; <em>when they share the same filesystem</em>. On Windows + WSL2, the CLI (Linux fs) and Desktop (Windows fs) have separate configs.</p>
+        <h3>Config Sharing: macOS Only</h3>
+        <p>CLI and Desktop share CLAUDE.md, MCP config, and settings on <span class="g">macOS</span>. On <span class="r">Windows</span>, the MSIX installer sandboxes Desktop &mdash; add MCP servers through the Desktop UI, not the CLI. WSL2 adds a third separate config.</p>
       </div>
     </div>
   </div>
