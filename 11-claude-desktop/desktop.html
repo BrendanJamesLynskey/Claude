@@ -569,11 +569,94 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 11: MCP Transports -->
+<!-- SLIDE 11: Configuration Files by Platform -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">11</span>
+    <h2>Configuration Files by Platform</h2>
+  </div>
+  <p>Claude stores configuration in several files whose locations vary by OS. Understanding where each file lives &mdash; and which surface reads it &mdash; is essential before configuring MCP servers, hooks, or settings.</p>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>macOS</h3>
+      <table>
+        <tr><th>File</th><th>Path</th></tr>
+        <tr><td>Desktop Chat MCP</td><td><code>~/Library/Application&nbsp;Support/Claude/claude_desktop_config.json</code></td></tr>
+        <tr><td>Code CLI / Code tab MCP (user)</td><td><code>~/.claude.json</code></td></tr>
+        <tr><td>Code CLI / Code tab MCP (project)</td><td><code>&lt;project&gt;/.mcp.json</code></td></tr>
+        <tr><td>Settings (global)</td><td><code>~/.claude/settings.json</code></td></tr>
+        <tr><td>Project instructions</td><td><code>&lt;project&gt;/CLAUDE.md</code></td></tr>
+        <tr><td>Local overrides</td><td><code>&lt;project&gt;/CLAUDE.local.md</code></td></tr>
+        <tr><td>Memory</td><td><code>~/.claude/memory/</code></td></tr>
+        <tr><td>Logs</td><td><code>~/Library/Logs/Claude/</code></td></tr>
+      </table>
+      <p style="margin-top:.15em;">macOS is the simplest case &mdash; one filesystem, one user profile. CLI and Desktop Code tab read the same <code>~/.claude.json</code>.</p>
+    </div>
+    <div class="card green">
+      <h3>Windows</h3>
+      <table>
+        <tr><th>File</th><th>Path</th></tr>
+        <tr><td>Desktop Chat MCP</td><td><code>%APPDATA%\Claude\claude_desktop_config.json</code></td></tr>
+        <tr><td>Code CLI / Code tab MCP (user)</td><td><code>%USERPROFILE%\.claude.json</code></td></tr>
+        <tr><td>Code CLI / Code tab MCP (project)</td><td><code>&lt;project&gt;\.mcp.json</code></td></tr>
+        <tr><td>Settings (global)</td><td><code>%USERPROFILE%\.claude\settings.json</code></td></tr>
+        <tr><td>Project instructions</td><td><code>&lt;project&gt;\CLAUDE.md</code></td></tr>
+        <tr><td>Local overrides</td><td><code>&lt;project&gt;\CLAUDE.local.md</code></td></tr>
+        <tr><td>Memory</td><td><code>%USERPROFILE%\.claude\memory\</code></td></tr>
+        <tr><td>Logs</td><td><code>%APPDATA%\Claude\logs\</code></td></tr>
+      </table>
+      <p style="margin-top:.15em;">Paths above assume <span class="g">native</span> Windows Claude Code. See the WSL2 caveat below.</p>
+    </div>
+    <div class="card purple">
+      <h3>Linux</h3>
+      <table>
+        <tr><th>File</th><th>Path</th></tr>
+        <tr><td>Desktop Chat MCP</td><td><span class="r">N/A &mdash; no Desktop app</span></td></tr>
+        <tr><td>Code CLI MCP (user)</td><td><code>~/.claude.json</code></td></tr>
+        <tr><td>Code CLI MCP (project)</td><td><code>&lt;project&gt;/.mcp.json</code></td></tr>
+        <tr><td>Settings (global)</td><td><code>~/.claude/settings.json</code></td></tr>
+        <tr><td>Project instructions</td><td><code>&lt;project&gt;/CLAUDE.md</code></td></tr>
+        <tr><td>Local overrides</td><td><code>&lt;project&gt;/CLAUDE.local.md</code></td></tr>
+        <tr><td>Memory</td><td><code>~/.claude/memory/</code></td></tr>
+        <tr><td>Logs</td><td><code>~/.claude/logs/</code></td></tr>
+      </table>
+      <p style="margin-top:.15em;">Linux has only the CLI &mdash; no Desktop app, so no Chat-tab MCP surface. Paths match macOS except for logs.</p>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card red">
+      <h3>Windows + WSL2 &mdash; The Filesystem Split</h3>
+      <ul>
+        <li>Claude Code in WSL2 reads <code>/home/user/.claude.json</code> (Linux fs)</li>
+        <li>Claude Desktop&rsquo;s Code tab reads <code>C:\Users\user\.claude.json</code> (Windows fs)</li>
+        <li>Claude Desktop&rsquo;s Chat tab reads <code>%APPDATA%\Claude\claude_desktop_config.json</code> (Windows fs)</li>
+        <li>That&rsquo;s <span class="r">three separate config surfaces</span> on one machine &mdash; MCP servers, hooks, and settings in any one <span class="r">do not appear</span> in the others</li>
+        <li>Workaround: symlink <code>/home/user/.claude.json</code> to <code>/mnt/c/Users/user/.claude.json</code> to share CLI and Desktop Code config</li>
+        <li>Or run Claude Code natively on Windows (PowerShell / CMD) instead of WSL2 to avoid the split</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3>Which Surface Reads Which File</h3>
+      <table>
+        <tr><th>Surface</th><th>Config file</th></tr>
+        <tr><td><span class="p">Desktop Chat tab</span></td><td><code>claude_desktop_config.json</code></td></tr>
+        <tr><td><span class="a">Desktop Code tab</span></td><td><code>~/.claude.json</code> + <code>.mcp.json</code></td></tr>
+        <tr><td><span class="a">Claude Code CLI</span></td><td><code>~/.claude.json</code> + <code>.mcp.json</code></td></tr>
+        <tr><td><span class="b">Cowork tab</span></td><td>Connectors (no local config)</td></tr>
+        <tr><td><span class="p">claude.ai web</span></td><td>Connectors (no local config)</td></tr>
+      </table>
+      <p style="margin-top:.15em;">The Code tab and CLI always share config &mdash; unless they&rsquo;re on different filesystems (WSL2). The Chat tab always has its own file. Cowork and web have no local config at all.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: MCP Transports -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">12</span>
     <h2>MCP Transports &mdash; stdio, Streamable HTTP, and the Legacy SSE</h2>
   </div>
   <p>The MCP specification defines three transport layers. Which one you use depends on whether the server lives on your machine or on the network.</p>
@@ -637,7 +720,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
-    <span class="tag">12</span>
+    <span class="tag">13</span>
     <h2>MCP Across the Claude Product Range</h2>
   </div>
   <table>
