@@ -231,6 +231,7 @@
   <div class="slide-hdr"><span class="tag">13</span><h2>Coming from the CLI</h2></div>
   <p>Desktop and CLI share the same engine and configuration files. Run both simultaneously on the same project &mdash; they share config but keep separate session history.</p>
   <div class="card amber" style="margin-top:.4em;"><h3>Shared Config</h3><ul><li><code>CLAUDE.md</code> and <code>CLAUDE.local.md</code></li><li>MCP servers in <code>~/.claude.json</code>, <code>.mcp.json</code></li><li>Hooks, skills, settings</li><li>Sonnet, Opus, Haiku models</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows + WSL2</h3><p>If you run Claude Code in WSL2, its config lives in the Linux filesystem. The Desktop Code tab reads from the Windows filesystem. These are <span class="r">separate</span> &mdash; MCP servers, hooks, and settings won&rsquo;t cross. Use symlinks, or run Claude Code natively on Windows.</p></div>
   <div class="card green" style="margin-top:.4em;"><h3>Move CLI &rarr; Desktop</h3><p>Run <code>/desktop</code> in the terminal. Claude saves the session and opens it in the desktop app, then exits the CLI. <span class="r">macOS and Windows only.</span></p></div>
   <div class="card blue" style="margin-top:.4em;"><h3>When to Use Which (from the docs)</h3><p>&ldquo;Use Desktop when you want visual diff review, file attachments, or session management in a sidebar. Use the CLI when you need scripting, automation, third-party providers, or prefer a terminal workflow.&rdquo;</p></div>
 </section>

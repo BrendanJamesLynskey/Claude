@@ -665,6 +665,10 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <li>Settings in <code>~/.claude.json</code> and <code>~/.claude/settings.json</code></li>
         <li>Models: Sonnet, Opus, Haiku</li>
       </ul>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Windows + WSL2 Caveat</h3>
+        <p>The &ldquo;shared config&rdquo; promise assumes CLI and Desktop read from the <em>same filesystem</em>. On macOS and native-Windows Claude Code this is automatic. But if you run <span class="r">Claude Code inside WSL2</span>, its config lives in the Linux filesystem (<code>/home/user/.claude.json</code>) while the Desktop Code tab reads from the Windows filesystem (<code>C:\Users\user\.claude.json</code>). These are <span class="r">completely separate</span> &mdash; MCP servers, hooks, and settings configured in one will not appear in the other. Workarounds: use symlinks across filesystems, or run Claude Code natively on Windows instead of WSL2.</p>
+      </div>
       <h3 style="margin-top:.3em;">Move a Session into Desktop</h3>
       <p>Run <code>/desktop</code> in the terminal. Claude saves your session and opens it in the desktop app, then exits the CLI. <span class="r">macOS and Windows only.</span></p>
     </div>
@@ -783,8 +787,8 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <p>From the docs: &ldquo;Use Desktop when you want visual diff review, file attachments, or session management in a sidebar. Use the CLI when you need scripting, automation, third-party providers, or prefer a terminal workflow.&rdquo;</p>
       </div>
       <div class="card green" style="margin-top:.3em;">
-        <h3>One Configuration, Multiple Surfaces</h3>
-        <p>CLI, Desktop, Claude Code on the Web, and SSH all share the same CLAUDE.md, settings, MCP config, and skills. Start a session in one surface, continue in another.</p>
+        <h3>One Configuration, Multiple Surfaces *</h3>
+        <p>CLI, Desktop, Claude Code on the Web, and SSH share the same CLAUDE.md, settings, MCP config, and skills &mdash; <em>when they share the same filesystem</em>. On Windows + WSL2, the CLI (Linux fs) and Desktop (Windows fs) have separate configs.</p>
       </div>
     </div>
   </div>

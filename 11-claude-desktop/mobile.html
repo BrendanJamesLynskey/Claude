@@ -171,6 +171,7 @@
     </tbody>
   </table>
   <div class="card amber" style="margin-top:.4em;"><p><span class="a">Rule of thumb:</span> Desktop for one window with OS integration; Web on a machine you don&rsquo;t control or on Linux; CLI in a terminal or scripts. Same account across all three.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows + WSL2</h3><p>CLI in WSL2 reads <code>/home/user/.claude.json</code>; Desktop reads <code>C:\Users\user\.claude.json</code>. <span class="r">Separate</span> filesystems &mdash; config doesn&rsquo;t cross. Use symlinks or run CLI natively on Windows.</p></div>
 </section>
 
 <section>

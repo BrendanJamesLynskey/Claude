@@ -461,6 +461,10 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
   <div class="card amber" style="margin-top:.3em;">
     <p><span class="a">Rule of thumb:</span> use <span class="a">Desktop</span> when you want one window for everything and native OS integration, <span class="a"><code>claude.ai</code></span> when you&rsquo;re on a machine you don&rsquo;t control (or on Linux), and the <span class="a">CLI</span> when you live in a terminal or you&rsquo;re scripting. The three share the same account, projects, and chat history.</p>
   </div>
+  <div class="card red" style="margin-top:.3em;">
+    <h3>Windows + WSL2: Config Split</h3>
+    <p>The &ldquo;Desktop and CLI share config&rdquo; claim assumes a shared filesystem. On <span class="r">Windows with WSL2</span>, Claude Code in WSL2 reads <code>/home/user/.claude.json</code> (Linux fs) while the Desktop Code tab reads <code>C:\Users\user\.claude.json</code> (Windows fs). MCP servers, hooks, and settings configured in one <span class="r">will not appear in the other</span>. Workaround: use symlinks between filesystems, or run Claude Code natively on Windows (PowerShell / CMD) instead of WSL2.</p>
+  </div>
 </section>
 
 <!-- ============================================================ -->
@@ -714,6 +718,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <ul>
         <li>Configuring a server in <code>claude_desktop_config.json</code> and expecting the Code tab to see it &mdash; they&rsquo;re separate config files</li>
         <li>Expecting Cowork to reach a private-network MCP server or one running on <code>http://</code> &mdash; it&rsquo;s in Anthropic&rsquo;s cloud and requires HTTPS + CA-signed cert</li>
+        <li><span class="r">Windows + WSL2:</span> CLI in WSL2 reads <code>/home/user/.claude.json</code>; the Desktop Code tab reads <code>C:\Users\user\.claude.json</code> &mdash; these are separate filesystems, so MCP servers configured in one won&rsquo;t appear in the other</li>
         <li>Corporate firewalls blocking outbound connections &rarr; Connectors silently fail</li>
       </ul>
     </div>
