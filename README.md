@@ -25,6 +25,12 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 | 13 | [Claude Cowork — Autonomous Background Agents](13-claude-cowork/) | Deep dive on the Cowork tab — cloud VMs, computer use, Dispatch, parallel agents, budgets, and limits |
 | 14 | [Claude Chat Desktop — The Chat Tab](14-claude-chat-desktop/) | Deep dive on the Chat tab — Projects, Artifacts, Styles, input modalities, Connectors, and the original stdio MCP surface via `claude_desktop_config.json` |
 
+## Tutorials
+
+| Topic | Description |
+|-------|-------------|
+| [Claude Code — GitHub PR Reviews](https://github.com/BrendanJamesLynskey/claude-review-demo) | Step-by-step guide to setting up automated AI-powered pull request reviews using Claude Code and GitHub Actions |
+
 ## Reports
 
 | Topic | Description |
