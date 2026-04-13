@@ -29,7 +29,7 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 
 | Topic | Description |
 |-------|-------------|
-| [Claude Code — GitHub PR Reviews](https://github.com/BrendanJamesLynskey/claude-review-demo) | Step-by-step guide to setting up automated AI-powered pull request reviews using Claude Code and GitHub Actions |
+| [Claude Code — GitHub PR Reviews and Fixes](https://github.com/BrendanJamesLynskey/claude-review-demo) | Step-by-step guide to setting up automated AI-powered pull request reviews and bug fixes using Claude Code and GitHub Actions |
 
 ## Reports
 
