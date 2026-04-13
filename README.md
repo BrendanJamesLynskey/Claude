@@ -2,6 +2,8 @@
 
 Interactive slide decks covering every aspect of Anthropic Claude — from first steps to advanced agent architectures. Built with Reveal.js.
 
+**Landing page: https://brendanjameslynskey.github.io/Claude/**
+
 ---
 
 ## Presentations
@@ -31,11 +33,7 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 
 ## Viewing
 
-Each presentation is a self-contained `index.html` file. Open directly in a browser, or view via GitHub Pages:
-
-**https://brendanjameslynskey.github.io/Claude/**
-
-Navigate slides with arrow keys. Press `Esc` for the slide overview. Slides scroll vertically when content overflows.
+Each presentation is a self-contained `index.html` file. Open directly in a browser or via the landing page above. Navigate slides with arrow keys. Press `Esc` for the slide overview. Slides scroll vertically when content overflows.
 
 ## Tech Stack
 
