@@ -584,7 +584,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td>Desktop Chat MCP</td>
+        <td>Desktop Chat MCP <span class="r">(stdio only)</span></td>
         <td><span class="p">Chat tab</span></td>
         <td><code>~/Library/Application Support/Claude/<br/>claude_desktop_config.json</code></td>
         <td><code>%APPDATA%\Claude\<br/>claude_desktop_config.json</code></td>
@@ -682,8 +682,9 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <li>Single HTTP(S) endpoint: client sends <code>POST</code>, server responds with JSON or SSE stream</li>
         <li>Optional <code>GET</code> with <code>Last-Event-ID</code> for connection recovery</li>
         <li>Firewall-friendly &mdash; one URL, one port, standard CORS</li>
-        <li>Locally-initiated connections (CLI, Chat, Code) accept plain <span class="g">HTTP</span> and private IPs</li>
-        <li>Brokered connections (Cowork, Web, Mobile, API) require <span class="r">HTTPS + CA-signed cert</span></li>
+        <li><span class="a">Claude Code CLI</span> and the <span class="a">Code tab</span> support this natively &mdash; plain <span class="g">HTTP</span> and private IPs work</li>
+        <li>The <span class="p">Chat tab</span> does <span class="r">not</span> support Streamable HTTP via its config file &mdash; use Connectors (brokered, HTTPS) or a stdio proxy like <code>mcp-remote</code></li>
+        <li>Brokered surfaces (Cowork, Web, Mobile, API) require <span class="r">HTTPS + CA-signed cert</span></li>
       </ul>
     </div>
     <div class="card purple">
@@ -697,23 +698,29 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </ul>
     </div>
   </div>
-  <div class="cols cols-2" style="margin-top:.3em;">
+  <div class="cols cols-3" style="margin-top:.3em;">
     <div class="card green">
-      <h3>Locally-Initiated Connections &mdash; HTTP and Private Networks OK</h3>
+      <h3>CLI + Code Tab &mdash; HTTP and Private Networks OK</h3>
       <ul>
-        <li>When the CLI, Chat tab, or Code tab connects to an MCP server, <em>your machine</em> makes the connection &mdash; it does <span class="g">not</span> go through Anthropic</li>
-        <li>Plain <span class="g">HTTP</span> works &mdash; no TLS required</li>
-        <li>Private-network IPs work: <code>http://10.60.12.34:3001/mcp</code>, <code>http://192.168.1.50:8080/mcp</code>, <code>http://localhost:3000/mcp</code></li>
+        <li>Claude Code CLI and the Desktop Code tab connect <em>from your machine</em> &mdash; no Anthropic intermediary</li>
+        <li>Plain <span class="g">HTTP</span> works, private IPs work</li>
         <li>Example: <code>claude mcp add my-server --transport http http://10.60.12.34:3001/mcp</code></li>
       </ul>
     </div>
-    <div class="card red">
-      <h3>Anthropic-Brokered Connections &mdash; HTTPS Required</h3>
+    <div class="card amber">
+      <h3>Chat Tab &mdash; stdio Only in Config</h3>
       <ul>
-        <li><span class="r">Connectors</span> configured via the UI, plus <span class="r">Cowork</span>, <span class="r">claude.ai web</span>, <span class="r">mobile</span>, and the <span class="r">Messages API</span> route through Anthropic&rsquo;s infrastructure</li>
-        <li>These require <span class="r">HTTPS with a CA-signed certificate</span> &mdash; no plain HTTP, no self-signed certs</li>
-        <li>Private IPs and localhost are unreachable from these surfaces</li>
-        <li>To expose a private server to brokered surfaces: tunnel via <span class="a">ngrok</span>, <span class="a">Cloudflare Tunnel</span>, or <span class="a">Tailscale Funnel</span></li>
+        <li><code>claude_desktop_config.json</code> supports <span class="a">stdio only</span> (<code>command</code> + <code>args</code>)</li>
+        <li>No <code>"url"</code> field &mdash; remote HTTP does <span class="r">not</span> work in the config file</li>
+        <li>For remote MCP: use Connectors UI (brokered, HTTPS) or a stdio proxy:<br/><code>"command": "npx", "args": ["mcp-remote", "https://&hellip;"]</code></li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>Brokered &mdash; HTTPS Required</h3>
+      <ul>
+        <li><span class="r">Connectors UI</span> (all tabs), <span class="r">Cowork</span>, <span class="r">Web</span>, <span class="r">Mobile</span>, <span class="r">API</span> route through Anthropic</li>
+        <li>Require <span class="r">HTTPS + CA-signed cert</span></li>
+        <li>Private IPs unreachable; tunnel via ngrok / Cloudflare / Tailscale</li>
       </ul>
     </div>
   </div>
@@ -748,9 +755,9 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <tr>
         <td><span class="p">Desktop &mdash; Chat tab</span></td>
         <td class="g">Yes</td>
-        <td class="g">HTTP &amp; HTTPS</td>
-        <td class="g">Yes</td>
-        <td><code>claude_desktop_config.json</code> (separate from Code tab)</td>
+        <td class="a">Connectors only **</td>
+        <td class="r">No **</td>
+        <td><code>claude_desktop_config.json</code> (stdio only); Connectors UI for remote</td>
       </tr>
       <tr>
         <td><span class="a">Desktop &mdash; Code tab</span></td>
@@ -789,15 +796,15 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </tr>
     </tbody>
   </table>
-  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork&rsquo;s cloud VM <em>could</em> spawn a stdio process inside the VM itself, but cannot reach a process on your local machine.</p>
+  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork&rsquo;s cloud VM <em>could</em> spawn a stdio process inside the VM itself, but cannot reach a process on your local machine.<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
   <div class="cols cols-2" style="margin-top:.25em;">
     <div class="card green">
       <h3>Private-Network MCP &mdash; How It Works</h3>
       <ul>
-        <li>The CLI, Chat tab, and Code tab run on <em>your machine</em> &mdash; they connect to MCP servers directly, not via Anthropic</li>
-        <li>So <span class="g">plain HTTP</span>, private IPs (<code>10.x</code>, <code>192.168.x</code>), and <code>localhost</code> all work</li>
+        <li>The <span class="a">CLI</span> and <span class="a">Code tab</span> support <code>--transport http</code> natively &mdash; plain HTTP and private IPs work</li>
         <li>Example: <code>claude mcp add my-server --transport http http://10.60.12.34:3001/mcp</code></li>
-        <li>For brokered surfaces (Cowork, web, mobile, API), you <em>must</em> publish to an HTTPS URL reachable from the internet &mdash; tunnel via ngrok / Cloudflare / Tailscale if needed</li>
+        <li>The <span class="p">Chat tab</span> config only supports stdio &mdash; bridge remote servers with <code>npx mcp-remote</code></li>
+        <li>Brokered surfaces (Connectors UI, Cowork, web, mobile, API) need a public HTTPS URL &mdash; tunnel via ngrok / Cloudflare / Tailscale</li>
       </ul>
     </div>
     <div class="card red">

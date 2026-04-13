@@ -437,18 +437,17 @@
     <div>
       <div class="card blue">
         <h3>Raw MCP via <code>claude_desktop_config.json</code></h3>
-        <p>For servers not in the Connectors gallery &mdash; your own stdio server, a custom tool, a third-party integration &mdash; edit the config file directly:</p>
+        <p>For servers not in the Connectors gallery &mdash; your own tools, a custom integration, a third-party stdio server &mdash; edit the config file directly:</p>
         <ul>
           <li><span class="b">macOS:</span> <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
           <li><span class="b">Windows:</span> <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
         </ul>
-        <p style="margin-top:.15em;">Supports both transport types:</p>
-        <ul>
-          <li><span class="b">stdio</span> &mdash; <code>"command"</code> + <code>"args"</code> &mdash; Claude spawns the process locally</li>
-          <li><span class="b">Streamable HTTP</span> &mdash; <code>"url"</code> pointing to an <span class="r">HTTPS</span> endpoint with a CA-signed certificate</li>
-        </ul>
       </div>
-      <pre style="margin-top:.3em;"><code>// stdio example (local process)
+      <div class="card red" style="margin-top:.3em;">
+        <h3>stdio Only &mdash; No Remote HTTP in Config</h3>
+        <p>The config file supports <span class="r">stdio only</span> &mdash; a <code>"command"</code> + <code>"args"</code> entry that spawns a local subprocess. There is <span class="r">no <code>"url"</code> field</span>; Streamable HTTP and SSE are not supported. This is the <em>original</em> MCP surface from Nov 2024, predating the remote transports.</p>
+      </div>
+      <pre style="margin-top:.3em;"><code>// Local stdio server (the ONLY format the config supports)
 {
   "mcpServers": {
     "filesystem": {
@@ -459,31 +458,32 @@
   }
 }
 
-// Streamable HTTP — HTTP or HTTPS; private IPs work
+// To reach a REMOTE server, bridge it via a stdio proxy:
 {
   "mcpServers": {
-    "lan-api": {
-      "url": "http://10.60.12.34:3001/mcp"
-    },
-    "public-api": {
-      "url": "https://mcp.example.com/v1/mcp"
+    "my-remote": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.example.com/v1/mcp"]
     }
   }
 }</code></pre>
     </div>
   </div>
   <div class="cols cols-2" style="margin-top:.3em;">
-    <div class="card red">
-      <h3>Separate Config Files &mdash; The Biggest Gotcha</h3>
-      <p>MCP servers listed in <code>claude_desktop_config.json</code> are visible to the <span class="p">Chat tab only</span>. The Code tab reads <code>~/.claude.json</code> and per-project <code>.mcp.json</code> (shared with the CLI). If a server appears in one tab but not the other, that&rsquo;s why. See deck <span class="a">11</span> for the full MCP matrix.</p>
-    </div>
-    <div class="card green">
-      <h3>HTTP &amp; Private Networks</h3>
+    <div class="card amber">
+      <h3>Remote MCP &mdash; Two Paths</h3>
       <ul>
-        <li>The Chat tab runs on <em>your machine</em> and connects directly &mdash; <span class="g">plain HTTP and private IPs work</span></li>
-        <li><code>http://192.168.1.50:8080/mcp</code>, <code>http://localhost:3000/mcp</code>, <code>http://10.x.x.x:3001/mcp</code> &mdash; all valid</li>
-        <li>HTTPS is only required for <em>Anthropic-brokered</em> surfaces (Connectors UI, Cowork, Web, Mobile, API)</li>
-        <li>Restart the app after editing the config file</li>
+        <li><span class="a">Connectors UI</span> (Settings &rarr; Connectors) &mdash; Anthropic-brokered, HTTPS required, no private IPs</li>
+        <li><span class="a">stdio proxy</span> (<code>mcp-remote</code>, <code>mcp-connect</code>) &mdash; wraps a remote HTTP/HTTPS server as a local stdio process that the config file <em>can</em> spawn. Supports plain HTTP and private IPs since the proxy runs on your machine.</li>
+        <li>The <span class="a">Code tab</span> and <span class="a">CLI</span> support remote HTTP natively &mdash; no proxy needed there (see deck 12)</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>Separate Config &amp; Platform Caveats</h3>
+      <ul>
+        <li>Servers in <code>claude_desktop_config.json</code> are visible to the <span class="p">Chat tab only</span>. The Code tab reads <code>~/.claude.json</code>. See deck <span class="a">11</span>.</li>
+        <li>On <span class="r">Windows</span> (MSIX), the Chat-tab config path may be virtualized &mdash; check the actual MSIX package path if edits aren&rsquo;t picked up</li>
+        <li>Restart the Desktop app after editing the config file</li>
       </ul>
     </div>
   </div>
