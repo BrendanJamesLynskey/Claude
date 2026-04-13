@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow: MCP Servers — Anthropic Claude Series</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-3 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+
+  .term { background: #0c0c14; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
+  .term-bar { background: #1e1e2e; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
+  .term-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: #ff5f57; }
+  .term-dot.y { background: #febc2e; }
+  .term-dot.g { background: #28c840; }
+  .term-bar .term-title { font-family: 'JetBrains Mono', monospace; font-size: .42em; color: var(--muted); margin-left: .6em; }
+  .term-body { padding: .3em .6em; font-family: 'JetBrains Mono', monospace; font-size: .50em; overflow-wrap: break-word; word-break: break-word; line-height: 1.55; color: #b8b8d0; }
+  .term-body .prompt { color: var(--green); }
+  .term-body .cmd { color: var(--amber); }
+  .term-body .flag { color: var(--purple); }
+  .term-body .out { color: #b8b8d0; }
+  .term-body .dim { color: #666680; }
+  .term-body .hi { color: var(--text); font-weight: 500; }
+  .term-body .err { color: var(--red); }
+  .term-body .ok { color: var(--green); }
+  .term-body .line-num { color: #444460; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
+  .callout { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .2em .5em; margin-top: .15em; }
+  .callout p { font-size: .52em; color: #b8b8d0; margin: 0; }
+  .callout .label { font-family: 'JetBrains Mono', monospace; font-size: .9em; font-weight: 500; margin-right: .3em; }
+
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: Title -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Workflow Walkthrough</p>
+    <h1>MCP Servers</h1>
+    <div class="subtitle">Extend Claude Code with External Tool Servers</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      A terminal session recording that walks through adding MCP (Model Context Protocol) servers
+      to Claude Code &mdash; giving it access to GitHub, databases, and custom APIs as native tools.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">WORKFLOW</span>
+      <span class="pill green">MCP</span>
+      <span class="pill purple">TERMINAL RECORDING</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: What We'll Build -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">OVERVIEW</span>
+    <h2>What We'll Build</h2>
+  </div>
+  <p>We add two MCP servers &mdash; one via the CLI and one via a config file &mdash; then use them in a real workflow.</p>
+
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>GitHub MCP Server</h3>
+      <ul>
+        <li>Added via <code>claude mcp add</code> CLI</li>
+        <li>Stored in <code>~/.claude.json</code> (user-scoped)</li>
+        <li>Provides: create issues, list PRs, read repos</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>PostgreSQL MCP Server</h3>
+      <ul>
+        <li>Added via <code>.mcp.json</code> config file</li>
+        <li>Project-scoped &mdash; checked into version control</li>
+        <li>Provides: query, list tables, describe schema</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Workflow</span> Add servers &rarr; Verify with <code>/mcp</code> &rarr; Use tools in conversation &rarr; Combine MCP tools with built-in tools</p>
+  </div>
+</section>
+
+<!-- SLIDE 3: Add GitHub MCP via CLI -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 1</span>
+    <h2>Add GitHub MCP Server via CLI</h2>
+  </div>
+  <p>The <code>claude mcp add</code> command registers a new server. The <code>stdio</code> transport spawns a local process.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">$</span> <span class="cmd">claude mcp add stdio github \</span><br>
+<span class="cmd">    npx @modelcontextprotocol/server-github \</span><br>
+<span class="cmd">    --env GITHUB_TOKEN=ghp_xxxxxxxxxxxx</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Added MCP server <span class="hi">github</span> (stdio)</span><br>
+<span class="dim">  Command: npx @modelcontextprotocol/server-github</span><br>
+<span class="dim">  Scope: user (~/.claude.json)</span><br>
+<br>
+<span class="prompt">$</span> <span class="cmd">claude mcp list</span><br>
+<br>
+<span class="hi">MCP Servers</span><br>
+<span class="out">  <span class="ok">&#x25CF;</span> <span class="hi">github</span> <span class="dim">(stdio)</span> &mdash; user-scoped</span><br>
+<span class="dim">    npx @modelcontextprotocol/server-github</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Scope</span> User-scoped servers (stored in <code>~/.claude.json</code>) are available in every project. Use <code>--scope project</code> to write to <code>.mcp.json</code> instead.</p>
+  </div>
+</section>
+
+<!-- SLIDE 4: Add PostgreSQL MCP via config file -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 2</span>
+    <h2>Add PostgreSQL MCP via Config File</h2>
+  </div>
+  <p>For project-specific servers, write a <code>.mcp.json</code> file at the project root. This can be version-controlled.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.mcp.json</span>
+    </div>
+    <div class="term-body">
+<span class="out">{</span><br>
+<span class="out">  <span class="hi">"mcpServers"</span>: {</span><br>
+<span class="out">    <span class="cmd">"postgres"</span>: {</span><br>
+<span class="out">      <span class="flag">"command"</span>: <span class="ok">"npx"</span>,</span><br>
+<span class="out">      <span class="flag">"args"</span>: [</span><br>
+<span class="out">        <span class="ok">"@modelcontextprotocol/server-postgres"</span>,</span><br>
+<span class="out">        <span class="ok">"postgresql://localhost:5432/myapp"</span></span><br>
+<span class="out">      ],</span><br>
+<span class="out">      <span class="flag">"env"</span>: {</span><br>
+<span class="out">        <span class="ok">"PGPASSWORD"</span>: <span class="ok">"dev-password"</span></span><br>
+<span class="out">      }</span><br>
+<span class="out">    }</span><br>
+<span class="out">  }</span><br>
+<span class="out">}</span>
+    </div>
+  </div>
+
+  <div class="cols cols-2" style="margin-top:.15em;">
+    <div class="card purple">
+      <h3>Config Format</h3>
+      <p><code>command</code> + <code>args</code> defines the process to spawn. <code>env</code> passes environment variables securely.</p>
+    </div>
+    <div class="card blue">
+      <h3>Version Control</h3>
+      <p>Check in <code>.mcp.json</code> so every team member gets the same MCP servers. Use env vars for secrets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: Verify servers in Claude Code -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 3</span>
+    <h2>Verify Servers in Session</h2>
+  </div>
+  <p>Start Claude Code and use <code>/mcp</code> to see connected servers and their available tools.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">$</span> <span class="cmd">claude</span><br>
+<br>
+<span class="dim">╭──────────────────────────────────────────────────╮</span><br>
+<span class="dim">│</span> <span class="hi">Claude Code</span> <span class="dim">v1.0.32</span>                              <span class="dim">│</span><br>
+<span class="dim">│</span> <span class="out">2 MCP servers connected</span>                          <span class="dim">│</span><br>
+<span class="dim">╰──────────────────────────────────────────────────╯</span><br>
+<br>
+<span class="prompt">&gt;</span> <span class="cmd">/mcp</span><br>
+<br>
+<span class="hi">MCP Servers</span><br>
+<br>
+<span class="ok">&#x25CF;</span> <span class="hi">github</span> <span class="dim">(stdio &bull; user-scoped)</span><br>
+<span class="out">  Tools:</span><br>
+<span class="out">    mcp__github__create_issue</span><br>
+<span class="out">    mcp__github__list_pull_requests</span><br>
+<span class="out">    mcp__github__get_file_contents</span><br>
+<span class="out">    mcp__github__search_repositories</span><br>
+<span class="out">    <span class="dim">... 12 more</span></span><br>
+<br>
+<span class="ok">&#x25CF;</span> <span class="hi">postgres</span> <span class="dim">(stdio &bull; project-scoped)</span><br>
+<span class="out">  Tools:</span><br>
+<span class="out">    mcp__postgres__query</span><br>
+<span class="out">    mcp__postgres__list_tables</span><br>
+<span class="out">    mcp__postgres__describe_table</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Naming convention</span> MCP tools appear as <code>mcp__&lt;server&gt;__&lt;tool&gt;</code>. They work exactly like built-in tools &mdash; Claude can call them automatically based on your request.</p>
+  </div>
+</section>
+
+<!-- SLIDE 6: Use GitHub tools in conversation -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 4</span>
+    <h2>Use GitHub Tools</h2>
+  </div>
+  <p>Ask Claude Code about your GitHub repo. It automatically uses the MCP tools to fetch live data.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">List open PRs on our repo and summarise each one</span><br>
+<br>
+<span class="dim">  &#x2502; Calling mcp__github__list_pull_requests...</span><br>
+<span class="dim">  &#x2502;   owner: "acme-corp", repo: "my-project", state: "open"</span><br>
+<br>
+<span class="hi">Open Pull Requests (3)</span><br>
+<br>
+<span class="out"><span class="a">#142</span> <span class="hi">feat: add OAuth2 login flow</span></span><br>
+<span class="out">  Author: alice &bull; 4 commits &bull; +312 / -28 lines</span><br>
+<span class="out">  Adds Google and GitHub OAuth2 providers with session management.</span><br>
+<br>
+<span class="out"><span class="a">#139</span> <span class="hi">fix: race condition in websocket handler</span></span><br>
+<span class="out">  Author: bob &bull; 1 commit &bull; +18 / -5 lines</span><br>
+<span class="out">  Adds mutex lock around connection map writes.</span><br>
+<br>
+<span class="out"><span class="a">#137</span> <span class="hi">docs: update API reference for v2 endpoints</span></span><br>
+<span class="out">  Author: carol &bull; 2 commits &bull; +145 / -89 lines</span><br>
+<span class="out">  Regenerated OpenAPI spec and updated curl examples.</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Seamless</span> Claude decided which MCP tool to call, constructed the parameters, and presented the results &mdash; all from a natural language request.</p>
+  </div>
+</section>
+
+<!-- SLIDE 7: Combine MCP tools with built-in tools -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 5</span>
+    <h2>Combine MCP + Built-in Tools</h2>
+  </div>
+  <p>The real power: Claude chains MCP tools with built-in tools in a single workflow &mdash; read from the database, then edit code.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Check the users table schema, then update the</span><br>
+<span class="cmd">  User TypeScript interface to match the actual columns</span><br>
+<br>
+<span class="dim">  &#x2502; Calling mcp__postgres__describe_table...</span><br>
+<span class="dim">  &#x2502;   table: "users"</span><br>
+<br>
+<span class="dim">  &#x2502; Reading src/types/User.ts...</span><br>
+<br>
+<span class="dim">  &#x2502; Editing src/types/User.ts...</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Updated <span class="hi">src/types/User.ts</span> to match the database schema:</span><br>
+<br>
+<span class="out">  <span class="ok">+ avatar_url: string | null</span>  <span class="dim">(new column in DB, was missing)</span></span><br>
+<span class="out">  <span class="ok">+ last_login_at: Date | null</span>  <span class="dim">(new column in DB, was missing)</span></span><br>
+<span class="out">  <span class="r">- phone: string</span>              <span class="dim">(column dropped from DB)</span></span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Multi-tool chain</span> One prompt triggered three tool calls across two systems: MCP (database) &rarr; built-in (read) &rarr; built-in (edit). Claude orchestrated the entire flow.</p>
+  </div>
+</section>
+
+<!-- SLIDE 8: Create a GitHub issue from code analysis -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 6</span>
+    <h2>Create a GitHub Issue from Analysis</h2>
+  </div>
+  <p>Claude finds a problem in the code and creates a GitHub issue directly &mdash; without leaving the terminal.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Check if there are any TODO comments in the codebase</span><br>
+<span class="cmd">  and create GitHub issues for the important ones</span><br>
+<br>
+<span class="dim">  &#x2502; Grepping for TODO across project...</span><br>
+<span class="dim">  &#x2502; Found 4 TODOs in 3 files</span><br>
+<br>
+<span class="dim">  &#x2502; Calling mcp__github__create_issue...</span><br>
+<span class="dim">  &#x2502;   title: "Handle pagination in /api/users endpoint"</span><br>
+<span class="dim">  &#x2502;   body: "src/routes/users.js:45 has a TODO..."</span><br>
+<span class="dim">  &#x2502;   labels: ["enhancement"]</span><br>
+<br>
+<span class="dim">  &#x2502; Calling mcp__github__create_issue...</span><br>
+<span class="dim">  &#x2502;   title: "Add retry logic for payment webhook"</span><br>
+<span class="dim">  &#x2502;   labels: ["bug", "high-priority"]</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Created 2 GitHub issues:</span><br>
+<span class="out">  <span class="a">#143</span> Handle pagination in /api/users endpoint</span><br>
+<span class="out">  <span class="a">#144</span> Add retry logic for payment webhook</span><br>
+<span class="dim">  (Skipped 2 minor TODOs: formatting nits)</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label p">Judgment</span> Claude didn't blindly create issues for every TODO &mdash; it assessed severity and only filed the ones that mattered. The MCP server is a tool, not a script.</p>
+  </div>
+</section>
+
+<!-- SLIDE 9: MCP management commands -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">REFERENCE</span>
+    <h2>MCP Management Commands</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Command</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>claude mcp add stdio &lt;name&gt; &lt;cmd&gt; [args]</code></td><td>Add a new stdio MCP server</td></tr>
+      <tr><td><code>claude mcp add sse &lt;name&gt; &lt;url&gt;</code></td><td>Add a remote SSE (HTTP) MCP server</td></tr>
+      <tr><td><code>claude mcp list</code></td><td>List all configured servers and their scope</td></tr>
+      <tr><td><code>claude mcp remove &lt;name&gt;</code></td><td>Remove a server</td></tr>
+      <tr><td><code>/mcp</code> <span class="dim">(in session)</span></td><td>View connected servers and their tools</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cols cols-2" style="margin-top:.2em;">
+    <div class="card amber">
+      <h3>Config File Locations</h3>
+      <ul>
+        <li><code>~/.claude.json</code> &mdash; user-scoped (all projects)</li>
+        <li><code>.mcp.json</code> &mdash; project-scoped (version control)</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Transport Types</h3>
+      <ul>
+        <li><span class="a">stdio</span> &mdash; local process, spawned by Claude Code</li>
+        <li><span class="g">sse</span> &mdash; HTTP Server-Sent Events (remote)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:.15em;">
+    <p><span class="label p">Tip</span> Popular MCP servers: <code>@modelcontextprotocol/server-github</code>, <code>server-postgres</code>, <code>server-filesystem</code>, <code>server-slack</code>, <code>server-google-drive</code>. Browse the registry at <code>mcp.so</code>.</p>
+  </div>
+</section>
+
+<!-- SLIDE 10: Summary -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>What We Covered</h2>
+  </div>
+
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>CLI Registration</h3>
+      <p><code>claude mcp add</code> registers servers from the command line with env vars for secrets</p>
+    </div>
+    <div class="card green">
+      <h3>Config File</h3>
+      <p><code>.mcp.json</code> at project root for version-controlled, team-wide server definitions</p>
+    </div>
+    <div class="card purple">
+      <h3>Tool Chaining</h3>
+      <p>MCP tools and built-in tools are interchangeable &mdash; Claude chains them in multi-step workflows</p>
+    </div>
+    <div class="card blue">
+      <h3>Intelligent Use</h3>
+      <p>Claude decides when to call MCP tools and constructs parameters from natural language context</p>
+    </div>
+  </div>
+
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Workflow Walkthrough<br/>
+      Next: <span class="a">Multi-Agent Parallel Work</span>
+    </p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

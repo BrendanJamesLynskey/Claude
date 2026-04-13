@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow: Multi-Agent Parallel Work — Anthropic Claude Series</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .74em; }
+  .cols { display: grid; gap: .35em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .25em .5em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .50em; margin: 0 0 .12em; }
+  .card p { font-size: .40em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .40em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .38em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.3em; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+
+  .term { background: #0c0c14; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
+  .term-bar { background: #1e1e2e; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
+  .term-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: #ff5f57; }
+  .term-dot.y { background: #febc2e; }
+  .term-dot.g { background: #28c840; }
+  .term-bar .term-title { font-family: 'JetBrains Mono', monospace; font-size: .32em; color: var(--muted); margin-left: .6em; }
+  .term-body { padding: .25em .5em; font-family: 'JetBrains Mono', monospace; font-size: .36em; line-height: 1.55; color: #b8b8d0; }
+  .term-body .prompt { color: var(--green); }
+  .term-body .cmd { color: var(--amber); }
+  .term-body .flag { color: var(--purple); }
+  .term-body .out { color: #b8b8d0; }
+  .term-body .dim { color: #666680; }
+  .term-body .hi { color: var(--text); font-weight: 500; }
+  .term-body .err { color: var(--red); }
+  .term-body .ok { color: var(--green); }
+  .term-body .line-num { color: #444460; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
+  .callout { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .2em .5em; margin-top: .15em; }
+  .callout p { font-size: .38em; color: #b8b8d0; margin: 0; }
+  .callout .label { font-family: 'JetBrains Mono', monospace; font-size: .9em; font-weight: 500; margin-right: .3em; }
+
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: Title -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Workflow Walkthrough</p>
+    <h1>Multi-Agent Parallel Work</h1>
+    <div class="subtitle">Worktree Isolation &amp; Concurrent Agent Execution</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      A terminal session recording that demonstrates launching multiple agents in parallel,
+      each working in an isolated Git worktree, then merging their independent contributions.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">WORKFLOW</span>
+      <span class="pill green">PARALLEL</span>
+      <span class="pill purple">TERMINAL RECORDING</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: What We'll Build -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">OVERVIEW</span>
+    <h2>What We'll Build</h2>
+  </div>
+  <p>We define three specialised agents and launch them simultaneously on different parts of a codebase. Each works in its own Git worktree &mdash; no merge conflicts during execution.</p>
+
+  <svg class="diagram" viewBox="0 0 700 180" style="margin:.3em auto;">
+    <defs>
+      <marker id="arrowA" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#f5a623"/></marker>
+      <marker id="arrowG" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#4ecb8d"/></marker>
+    </defs>
+    <!-- Main session -->
+    <rect x="250" y="5" width="200" height="36" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
+    <text x="350" y="28" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="12" font-weight="600">Main Session</text>
+    <!-- Fan-out arrows -->
+    <line x1="290" y1="41" x2="120" y2="75" stroke="#f5a623" stroke-width="1" marker-end="url(#arrowA)"/>
+    <line x1="350" y1="41" x2="350" y2="75" stroke="#f5a623" stroke-width="1" marker-end="url(#arrowA)"/>
+    <line x1="410" y1="41" x2="580" y2="75" stroke="#f5a623" stroke-width="1" marker-end="url(#arrowA)"/>
+    <!-- Agent boxes -->
+    <rect x="20" y="78" width="200" height="48" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="120" y="97" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11" font-weight="600">API Migration Agent</text>
+    <text x="120" y="117" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">worktree-1 &bull; sonnet</text>
+    <rect x="250" y="78" width="200" height="48" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="350" y="97" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="11" font-weight="600">Docs Generator Agent</text>
+    <text x="350" y="117" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">worktree-2 &bull; sonnet</text>
+    <rect x="480" y="78" width="200" height="48" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="580" y="97" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="11" font-weight="600">Test Coverage Agent</text>
+    <text x="580" y="117" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">worktree-3 &bull; sonnet</text>
+    <!-- Fan-in arrows -->
+    <line x1="120" y1="126" x2="290" y2="150" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowG)"/>
+    <line x1="350" y1="126" x2="350" y2="150" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowG)"/>
+    <line x1="580" y1="126" x2="410" y2="150" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowG)"/>
+    <!-- Merge box -->
+    <rect x="250" y="150" width="200" height="28" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
+    <text x="350" y="169" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="11" font-weight="600">Merge Results</text>
+  </svg>
+
+  <div class="callout">
+    <p><span class="label a">Key benefit</span> Three agents run concurrently &mdash; what would take 15 minutes sequentially completes in 5 minutes. Each worktree is a full Git checkout.</p>
+  </div>
+</section>
+
+<!-- SLIDE 3: Define the three agents -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 1</span>
+    <h2>Define Three Specialised Agents</h2>
+  </div>
+  <p>Each agent has a focused role, its own tool set, and <code>isolation: worktree</code> for safe parallel execution.</p>
+
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="term" style="margin:0;">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-title">api-migrator/AGENT.md</span>
+      </div>
+      <div class="term-body" style="font-size:.30em;">
+<span class="flag">---</span><br>
+<span class="hi">name:</span> <span class="out">api-migrator</span><br>
+<span class="hi">description:</span> <span class="out">Migrates API</span><br>
+<span class="out">  endpoints from v1 to v2</span><br>
+<span class="hi">tools:</span> <span class="out">Read, Grep, Glob,</span><br>
+<span class="out">  Edit, Write, Bash</span><br>
+<span class="hi">model:</span> <span class="out">sonnet</span><br>
+<span class="hi">isolation:</span> <span class="out">worktree</span><br>
+<span class="flag">---</span><br>
+<br>
+<span class="out">Migrate all v1 API routes</span><br>
+<span class="out">to the v2 pattern. Update</span><br>
+<span class="out">imports, response shapes,</span><br>
+<span class="out">and error handling.</span>
+      </div>
+    </div>
+    <div class="term" style="margin:0;">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-title">docs-generator/AGENT.md</span>
+      </div>
+      <div class="term-body" style="font-size:.30em;">
+<span class="flag">---</span><br>
+<span class="hi">name:</span> <span class="out">docs-generator</span><br>
+<span class="hi">description:</span> <span class="out">Generates API</span><br>
+<span class="out">  documentation from source</span><br>
+<span class="hi">tools:</span> <span class="out">Read, Grep, Glob,</span><br>
+<span class="out">  Write</span><br>
+<span class="hi">model:</span> <span class="out">sonnet</span><br>
+<span class="hi">isolation:</span> <span class="out">worktree</span><br>
+<span class="flag">---</span><br>
+<br>
+<span class="out">Generate OpenAPI specs and</span><br>
+<span class="out">markdown docs for every</span><br>
+<span class="out">route handler. Include</span><br>
+<span class="out">request/response examples.</span>
+      </div>
+    </div>
+    <div class="term" style="margin:0;">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-title">test-coverage/AGENT.md</span>
+      </div>
+      <div class="term-body" style="font-size:.30em;">
+<span class="flag">---</span><br>
+<span class="hi">name:</span> <span class="out">test-coverage</span><br>
+<span class="hi">description:</span> <span class="out">Increases test</span><br>
+<span class="out">  coverage for untested files</span><br>
+<span class="hi">tools:</span> <span class="out">Read, Grep, Glob,</span><br>
+<span class="out">  Edit, Write, Bash</span><br>
+<span class="hi">model:</span> <span class="out">sonnet</span><br>
+<span class="hi">isolation:</span> <span class="out">worktree</span><br>
+<span class="hi">maxTurns:</span> <span class="out">40</span><br>
+<span class="flag">---</span><br>
+<br>
+<span class="out">Find files with &lt;80% test</span><br>
+<span class="out">coverage. Write tests and</span><br>
+<span class="out">verify they pass.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Note</span> The docs-generator has no <code>Edit</code> or <code>Bash</code> &mdash; it can only create new files with <code>Write</code>. Principle of least privilege.</p>
+  </div>
+</section>
+
+<!-- SLIDE 4: Launch all three in parallel -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 2</span>
+    <h2>Launch All Three in Parallel</h2>
+  </div>
+  <p>We ask Claude Code to tackle all three tasks at once. It recognises each maps to a different agent and launches them concurrently.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">I need three things done in parallel:</span><br>
+<span class="cmd">  1. Migrate all v1 API routes to v2</span><br>
+<span class="cmd">  2. Generate API docs for every endpoint</span><br>
+<span class="cmd">  3. Add tests for any files below 80% coverage</span><br>
+<br>
+<span class="ok">&#9654;</span> <span class="hi">Launching 3 agents in parallel</span><br>
+<br>
+<span class="flag">&#x25B6;</span> <span class="p">api-migrator</span> <span class="dim">&rarr; worktree /tmp/claude-wt-m1a2b3</span><br>
+<span class="flag">&#x25B6;</span> <span class="b">docs-generator</span> <span class="dim">&rarr; worktree /tmp/claude-wt-d4e5f6</span><br>
+<span class="flag">&#x25B6;</span> <span class="g">test-coverage</span> <span class="dim">&rarr; worktree /tmp/claude-wt-t7g8h9</span><br>
+<br>
+<span class="dim">All agents running concurrently...</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Parallel execution</span> Each agent gets its own Git worktree &mdash; a separate directory with a full checkout of the repo. They can edit the same files without conflicting during execution.</p>
+  </div>
+</section>
+
+<!-- SLIDE 5: Watch agents work -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 3</span>
+    <h2>Agents Working Concurrently</h2>
+  </div>
+  <p>Progress messages stream in as each agent works independently.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude (parallel agents)</span>
+    </div>
+    <div class="term-body">
+<span class="p">api-migrator</span>  <span class="dim">&#x2502;</span> <span class="out">Reading src/routes/v1/*.js (6 files)...</span><br>
+<span class="b">docs-generator</span> <span class="dim">&#x2502;</span> <span class="out">Reading src/routes/**/*.js...</span><br>
+<span class="g">test-coverage</span>  <span class="dim">&#x2502;</span> <span class="out">Running: npx jest --coverage --json...</span><br>
+<br>
+<span class="p">api-migrator</span>  <span class="dim">&#x2502;</span> <span class="out">Migrating /api/v1/users &rarr; /api/v2/users...</span><br>
+<span class="p">api-migrator</span>  <span class="dim">&#x2502;</span> <span class="out">Migrating /api/v1/orders &rarr; /api/v2/orders...</span><br>
+<span class="g">test-coverage</span>  <span class="dim">&#x2502;</span> <span class="out">Found 3 files below 80%: auth.js (42%), cart.js (61%), email.js (23%)</span><br>
+<span class="b">docs-generator</span> <span class="dim">&#x2502;</span> <span class="out">Writing docs/api/users.md...</span><br>
+<br>
+<span class="p">api-migrator</span>  <span class="dim">&#x2502;</span> <span class="out">Updating import paths in 12 files...</span><br>
+<span class="g">test-coverage</span>  <span class="dim">&#x2502;</span> <span class="out">Writing tests/auth.test.js...</span><br>
+<span class="b">docs-generator</span> <span class="dim">&#x2502;</span> <span class="out">Writing docs/api/orders.md...</span><br>
+<span class="g">test-coverage</span>  <span class="dim">&#x2502;</span> <span class="out">Running: npx jest tests/auth.test.js...</span><br>
+<br>
+<span class="b">docs-generator</span> <span class="dim">&#x2502;</span> <span class="ok">&#10003; Complete</span> <span class="dim">(14 tool calls, 2m 8s)</span><br>
+<span class="p">api-migrator</span>  <span class="dim">&#x2502;</span> <span class="ok">&#10003; Complete</span> <span class="dim">(22 tool calls, 3m 41s)</span><br>
+<span class="g">test-coverage</span>  <span class="dim">&#x2502;</span> <span class="ok">&#10003; Complete</span> <span class="dim">(31 tool calls, 4m 52s)</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label p">Timeline</span> Total wall-clock time: ~5 minutes. Sequential would have been ~11 minutes. The agents finished in different orders &mdash; that's fine, results are collected when all complete.</p>
+  </div>
+</section>
+
+<!-- SLIDE 6: Results summary -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 4</span>
+    <h2>Agent Results</h2>
+  </div>
+  <p>Each agent's changes are on a separate branch, ready to merge.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude (results)</span>
+    </div>
+    <div class="term-body">
+<span class="hi">Parallel Agents &mdash; All 3 Complete</span><br>
+<br>
+<span class="p">&#x25CF; api-migrator</span> <span class="dim">&rarr;</span> <span class="ok">claude/api-migrator-m1a2b3</span><br>
+<span class="out">  Migrated 6 route files from v1 to v2</span><br>
+<span class="out">  Updated 12 import paths across the project</span><br>
+<span class="out">  Added v1 &rarr; v2 redirect middleware</span><br>
+<span class="out">  <span class="hi">+384 / -201 lines</span> across 18 files</span><br>
+<br>
+<span class="b">&#x25CF; docs-generator</span> <span class="dim">&rarr;</span> <span class="ok">claude/docs-generator-d4e5f6</span><br>
+<span class="out">  Generated 8 markdown API docs</span><br>
+<span class="out">  Created docs/openapi.yaml (full spec)</span><br>
+<span class="out">  <span class="hi">+1,247 lines</span> across 9 new files</span><br>
+<br>
+<span class="g">&#x25CF; test-coverage</span> <span class="dim">&rarr;</span> <span class="ok">claude/test-coverage-t7g8h9</span><br>
+<span class="out">  Wrote tests for auth.js, cart.js, email.js</span><br>
+<span class="out">  Coverage: 42% &rarr; 91%, 61% &rarr; 88%, 23% &rarr; 85%</span><br>
+<span class="out">  All 24 new tests passing</span><br>
+<span class="out">  <span class="hi">+562 lines</span> across 3 test files</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Branches preserved</span> Each agent's work is on its own branch. You can review each independently, merge selectively, or merge all at once.</p>
+  </div>
+</section>
+
+<!-- SLIDE 7: Merge all branches -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 5</span>
+    <h2>Merge All Branches</h2>
+  </div>
+  <p>We ask Claude to merge all three branches. Because they touched different files, the merges are clean.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Merge all three agent branches and run the full test suite</span><br>
+<br>
+<span class="dim">  &#x2502; git merge claude/api-migrator-m1a2b3</span><br>
+<span class="ok">  &#x2502; Merge successful (no conflicts)</span><br>
+<br>
+<span class="dim">  &#x2502; git merge claude/docs-generator-d4e5f6</span><br>
+<span class="ok">  &#x2502; Merge successful (no conflicts)</span><br>
+<br>
+<span class="dim">  &#x2502; git merge claude/test-coverage-t7g8h9</span><br>
+<span class="flag">  &#x2502; Conflict in tests/auth.test.js</span><br>
+<span class="dim">  &#x2502; Resolving: api-migrator changed auth imports,</span><br>
+<span class="dim">  &#x2502;   test-coverage has old imports in tests</span><br>
+<span class="dim">  &#x2502; Updating test imports to match v2 API...</span><br>
+<span class="ok">  &#x2502; Conflict resolved</span><br>
+<br>
+<span class="dim">  &#x2502; Running: npm test</span><br>
+<br>
+<span class="hi">Test Suites:</span> <span class="ok">14 passed</span>, 14 total<br>
+<span class="hi">Tests:      </span> <span class="ok">87 passed</span>, 87 total<br>
+<span class="hi">Coverage:   </span> <span class="ok">84.2%</span> <span class="dim">(up from 67.1%)</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Conflict resolution</span> One merge conflict arose because two agents touched related code. Claude understood the context from both branches and resolved it correctly &mdash; updating the test imports to match the migrated API.</p>
+  </div>
+</section>
+
+<!-- SLIDE 8: When to use parallel agents -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">GUIDANCE</span>
+    <h2>When to Use Parallel Agents</h2>
+  </div>
+
+  <div class="cols cols-2">
+    <div class="card green">
+      <h3>Good Candidates</h3>
+      <ul>
+        <li>Tasks that touch <span class="g">different files</span></li>
+        <li>Independent concerns: tests, docs, migration</li>
+        <li>Large refactors across many modules</li>
+        <li>Multi-language projects (backend + frontend)</li>
+        <li>Generating boilerplate across services</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>Poor Candidates</h3>
+      <ul>
+        <li>Tasks with <span class="r">sequential dependencies</span></li>
+        <li>Changes to a single file from multiple agents</li>
+        <li>Work that requires shared state or context</li>
+        <li>Small changes faster done in one session</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cols cols-2" style="margin-top:.2em;">
+    <div class="card purple">
+      <h3>Worktree Lifecycle</h3>
+      <ul>
+        <li><span class="p">Created</span> when agent starts</li>
+        <li><span class="ok">Preserved</span> if agent made changes (branch returned)</li>
+        <li><span class="dim">Cleaned up</span> if no changes were made</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Conflict Strategy</h3>
+      <ul>
+        <li>Design agents to touch <span class="a">different file sets</span></li>
+        <li>Use the main session to merge and resolve</li>
+        <li>Run tests after merging to catch integration issues</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: Summary -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>What We Covered</h2>
+  </div>
+
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Parallel Launch</h3>
+      <p>Multiple agents launched simultaneously from a single prompt &mdash; each in its own worktree</p>
+    </div>
+    <div class="card green">
+      <h3>Worktree Isolation</h3>
+      <p>Full Git checkouts ensure agents can't interfere with each other during execution</p>
+    </div>
+    <div class="card purple">
+      <h3>Branch Preservation</h3>
+      <p>Each agent's changes land on a named branch for independent review or bulk merge</p>
+    </div>
+    <div class="card blue">
+      <h3>Conflict Resolution</h3>
+      <p>The main session merges branches and resolves conflicts with full context from both sides</p>
+    </div>
+  </div>
+
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Workflow Walkthrough<br/>
+      Next: <span class="a">Project Bootstrap &amp; Skills</span>
+    </p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

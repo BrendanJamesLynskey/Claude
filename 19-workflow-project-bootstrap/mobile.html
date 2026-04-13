@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow: Project Bootstrap &amp; Skills — Anthropic Claude Series</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .88em; }
+  .cols { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-3 { grid-template-columns: 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .45em .7em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .70em; margin: 0 0 .12em; }
+  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.5em; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+
+  .term { background: #0c0c14; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
+  .term-bar { background: #1e1e2e; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
+  .term-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: #ff5f57; }
+  .term-dot.y { background: #febc2e; }
+  .term-dot.g { background: #28c840; }
+  .term-bar .term-title { font-family: 'JetBrains Mono', monospace; font-size: .42em; color: var(--muted); margin-left: .6em; }
+  .term-body { padding: .3em .6em; font-family: 'JetBrains Mono', monospace; font-size: .50em; overflow-wrap: break-word; word-break: break-word; line-height: 1.55; color: #b8b8d0; }
+  .term-body .prompt { color: var(--green); }
+  .term-body .cmd { color: var(--amber); }
+  .term-body .flag { color: var(--purple); }
+  .term-body .out { color: #b8b8d0; }
+  .term-body .dim { color: #666680; }
+  .term-body .hi { color: var(--text); font-weight: 500; }
+  .term-body .err { color: var(--red); }
+  .term-body .ok { color: var(--green); }
+  .term-body .line-num { color: #444460; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
+  .callout { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .2em .5em; margin-top: .15em; }
+  .callout p { font-size: .52em; color: #b8b8d0; margin: 0; }
+  .callout .label { font-family: 'JetBrains Mono', monospace; font-size: .9em; font-weight: 500; margin-right: .3em; }
+
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: Title -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Workflow Walkthrough</p>
+    <h1>Project Bootstrap &amp; Skills</h1>
+    <div class="subtitle">From /init to Custom Slash Commands</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      A terminal session recording that walks through bootstrapping a new project with <code>/init</code>,
+      configuring CLAUDE.md, creating reusable custom skills, and using project memory.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">WORKFLOW</span>
+      <span class="pill green">SKILLS</span>
+      <span class="pill purple">TERMINAL RECORDING</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: What We'll Build -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">OVERVIEW</span>
+    <h2>What We'll Build</h2>
+  </div>
+  <p>We take a fresh project from zero Claude Code configuration to a fully instrumented setup with project memory, custom skills, and reusable workflows.</p>
+
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Project Setup</h3>
+      <ul>
+        <li>Run <code>/init</code> to scaffold CLAUDE.md</li>
+        <li>Review and customise the generated config</li>
+        <li>Set project conventions and architecture notes</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Custom Skills</h3>
+      <ul>
+        <li>Create a <code>/deploy</code> skill for staging deploys</li>
+        <li>Create a <code>/component</code> skill that scaffolds React components</li>
+        <li>Invoke skills with arguments</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Workflow</span> /init &rarr; Customise CLAUDE.md &rarr; Create skills &rarr; Use skills in real work &rarr; Explore /memory</p>
+  </div>
+</section>
+
+<!-- SLIDE 3: Run /init -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 1</span>
+    <h2>Bootstrap with /init</h2>
+  </div>
+  <p>The <code>/init</code> command scans your project and generates a <code>CLAUDE.md</code> with architecture notes, conventions, and build commands.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">/init</span><br>
+<br>
+<span class="dim">Scanning project structure...</span><br>
+<span class="dim">  &#x2502; Detected: Node.js + TypeScript + React</span><br>
+<span class="dim">  &#x2502; Package manager: pnpm</span><br>
+<span class="dim">  &#x2502; Test framework: Vitest</span><br>
+<span class="dim">  &#x2502; Linter: ESLint + Prettier</span><br>
+<span class="dim">  &#x2502; CI: GitHub Actions</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Created <span class="hi">CLAUDE.md</span> with project context</span><br>
+<br>
+<span class="out">Sections generated:</span><br>
+<span class="out">  &bull; Project overview and architecture</span><br>
+<span class="out">  &bull; Build &amp; run commands (dev, test, lint, build)</span><br>
+<span class="out">  &bull; Code conventions detected from existing code</span><br>
+<span class="out">  &bull; Directory structure summary</span><br>
+<span class="out">  &bull; Key dependencies and their purposes</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">What /init detects</span> Language, framework, package manager, test runner, linter, CI system, directory layout, key dependencies. It reads <code>package.json</code>, config files, and samples source files.</p>
+  </div>
+</section>
+
+<!-- SLIDE 4: Review generated CLAUDE.md -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 2</span>
+    <h2>Review the Generated CLAUDE.md</h2>
+  </div>
+  <p>The generated file gives Claude Code project context that persists across every session.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">CLAUDE.md (generated)</span>
+    </div>
+    <div class="term-body">
+<span class="line-num"> 1</span> <span class="hi"># Project: my-project</span><br>
+<span class="line-num"> 2</span><br>
+<span class="line-num"> 3</span> <span class="hi">## Architecture</span><br>
+<span class="line-num"> 4</span> <span class="out">React 18 SPA with Express API backend.</span><br>
+<span class="line-num"> 5</span> <span class="out">Monorepo: packages/web (frontend), packages/api (backend)</span><br>
+<span class="line-num"> 6</span><br>
+<span class="line-num"> 7</span> <span class="hi">## Commands</span><br>
+<span class="line-num"> 8</span> <span class="out">- Dev server: `pnpm dev`</span><br>
+<span class="line-num"> 9</span> <span class="out">- Run tests: `pnpm test`</span><br>
+<span class="line-num">10</span> <span class="out">- Lint: `pnpm lint`</span><br>
+<span class="line-num">11</span> <span class="out">- Build: `pnpm build`</span><br>
+<span class="line-num">12</span> <span class="out">- Type check: `pnpm typecheck`</span><br>
+<span class="line-num">13</span><br>
+<span class="line-num">14</span> <span class="hi">## Conventions</span><br>
+<span class="line-num">15</span> <span class="out">- TypeScript strict mode</span><br>
+<span class="line-num">16</span> <span class="out">- Functional React components with hooks</span><br>
+<span class="line-num">17</span> <span class="out">- CSS Modules for styling</span><br>
+<span class="line-num">18</span> <span class="out">- Barrel exports (index.ts) per directory</span><br>
+<span class="line-num">19</span><br>
+<span class="line-num">20</span> <span class="hi">## Directory Structure</span><br>
+<span class="line-num">21</span> <span class="out">packages/web/src/components/ - React components</span><br>
+<span class="line-num">22</span> <span class="out">packages/web/src/hooks/ - Custom React hooks</span><br>
+<span class="line-num">23</span> <span class="out">packages/api/src/routes/ - Express route handlers</span><br>
+<span class="line-num">24</span> <span class="out">packages/api/src/middleware/ - Express middleware</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Loaded automatically</span> CLAUDE.md is injected into every Claude Code session. Add project-specific rules here &mdash; e.g., "always use parameterised queries", "never import from internal packages directly".</p>
+  </div>
+</section>
+
+<!-- SLIDE 5: Create a deploy skill -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 3</span>
+    <h2>Create a /deploy Skill</h2>
+  </div>
+  <p>Skills are reusable slash commands defined as Markdown files in <code>.claude/skills/</code>.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Create a /deploy skill that deploys to staging</span><br>
+<br>
+<span class="dim">  &#x2502; Creating .claude/skills/deploy/SKILL.md...</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Created skill <span class="hi">/deploy</span></span>
+    </div>
+  </div>
+
+  <div class="term" style="margin-top:.1em;">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.claude/skills/deploy/SKILL.md</span>
+    </div>
+    <div class="term-body">
+<span class="line-num"> 1</span> <span class="flag">---</span><br>
+<span class="line-num"> 2</span> <span class="hi">name:</span> <span class="out">deploy</span><br>
+<span class="line-num"> 3</span> <span class="hi">description:</span> <span class="out">Deploy the app to staging environment</span><br>
+<span class="line-num"> 4</span> <span class="hi">allowed-tools:</span> <span class="out">Bash, Read</span><br>
+<span class="line-num"> 5</span> <span class="flag">---</span><br>
+<span class="line-num"> 6</span><br>
+<span class="line-num"> 7</span> <span class="out">Deploy the application to the staging environment:</span><br>
+<span class="line-num"> 8</span><br>
+<span class="line-num"> 9</span> <span class="out">1. Run the full test suite: `pnpm test`</span><br>
+<span class="line-num">10</span> <span class="out">2. Run the type checker: `pnpm typecheck`</span><br>
+<span class="line-num">11</span> <span class="out">3. Build the project: `pnpm build`</span><br>
+<span class="line-num">12</span> <span class="out">4. Deploy: `pnpm deploy:staging`</span><br>
+<span class="line-num">13</span> <span class="out">5. Verify the health endpoint responds</span><br>
+<span class="line-num">14</span><br>
+<span class="line-num">15</span> <span class="out">If any step fails, stop and report the error.</span><br>
+<span class="line-num">16</span> <span class="out">Do not proceed to the next step on failure.</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label p">allowed-tools</span> restricts what tools the skill can use. This deploy skill gets <code>Bash</code> and <code>Read</code> only &mdash; it can run commands and read files but can't edit source code.</p>
+  </div>
+</section>
+
+<!-- SLIDE 6: Create a /component skill with arguments -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 4</span>
+    <h2>Create a /component Skill with Arguments</h2>
+  </div>
+  <p>Skills can accept arguments via <code>$ARGUMENTS</code>. This one scaffolds a React component with tests and styles.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.claude/skills/component/SKILL.md</span>
+    </div>
+    <div class="term-body">
+<span class="line-num"> 1</span> <span class="flag">---</span><br>
+<span class="line-num"> 2</span> <span class="hi">name:</span> <span class="out">component</span><br>
+<span class="line-num"> 3</span> <span class="hi">description:</span> <span class="out">Scaffold a new React component</span><br>
+<span class="line-num"> 4</span> <span class="hi">argument-hint:</span> <span class="out">ComponentName</span><br>
+<span class="line-num"> 5</span> <span class="flag">---</span><br>
+<span class="line-num"> 6</span><br>
+<span class="line-num"> 7</span> <span class="out">Create a new React component named <span class="cmd">$ARGUMENTS</span>:</span><br>
+<span class="line-num"> 8</span><br>
+<span class="line-num"> 9</span> <span class="out">1. Component file: `packages/web/src/components/$ARGUMENTS/$ARGUMENTS.tsx`</span><br>
+<span class="line-num">10</span> <span class="out">   - Functional component with TypeScript props interface</span><br>
+<span class="line-num">11</span> <span class="out">   - Use CSS Modules for styling</span><br>
+<span class="line-num">12</span> <span class="out">2. Styles: `packages/web/src/components/$ARGUMENTS/$ARGUMENTS.module.css`</span><br>
+<span class="line-num">13</span> <span class="out">3. Tests: `packages/web/src/components/$ARGUMENTS/$ARGUMENTS.test.tsx`</span><br>
+<span class="line-num">14</span> <span class="out">   - Render test with React Testing Library</span><br>
+<span class="line-num">15</span> <span class="out">4. Barrel export: `packages/web/src/components/$ARGUMENTS/index.ts`</span><br>
+<span class="line-num">16</span><br>
+<span class="line-num">17</span> <span class="out">Follow the project's existing component patterns.</span><br>
+<span class="line-num">18</span> <span class="out">Check an existing component for reference before creating.</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">$ARGUMENTS</span> is replaced with whatever follows the skill name. So <code>/component UserProfile</code> creates a UserProfile component with all four files.</p>
+  </div>
+</section>
+
+<!-- SLIDE 7: Invoke the /component skill -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 5</span>
+    <h2>Invoke the /component Skill</h2>
+  </div>
+  <p>We use the skill to scaffold a new component. Claude reads an existing component first, then creates the new one to match.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">/component UserProfile</span><br>
+<br>
+<span class="dim">  &#x2502; Reading packages/web/src/components/Header/Header.tsx</span><br>
+<span class="dim">  &#x2502;   (reference for project patterns)</span><br>
+<br>
+<span class="dim">  &#x2502; Creating packages/web/src/components/UserProfile/</span><br>
+<span class="ok">  &#x2502; &#10003; UserProfile.tsx</span> <span class="dim">(component + props interface)</span><br>
+<span class="ok">  &#x2502; &#10003; UserProfile.module.css</span> <span class="dim">(CSS Module skeleton)</span><br>
+<span class="ok">  &#x2502; &#10003; UserProfile.test.tsx</span> <span class="dim">(render + snapshot test)</span><br>
+<span class="ok">  &#x2502; &#10003; index.ts</span> <span class="dim">(barrel export)</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Created <span class="hi">UserProfile</span> component (4 files)</span><br>
+<span class="out">  Matches project patterns: TypeScript strict, CSS Modules, RTL tests</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Pattern matching</span> The skill told Claude to "check an existing component for reference" &mdash; so it read Header.tsx first and matched the exact style, import patterns, and test conventions already in the project.</p>
+  </div>
+</section>
+
+<!-- SLIDE 8: Invoke the /deploy skill -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 6</span>
+    <h2>Invoke the /deploy Skill</h2>
+  </div>
+  <p>The deploy skill runs a multi-step pipeline &mdash; tests, type check, build, deploy, verify &mdash; stopping on first failure.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">/deploy</span><br>
+<br>
+<span class="dim">  Step 1/5: Running tests...</span><br>
+<span class="dim">  &#x2502; pnpm test</span><br>
+<span class="ok">  &#x2502; 87 tests passed (4.2s)</span><br>
+<br>
+<span class="dim">  Step 2/5: Type checking...</span><br>
+<span class="dim">  &#x2502; pnpm typecheck</span><br>
+<span class="ok">  &#x2502; No errors found</span><br>
+<br>
+<span class="dim">  Step 3/5: Building...</span><br>
+<span class="dim">  &#x2502; pnpm build</span><br>
+<span class="ok">  &#x2502; Build completed (12.8s)</span><br>
+<br>
+<span class="dim">  Step 4/5: Deploying to staging...</span><br>
+<span class="dim">  &#x2502; pnpm deploy:staging</span><br>
+<span class="ok">  &#x2502; Deployed to staging-my-project.example.com</span><br>
+<br>
+<span class="dim">  Step 5/5: Verifying health endpoint...</span><br>
+<span class="dim">  &#x2502; curl https://staging-my-project.example.com/health</span><br>
+<span class="ok">  &#x2502; {"status":"ok","version":"1.4.2"}</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="hi">Staging deploy complete</span><br>
+<span class="out">  All 5 steps passed. App is live at staging-my-project.example.com</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Repeatable</span> Every team member gets the same deploy workflow with <code>/deploy</code>. No need to remember the sequence &mdash; the skill encodes your team's deployment procedure.</p>
+  </div>
+</section>
+
+<!-- SLIDE 9: Explore /memory -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 7</span>
+    <h2>Project Memory with /memory</h2>
+  </div>
+  <p>The <code>/memory</code> command lets you view and edit what Claude Code remembers about your project across sessions.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">/memory</span><br>
+<br>
+<span class="hi">Project Memory</span> <span class="dim">(CLAUDE.md)</span><br>
+<br>
+<span class="out">Showing current CLAUDE.md contents for editing.</span><br>
+<span class="out">This file is loaded into every session automatically.</span><br>
+<br>
+<span class="dim">──────────────────────────────────────────</span><br>
+<span class="out"># Project: my-project</span><br>
+<span class="out">## Architecture</span><br>
+<span class="out">React 18 SPA with Express API backend...</span><br>
+<span class="dim">──────────────────────────────────────────</span><br>
+<br>
+<span class="prompt">&gt;</span> <span class="cmd">Add to CLAUDE.md: "When writing database queries,</span><br>
+<span class="cmd">  always use the query builder in packages/api/src/db/</span><br>
+<span class="cmd">  instead of raw SQL. This is a security requirement."</span><br>
+<br>
+<span class="dim">  &#x2502; Editing CLAUDE.md...</span><br>
+<span class="ok">&#10003;</span> <span class="out">Added security rule to CLAUDE.md under Conventions.</span><br>
+<span class="out">  This will be enforced in all future sessions.</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label p">Persistence</span> CLAUDE.md is just a file in your repo. Commit it to version control and every team member's Claude Code sessions inherit the same project knowledge, conventions, and rules.</p>
+  </div>
+</section>
+
+<!-- SLIDE 10: Skills and memory file locations -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">REFERENCE</span>
+    <h2>File Locations</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>File</th><th>Location</th><th>Scope</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Project memory</td><td><code>CLAUDE.md</code> (project root)</td><td>All sessions in this project</td></tr>
+      <tr><td>Personal memory</td><td><code>~/.claude/CLAUDE.md</code></td><td>All projects, your sessions only</td></tr>
+      <tr><td>Project skills</td><td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td><td>All team members in this project</td></tr>
+      <tr><td>Personal skills</td><td><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code></td><td>All your projects</td></tr>
+      <tr><td>Project agents</td><td><code>.claude/agents/&lt;name&gt;/AGENT.md</code></td><td>All team members in this project</td></tr>
+      <tr><td>Project settings</td><td><code>.claude/settings.json</code></td><td>All team members (hooks, etc.)</td></tr>
+      <tr><td>Local settings</td><td><code>.claude/settings.local.json</code></td><td>Your machine only (gitignored)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="margin-top:.2em;">
+    <p><span class="label g">Tip</span> Commit <code>CLAUDE.md</code>, <code>.claude/skills/</code>, <code>.claude/agents/</code>, and <code>.claude/settings.json</code> to version control. Keep <code>.claude/settings.local.json</code> gitignored for personal preferences.</p>
+  </div>
+</section>
+
+<!-- SLIDE 11: Summary -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>What We Covered</h2>
+  </div>
+
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>/init Bootstrap</h3>
+      <p>Auto-generates CLAUDE.md with architecture, commands, conventions, and directory structure from your project</p>
+    </div>
+    <div class="card green">
+      <h3>Custom Skills</h3>
+      <p>Reusable slash commands in <code>.claude/skills/</code> &mdash; with arguments, tool restrictions, and team sharing</p>
+    </div>
+    <div class="card purple">
+      <h3>$ARGUMENTS</h3>
+      <p>Skills accept arguments for dynamic scaffolding &mdash; <code>/component UserProfile</code> creates a full component set</p>
+    </div>
+    <div class="card blue">
+      <h3>Project Memory</h3>
+      <p>CLAUDE.md persists across sessions and team members &mdash; commit it to encode your project's rules and knowledge</p>
+    </div>
+  </div>
+
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Workflow Walkthrough
+    </p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

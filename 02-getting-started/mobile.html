@@ -41,9 +41,9 @@
 .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
 .card ul { margin: 0; padding-left: 1em; }
 .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
-.reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
+.reveal table { width: 100%; border-collapse: collapse; font-size: .52em; table-layout: fixed; }
 .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
-.reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
+.reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc;  overflow-wrap: break-word; word-break: break-word; }
 .reveal table tr:nth-child(even) td { background: #0e0e18; }
 .a { color: var(--amber); font-weight: 600; }
 .g { color: var(--green); font-weight: 600; }
@@ -62,7 +62,7 @@ svg.diagram { display: block; margin: 0 auto; overflow: visible; }
 .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
 .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
-.reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+.reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; overflow-x: hidden !important; align-items: stretch !important; justify-content: flex-start !important; }
 </style>
 </head>
 <body>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow: Custom Agents — Anthropic Claude Series</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .74em; }
+  .cols { display: grid; gap: .35em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .25em .5em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .50em; margin: 0 0 .12em; }
+  .card p { font-size: .40em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .40em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .38em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.3em; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+
+  /* ── terminal recording styling ── */
+  .term { background: #0c0c14; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
+  .term-bar { background: #1e1e2e; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
+  .term-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: #ff5f57; }
+  .term-dot.y { background: #febc2e; }
+  .term-dot.g { background: #28c840; }
+  .term-bar .term-title { font-family: 'JetBrains Mono', monospace; font-size: .32em; color: var(--muted); margin-left: .6em; }
+  .term-body { padding: .25em .5em; font-family: 'JetBrains Mono', monospace; font-size: .36em; line-height: 1.55; color: #b8b8d0; }
+  .term-body .prompt { color: var(--green); }
+  .term-body .cmd { color: var(--amber); }
+  .term-body .flag { color: var(--purple); }
+  .term-body .out { color: #b8b8d0; }
+  .term-body .dim { color: #666680; }
+  .term-body .hi { color: var(--text); font-weight: 500; }
+  .term-body .err { color: var(--red); }
+  .term-body .ok { color: var(--green); }
+  .term-body .line-num { color: #444460; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
+  .callout { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .2em .5em; margin-top: .15em; }
+  .callout p { font-size: .38em; color: #b8b8d0; margin: 0; }
+  .callout .label { font-family: 'JetBrains Mono', monospace; font-size: .9em; font-weight: 500; margin-right: .3em; }
+
+  /* ── scrollbar styling ── */
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Workflow Walkthrough</p>
+    <h1>Custom Agents</h1>
+    <div class="subtitle">Build, Configure &amp; Deploy Specialised Sub-Agents</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      A terminal session recording that walks through creating custom agent definitions,
+      configuring their capabilities, and watching Claude Code delegate work to them automatically.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">WORKFLOW</span>
+      <span class="pill green">AGENTS</span>
+      <span class="pill purple">TERMINAL RECORDING</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: What We'll Build -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">OVERVIEW</span>
+    <h2>What We'll Build</h2>
+  </div>
+  <p>In this walkthrough we create two custom agents &mdash; a <span class="a">code reviewer</span> and a <span class="g">test writer</span> &mdash; then trigger a task that causes Claude Code to delegate to them automatically.</p>
+
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Code Reviewer Agent</h3>
+      <ul>
+        <li>Runs in an isolated <span class="b">worktree</span></li>
+        <li>Uses <code>Read</code>, <code>Grep</code>, <code>Glob</code> tools only</li>
+        <li>Reviews code for bugs, security, and style</li>
+        <li>Returns structured findings</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Test Writer Agent</h3>
+      <ul>
+        <li>Has access to <code>Read</code>, <code>Edit</code>, <code>Write</code>, <code>Bash</code></li>
+        <li>Analyses existing code to generate tests</li>
+        <li>Runs the tests to confirm they pass</li>
+        <li>Uses <span class="p">Sonnet</span> model for speed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:.2em;">
+    <p><span class="label a">Workflow</span> Create agents &rarr; Write source code &rarr; Ask Claude to review &amp; test &rarr; Watch delegation happen</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Create agents directory -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 1</span>
+    <h2>Scaffold the Agent Directory</h2>
+  </div>
+  <p>Agent definitions live in <code>.claude/agents/</code>. Each agent gets its own directory with an <code>AGENT.md</code> file.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">$</span> <span class="cmd">mkdir -p .claude/agents/code-reviewer .claude/agents/test-writer</span><br>
+<span class="prompt">$</span> <span class="cmd">tree .claude/agents/</span><br>
+<span class="out">.claude/agents/</span><br>
+<span class="out">&boxvr;&boxh;&boxh; code-reviewer/</span><br>
+<span class="out">&boxur;&boxh;&boxh; test-writer/</span><br>
+<br>
+<span class="dim"># Two directories ready &mdash; each will hold an AGENT.md</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Note</span> Agents can also live in <code>~/.claude/agents/</code> for personal agents available across all projects.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: Write the code-reviewer agent -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 2</span>
+    <h2>Define the Code Reviewer Agent</h2>
+  </div>
+  <p>The YAML frontmatter controls the agent's capabilities. The Markdown body is its system prompt.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.claude/agents/code-reviewer/AGENT.md</span>
+    </div>
+    <div class="term-body">
+<span class="line-num"> 1</span> <span class="flag">---</span><br>
+<span class="line-num"> 2</span> <span class="hi">name:</span> <span class="out">code-reviewer</span><br>
+<span class="line-num"> 3</span> <span class="hi">description:</span> <span class="out">Reviews code for bugs, security issues, and style</span><br>
+<span class="line-num"> 4</span> <span class="hi">tools:</span> <span class="out">Read, Grep, Glob</span><br>
+<span class="line-num"> 5</span> <span class="hi">model:</span> <span class="out">opus</span><br>
+<span class="line-num"> 6</span> <span class="hi">isolation:</span> <span class="out">worktree</span><br>
+<span class="line-num"> 7</span> <span class="flag">---</span><br>
+<span class="line-num"> 8</span><br>
+<span class="line-num"> 9</span> <span class="out">You are a senior code reviewer. Analyse the code</span><br>
+<span class="line-num">10</span> <span class="out">in this repository and report:</span><br>
+<span class="line-num">11</span><br>
+<span class="line-num">12</span> <span class="out">1. **Bugs** &mdash; logic errors, off-by-ones, null refs</span><br>
+<span class="line-num">13</span> <span class="out">2. **Security** &mdash; injection, auth bypasses, secrets</span><br>
+<span class="line-num">14</span> <span class="out">3. **Style** &mdash; naming, dead code, complexity</span><br>
+<span class="line-num">15</span><br>
+<span class="line-num">16</span> <span class="out">For each finding, cite the file and line number.</span><br>
+<span class="line-num">17</span> <span class="out">Rate severity: critical / warning / info.</span><br>
+<span class="line-num">18</span> <span class="out">Be concise. No false positives.</span>
+    </div>
+  </div>
+
+  <div class="cols cols-3" style="margin-top:.15em;">
+    <div class="card purple">
+      <h3>tools: Read, Grep, Glob</h3>
+      <p>Read-only access &mdash; this agent cannot modify files</p>
+    </div>
+    <div class="card blue">
+      <h3>isolation: worktree</h3>
+      <p>Runs in a separate Git worktree &mdash; no interference with your working tree</p>
+    </div>
+    <div class="card amber">
+      <h3>model: opus</h3>
+      <p>Uses the most capable model for thorough review quality</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: Write the test-writer agent -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 3</span>
+    <h2>Define the Test Writer Agent</h2>
+  </div>
+  <p>This agent gets write access and Bash so it can create test files and run them.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.claude/agents/test-writer/AGENT.md</span>
+    </div>
+    <div class="term-body">
+<span class="line-num"> 1</span> <span class="flag">---</span><br>
+<span class="line-num"> 2</span> <span class="hi">name:</span> <span class="out">test-writer</span><br>
+<span class="line-num"> 3</span> <span class="hi">description:</span> <span class="out">Generates and runs unit tests for source files</span><br>
+<span class="line-num"> 4</span> <span class="hi">tools:</span> <span class="out">Read, Grep, Glob, Edit, Write, Bash</span><br>
+<span class="line-num"> 5</span> <span class="hi">model:</span> <span class="out">sonnet</span><br>
+<span class="line-num"> 6</span> <span class="hi">isolation:</span> <span class="out">worktree</span><br>
+<span class="line-num"> 7</span> <span class="hi">maxTurns:</span> <span class="out">30</span><br>
+<span class="line-num"> 8</span> <span class="flag">---</span><br>
+<span class="line-num"> 9</span><br>
+<span class="line-num">10</span> <span class="out">You are a test engineer. For each source file:</span><br>
+<span class="line-num">11</span><br>
+<span class="line-num">12</span> <span class="out">1. Read the implementation</span><br>
+<span class="line-num">13</span> <span class="out">2. Identify edge cases and key paths</span><br>
+<span class="line-num">14</span> <span class="out">3. Write comprehensive unit tests</span><br>
+<span class="line-num">15</span> <span class="out">4. Run the tests and fix any failures</span><br>
+<span class="line-num">16</span><br>
+<span class="line-num">17</span> <span class="out">Use the project's existing test framework.</span><br>
+<span class="line-num">18</span> <span class="out">Aim for >90% branch coverage.</span>
+    </div>
+  </div>
+
+  <div class="cols cols-2" style="margin-top:.15em;">
+    <div class="card green">
+      <h3>model: sonnet</h3>
+      <p>Sonnet is fast and cost-effective for test generation &mdash; the review agent uses Opus for deeper analysis</p>
+    </div>
+    <div class="card amber">
+      <h3>maxTurns: 30</h3>
+      <p>Caps the agent at 30 tool calls &mdash; prevents runaway loops while allowing iterative test-fix cycles</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Start Claude Code and write some source code -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 4</span>
+    <h2>Write Some Source Code to Review</h2>
+  </div>
+  <p>We start a Claude Code session and ask it to create a small Express API with a deliberate bug for the agents to find.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">$</span> <span class="cmd">claude</span><br>
+<br>
+<span class="dim">╭──────────────────────────────────────────────────╮</span><br>
+<span class="dim">│</span> <span class="hi">Claude Code</span> <span class="dim">v1.0.32</span>                              <span class="dim">│</span><br>
+<span class="dim">│</span> <span class="out">/help for commands &bull; /agents to manage agents</span>   <span class="dim">│</span><br>
+<span class="dim">╰──────────────────────────────────────────────────╯</span><br>
+<br>
+<span class="prompt">&gt;</span> <span class="cmd">Create src/users.js with a simple Express router</span><br>
+<span class="cmd">  that has GET /users/:id and POST /users endpoints.</span><br>
+<span class="cmd">  Include a subtle SQL injection vulnerability in the</span><br>
+<span class="cmd">  GET route for demonstration purposes.</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Created src/users.js with Express router</span><br>
+<span class="dim">  &bull; GET /users/:id &mdash; fetches user by ID (vulnerable to SQLi)</span><br>
+<span class="dim">  &bull; POST /users &mdash; creates a new user</span><br>
+<span class="dim">  &bull; Uses raw SQL query string interpolation on the GET route</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Why?</span> We want realistic code for our agents to analyse. The SQL injection gives the code-reviewer something concrete to flag.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Ask Claude to review — triggers agent delegation -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 5</span>
+    <h2>Trigger the Code Reviewer</h2>
+  </div>
+  <p>We ask Claude Code to review the codebase. Because we have a <code>code-reviewer</code> agent whose description matches, Claude delegates the task.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Review this codebase for bugs and security issues</span><br>
+<br>
+<span class="ok">&#9654;</span> <span class="hi">Delegating to agent: code-reviewer</span><br>
+<span class="dim">  model: opus &bull; isolation: worktree &bull; tools: Read, Grep, Glob</span><br>
+<br>
+<span class="dim">  Creating worktree at /tmp/claude-wt-a3f8c2...</span><br>
+<span class="dim">  Agent started &bull; reviewing files...</span><br>
+<br>
+<span class="dim">  &#x2502; Reading src/users.js...</span><br>
+<span class="dim">  &#x2502; Grepping for query patterns...</span><br>
+<span class="dim">  &#x2502; Checking route handlers...</span><br>
+<span class="dim">  &#x2502; Scanning for input validation...</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="hi">Agent complete</span> <span class="dim">(8 tool calls, 42s)</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Key insight</span> The delegation happened automatically &mdash; Claude matched the task description ("review...bugs and security") to the agent's description field. You can also force delegation with <code>use the code-reviewer agent</code>.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Review results -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 6</span>
+    <h2>Review Findings</h2>
+  </div>
+  <p>The code-reviewer agent returns its findings to the main session. The worktree is automatically cleaned up.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude (code-reviewer results)</span>
+    </div>
+    <div class="term-body">
+<span class="hi">Code Review &mdash; 3 findings</span><br>
+<br>
+<span class="err">&#x2716; CRITICAL</span> <span class="hi">SQL Injection in src/users.js:14</span><br>
+<span class="out">  The GET /users/:id route interpolates `req.params.id`</span><br>
+<span class="out">  directly into a SQL string:</span><br>
+<span class="out">    <span class="cmd">db.query(`SELECT * FROM users WHERE id = ${id}`)</span></span><br>
+<span class="out">  Fix: use parameterised queries &mdash; <span class="ok">db.query('SELECT * FROM users WHERE id = $1', [id])</span></span><br>
+<br>
+<span class="flag">&#x26A0; WARNING</span> <span class="hi">Missing input validation in src/users.js:28</span><br>
+<span class="out">  POST /users does not validate req.body.email format</span><br>
+<span class="out">  before insertion. Could store malformed data.</span><br>
+<br>
+<span class="dim">&#x24D8; INFO</span> <span class="hi">No rate limiting on POST /users</span><br>
+<span class="out">  Consider adding express-rate-limit to prevent abuse.</span><br>
+<br>
+<span class="dim">Worktree /tmp/claude-wt-a3f8c2 cleaned up (no changes made).</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label p">Worktree lifecycle</span> Because the code-reviewer is read-only and made no file changes, the worktree was automatically removed. If it had made changes, the worktree path and branch would be returned for you to merge.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Trigger the test-writer agent -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 7</span>
+    <h2>Trigger the Test Writer</h2>
+  </div>
+  <p>Now we ask for tests. Claude delegates to the <code>test-writer</code> agent, which creates and runs tests in its own worktree.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Write comprehensive unit tests for the users module</span><br>
+<br>
+<span class="ok">&#9654;</span> <span class="hi">Delegating to agent: test-writer</span><br>
+<span class="dim">  model: sonnet &bull; isolation: worktree &bull; tools: Read, Grep, Glob, Edit, Write, Bash</span><br>
+<br>
+<span class="dim">  Creating worktree at /tmp/claude-wt-7b2e1f...</span><br>
+<span class="dim">  Agent started &bull; analysing source...</span><br>
+<br>
+<span class="dim">  &#x2502; Reading src/users.js...</span><br>
+<span class="dim">  &#x2502; Writing tests/users.test.js...</span><br>
+<span class="dim">  &#x2502; Running: npm test...</span><br>
+<span class="dim">  &#x2502; 1 test failed &mdash; fixing mock setup...</span><br>
+<span class="dim">  &#x2502; Editing tests/users.test.js...</span><br>
+<span class="dim">  &#x2502; Running: npm test...</span><br>
+<span class="dim">  &#x2502; All 7 tests passing</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="hi">Agent complete</span> <span class="dim">(18 tool calls, 1m 12s)</span><br>
+<br>
+<span class="out">Created <span class="ok">tests/users.test.js</span> with 7 tests:</span><br>
+<span class="out">  &bull; GET /users/:id &mdash; returns user for valid ID</span><br>
+<span class="out">  &bull; GET /users/:id &mdash; returns 404 for missing user</span><br>
+<span class="out">  &bull; GET /users/:id &mdash; handles non-numeric ID</span><br>
+<span class="out">  &bull; POST /users &mdash; creates user with valid data</span><br>
+<span class="out">  &bull; POST /users &mdash; rejects missing required fields</span><br>
+<span class="out">  &bull; POST /users &mdash; rejects duplicate email</span><br>
+<span class="out">  &bull; POST /users &mdash; handles database errors</span><br>
+<br>
+<span class="hi">Worktree branch:</span> <span class="ok">claude/test-writer-7b2e1f</span><br>
+<span class="dim">  Changes preserved &mdash; merge with: git merge claude/test-writer-7b2e1f</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Self-healing</span> The agent's first test run failed, so it read the error, fixed the mock setup, and re-ran &mdash; all within its 30-turn budget. The worktree is preserved because the agent made changes.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: Merge results and verify -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 8</span>
+    <h2>Merge &amp; Verify</h2>
+  </div>
+  <p>Back in the main session, we merge the test-writer's branch and run the full suite.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Merge the test-writer's changes and fix the SQL</span><br>
+<span class="cmd">  injection the reviewer found</span><br>
+<br>
+<span class="dim">  &#x2502; Running: git merge claude/test-writer-7b2e1f</span><br>
+<span class="ok">  &#x2502; Merge successful</span><br>
+<span class="dim">  &#x2502; Editing src/users.js:14 &mdash; parameterised query</span><br>
+<span class="dim">  &#x2502; Editing src/users.js:28 &mdash; adding email validation</span><br>
+<span class="dim">  &#x2502; Running: npm test</span><br>
+<br>
+<span class="ok">  PASS</span>  <span class="out">tests/users.test.js</span><br>
+<span class="ok">    &#10003;</span> <span class="out">GET /users/:id &mdash; returns user for valid ID (4ms)</span><br>
+<span class="ok">    &#10003;</span> <span class="out">GET /users/:id &mdash; returns 404 for missing user (2ms)</span><br>
+<span class="ok">    &#10003;</span> <span class="out">GET /users/:id &mdash; handles non-numeric ID (1ms)</span><br>
+<span class="ok">    &#10003;</span> <span class="out">POST /users &mdash; creates user with valid data (3ms)</span><br>
+<span class="ok">    &#10003;</span> <span class="out">POST /users &mdash; rejects missing required fields (1ms)</span><br>
+<span class="ok">    &#10003;</span> <span class="out">POST /users &mdash; rejects duplicate email (2ms)</span><br>
+<span class="ok">    &#10003;</span> <span class="out">POST /users &mdash; handles database errors (1ms)</span><br>
+<br>
+<span class="hi">Tests:  </span> <span class="ok">7 passed</span>, 7 total<br>
+<span class="hi">Time:   </span> <span class="out">0.847s</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Complete loop</span> Code-reviewer found the bugs &rarr; test-writer created the safety net &rarr; main session applied both. Each agent stayed in its lane with its own tool set and isolation boundary.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Agent configuration reference -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">REFERENCE</span>
+    <h2>Agent Frontmatter Fields</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Field</th><th>Values</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>name</code></td><td>string</td><td>Agent identifier &mdash; used in delegation messages</td></tr>
+      <tr><td><code>description</code></td><td>string</td><td>Matched against task descriptions for auto-delegation</td></tr>
+      <tr><td><code>tools</code></td><td>comma-separated</td><td>Allowlist of tools the agent can use</td></tr>
+      <tr><td><code>disallowedTools</code></td><td>comma-separated</td><td>Denylist alternative &mdash; everything except these</td></tr>
+      <tr><td><code>model</code></td><td><code>opus</code> | <code>sonnet</code> | <code>haiku</code> | <code>inherit</code></td><td>Which Claude model powers the agent</td></tr>
+      <tr><td><code>isolation</code></td><td><code>worktree</code></td><td>Run in an isolated Git worktree</td></tr>
+      <tr><td><code>maxTurns</code></td><td>number</td><td>Maximum tool-call turns before the agent stops</td></tr>
+      <tr><td><code>permissionMode</code></td><td><code>bypassPermissions</code> | <code>acceptEdits</code> | <code>auto</code></td><td>How the agent handles permission prompts</td></tr>
+      <tr><td><code>background</code></td><td>boolean</td><td>Run the agent as a background task</td></tr>
+      <tr><td><code>skills</code></td><td>comma-separated</td><td>Skills (slash commands) available to this agent</td></tr>
+      <tr><td><code>mcpServers</code></td><td>comma-separated</td><td>MCP servers this agent can access</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="margin-top:.2em;">
+    <p><span class="label g">Tip</span> Start with a restrictive tool set and widen as needed. Read-only agents are safe to run with <code>bypassPermissions</code>.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: Summary -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>What We Covered</h2>
+  </div>
+
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Agent Definition</h3>
+      <p>YAML frontmatter in <code>.claude/agents/&lt;name&gt;/AGENT.md</code> controls tools, model, isolation, and turn limits</p>
+    </div>
+    <div class="card green">
+      <h3>Auto-Delegation</h3>
+      <p>Claude matches task descriptions to agent descriptions &mdash; no explicit routing needed</p>
+    </div>
+    <div class="card purple">
+      <h3>Worktree Isolation</h3>
+      <p>Each agent gets its own Git worktree &mdash; changes are preserved on a branch if modifications were made</p>
+    </div>
+    <div class="card blue">
+      <h3>Self-Healing Loops</h3>
+      <p>Agents can run tests, read errors, fix code, and re-run &mdash; all within their turn budget</p>
+    </div>
+  </div>
+
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Workflow Walkthrough<br/>
+      Next: <span class="a">Hooks &amp; Automation</span>
+    </p>
+  </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

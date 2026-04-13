@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow: Hooks &amp; Automation — Anthropic Claude Series</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
+  .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
+  .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: .74em; }
+  .cols { display: grid; gap: .35em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .25em .5em; }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .50em; margin: 0 0 .12em; }
+  .card p { font-size: .40em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .40em; color: #b8b8d0; margin-bottom: .02em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .38em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue { color: var(--blue); border-color: var(--blue); }
+  .reveal .slide-footer { display: none; }
+  .title-slide h1 { font-size: 1.3em; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
+  .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+
+  .term { background: #0c0c14; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
+  .term-bar { background: #1e1e2e; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
+  .term-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: #ff5f57; }
+  .term-dot.y { background: #febc2e; }
+  .term-dot.g { background: #28c840; }
+  .term-bar .term-title { font-family: 'JetBrains Mono', monospace; font-size: .32em; color: var(--muted); margin-left: .6em; }
+  .term-body { padding: .25em .5em; font-family: 'JetBrains Mono', monospace; font-size: .36em; line-height: 1.55; color: #b8b8d0; }
+  .term-body .prompt { color: var(--green); }
+  .term-body .cmd { color: var(--amber); }
+  .term-body .flag { color: var(--purple); }
+  .term-body .out { color: #b8b8d0; }
+  .term-body .dim { color: #666680; }
+  .term-body .hi { color: var(--text); font-weight: 500; }
+  .term-body .err { color: var(--red); }
+  .term-body .ok { color: var(--green); }
+  .term-body .line-num { color: #444460; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
+  .callout { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .2em .5em; margin-top: .15em; }
+  .callout p { font-size: .38em; color: #b8b8d0; margin: 0; }
+  .callout .label { font-family: 'JetBrains Mono', monospace; font-size: .9em; font-weight: 500; margin-right: .3em; }
+
+  .reveal .slides > section::-webkit-scrollbar { width: 6px; }
+  .reveal .slides > section::-webkit-scrollbar-track { background: var(--bg2); border-radius: 3px; }
+  .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: Title -->
+<section class="title-slide">
+  <div style="margin-top: 2em;">
+    <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Workflow Walkthrough</p>
+    <h1>Hooks &amp; Automation</h1>
+    <div class="subtitle">Automated Quality Gates for Every Tool Call</div>
+    <p style="font-size:.5em; color:var(--muted); max-width:32em;">
+      A terminal session recording that walks through configuring hooks to auto-format code
+      after edits, block dangerous commands, and enforce project standards &mdash; all without manual intervention.
+    </p>
+    <div style="margin-top:1.2em;">
+      <span class="pill amber">WORKFLOW</span>
+      <span class="pill green">HOOKS</span>
+      <span class="pill purple">TERMINAL RECORDING</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: What We'll Build -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">OVERVIEW</span>
+    <h2>What We'll Build</h2>
+  </div>
+  <p>We configure three hooks that fire automatically during Claude Code sessions &mdash; no manual steps required once set up.</p>
+
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card amber">
+      <h3>Auto-Formatter</h3>
+      <ul>
+        <li>Fires on <span class="a">PostToolUse</span></li>
+        <li>Matches <code>Edit</code> and <code>Write</code> tools</li>
+        <li>Runs Prettier on the changed file</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3>Command Guard</h3>
+      <ul>
+        <li>Fires on <span class="r">PreToolUse</span></li>
+        <li>Matches <code>Bash</code> tool</li>
+        <li>Blocks destructive commands</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Commit Linter</h3>
+      <ul>
+        <li>Fires on <span class="g">PreToolUse</span></li>
+        <li>Matches <code>Bash</code> with <code>git commit</code></li>
+        <li>Validates conventional commit format</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Workflow</span> Write settings.json &rarr; Start Claude Code &rarr; Edit files &rarr; Watch hooks fire automatically</p>
+  </div>
+</section>
+
+<!-- SLIDE 3: Create the hooks configuration -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 1</span>
+    <h2>Write the Hooks Configuration</h2>
+  </div>
+  <p>Hooks live in <code>.claude/settings.json</code> (project-scoped) or <code>~/.claude/settings.json</code> (global). We'll use project scope.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.claude/settings.json</span>
+    </div>
+    <div class="term-body">
+<span class="out">{</span><br>
+<span class="out">  <span class="hi">"hooks"</span>: {</span><br>
+<span class="out">    <span class="cmd">"PostToolUse"</span>: [</span><br>
+<span class="out">      {</span><br>
+<span class="out">        <span class="flag">"matcher"</span>: <span class="ok">"Edit|Write"</span>,</span><br>
+<span class="out">        "hooks": [</span><br>
+<span class="out">          {</span><br>
+<span class="out">            "type": "command",</span><br>
+<span class="out">            "command": <span class="ok">"npx prettier --write</span></span><br>
+<span class="out">              <span class="ok">$(echo $TOOL_INPUT | jq -r '.file_path')"</span></span><br>
+<span class="out">          }</span><br>
+<span class="out">        ]</span><br>
+<span class="out">      }</span><br>
+<span class="out">    ]</span><br>
+<span class="out">  }</span><br>
+<span class="out">}</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">How it works</span> After every <code>Edit</code> or <code>Write</code> tool call, the hook extracts the <code>file_path</code> from the tool input JSON and runs Prettier on it. Exit code 0 means success &mdash; the session continues seamlessly.</p>
+  </div>
+</section>
+
+<!-- SLIDE 4: Add the command guard hook -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 2</span>
+    <h2>Add a Command Guard</h2>
+  </div>
+  <p>A <code>PreToolUse</code> hook that blocks dangerous shell commands before they execute. Exit code 2 blocks the tool call.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">.claude/settings.json &mdash; adding PreToolUse</span>
+    </div>
+    <div class="term-body">
+<span class="out">    <span class="cmd">"PreToolUse"</span>: [</span><br>
+<span class="out">      {</span><br>
+<span class="out">        <span class="flag">"matcher"</span>: <span class="ok">"Bash"</span>,</span><br>
+<span class="out">        "hooks": [</span><br>
+<span class="out">          {</span><br>
+<span class="out">            "type": "command",</span><br>
+<span class="out">            "command": <span class="ok">"bash -c '</span></span><br>
+<span class="out"><span class="ok">              CMD=$(echo $TOOL_INPUT | jq -r \".command\")</span></span><br>
+<span class="out"><span class="ok">              if echo \"$CMD\" | grep -qE</span></span><br>
+<span class="out"><span class="ok">                \"rm -rf|DROP TABLE|--force|--no-verify\";</span></span><br>
+<span class="out"><span class="ok">              then</span></span><br>
+<span class="out"><span class="ok">                echo \"Blocked: destructive command\"</span></span><br>
+<span class="out"><span class="ok">                exit 2</span></span><br>
+<span class="out"><span class="ok">              fi'"</span></span><br>
+<span class="out">          }</span><br>
+<span class="out">        ]</span><br>
+<span class="out">      },</span><br>
+<span class="out">      {</span><br>
+<span class="out">        <span class="flag">"matcher"</span>: <span class="ok">"Bash(git commit*)"</span>,</span><br>
+<span class="out">        "hooks": [</span><br>
+<span class="out">          {</span><br>
+<span class="out">            "type": "command",</span><br>
+<span class="out">            "command": <span class="ok">"bash -c '</span></span><br>
+<span class="out"><span class="ok">              MSG=$(echo $TOOL_INPUT | jq -r \".command\"</span></span><br>
+<span class="out"><span class="ok">                | grep -oP \"(?<=-m \\\").*?(?=\\\")\")</span></span><br>
+<span class="out"><span class="ok">              if ! echo \"$MSG\" | grep -qE</span></span><br>
+<span class="out"><span class="ok">                \"^(feat|fix|docs|style|refactor|test|chore):\";</span></span><br>
+<span class="out"><span class="ok">              then</span></span><br>
+<span class="out"><span class="ok">                echo \"Commit msg must use conventional format\"</span></span><br>
+<span class="out"><span class="ok">                exit 2</span></span><br>
+<span class="out"><span class="ok">              fi'"</span></span><br>
+<span class="out">          }</span><br>
+<span class="out">        ]</span><br>
+<span class="out">      }</span><br>
+<span class="out">    ]</span>
+    </div>
+  </div>
+
+  <div class="cols cols-2" style="margin-top:.15em;">
+    <div class="card red">
+      <h3>Exit Code 2 = Block</h3>
+      <p>The tool call is prevented and the hook's stderr/stdout is shown to Claude, which can adjust its approach</p>
+    </div>
+    <div class="card purple">
+      <h3>Matcher Patterns</h3>
+      <p><code>Bash(git commit*)</code> matches only Bash calls whose command starts with <code>git commit</code> &mdash; more precise than matching all Bash calls</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: Start session and trigger auto-formatter -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 3</span>
+    <h2>Auto-Formatter in Action</h2>
+  </div>
+  <p>We start Claude Code and ask it to edit a file. The PostToolUse hook fires automatically after each edit.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Add a calculateDiscount function to src/pricing.js</span><br>
+<span class="cmd">  that accepts price and percentage parameters</span><br>
+<br>
+<span class="dim">  &#x2502; Editing src/pricing.js...</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Edit applied to src/pricing.js</span><br>
+<br>
+<span class="dim">  &#x276F; Hook [PostToolUse &rarr; Edit]: running prettier...</span><br>
+<span class="ok">  &#x276F; src/pricing.js 42ms</span><br>
+<br>
+<span class="out">Added <span class="hi">calculateDiscount(price, percentage)</span> to src/pricing.js.</span><br>
+<span class="out">The function validates inputs and returns the discounted price.</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Seamless</span> The hook ran Prettier between the edit and Claude's response. The file on disk is always formatted &mdash; no manual step needed. Claude sees the hook ran successfully and continues normally.</p>
+  </div>
+</section>
+
+<!-- SLIDE 6: Command guard blocks a dangerous command -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 4</span>
+    <h2>Command Guard Blocks a Dangerous Command</h2>
+  </div>
+  <p>We ask Claude to clean up some files. It attempts <code>rm -rf</code> and the hook blocks it.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Remove all files in the old-build directory</span><br>
+<br>
+<span class="dim">  &#x2502; Preparing: rm -rf old-build/</span><br>
+<br>
+<span class="err">&#x2716; Hook [PreToolUse &rarr; Bash]: Blocked: destructive command</span><br>
+<span class="err">  The command "rm -rf old-build/" was blocked by a project hook.</span><br>
+<br>
+<span class="out">The project has a safety hook that prevents <span class="r">rm -rf</span> commands.</span><br>
+<span class="out">I'll remove the files individually instead:</span><br>
+<br>
+<span class="dim">  &#x2502; Running: ls old-build/</span><br>
+<span class="ok">  &#x2502; Hook [PreToolUse &rarr; Bash]: passed</span><br>
+<span class="dim">  &#x2502; Running: rm old-build/bundle.js old-build/styles.css</span><br>
+<span class="ok">  &#x2502; Hook [PreToolUse &rarr; Bash]: passed</span><br>
+<span class="dim">  &#x2502; Running: rmdir old-build</span><br>
+<span class="ok">  &#x2502; Hook [PreToolUse &rarr; Bash]: passed</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Removed 2 files and the old-build directory.</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label r">Self-correction</span> Claude received the block message, understood the constraint, and found a safer alternative automatically. This is the power of hooks &mdash; they shape the agent's behaviour in real time.</p>
+  </div>
+</section>
+
+<!-- SLIDE 7: Commit linter in action -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 5</span>
+    <h2>Commit Message Linter</h2>
+  </div>
+  <p>Claude tries to commit with a non-conventional message. The hook rejects it, and Claude reformats automatically.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">Commit the pricing changes</span><br>
+<br>
+<span class="dim">  &#x2502; Running: git add src/pricing.js</span><br>
+<span class="ok">  &#x2502; passed</span><br>
+<span class="dim">  &#x2502; Running: git commit -m "Add calculateDiscount function"</span><br>
+<br>
+<span class="err">&#x2716; Hook [PreToolUse &rarr; Bash(git commit*)]: Commit msg must use conventional format</span><br>
+<br>
+<span class="out">The project requires conventional commit messages. Retrying:</span><br>
+<br>
+<span class="dim">  &#x2502; Running: git commit -m "feat: add calculateDiscount function to pricing module"</span><br>
+<span class="ok">  &#x2502; Hook [PreToolUse &rarr; Bash(git commit*)]: passed</span><br>
+<span class="ok">  &#x2502; [main a3f8c2d] feat: add calculateDiscount function to pricing module</span><br>
+<br>
+<span class="ok">&#10003;</span> <span class="out">Committed with conventional format: <span class="hi">feat: add calculateDiscount...</span></span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label a">Pattern</span> Block &rarr; explain &rarr; retry. Hooks teach Claude your project's rules. After being blocked once, Claude tends to use the correct format for the rest of the session.</p>
+  </div>
+</section>
+
+<!-- SLIDE 8: View hooks with /hooks -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">STEP 6</span>
+    <h2>Inspect Active Hooks</h2>
+  </div>
+  <p>The <code>/hooks</code> slash command shows all configured hooks grouped by event.</p>
+
+  <div class="term">
+    <div class="term-bar">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">~/my-project &mdash; claude</span>
+    </div>
+    <div class="term-body">
+<span class="prompt">&gt;</span> <span class="cmd">/hooks</span><br>
+<br>
+<span class="hi">Active Hooks</span> <span class="dim">(from .claude/settings.json)</span><br>
+<br>
+<span class="cmd">PostToolUse</span><br>
+<span class="out">  &boxvr; <span class="flag">Edit|Write</span> &rarr; npx prettier --write &lt;file_path&gt;</span><br>
+<br>
+<span class="cmd">PreToolUse</span><br>
+<span class="out">  &boxvr; <span class="flag">Bash</span> &rarr; Block rm -rf, DROP TABLE, --force, --no-verify</span><br>
+<span class="out">  &boxur; <span class="flag">Bash(git commit*)</span> &rarr; Enforce conventional commit format</span><br>
+<br>
+<span class="dim">3 hooks active across 2 events</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><span class="label g">Tip</span> Use <code>.claude/settings.local.json</code> for personal hooks that shouldn't be committed to the repo. Both files are merged at runtime.</p>
+  </div>
+</section>
+
+<!-- SLIDE 9: Hook events reference -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">REFERENCE</span>
+    <h2>Hook Events</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Event</th><th>Fires When</th><th>Can Block?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>PreToolUse</code></td><td>Before any tool executes</td><td><span class="ok">Yes (exit 2)</span></td></tr>
+      <tr><td><code>PostToolUse</code></td><td>After a tool completes successfully</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>PostToolUseFailure</code></td><td>After a tool call fails</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>UserPromptSubmit</code></td><td>When the user sends a message</td><td><span class="ok">Yes (exit 2)</span></td></tr>
+      <tr><td><code>SessionStart</code></td><td>When a Claude Code session begins</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>SessionEnd</code></td><td>When a session ends</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>SubagentStart</code></td><td>When a sub-agent is launched</td><td><span class="ok">Yes (exit 2)</span></td></tr>
+      <tr><td><code>Notification</code></td><td>When Claude sends a notification</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>PreCompact</code> / <code>PostCompact</code></td><td>Before/after context compaction</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>Stop</code></td><td>When Claude finishes a response turn</td><td><span class="dim">No</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="cols cols-2" style="margin-top:.15em;">
+    <div class="card amber">
+      <h3>Hook Types</h3>
+      <ul>
+        <li><span class="a">command</span> &mdash; run a shell command</li>
+        <li><span class="g">prompt</span> &mdash; single LLM call</li>
+        <li><span class="p">agent</span> &mdash; sub-agent verification</li>
+        <li><span class="b">http</span> &mdash; POST to an endpoint</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Environment Variables</h3>
+      <ul>
+        <li><code>$TOOL_INPUT</code> &mdash; JSON of tool parameters</li>
+        <li><code>$TOOL_OUTPUT</code> &mdash; JSON of tool result (post only)</li>
+        <li><code>$SESSION_ID</code> &mdash; current session ID</li>
+        <li><code>$CWD</code> &mdash; current working directory</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: Summary -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">SUMMARY</span>
+    <h2>What We Covered</h2>
+  </div>
+
+  <div class="cols cols-2">
+    <div class="card amber">
+      <h3>Auto-Formatting</h3>
+      <p>PostToolUse hooks run Prettier after every edit &mdash; code is always formatted on disk</p>
+    </div>
+    <div class="card red">
+      <h3>Safety Guards</h3>
+      <p>PreToolUse hooks block dangerous commands &mdash; Claude adapts and finds safe alternatives</p>
+    </div>
+    <div class="card green">
+      <h3>Convention Enforcement</h3>
+      <p>Commit message linting ensures conventional format &mdash; Claude retries with the correct pattern</p>
+    </div>
+    <div class="card purple">
+      <h3>Self-Correction</h3>
+      <p>When a hook blocks a tool call, the feedback message teaches Claude the rule for the rest of the session</p>
+    </div>
+  </div>
+
+  <div style="margin-top:.5em; text-align:center;">
+    <p style="font-size:.48em; color:var(--muted);">
+      Anthropic Claude Series &mdash; Workflow Walkthrough<br/>
+      Next: <span class="a">MCP Servers</span>
+    </p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast',
+  controls: true, progress: true, center: false,
+  width: 1100, height: 900, margin: 0.01
+});
+</script>
+<script>
+(function(){
+  function fixSlides(){
+    var cfg = Reveal.getConfig();
+    var h = cfg.height || 900;
+    var m = cfg.margin || 0.01;
+    var ph = Math.floor(h * (1 - 2 * m));
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.height = ph + 'px';
+      s.style.maxHeight = ph + 'px';
+      s.style.overflowY = 'auto';
+      s.style.overflowX = 'hidden';
+      s.style.display = 'flex';
+      s.style.flexDirection = 'column';
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+  window.addEventListener('resize', fixSlides);
+})();
+</script>
+</body>
+</html>

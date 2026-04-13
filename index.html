@@ -123,6 +123,8 @@
   .card:nth-child(12) { border-left: 3px solid var(--blue); }
   .card:nth-child(13) { border-left: 3px solid var(--amber); }
   .card:nth-child(14) { border-left: 3px solid var(--green); }
+  .wf-card { border-left: 3px solid var(--purple) !important; }
+  .wf-card .num { background: var(--purple); }
   footer {
     margin-top: 3em;
     font-family: 'JetBrains Mono', monospace;
@@ -138,7 +140,7 @@
   <div class="container">
     <div class="series-label">MODERN SOFTWARE ARCHITECTURE SERIES</div>
     <h1>Anthropic Claude</h1>
-    <div class="subtitle">A comprehensive guide in 14 interactive presentations</div>
+    <div class="subtitle">Interactive presentations &amp; hands-on workflow walkthroughs</div>
     <div class="bar"></div>
 
     <div class="grid">
@@ -211,6 +213,36 @@
         <span class="num">14</span>
         <h2>Claude Chat Desktop</h2>
         <p>Deep dive on the Chat tab &mdash; Projects, Artifacts, Styles, Connectors, and the original local stdio MCP surface</p>
+      </a>
+    </div>
+
+    <h2 style="font-family:'Playfair Display',serif; font-weight:700; font-size:1.5em; color:var(--amber); margin:2em 0 .6em; padding-bottom:.25em; border-bottom:1px solid var(--border);">Workflow Walkthroughs</h2>
+    <p style="font-size:.9em; color:var(--muted); margin-bottom:1em;">Terminal session recordings &mdash; commands and responses shown step by step</p>
+    <div class="grid">
+      <a class="card wf-card" href="15-workflow-custom-agents/">
+        <span class="num">WORKFLOW</span>
+        <h2>Custom Agents</h2>
+        <p>Build agent definitions, trigger auto-delegation, and merge worktree results</p>
+      </a>
+      <a class="card wf-card" href="16-workflow-hooks/">
+        <span class="num">WORKFLOW</span>
+        <h2>Hooks &amp; Automation</h2>
+        <p>Auto-formatting, command guards, and commit linting &mdash; all firing automatically</p>
+      </a>
+      <a class="card wf-card" href="17-workflow-mcp-servers/">
+        <span class="num">WORKFLOW</span>
+        <h2>MCP Servers</h2>
+        <p>Add GitHub and PostgreSQL servers, then chain MCP tools with built-in tools</p>
+      </a>
+      <a class="card wf-card" href="18-workflow-multi-agent/">
+        <span class="num">WORKFLOW</span>
+        <h2>Multi-Agent Parallel Work</h2>
+        <p>Launch concurrent agents in isolated worktrees and merge their contributions</p>
+      </a>
+      <a class="card wf-card" href="19-workflow-project-bootstrap/">
+        <span class="num">WORKFLOW</span>
+        <h2>Project Bootstrap &amp; Skills</h2>
+        <p>From /init to custom /deploy and /component slash commands with project memory</p>
       </a>
     </div>
 
