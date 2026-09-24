@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
@@ -22,7 +22,7 @@
   .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
   .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
-  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .88em; }
@@ -36,13 +36,13 @@
   .card.blue { border-left: 3px solid var(--blue); }
   .card.red { border-left: 3px solid var(--red); }
   .card h3 { font-size: .70em; margin: 0 0 .12em; }
-  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card p { font-size: .58em; margin: 0; color: #c8bfb3; }
   .card ul { margin: 0; padding-left: 1em; }
-  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .card li { font-size: .58em; color: #c8bfb3; margin-bottom: .02em; }
   .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; }
   .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
-  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #d7cec2; }
+  .reveal table tr:nth-child(even) td { background: #211c19; }
   .a { color: var(--amber); font-weight: 600; }
   .g { color: var(--green); font-weight: 600; }
   .p { color: var(--purple); font-weight: 600; }
@@ -61,25 +61,25 @@
   .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
   .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
 
-  .term { text-align: left; background: #0c0c14; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
-  .term-bar { background: #1e1e2e; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
+  .term { text-align: left; background: #1f1a17; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin: .15em 0; }
+  .term-bar { background: #322b25; padding: .12em .4em; display: flex; align-items: center; gap: .25em; }
   .term-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-  .term-dot.r { background: #ff5f57; }
-  .term-dot.y { background: #febc2e; }
-  .term-dot.g { background: #28c840; }
+  .term-dot.r { background: #db6c3b; }
+  .term-dot.y { background: #eabf6e; }
+  .term-dot.g { background: #a1c65a; }
   .term-bar .term-title { font-family: 'JetBrains Mono', monospace; font-size: .42em; color: var(--muted); margin-left: .6em; }
-  .term-body { text-align: left; padding: .3em .6em; font-family: 'JetBrains Mono', monospace; font-size: .50em; overflow-wrap: break-word; word-break: break-word; line-height: 1.55; color: #b8b8d0; }
+  .term-body { text-align: left; padding: .3em .6em; font-family: 'JetBrains Mono', monospace; font-size: .50em; overflow-wrap: break-word; word-break: break-word; line-height: 1.55; color: #c8bfb3; }
   .term-body .prompt { color: var(--green); }
   .term-body .cmd { color: var(--amber); }
   .term-body .flag { color: var(--purple); }
-  .term-body .out { color: #b8b8d0; }
-  .term-body .dim { color: #666680; }
+  .term-body .out { color: #c8bfb3; }
+  .term-body .dim { color: #655b52; }
   .term-body .hi { color: var(--text); font-weight: 500; }
   .term-body .err { color: var(--red); }
   .term-body .ok { color: var(--green); }
-  .term-body .line-num { color: #444460; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
+  .term-body .line-num { color: #514840; min-width: 2em; display: inline-block; text-align: right; margin-right: .6em; user-select: none; }
   .callout { text-align: left; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: .2em .5em; margin-top: .15em; }
-  .callout p { font-size: .52em; color: #b8b8d0; margin: 0; }
+  .callout p { font-size: .52em; color: #c8bfb3; margin: 0; }
   .callout .label { font-family: 'JetBrains Mono', monospace; font-size: .9em; font-weight: 500; margin-right: .3em; }
 
   .reveal .slides > section::-webkit-scrollbar { width: 6px; }
@@ -120,33 +120,33 @@
 
   <svg class="diagram" viewBox="0 0 700 180" style="margin:.3em auto;">
     <defs>
-      <marker id="arrowA" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#f5a623"/></marker>
-      <marker id="arrowG" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#4ecb8d"/></marker>
+      <marker id="arrowA" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#dcad61"/></marker>
+      <marker id="arrowG" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#a9cd8e"/></marker>
     </defs>
     <!-- Main session -->
-    <rect x="250" y="5" width="200" height="36" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-    <text x="350" y="28" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="12" font-weight="600">Main Session</text>
+    <rect x="250" y="5" width="200" height="36" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
+    <text x="350" y="28" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="12" font-weight="600">Main Session</text>
     <!-- Fan-out arrows -->
-    <line x1="290" y1="41" x2="120" y2="75" stroke="#f5a623" stroke-width="1" marker-end="url(#arrowA)"/>
-    <line x1="350" y1="41" x2="350" y2="75" stroke="#f5a623" stroke-width="1" marker-end="url(#arrowA)"/>
-    <line x1="410" y1="41" x2="580" y2="75" stroke="#f5a623" stroke-width="1" marker-end="url(#arrowA)"/>
+    <line x1="290" y1="41" x2="120" y2="75" stroke="#dcad61" stroke-width="1" marker-end="url(#arrowA)"/>
+    <line x1="350" y1="41" x2="350" y2="75" stroke="#dcad61" stroke-width="1" marker-end="url(#arrowA)"/>
+    <line x1="410" y1="41" x2="580" y2="75" stroke="#dcad61" stroke-width="1" marker-end="url(#arrowA)"/>
     <!-- Agent boxes -->
-    <rect x="20" y="78" width="200" height="48" rx="6" fill="#10101a" stroke="#a78bfa" stroke-width="1.5"/>
-    <text x="120" y="97" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11" font-weight="600">API Migration Agent</text>
-    <text x="120" y="117" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">worktree-1 &bull; sonnet</text>
-    <rect x="250" y="78" width="200" height="48" rx="6" fill="#10101a" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="350" y="97" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="11" font-weight="600">Docs Generator Agent</text>
-    <text x="350" y="117" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">worktree-2 &bull; sonnet</text>
-    <rect x="480" y="78" width="200" height="48" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
-    <text x="580" y="97" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="11" font-weight="600">Test Coverage Agent</text>
-    <text x="580" y="117" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">worktree-3 &bull; sonnet</text>
+    <rect x="20" y="78" width="200" height="48" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
+    <text x="120" y="97" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="11" font-weight="600">API Migration Agent</text>
+    <text x="120" y="117" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono" font-size="9">worktree-1 &bull; sonnet</text>
+    <rect x="250" y="78" width="200" height="48" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
+    <text x="350" y="97" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="11" font-weight="600">Docs Generator Agent</text>
+    <text x="350" y="117" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono" font-size="9">worktree-2 &bull; sonnet</text>
+    <rect x="480" y="78" width="200" height="48" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
+    <text x="580" y="97" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="11" font-weight="600">Test Coverage Agent</text>
+    <text x="580" y="117" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono" font-size="9">worktree-3 &bull; sonnet</text>
     <!-- Fan-in arrows -->
-    <line x1="120" y1="126" x2="290" y2="150" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowG)"/>
-    <line x1="350" y1="126" x2="350" y2="150" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowG)"/>
-    <line x1="580" y1="126" x2="410" y2="150" stroke="#4ecb8d" stroke-width="1" marker-end="url(#arrowG)"/>
+    <line x1="120" y1="126" x2="290" y2="150" stroke="#a9cd8e" stroke-width="1" marker-end="url(#arrowG)"/>
+    <line x1="350" y1="126" x2="350" y2="150" stroke="#a9cd8e" stroke-width="1" marker-end="url(#arrowG)"/>
+    <line x1="580" y1="126" x2="410" y2="150" stroke="#a9cd8e" stroke-width="1" marker-end="url(#arrowG)"/>
     <!-- Merge box -->
-    <rect x="250" y="150" width="200" height="28" rx="6" fill="#10101a" stroke="#4ecb8d" stroke-width="1.5"/>
-    <text x="350" y="169" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="11" font-weight="600">Merge Results</text>
+    <rect x="250" y="150" width="200" height="28" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
+    <text x="350" y="169" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="11" font-weight="600">Merge Results</text>
   </svg>
 
   <div class="callout">

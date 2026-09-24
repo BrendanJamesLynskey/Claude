@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  :root { --amber:#f5a623; --green:#4ecb8d; --purple:#a78bfa; --blue:#60a5fa; --red:#f87171; --bg:#0a0a0f; --bg2:#10101a; --bg3:#181824; --border:#2a2a3a; --text:#e8e8f0; --muted:#8888a8; }
+  :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
@@ -22,7 +22,7 @@
   .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
   .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
-  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+  .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .88em; }
@@ -39,13 +39,13 @@
   .card.blue { border-left: 3px solid var(--blue); }
   .card.red { border-left: 3px solid var(--red); }
   .card h3 { font-size: .70em; margin: 0 0 .12em; }
-  .card p { font-size: .58em; margin: 0; color: #b8b8d0; }
+  .card p { font-size: .58em; margin: 0; color: #c8bfb3; }
   .card ul { margin: 0; padding-left: 1em; }
-  .card li { font-size: .58em; color: #b8b8d0; margin-bottom: .02em; }
+  .card li { font-size: .58em; color: #c8bfb3; margin-bottom: .02em; }
   .reveal table { width: 100%; border-collapse: collapse; font-size: .52em; table-layout: fixed; }
   .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600; padding: .3em .5em; border: 1px solid var(--border); text-align: left; }
-  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #ccc;  overflow-wrap: break-word; word-break: break-word; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .reveal table td { padding: .3em .5em; border: 1px solid var(--border); color: #d7cec2;  overflow-wrap: break-word; word-break: break-word; }
+  .reveal table tr:nth-child(even) td { background: #211c19; }
   .a { color: var(--amber); font-weight: 600; }
   .g { color: var(--green); font-weight: 600; }
   .p { color: var(--purple); font-weight: 600; }
@@ -141,37 +141,37 @@
   <svg class="diagram" viewBox="0 0 800 340" width="750" height="320">
     <!-- Central cycle -->
     <defs>
-      <marker id="arrowA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f5a623"/></marker>
-      <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4ecb8d"/></marker>
-      <marker id="arrowP" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a78bfa"/></marker>
-      <marker id="arrowB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#60a5fa"/></marker>
+      <marker id="arrowA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#dcad61"/></marker>
+      <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a9cd8e"/></marker>
+      <marker id="arrowP" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ba9ecc"/></marker>
+      <marker id="arrowB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#73b9b4"/></marker>
     </defs>
     <!-- Boxes -->
-    <rect x="300" y="10" width="200" height="55" rx="8" fill="#10101a" stroke="#f5a623" stroke-width="2"/>
-    <text x="400" y="43" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="18" font-weight="700">OBSERVE</text>
-    <rect x="580" y="130" width="200" height="55" rx="8" fill="#10101a" stroke="#4ecb8d" stroke-width="2"/>
-    <text x="680" y="163" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="18" font-weight="700">THINK</text>
-    <rect x="300" y="250" width="200" height="55" rx="8" fill="#10101a" stroke="#a78bfa" stroke-width="2"/>
-    <text x="400" y="283" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display,serif" font-size="18" font-weight="700">ACT</text>
-    <rect x="20" y="130" width="200" height="55" rx="8" fill="#10101a" stroke="#60a5fa" stroke-width="2"/>
-    <text x="120" y="163" text-anchor="middle" fill="#60a5fa" font-family="Playfair Display,serif" font-size="18" font-weight="700">ITERATE</text>
+    <rect x="300" y="10" width="200" height="55" rx="8" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
+    <text x="400" y="43" text-anchor="middle" fill="#dcad61" font-family="Playfair Display,serif" font-size="18" font-weight="700">OBSERVE</text>
+    <rect x="580" y="130" width="200" height="55" rx="8" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
+    <text x="680" y="163" text-anchor="middle" fill="#a9cd8e" font-family="Playfair Display,serif" font-size="18" font-weight="700">THINK</text>
+    <rect x="300" y="250" width="200" height="55" rx="8" fill="#231e1a" stroke="#ba9ecc" stroke-width="2"/>
+    <text x="400" y="283" text-anchor="middle" fill="#ba9ecc" font-family="Playfair Display,serif" font-size="18" font-weight="700">ACT</text>
+    <rect x="20" y="130" width="200" height="55" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
+    <text x="120" y="163" text-anchor="middle" fill="#73b9b4" font-family="Playfair Display,serif" font-size="18" font-weight="700">ITERATE</text>
     <!-- Arrows -->
-    <path d="M500,45 Q560,45 570,130" fill="none" stroke="#f5a623" stroke-width="2" marker-end="url(#arrowA)"/>
-    <path d="M580,175 Q500,250 500,260" fill="none" stroke="#4ecb8d" stroke-width="2" marker-end="url(#arrowG)"/>
-    <path d="M300,270 Q230,270 225,185" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowP)"/>
-    <path d="M120,130 Q120,50 300,37" fill="none" stroke="#60a5fa" stroke-width="2" marker-end="url(#arrowB)"/>
+    <path d="M500,45 Q560,45 570,130" fill="none" stroke="#dcad61" stroke-width="2" marker-end="url(#arrowA)"/>
+    <path d="M580,175 Q500,250 500,260" fill="none" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arrowG)"/>
+    <path d="M300,270 Q230,270 225,185" fill="none" stroke="#ba9ecc" stroke-width="2" marker-end="url(#arrowP)"/>
+    <path d="M120,130 Q120,50 300,37" fill="none" stroke="#73b9b4" stroke-width="2" marker-end="url(#arrowB)"/>
     <!-- Labels -->
-    <text x="555" y="82" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Gather context,</text>
-    <text x="555" y="97" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">read environment</text>
-    <text x="545" y="225" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Plan next step,</text>
-    <text x="545" y="240" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">select tools</text>
-    <text x="140" y="235" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Execute tool call,</text>
-    <text x="140" y="250" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">make changes</text>
-    <text x="130" y="95" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">Check results,</text>
-    <text x="130" y="110" fill="#8888a8" font-family="DM Sans,sans-serif" font-size="12">continue or stop</text>
+    <text x="555" y="82" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Gather context,</text>
+    <text x="555" y="97" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">read environment</text>
+    <text x="545" y="225" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Plan next step,</text>
+    <text x="545" y="240" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">select tools</text>
+    <text x="140" y="235" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Execute tool call,</text>
+    <text x="140" y="250" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">make changes</text>
+    <text x="130" y="95" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Check results,</text>
+    <text x="130" y="110" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">continue or stop</text>
     <!-- Stop condition -->
-    <rect x="310" y="140" width="180" height="40" rx="6" fill="#10101a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4"/>
-    <text x="400" y="165" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="13">goal_reached → stop</text>
+    <rect x="310" y="140" width="180" height="40" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="400" y="165" text-anchor="middle" fill="#d77753" font-family="JetBrains Mono,monospace" font-size="13">goal_reached → stop</text>
   </svg>
 </section>
 
@@ -548,52 +548,52 @@ def create_github_issue(
     <div class="card amber">
       <h3>Orchestrator</h3>
       <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
-        <rect x="60" y="5" width="100" height="35" rx="6" fill="#10101a" stroke="#f5a623" stroke-width="1.5"/>
-        <text x="110" y="28" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="11">Orchestrator</text>
-        <rect x="5" y="80" width="80" height="30" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="45" y="100" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
-        <rect x="70" y="140" width="80" height="30" rx="5" fill="#10101a" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="110" y="160" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
-        <rect x="135" y="80" width="80" height="30" rx="5" fill="#10101a" stroke="#60a5fa" stroke-width="1.2"/>
-        <text x="175" y="100" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
-        <line x1="90" y1="40" x2="50" y2="80" stroke="#f5a623" stroke-width="1.2"/>
-        <line x1="110" y1="40" x2="110" y2="140" stroke="#f5a623" stroke-width="1.2"/>
-        <line x1="130" y1="40" x2="170" y2="80" stroke="#f5a623" stroke-width="1.2"/>
+        <rect x="60" y="5" width="100" height="35" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
+        <text x="110" y="28" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono,monospace" font-size="11">Orchestrator</text>
+        <rect x="5" y="80" width="80" height="30" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.2"/>
+        <text x="45" y="100" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
+        <rect x="70" y="140" width="80" height="30" rx="5" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.2"/>
+        <text x="110" y="160" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
+        <rect x="135" y="80" width="80" height="30" rx="5" fill="#231e1a" stroke="#73b9b4" stroke-width="1.2"/>
+        <text x="175" y="100" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
+        <line x1="90" y1="40" x2="50" y2="80" stroke="#dcad61" stroke-width="1.2"/>
+        <line x1="110" y1="40" x2="110" y2="140" stroke="#dcad61" stroke-width="1.2"/>
+        <line x1="130" y1="40" x2="170" y2="80" stroke="#dcad61" stroke-width="1.2"/>
       </svg>
       <p style="font-size:.46em;">Central agent delegates subtasks to specialized workers</p>
     </div>
     <div class="card green">
       <h3>Pipeline</h3>
       <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
-        <rect x="70" y="5" width="80" height="30" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.2"/>
-        <text x="110" y="25" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="9">Stage 1</text>
-        <rect x="70" y="60" width="80" height="30" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="110" y="80" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">Stage 2</text>
-        <rect x="70" y="115" width="80" height="30" rx="5" fill="#10101a" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="110" y="135" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Stage 3</text>
-        <rect x="70" y="170" width="80" height="30" rx="5" fill="#10101a" stroke="#60a5fa" stroke-width="1.2"/>
-        <text x="110" y="190" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="9">Stage 4</text>
-        <line x1="110" y1="35" x2="110" y2="60" stroke="#8888a8" stroke-width="1.5" marker-end="url(#arrowA)"/>
-        <line x1="110" y1="90" x2="110" y2="115" stroke="#8888a8" stroke-width="1.5" marker-end="url(#arrowG)"/>
-        <line x1="110" y1="145" x2="110" y2="170" stroke="#8888a8" stroke-width="1.5" marker-end="url(#arrowP)"/>
+        <rect x="70" y="5" width="80" height="30" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.2"/>
+        <text x="110" y="25" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono,monospace" font-size="9">Stage 1</text>
+        <rect x="70" y="60" width="80" height="30" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.2"/>
+        <text x="110" y="80" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono,monospace" font-size="9">Stage 2</text>
+        <rect x="70" y="115" width="80" height="30" rx="5" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.2"/>
+        <text x="110" y="135" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="9">Stage 3</text>
+        <rect x="70" y="170" width="80" height="30" rx="5" fill="#231e1a" stroke="#73b9b4" stroke-width="1.2"/>
+        <text x="110" y="190" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono,monospace" font-size="9">Stage 4</text>
+        <line x1="110" y1="35" x2="110" y2="60" stroke="#988d82" stroke-width="1.5" marker-end="url(#arrowA)"/>
+        <line x1="110" y1="90" x2="110" y2="115" stroke="#988d82" stroke-width="1.5" marker-end="url(#arrowG)"/>
+        <line x1="110" y1="145" x2="110" y2="170" stroke="#988d82" stroke-width="1.5" marker-end="url(#arrowP)"/>
       </svg>
       <p style="font-size:.46em;">Each agent processes output from the previous stage sequentially</p>
     </div>
     <div class="card purple">
       <h3>Peer-to-Peer</h3>
       <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
-        <rect x="70" y="5" width="80" height="30" rx="5" fill="#10101a" stroke="#f5a623" stroke-width="1.2"/>
-        <text x="110" y="25" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
-        <rect x="5" y="120" width="80" height="30" rx="5" fill="#10101a" stroke="#4ecb8d" stroke-width="1.2"/>
-        <text x="45" y="140" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
-        <rect x="135" y="120" width="80" height="30" rx="5" fill="#10101a" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="175" y="140" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
-        <line x1="85" y1="35" x2="55" y2="120" stroke="#8888a8" stroke-width="1"/>
-        <line x1="135" y1="35" x2="165" y2="120" stroke="#8888a8" stroke-width="1"/>
-        <line x1="85" y1="135" x2="135" y2="135" stroke="#8888a8" stroke-width="1"/>
-        <line x1="55" y1="120" x2="85" y2="35" stroke="#8888a8" stroke-width="1" stroke-dasharray="3"/>
-        <line x1="165" y1="120" x2="135" y2="35" stroke="#8888a8" stroke-width="1" stroke-dasharray="3"/>
-        <line x1="135" y1="140" x2="85" y2="140" stroke="#8888a8" stroke-width="1" stroke-dasharray="3"/>
+        <rect x="70" y="5" width="80" height="30" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.2"/>
+        <text x="110" y="25" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
+        <rect x="5" y="120" width="80" height="30" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.2"/>
+        <text x="45" y="140" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
+        <rect x="135" y="120" width="80" height="30" rx="5" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.2"/>
+        <text x="175" y="140" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
+        <line x1="85" y1="35" x2="55" y2="120" stroke="#988d82" stroke-width="1"/>
+        <line x1="135" y1="35" x2="165" y2="120" stroke="#988d82" stroke-width="1"/>
+        <line x1="85" y1="135" x2="135" y2="135" stroke="#988d82" stroke-width="1"/>
+        <line x1="55" y1="120" x2="85" y2="35" stroke="#988d82" stroke-width="1" stroke-dasharray="3"/>
+        <line x1="165" y1="120" x2="135" y2="35" stroke="#988d82" stroke-width="1" stroke-dasharray="3"/>
+        <line x1="135" y1="140" x2="85" y2="140" stroke="#988d82" stroke-width="1" stroke-dasharray="3"/>
       </svg>
       <p style="font-size:.46em;">Agents communicate directly, no central coordinator needed</p>
     </div>
@@ -1090,11 +1090,11 @@ for step in result.trace.steps:
   </div>
   <table style="margin-top:.3em;">
     <tr><th>Strategy</th><th>Latency Impact</th><th>Cost Impact</th><th>Accuracy Impact</th></tr>
-    <tr><td>Model routing (Haiku/Sonnet/Opus)</td><td style="color:#4ecb8d;">-40% latency</td><td style="color:#4ecb8d;">-60% cost</td><td style="color:#f87171;">-10% accuracy</td></tr>
-    <tr><td>Parallel tool execution</td><td style="color:#4ecb8d;">-50% latency</td><td>Neutral</td><td>Neutral</td></tr>
-    <tr><td>Context summarization</td><td style="color:#4ecb8d;">-20% latency</td><td style="color:#4ecb8d;">-30% cost</td><td style="color:#f87171;">-5% accuracy</td></tr>
-    <tr><td>Verification loop</td><td style="color:#f87171;">+30% latency</td><td style="color:#f87171;">+25% cost</td><td style="color:#4ecb8d;">+15% accuracy</td></tr>
-    <tr><td>Extended thinking</td><td style="color:#f87171;">+20% latency</td><td style="color:#f87171;">+15% cost</td><td style="color:#4ecb8d;">+20% accuracy</td></tr>
+    <tr><td>Model routing (Haiku/Sonnet/Opus)</td><td style="color:#a9cd8e;">-40% latency</td><td style="color:#a9cd8e;">-60% cost</td><td style="color:#d77753;">-10% accuracy</td></tr>
+    <tr><td>Parallel tool execution</td><td style="color:#a9cd8e;">-50% latency</td><td>Neutral</td><td>Neutral</td></tr>
+    <tr><td>Context summarization</td><td style="color:#a9cd8e;">-20% latency</td><td style="color:#a9cd8e;">-30% cost</td><td style="color:#d77753;">-5% accuracy</td></tr>
+    <tr><td>Verification loop</td><td style="color:#d77753;">+30% latency</td><td style="color:#d77753;">+25% cost</td><td style="color:#a9cd8e;">+15% accuracy</td></tr>
+    <tr><td>Extended thinking</td><td style="color:#d77753;">+20% latency</td><td style="color:#d77753;">+15% cost</td><td style="color:#a9cd8e;">+20% accuracy</td></tr>
   </table>
 </section>
 

@@ -9,15 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
   :root {
-    --amber:  #f5a623;
-    --green:  #4ecb8d;
-    --purple: #a78bfa;
-    --blue:   #60a5fa;
-    --bg:     #0a0a0f;
-    --bg2:    #10101a;
-    --border: #2a2a3a;
-    --text:   #e8e8f0;
-    --muted:  #8888a8;
+    --amber:  #dcad61;
+    --green:  #a9cd8e;
+    --purple: #ba9ecc;
+    --blue:   #73b9b4;
+    --bg:     #1c1815;
+    --bg2:    #231e1a;
+    --border: #403831;
+    --text:   #ede5d9;
+    --muted:  #988d82;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -36,8 +36,8 @@
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 60%),
-      radial-gradient(ellipse at 50% 100%, rgba(78,203,141,0.06) 0%, transparent 50%);
+      radial-gradient(ellipse at 50% 0%, rgba(220,173,97,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(169,205,142,0.06) 0%, transparent 50%);
     pointer-events: none;
   }
   .accent-border-top {
@@ -45,7 +45,7 @@
     top: 0; left: 0; right: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--amber), transparent);
-    box-shadow: 0 0 15px rgba(245,166,35,0.3);
+    box-shadow: 0 0 15px rgba(220,173,97,0.3);
   }
   .container {
     position: relative;
@@ -120,23 +120,23 @@
   }
   a.btn.primary {
     color: var(--text);
-    background: rgba(245,166,35,0.12);
-    border: 1px solid rgba(245,166,35,0.4);
-    box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+    background: rgba(220,173,97,0.12);
+    border: 1px solid rgba(220,173,97,0.4);
+    box-shadow: 0 4px 20px rgba(220,173,97,0.1);
   }
   a.btn.primary:hover {
-    background: rgba(245,166,35,0.2);
+    background: rgba(220,173,97,0.2);
     border-color: var(--amber);
-    box-shadow: 0 4px 30px rgba(245,166,35,0.2);
+    box-shadow: 0 4px 30px rgba(220,173,97,0.2);
   }
   a.btn.secondary {
     color: var(--muted);
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(250,246,240,0.04);
+    border: 1px solid rgba(250,246,240,0.1);
   }
   a.btn.secondary:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.2);
+    background: rgba(250,246,240,0.08);
+    border-color: rgba(250,246,240,0.2);
     color: var(--text);
   }
   .badge {
