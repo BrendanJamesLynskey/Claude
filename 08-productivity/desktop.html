@@ -8,23 +8,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
   :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal { font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Bricolage Grotesque', serif; font-weight: 700; }
   .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
   .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
   .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal code { font-family: 'Geist Mono', monospace; font-size: .65em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
   .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr .tag { font-family: 'Geist Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .74em; }
   .cols { display: grid; gap: .35em; }
   .cols-2 { grid-template-columns: 1fr 1fr; }
@@ -50,17 +50,17 @@
   .p { color: var(--purple); font-weight: 600; }
   .b { color: var(--blue); font-weight: 600; }
   .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Geist Mono', monospace; }
   svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill { display: inline-block; font-family: 'Geist Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
   .pill.amber { color: var(--amber); border-color: var(--amber); }
   .pill.green { color: var(--green); border-color: var(--green); }
   .pill.purple { color: var(--purple); border-color: var(--purple); }
   .pill.blue { color: var(--blue); border-color: var(--blue); }
   .reveal .slide-footer { display: none; }
   .title-slide h1 { font-size: 1.3em; }
-  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'Instrument Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'Geist Mono', monospace; }
   .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
   .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
   
@@ -84,16 +84,16 @@
   <p class="meta">Anthropic Claude Series</p>
   <svg class="diagram" width="600" height="70" viewBox="0 0 600 70">
     <rect x="10" y="15" width="100" height="40" rx="6" fill="none" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="60" y="40" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="11">Prompt</text>
+    <text x="60" y="40" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11">Prompt</text>
     <line x1="115" y1="35" x2="160" y2="35" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrowG8)"/>
     <rect x="165" y="15" width="100" height="40" rx="6" fill="none" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="215" y="40" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="11">Claude</text>
+    <text x="215" y="40" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="11">Claude</text>
     <line x1="270" y1="35" x2="315" y2="35" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrowG8)"/>
     <rect x="320" y="15" width="100" height="40" rx="6" fill="none" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="370" y="40" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="11">Output</text>
+    <text x="370" y="40" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="11">Output</text>
     <line x1="425" y1="35" x2="470" y2="35" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrowG8)"/>
     <rect x="475" y="15" width="110" height="40" rx="6" fill="none" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="530" y="40" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="11">Productivity</text>
+    <text x="530" y="40" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11">Productivity</text>
     <defs><marker id="arrowG8" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#a9cd8e"/></marker></defs>
   </svg>
 </section>
@@ -211,20 +211,20 @@ keys: summary, risks, recommendations"</code></pre>
   <p>A repeatable framework for constructing high-quality prompts:</p>
   <svg class="diagram" width="800" height="90" viewBox="0 0 800 90">
     <rect x="5" y="20" width="140" height="50" rx="8" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
-    <text x="75" y="38" text-anchor="middle" fill="#dcad61" font-family="Playfair Display" font-size="14" font-weight="700">C</text>
-    <text x="75" y="56" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="11">Context</text>
+    <text x="75" y="38" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque" font-size="14" font-weight="700">C</text>
+    <text x="75" y="56" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="11">Context</text>
     <rect x="165" y="20" width="140" height="50" rx="8" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
-    <text x="235" y="38" text-anchor="middle" fill="#a9cd8e" font-family="Playfair Display" font-size="14" font-weight="700">R</text>
-    <text x="235" y="56" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="11">Role</text>
+    <text x="235" y="38" text-anchor="middle" fill="#a9cd8e" font-family="Bricolage Grotesque" font-size="14" font-weight="700">R</text>
+    <text x="235" y="56" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="11">Role</text>
     <rect x="325" y="20" width="140" height="50" rx="8" fill="#231e1a" stroke="#ba9ecc" stroke-width="2"/>
-    <text x="395" y="38" text-anchor="middle" fill="#ba9ecc" font-family="Playfair Display" font-size="14" font-weight="700">A</text>
-    <text x="395" y="56" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="11">Action</text>
+    <text x="395" y="38" text-anchor="middle" fill="#ba9ecc" font-family="Bricolage Grotesque" font-size="14" font-weight="700">A</text>
+    <text x="395" y="56" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="11">Action</text>
     <rect x="485" y="20" width="140" height="50" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
-    <text x="555" y="38" text-anchor="middle" fill="#73b9b4" font-family="Playfair Display" font-size="14" font-weight="700">F</text>
-    <text x="555" y="56" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="11">Format</text>
+    <text x="555" y="38" text-anchor="middle" fill="#73b9b4" font-family="Bricolage Grotesque" font-size="14" font-weight="700">F</text>
+    <text x="555" y="56" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="11">Format</text>
     <rect x="645" y="20" width="140" height="50" rx="8" fill="#231e1a" stroke="#d77753" stroke-width="2"/>
-    <text x="715" y="38" text-anchor="middle" fill="#d77753" font-family="Playfair Display" font-size="14" font-weight="700">T</text>
-    <text x="715" y="56" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="11">Tone</text>
+    <text x="715" y="38" text-anchor="middle" fill="#d77753" font-family="Bricolage Grotesque" font-size="14" font-weight="700">T</text>
+    <text x="715" y="56" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="11">Tone</text>
   </svg>
   <div class="cols cols-2" style="margin-top:.2em;">
     <div class="card amber">
@@ -354,20 +354,20 @@ keys: summary, risks, recommendations"</code></pre>
   <svg class="diagram" width="750" height="110" viewBox="0 0 750 110">
     <defs><marker id="arw8a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#a9cd8e"/></marker></defs>
     <rect x="5" y="30" width="130" height="50" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="70" y="50" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="10">Documents</text>
-    <text x="70" y="65" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">PDFs, papers, reports</text>
+    <text x="70" y="50" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="10">Documents</text>
+    <text x="70" y="65" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">PDFs, papers, reports</text>
     <line x1="140" y1="55" x2="185" y2="55" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw8a)"/>
     <rect x="190" y="30" width="130" height="50" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="255" y="50" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="10">Claude Analysis</text>
-    <text x="255" y="65" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Extract &amp; synthesize</text>
+    <text x="255" y="50" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="10">Claude Analysis</text>
+    <text x="255" y="65" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Extract &amp; synthesize</text>
     <line x1="325" y1="55" x2="370" y2="55" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw8a)"/>
     <rect x="375" y="30" width="130" height="50" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="440" y="50" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="10">Structured Output</text>
-    <text x="440" y="65" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Tables, summaries</text>
+    <text x="440" y="50" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="10">Structured Output</text>
+    <text x="440" y="65" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Tables, summaries</text>
     <line x1="510" y1="55" x2="555" y2="55" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw8a)"/>
     <rect x="560" y="30" width="130" height="50" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="625" y="50" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="10">Decisions</text>
-    <text x="625" y="65" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Actionable insights</text>
+    <text x="625" y="50" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="10">Decisions</text>
+    <text x="625" y="65" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Actionable insights</text>
   </svg>
   <div class="cols cols-3">
     <div class="card amber">
@@ -548,42 +548,42 @@ trend, and any seasonal patterns."</code></pre>
     </defs>
     <!-- PR Submitted -->
     <rect x="10" y="20" width="140" height="45" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
-    <text x="80" y="38" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="11">PR Submitted</text>
-    <text x="80" y="52" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Developer opens PR</text>
+    <text x="80" y="38" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="11">PR Submitted</text>
+    <text x="80" y="52" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Developer opens PR</text>
     <!-- Arrow down -->
     <line x1="80" y1="70" x2="80" y2="95" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw12)"/>
     <!-- Claude Auto Review -->
     <rect x="10" y="100" width="140" height="45" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="2"/>
-    <text x="80" y="118" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="11">Claude Review</text>
-    <text x="80" y="132" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Automated analysis</text>
+    <text x="80" y="118" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="11">Claude Review</text>
+    <text x="80" y="132" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Automated analysis</text>
     <!-- Arrow right to checks -->
     <line x1="155" y1="122" x2="200" y2="122" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw12)"/>
     <!-- Checks branch -->
     <rect x="205" y="80" width="160" height="30" rx="4" fill="#231e1a" stroke="#dcad61" stroke-width="1"/>
-    <text x="285" y="100" text-anchor="middle" fill="#dcad61" font-family="DM Sans" font-size="10">Security vulnerabilities</text>
+    <text x="285" y="100" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans" font-size="10">Security vulnerabilities</text>
     <rect x="205" y="115" width="160" height="30" rx="4" fill="#231e1a" stroke="#a9cd8e" stroke-width="1"/>
-    <text x="285" y="135" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans" font-size="10">Performance issues</text>
+    <text x="285" y="135" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans" font-size="10">Performance issues</text>
     <rect x="205" y="150" width="160" height="30" rx="4" fill="#231e1a" stroke="#ba9ecc" stroke-width="1"/>
-    <text x="285" y="170" text-anchor="middle" fill="#ba9ecc" font-family="DM Sans" font-size="10">Style &amp; best practices</text>
+    <text x="285" y="170" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans" font-size="10">Style &amp; best practices</text>
     <!-- Arrow right -->
     <line x1="370" y1="130" x2="420" y2="130" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw12)"/>
     <!-- Human Review -->
     <rect x="425" y="105" width="150" height="50" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
-    <text x="500" y="125" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="11">Human Review</text>
-    <text x="500" y="140" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Architecture &amp; logic</text>
+    <text x="500" y="125" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11">Human Review</text>
+    <text x="500" y="140" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Architecture &amp; logic</text>
     <!-- Arrow right -->
     <line x1="580" y1="130" x2="625" y2="130" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw12)"/>
     <!-- Decision -->
     <polygon points="700,90 770,130 700,170 630,130" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
-    <text x="700" y="134" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans" font-size="11">Approve?</text>
+    <text x="700" y="134" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans" font-size="11">Approve?</text>
     <!-- Yes arrow -->
     <line x1="770" y1="130" x2="810" y2="130" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="800" y="125" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans" font-size="10">Merge</text>
+    <text x="800" y="125" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans" font-size="10">Merge</text>
     <!-- No arrow back -->
     <line x1="700" y1="175" x2="700" y2="230" stroke="#d77753" stroke-width="1.5"/>
     <line x1="700" y1="230" x2="80" y2="230" stroke="#d77753" stroke-width="1.5"/>
     <line x1="80" y1="230" x2="80" y2="150" stroke="#d77753" stroke-width="1.5" marker-end="url(#arw12b)"/>
-    <text x="390" y="248" text-anchor="middle" fill="#d77753" font-family="DM Sans" font-size="10">Revisions needed &mdash; iterate</text>
+    <text x="390" y="248" text-anchor="middle" fill="#d77753" font-family="Instrument Sans" font-size="10">Revisions needed &mdash; iterate</text>
   </svg>
 </section>
 
@@ -596,22 +596,22 @@ trend, and any seasonal patterns."</code></pre>
         <defs><marker id="arw13" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#a9cd8e"/></marker></defs>
         <!-- Step 1 -->
         <rect x="80" y="5" width="180" height="35" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="2"/>
-        <text x="170" y="27" text-anchor="middle" fill="#d77753" font-family="JetBrains Mono" font-size="11">1. Write Failing Tests</text>
+        <text x="170" y="27" text-anchor="middle" fill="#d77753" font-family="Geist Mono" font-size="11">1. Write Failing Tests</text>
         <line x1="170" y1="45" x2="170" y2="65" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw13)"/>
         <!-- Step 2 -->
         <rect x="80" y="70" width="180" height="35" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
-        <text x="170" y="92" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="11">2. Claude Implements</text>
+        <text x="170" y="92" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono" font-size="11">2. Claude Implements</text>
         <line x1="170" y1="110" x2="170" y2="130" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw13)"/>
         <!-- Step 3 -->
         <rect x="80" y="135" width="180" height="35" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
-        <text x="170" y="157" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="11">3. Run Tests</text>
+        <text x="170" y="157" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="11">3. Run Tests</text>
         <line x1="170" y1="175" x2="170" y2="195" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw13)"/>
         <!-- Step 4 -->
         <rect x="80" y="200" width="180" height="30" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="2"/>
-        <text x="170" y="219" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="11">4. Refactor &amp; Iterate</text>
+        <text x="170" y="219" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="11">4. Refactor &amp; Iterate</text>
         <!-- Loop arrow -->
         <path d="M265,215 Q310,215 310,90 Q310,22 265,22" fill="none" stroke="#dcad61" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="325" y="120" fill="#dcad61" font-family="DM Sans" font-size="9" transform="rotate(90,325,120)">repeat</text>
+        <text x="325" y="120" fill="#dcad61" font-family="Instrument Sans" font-size="9" transform="rotate(90,325,120)">repeat</text>
       </svg>
     </div>
     <div>
@@ -892,19 +892,19 @@ Format for exec audience."</code></pre>
   <svg class="diagram" width="750" height="90" viewBox="0 0 750 90">
     <defs><marker id="arw20" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#a9cd8e"/></marker></defs>
     <rect x="5" y="22" width="120" height="40" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="65" y="46" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="10">Trigger</text>
+    <text x="65" y="46" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="10">Trigger</text>
     <line x1="130" y1="42" x2="175" y2="42" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw20)"/>
     <rect x="180" y="22" width="120" height="40" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="240" y="46" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="10">Template</text>
+    <text x="240" y="46" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="10">Template</text>
     <line x1="305" y1="42" x2="350" y2="42" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw20)"/>
     <rect x="355" y="22" width="120" height="40" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="415" y="46" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="10">Claude API</text>
+    <text x="415" y="46" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="10">Claude API</text>
     <line x1="480" y1="42" x2="525" y2="42" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw20)"/>
     <rect x="530" y="22" width="120" height="40" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="590" y="46" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">Output</text>
+    <text x="590" y="46" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono" font-size="10">Output</text>
     <line x1="655" y1="42" x2="700" y2="42" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arw20)"/>
     <rect x="705" y="22" width="40" height="40" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5"/>
-    <text x="725" y="46" text-anchor="middle" fill="#d77753" font-family="JetBrains Mono" font-size="10">Act</text>
+    <text x="725" y="46" text-anchor="middle" fill="#d77753" font-family="Geist Mono" font-size="10">Act</text>
   </svg>
   <div class="cols cols-3">
     <div class="card amber">

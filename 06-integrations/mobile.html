@@ -8,23 +8,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
   :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal { font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Bricolage Grotesque', serif; font-weight: 700; }
   .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
   .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
   .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal code { font-family: 'Geist Mono', monospace; font-size: .72em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
   .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr .tag { font-family: 'Geist Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .88em; }
   .cols { display: grid; gap: .5em; }
   .cols-2 { grid-template-columns: 1fr 1fr; }
@@ -51,17 +51,17 @@
   .p { color: var(--purple); font-weight: 600; }
   .b { color: var(--blue); font-weight: 600; }
   .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Geist Mono', monospace; }
   svg.diagram { display: block; margin: 0 auto; overflow: visible;  max-width: 100%; height: auto; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill { display: inline-block; font-family: 'Geist Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
   .pill.amber { color: var(--amber); border-color: var(--amber); }
   .pill.green { color: var(--green); border-color: var(--green); }
   .pill.purple { color: var(--purple); border-color: var(--purple); }
   .pill.blue { color: var(--blue); border-color: var(--blue); }
   .reveal .slide-footer { display: none; }
   .title-slide h1 { font-size: 1.5em; }
-  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'Instrument Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'Geist Mono', monospace; }
   .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
   .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; overflow-x: hidden !important; align-items: stretch !important; justify-content: flex-start !important; }
   </style>
@@ -95,48 +95,48 @@
   <svg class="diagram" viewBox="0 0 800 500" width="750">
     <!-- Center node -->
     <circle cx="400" cy="250" r="52" fill="#29241f" stroke="#dcad61" stroke-width="2.5"/>
-    <text x="400" y="245" text-anchor="middle" fill="#dcad61" font-family="Playfair Display,serif" font-size="16" font-weight="700">Claude</text>
-    <text x="400" y="263" text-anchor="middle" fill="#988d82" font-family="DM Sans,sans-serif" font-size="10">AI Engine</text>
+    <text x="400" y="245" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="16" font-weight="700">Claude</text>
+    <text x="400" y="263" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">AI Engine</text>
     <!-- IDE spoke -->
     <line x1="400" y1="198" x2="400" y2="80" stroke="#a9cd8e" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="340" y="38" width="120" height="42" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="400" y="56" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">IDE Plugins</text>
-    <text x="400" y="70" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">VS Code / JetBrains / Cursor</text>
+    <text x="400" y="56" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">IDE Plugins</text>
+    <text x="400" y="70" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">VS Code / JetBrains / Cursor</text>
     <!-- GitHub spoke -->
     <line x1="355" y1="210" x2="200" y2="110" stroke="#ba9ecc" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="110" y="75" width="120" height="42" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="170" y="93" text-anchor="middle" fill="#ba9ecc" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">GitHub</text>
-    <text x="170" y="107" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">PRs / Actions / Issues</text>
+    <text x="170" y="93" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">GitHub</text>
+    <text x="170" y="107" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">PRs / Actions / Issues</text>
     <!-- Cloud spoke -->
     <line x1="445" y1="210" x2="600" y2="110" stroke="#73b9b4" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="540" y="75" width="120" height="42" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="600" y="93" text-anchor="middle" fill="#73b9b4" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Cloud Providers</text>
-    <text x="600" y="107" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">AWS / GCP / Azure</text>
+    <text x="600" y="93" text-anchor="middle" fill="#73b9b4" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">Cloud Providers</text>
+    <text x="600" y="107" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">AWS / GCP / Azure</text>
     <!-- MCP spoke -->
     <line x1="348" y1="270" x2="170" y2="320" stroke="#dcad61" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="80" y="305" width="140" height="42" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="150" y="323" text-anchor="middle" fill="#dcad61" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">MCP Servers</text>
-    <text x="150" y="337" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">Files / DB / APIs</text>
+    <text x="150" y="323" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">MCP Servers</text>
+    <text x="150" y="337" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">Files / DB / APIs</text>
     <!-- Automation spoke -->
     <line x1="452" y1="270" x2="630" y2="320" stroke="#d77753" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="560" y="305" width="140" height="42" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5"/>
-    <text x="630" y="323" text-anchor="middle" fill="#d77753" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Automation</text>
-    <text x="630" y="337" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">Zapier / Slack / Make</text>
+    <text x="630" y="323" text-anchor="middle" fill="#d77753" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">Automation</text>
+    <text x="630" y="337" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">Zapier / Slack / Make</text>
     <!-- Enterprise spoke -->
     <line x1="400" y1="302" x2="400" y2="410" stroke="#ba9ecc" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="320" y="410" width="160" height="42" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="400" y="428" text-anchor="middle" fill="#ba9ecc" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Enterprise</text>
-    <text x="400" y="442" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">SSO / VPC / Compliance</text>
+    <text x="400" y="428" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">Enterprise</text>
+    <text x="400" y="442" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">SSO / VPC / Compliance</text>
     <!-- Frameworks spoke -->
     <line x1="348" y1="240" x2="130" y2="220" stroke="#a9cd8e" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="40" y="195" width="130" height="42" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="105" y="213" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Frameworks</text>
-    <text x="105" y="227" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">LangChain / LlamaIndex</text>
+    <text x="105" y="213" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">Frameworks</text>
+    <text x="105" y="227" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">LangChain / LlamaIndex</text>
     <!-- Productivity spoke -->
     <line x1="452" y1="240" x2="670" y2="220" stroke="#dcad61" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="600" y="195" width="140" height="42" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="670" y="213" text-anchor="middle" fill="#dcad61" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">Productivity</text>
-    <text x="670" y="227" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">Notion / Docs / Email</text>
+    <text x="670" y="213" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">Productivity</text>
+    <text x="670" y="227" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">Notion / Docs / Email</text>
   </svg>
 </section>
 
@@ -402,36 +402,36 @@ jobs:
   <svg class="diagram" viewBox="0 0 800 340" width="750">
     <!-- Host Application -->
     <rect x="280" y="10" width="240" height="50" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
-    <text x="400" y="32" text-anchor="middle" fill="#dcad61" font-family="Playfair Display,serif" font-size="14" font-weight="700">Host Application</text>
-    <text x="400" y="48" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">Claude Desktop / IDE / Custom App</text>
+    <text x="400" y="32" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="14" font-weight="700">Host Application</text>
+    <text x="400" y="48" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">Claude Desktop / IDE / Custom App</text>
     <!-- MCP Client -->
     <rect x="310" y="85" width="180" height="38" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="400" y="108" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans,sans-serif" font-size="12" font-weight="600">MCP Client</text>
+    <text x="400" y="108" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans,sans-serif" font-size="12" font-weight="600">MCP Client</text>
     <line x1="400" y1="60" x2="400" y2="85" stroke="#a9cd8e" stroke-width="1.5"/>
     <!-- Protocol layer -->
     <rect x="250" y="148" width="300" height="30" rx="4" fill="#29241f" stroke="#403831" stroke-width="1"/>
-    <text x="400" y="167" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="10">JSON-RPC 2.0 over stdio / HTTP+SSE</text>
+    <text x="400" y="167" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="10">JSON-RPC 2.0 over stdio / HTTP+SSE</text>
     <line x1="400" y1="123" x2="400" y2="148" stroke="#ba9ecc" stroke-width="1.5" stroke-dasharray="4,3"/>
     <!-- MCP Servers -->
     <line x1="300" y1="178" x2="150" y2="225" stroke="#73b9b4" stroke-width="1.5" stroke-dasharray="4,3"/>
     <line x1="400" y1="178" x2="400" y2="225" stroke="#73b9b4" stroke-width="1.5" stroke-dasharray="4,3"/>
     <line x1="500" y1="178" x2="650" y2="225" stroke="#73b9b4" stroke-width="1.5" stroke-dasharray="4,3"/>
     <rect x="70" y="225" width="160" height="50" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="150" y="247" text-anchor="middle" fill="#73b9b4" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Filesystem Server</text>
-    <text x="150" y="265" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">read / write / search</text>
+    <text x="150" y="247" text-anchor="middle" fill="#73b9b4" font-family="Instrument Sans,sans-serif" font-size="11" font-weight="600">Filesystem Server</text>
+    <text x="150" y="265" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">read / write / search</text>
     <rect x="320" y="225" width="160" height="50" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="400" y="247" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Database Server</text>
-    <text x="400" y="265" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">query / schema / migrate</text>
+    <text x="400" y="247" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans,sans-serif" font-size="11" font-weight="600">Database Server</text>
+    <text x="400" y="265" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">query / schema / migrate</text>
     <rect x="570" y="225" width="160" height="50" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5"/>
-    <text x="650" y="247" text-anchor="middle" fill="#d77753" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">API Server</text>
-    <text x="650" y="265" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">REST / GraphQL / gRPC</text>
+    <text x="650" y="247" text-anchor="middle" fill="#d77753" font-family="Instrument Sans,sans-serif" font-size="11" font-weight="600">API Server</text>
+    <text x="650" y="265" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">REST / GraphQL / gRPC</text>
     <!-- Data sources -->
     <rect x="80" y="300" width="140" height="28" rx="4" fill="#29241f" stroke="#403831" stroke-width="1"/>
-    <text x="150" y="318" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">Local Files</text>
+    <text x="150" y="318" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">Local Files</text>
     <rect x="330" y="300" width="140" height="28" rx="4" fill="#29241f" stroke="#403831" stroke-width="1"/>
-    <text x="400" y="318" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">PostgreSQL / SQLite</text>
+    <text x="400" y="318" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">PostgreSQL / SQLite</text>
     <rect x="580" y="300" width="140" height="28" rx="4" fill="#29241f" stroke="#403831" stroke-width="1"/>
-    <text x="650" y="318" text-anchor="middle" fill="#988d82" font-family="JetBrains Mono,monospace" font-size="9">External Services</text>
+    <text x="650" y="318" text-anchor="middle" fill="#988d82" font-family="Geist Mono,monospace" font-size="9">External Services</text>
     <line x1="150" y1="275" x2="150" y2="300" stroke="#403831" stroke-width="1"/>
     <line x1="400" y1="275" x2="400" y2="300" stroke="#403831" stroke-width="1"/>
     <line x1="650" y1="275" x2="650" y2="300" stroke="#403831" stroke-width="1"/>

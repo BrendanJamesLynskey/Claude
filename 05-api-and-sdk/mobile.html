@@ -8,23 +8,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
   :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal { font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Bricolage Grotesque', serif; font-weight: 700; }
   .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
   .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
   .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal code { font-family: 'Geist Mono', monospace; font-size: .72em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
   .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr .tag { font-family: 'Geist Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .88em; }
   .cols { display: grid; gap: .5em; }
   .cols-2 { grid-template-columns: 1fr; }
@@ -50,17 +50,17 @@
   .p { color: var(--purple); font-weight: 600; }
   .b { color: var(--blue); font-weight: 600; }
   .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Geist Mono', monospace; }
   svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill { display: inline-block; font-family: 'Geist Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
   .pill.amber { color: var(--amber); border-color: var(--amber); }
   .pill.green { color: var(--green); border-color: var(--green); }
   .pill.purple { color: var(--purple); border-color: var(--purple); }
   .pill.blue { color: var(--blue); border-color: var(--blue); }
   .reveal .slide-footer { display: none; }
   .title-slide h1 { font-size: 1.5em; }
-  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'Instrument Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'Geist Mono', monospace; }
   .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
   .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; overflow-x: hidden !important; align-items: stretch !important; justify-content: flex-start !important; }
   </style>
@@ -89,23 +89,23 @@
   <p>The Claude API is a <span class="a">REST API</span> that provides programmatic access to Claude models for building AI-powered applications.</p>
   <svg class="diagram" viewBox="0 0 700 180" width="650" height="170" style="max-width: 100%; height: auto;">
     <rect x="10" y="60" width="130" height="60" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="75" y="87" text-anchor="middle" fill="#dcad61" font-size="12" font-family="DM Sans">Your Application</text>
-    <text x="75" y="103" text-anchor="middle" fill="#988d82" font-size="9" font-family="JetBrains Mono">Python / TS / cURL</text>
+    <text x="75" y="87" text-anchor="middle" fill="#dcad61" font-size="12" font-family="Instrument Sans">Your Application</text>
+    <text x="75" y="103" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">Python / TS / cURL</text>
     <line x1="140" y1="90" x2="220" y2="90" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrow-g)"/>
-    <text x="180" y="82" text-anchor="middle" fill="#a9cd8e" font-size="9" font-family="JetBrains Mono">HTTPS</text>
+    <text x="180" y="82" text-anchor="middle" fill="#a9cd8e" font-size="9" font-family="Geist Mono">HTTPS</text>
     <rect x="220" y="40" width="180" height="100" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="310" y="62" text-anchor="middle" fill="#ba9ecc" font-size="12" font-family="DM Sans" font-weight="600">Anthropic API</text>
-    <text x="310" y="80" text-anchor="middle" fill="#988d82" font-size="9" font-family="JetBrains Mono">api.anthropic.com</text>
+    <text x="310" y="62" text-anchor="middle" fill="#ba9ecc" font-size="12" font-family="Instrument Sans" font-weight="600">Anthropic API</text>
+    <text x="310" y="80" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">api.anthropic.com</text>
     <rect x="240" y="90" width="60" height="22" rx="3" fill="#29241f" stroke="#403831"/>
-    <text x="270" y="105" text-anchor="middle" fill="#73b9b4" font-size="8" font-family="JetBrains Mono">Messages</text>
+    <text x="270" y="105" text-anchor="middle" fill="#73b9b4" font-size="8" font-family="Geist Mono">Messages</text>
     <rect x="310" y="90" width="60" height="22" rx="3" fill="#29241f" stroke="#403831"/>
-    <text x="340" y="105" text-anchor="middle" fill="#73b9b4" font-size="8" font-family="JetBrains Mono">Batches</text>
+    <text x="340" y="105" text-anchor="middle" fill="#73b9b4" font-size="8" font-family="Geist Mono">Batches</text>
     <line x1="400" y1="90" x2="480" y2="90" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrow-g)"/>
     <rect x="480" y="45" width="200" height="90" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="580" y="70" text-anchor="middle" fill="#dcad61" font-size="12" font-family="DM Sans" font-weight="600">Claude Models</text>
-    <text x="580" y="88" text-anchor="middle" fill="#988d82" font-size="9" font-family="JetBrains Mono">Opus / Sonnet / Haiku</text>
-    <text x="580" y="104" text-anchor="middle" fill="#988d82" font-size="9" font-family="JetBrains Mono">+ Vision + Tools</text>
-    <text x="580" y="120" text-anchor="middle" fill="#988d82" font-size="9" font-family="JetBrains Mono">+ Extended Thinking</text>
+    <text x="580" y="70" text-anchor="middle" fill="#dcad61" font-size="12" font-family="Instrument Sans" font-weight="600">Claude Models</text>
+    <text x="580" y="88" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">Opus / Sonnet / Haiku</text>
+    <text x="580" y="104" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">+ Vision + Tools</text>
+    <text x="580" y="120" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">+ Extended Thinking</text>
     <defs><marker id="arrow-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a9cd8e"/></marker></defs>
   </svg>
   <div class="cols cols-3" style="margin-top:.3em;">
@@ -570,26 +570,26 @@ console.log(finalMsg.usage);</code></pre>
   <p>Claude can call <span class="a">external functions</span> you define. You describe tools with JSON Schema, and Claude decides when and how to use them.</p>
   <svg class="diagram" viewBox="0 0 700 110" width="650" height="100" style="max-width: 100%; height: auto;">
     <rect x="5" y="30" width="110" height="50" rx="5" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="60" y="55" text-anchor="middle" fill="#73b9b4" font-size="10" font-family="DM Sans">User Request</text>
-    <text x="60" y="68" text-anchor="middle" fill="#988d82" font-size="8" font-family="JetBrains Mono">"What's weather?"</text>
+    <text x="60" y="55" text-anchor="middle" fill="#73b9b4" font-size="10" font-family="Instrument Sans">User Request</text>
+    <text x="60" y="68" text-anchor="middle" fill="#988d82" font-size="8" font-family="Geist Mono">"What's weather?"</text>
     <line x1="115" y1="55" x2="175" y2="55" stroke="#a9cd8e" stroke-width="1.2" marker-end="url(#arrow-g)"/>
     <rect x="175" y="25" width="110" height="60" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="230" y="50" text-anchor="middle" fill="#dcad61" font-size="10" font-family="DM Sans">Claude</text>
-    <text x="230" y="65" text-anchor="middle" fill="#988d82" font-size="8" font-family="JetBrains Mono">stop: tool_use</text>
-    <text x="230" y="77" text-anchor="middle" fill="#988d82" font-size="8" font-family="JetBrains Mono">get_weather({...})</text>
+    <text x="230" y="50" text-anchor="middle" fill="#dcad61" font-size="10" font-family="Instrument Sans">Claude</text>
+    <text x="230" y="65" text-anchor="middle" fill="#988d82" font-size="8" font-family="Geist Mono">stop: tool_use</text>
+    <text x="230" y="77" text-anchor="middle" fill="#988d82" font-size="8" font-family="Geist Mono">get_weather({...})</text>
     <line x1="285" y1="55" x2="345" y2="55" stroke="#ba9ecc" stroke-width="1.2" marker-end="url(#arrow-p)"/>
-    <text x="315" y="48" text-anchor="middle" fill="#ba9ecc" font-size="8" font-family="JetBrains Mono">execute</text>
+    <text x="315" y="48" text-anchor="middle" fill="#ba9ecc" font-size="8" font-family="Geist Mono">execute</text>
     <rect x="345" y="30" width="110" height="50" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="400" y="52" text-anchor="middle" fill="#a9cd8e" font-size="10" font-family="DM Sans">Your Function</text>
-    <text x="400" y="68" text-anchor="middle" fill="#988d82" font-size="8" font-family="JetBrains Mono">tool_result</text>
+    <text x="400" y="52" text-anchor="middle" fill="#a9cd8e" font-size="10" font-family="Instrument Sans">Your Function</text>
+    <text x="400" y="68" text-anchor="middle" fill="#988d82" font-size="8" font-family="Geist Mono">tool_result</text>
     <line x1="455" y1="55" x2="515" y2="55" stroke="#ba9ecc" stroke-width="1.2" marker-end="url(#arrow-p)"/>
-    <text x="485" y="48" text-anchor="middle" fill="#ba9ecc" font-size="8" font-family="JetBrains Mono">return</text>
+    <text x="485" y="48" text-anchor="middle" fill="#ba9ecc" font-size="8" font-family="Geist Mono">return</text>
     <rect x="515" y="25" width="110" height="60" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="570" y="50" text-anchor="middle" fill="#dcad61" font-size="10" font-family="DM Sans">Claude</text>
-    <text x="570" y="65" text-anchor="middle" fill="#988d82" font-size="8" font-family="JetBrains Mono">stop: end_turn</text>
-    <text x="570" y="77" text-anchor="middle" fill="#988d82" font-size="8" font-family="JetBrains Mono">"It's 72°F..."</text>
+    <text x="570" y="50" text-anchor="middle" fill="#dcad61" font-size="10" font-family="Instrument Sans">Claude</text>
+    <text x="570" y="65" text-anchor="middle" fill="#988d82" font-size="8" font-family="Geist Mono">stop: end_turn</text>
+    <text x="570" y="77" text-anchor="middle" fill="#988d82" font-size="8" font-family="Geist Mono">"It's 72°F..."</text>
     <line x1="625" y1="55" x2="685" y2="55" stroke="#a9cd8e" stroke-width="1.2" marker-end="url(#arrow-g)"/>
-    <text x="695" y="58" text-anchor="start" fill="#73b9b4" font-size="10" font-family="DM Sans"></text>
+    <text x="695" y="58" text-anchor="start" fill="#73b9b4" font-size="10" font-family="Instrument Sans"></text>
     <defs><marker id="arrow-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ba9ecc"/></marker></defs>
   </svg>
   <div class="cols cols-2" style="margin-top:.2em;">

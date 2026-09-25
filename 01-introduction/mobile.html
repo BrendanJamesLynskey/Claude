@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/black.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/monokai.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
   --amber: #dcad61;
@@ -23,8 +23,8 @@
   --muted: #988d82;
 }
 
-.reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-.reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: var(--text); }
+.reveal { font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+.reveal h1, .reveal h2, .reveal h3 { font-family: 'Bricolage Grotesque', serif; color: var(--text); }
 .reveal h1 { font-size: 1.3em; margin-bottom: 0.3em; }
 .reveal h2 { font-size: 1.0em; margin-bottom: 0.5em; }
 .reveal h3 { font-size: .85em; margin-bottom: 0.4em; }
@@ -42,11 +42,11 @@
   justify-content: flex-start !important;
 }
 
-.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.92em; }
+.mono { font-family: 'Geist Mono', monospace; font-size: 0.92em; }
 
 .tag {
   display: inline-block; background: var(--amber); color: #141110;
-  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+  font-family: 'Geist Mono', monospace; font-weight: 500;
   font-size: .48em; padding: 0.15em 0.55em; border-radius: 4px;
   margin-right: 0.5em; vertical-align: middle; position: relative; top: -2px;
 }
@@ -89,7 +89,7 @@
 /* Title Slide */
 .title-slide { text-align: center !important; justify-content: center !important; }
 .title-slide .series-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.55em;
+  font-family: 'Geist Mono', monospace; font-size: 0.55em;
   color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase;
   margin-bottom: 0.8em;
 }
@@ -103,7 +103,7 @@
   max-width: 700px; margin-left: auto; margin-right: auto;
 }
 .title-slide .meta {
-  font-family: 'JetBrains Mono', monospace; font-size: .50em; color: var(--muted);
+  font-family: 'Geist Mono', monospace; font-size: .50em; color: var(--muted);
 }
 
 /* Tables */
@@ -111,7 +111,7 @@
 .reveal table th {
   background: var(--bg3); color: var(--amber); padding: .3em .5em;
   text-align: left; border-bottom: 2px solid var(--amber);
-  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+  font-family: 'Geist Mono', monospace; font-weight: 500;
 }
 .reveal table td {
   padding: .3em .5em; border-bottom: 1px solid var(--border); color: var(--text); overflow-wrap: break-word; word-break: break-word;
@@ -303,16 +303,16 @@
           </defs>
           <!-- Step boxes -->
           <rect x="10" y="10" width="140" height="55" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-          <text x="80" y="32" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="10" font-weight="500">Step 1</text>
-          <text x="80" y="50" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="10">Pre-training (LLM)</text>
+          <text x="80" y="32" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="10" font-weight="500">Step 1</text>
+          <text x="80" y="50" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Pre-training (LLM)</text>
 
           <rect x="170" y="10" width="140" height="55" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-          <text x="240" y="32" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10" font-weight="500">Step 2</text>
-          <text x="240" y="50" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="10">RLHF Fine-tuning</text>
+          <text x="240" y="32" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono" font-size="10" font-weight="500">Step 2</text>
+          <text x="240" y="50" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="10">RLHF Fine-tuning</text>
 
           <rect x="330" y="10" width="140" height="55" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-          <text x="400" y="32" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="10" font-weight="500">Step 3</text>
-          <text x="400" y="50" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="10">Constitutional AI</text>
+          <text x="400" y="32" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="10" font-weight="500">Step 3</text>
+          <text x="400" y="50" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Constitutional AI</text>
 
           <!-- Arrows -->
           <line x1="150" y1="37" x2="168" y2="37" stroke="#dcad61" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -320,25 +320,25 @@
 
           <!-- Constitution box -->
           <rect x="50" y="90" width="380" height="170" rx="8" fill="#231e1a" stroke="#403831" stroke-width="1"/>
-          <text x="240" y="115" text-anchor="middle" fill="#dcad61" font-family="Playfair Display" font-size="13" font-weight="700">The Constitution</text>
+          <text x="240" y="115" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque" font-size="13" font-weight="700">The Constitution</text>
 
-          <text x="70" y="140" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">01</text>
-          <text x="95" y="140" fill="#ede5d9" font-family="DM Sans" font-size="10">Be helpful and provide accurate information</text>
+          <text x="70" y="140" fill="#a9cd8e" font-family="Geist Mono" font-size="10">01</text>
+          <text x="95" y="140" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Be helpful and provide accurate information</text>
 
-          <text x="70" y="162" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">02</text>
-          <text x="95" y="162" fill="#ede5d9" font-family="DM Sans" font-size="10">Avoid harmful, unethical, or deceptive content</text>
+          <text x="70" y="162" fill="#a9cd8e" font-family="Geist Mono" font-size="10">02</text>
+          <text x="95" y="162" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Avoid harmful, unethical, or deceptive content</text>
 
-          <text x="70" y="184" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">03</text>
-          <text x="95" y="184" fill="#ede5d9" font-family="DM Sans" font-size="10">Acknowledge uncertainty and limitations honestly</text>
+          <text x="70" y="184" fill="#a9cd8e" font-family="Geist Mono" font-size="10">03</text>
+          <text x="95" y="184" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Acknowledge uncertainty and limitations honestly</text>
 
-          <text x="70" y="206" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">04</text>
-          <text x="95" y="206" fill="#ede5d9" font-family="DM Sans" font-size="10">Respect user autonomy and privacy</text>
+          <text x="70" y="206" fill="#a9cd8e" font-family="Geist Mono" font-size="10">04</text>
+          <text x="95" y="206" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Respect user autonomy and privacy</text>
 
-          <text x="70" y="228" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">05</text>
-          <text x="95" y="228" fill="#ede5d9" font-family="DM Sans" font-size="10">Self-critique and revise against principles</text>
+          <text x="70" y="228" fill="#a9cd8e" font-family="Geist Mono" font-size="10">05</text>
+          <text x="95" y="228" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Self-critique and revise against principles</text>
 
-          <text x="70" y="250" fill="#a9cd8e" font-family="JetBrains Mono" font-size="10">06</text>
-          <text x="95" y="250" fill="#ede5d9" font-family="DM Sans" font-size="10">Prefer responses that minimize potential for harm</text>
+          <text x="70" y="250" fill="#a9cd8e" font-family="Geist Mono" font-size="10">06</text>
+          <text x="95" y="250" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Prefer responses that minimize potential for harm</text>
         </svg>
       </div>
     </div>
@@ -474,29 +474,29 @@
           <!-- Context bar visualization -->
           <rect x="10" y="20" width="400" height="30" rx="4" fill="#231e1a" stroke="#403831"/>
           <rect x="10" y="20" width="400" height="30" rx="4" fill="rgba(220,173,97,0.2)"/>
-          <text x="210" y="40" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="11" font-weight="500">200K Tokens (~150,000 words)</text>
+          <text x="210" y="40" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">200K Tokens (~150,000 words)</text>
 
           <!-- Comparisons -->
           <rect x="10" y="65" width="80" height="22" rx="3" fill="rgba(115,185,180,0.2)" stroke="#73b9b4" stroke-width="0.5"/>
-          <text x="50" y="80" text-anchor="middle" fill="#73b9b4" font-family="DM Sans" font-size="9">GPT-4: 128K</text>
+          <text x="50" y="80" text-anchor="middle" fill="#73b9b4" font-family="Instrument Sans" font-size="9">GPT-4: 128K</text>
 
           <rect x="100" y="65" width="60" height="22" rx="3" fill="rgba(186,158,204,0.2)" stroke="#ba9ecc" stroke-width="0.5"/>
-          <text x="130" y="80" text-anchor="middle" fill="#ba9ecc" font-family="DM Sans" font-size="9">Llama: 128K</text>
+          <text x="130" y="80" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans" font-size="9">Llama: 128K</text>
 
           <rect x="170" y="65" width="240" height="22" rx="3" fill="rgba(169,205,142,0.2)" stroke="#a9cd8e" stroke-width="0.5"/>
-          <text x="290" y="80" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans" font-size="9">Gemini 2.5 Pro: 1M tokens</text>
+          <text x="290" y="80" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans" font-size="9">Gemini 2.5 Pro: 1M tokens</text>
 
           <!-- What fits -->
-          <text x="10" y="115" fill="#dcad61" font-family="JetBrains Mono" font-size="11" font-weight="500">What fits in 200K tokens?</text>
+          <text x="10" y="115" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">What fits in 200K tokens?</text>
 
-          <text x="10" y="138" fill="#a9cd8e" font-family="JetBrains Mono" font-size="9">~</text>
-          <text x="25" y="138" fill="#ede5d9" font-family="DM Sans" font-size="10">500 pages of text (a full novel)</text>
+          <text x="10" y="138" fill="#a9cd8e" font-family="Geist Mono" font-size="9">~</text>
+          <text x="25" y="138" fill="#ede5d9" font-family="Instrument Sans" font-size="10">500 pages of text (a full novel)</text>
 
-          <text x="10" y="155" fill="#a9cd8e" font-family="JetBrains Mono" font-size="9">~</text>
-          <text x="25" y="155" fill="#ede5d9" font-family="DM Sans" font-size="10">An entire codebase (~300 files)</text>
+          <text x="10" y="155" fill="#a9cd8e" font-family="Geist Mono" font-size="9">~</text>
+          <text x="25" y="155" fill="#ede5d9" font-family="Instrument Sans" font-size="10">An entire codebase (~300 files)</text>
 
-          <text x="10" y="172" fill="#a9cd8e" font-family="JetBrains Mono" font-size="9">~</text>
-          <text x="25" y="172" fill="#ede5d9" font-family="DM Sans" font-size="10">Hours of meeting transcripts</text>
+          <text x="10" y="172" fill="#a9cd8e" font-family="Geist Mono" font-size="9">~</text>
+          <text x="25" y="172" fill="#ede5d9" font-family="Instrument Sans" font-size="10">Hours of meeting transcripts</text>
         </svg>
       </div>
     </div>
@@ -535,55 +535,55 @@
     <svg width="780" height="420" viewBox="0 0 780 420" style="max-width: 100%; height: auto;">
       <!-- Central node -->
       <circle cx="390" cy="210" r="55" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
-      <text x="390" y="205" text-anchor="middle" fill="#dcad61" font-family="Playfair Display" font-size="16" font-weight="700">Claude</text>
-      <text x="390" y="222" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="10">AI Models</text>
+      <text x="390" y="205" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque" font-size="16" font-weight="700">Claude</text>
+      <text x="390" y="222" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="10">AI Models</text>
 
       <!-- Claude.ai -->
       <line x1="340" y1="175" x2="200" y2="80" stroke="#a9cd8e" stroke-width="1.5" stroke-dasharray="4"/>
       <rect x="100" y="45" width="160" height="60" rx="8" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-      <text x="180" y="72" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="12" font-weight="500">Claude.ai</text>
-      <text x="180" y="90" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">Web &amp; Mobile App</text>
+      <text x="180" y="72" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono" font-size="12" font-weight="500">Claude.ai</text>
+      <text x="180" y="90" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">Web &amp; Mobile App</text>
 
       <!-- API -->
       <line x1="440" y1="175" x2="580" y2="80" stroke="#73b9b4" stroke-width="1.5" stroke-dasharray="4"/>
       <rect x="500" y="45" width="160" height="60" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-      <text x="580" y="72" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="12" font-weight="500">Anthropic API</text>
-      <text x="580" y="90" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">REST API &amp; SDKs</text>
+      <text x="580" y="72" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="12" font-weight="500">Anthropic API</text>
+      <text x="580" y="90" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">REST API &amp; SDKs</text>
 
       <!-- Claude Code -->
       <line x1="340" y1="245" x2="200" y2="340" stroke="#ba9ecc" stroke-width="1.5" stroke-dasharray="4"/>
       <rect x="100" y="315" width="160" height="60" rx="8" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-      <text x="180" y="342" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="12" font-weight="500">Claude Code</text>
-      <text x="180" y="360" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">CLI &amp; IDE Agent</text>
+      <text x="180" y="342" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="12" font-weight="500">Claude Code</text>
+      <text x="180" y="360" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">CLI &amp; IDE Agent</text>
 
       <!-- Integrations -->
       <line x1="440" y1="245" x2="580" y2="340" stroke="#d77753" stroke-width="1.5" stroke-dasharray="4"/>
       <rect x="500" y="315" width="160" height="60" rx="8" fill="#231e1a" stroke="#d77753" stroke-width="1.5"/>
-      <text x="580" y="342" text-anchor="middle" fill="#d77753" font-family="JetBrains Mono" font-size="12" font-weight="500">Integrations</text>
-      <text x="580" y="360" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="9">AWS, GCP, Partners</text>
+      <text x="580" y="342" text-anchor="middle" fill="#d77753" font-family="Geist Mono" font-size="12" font-weight="500">Integrations</text>
+      <text x="580" y="360" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="9">AWS, GCP, Partners</text>
 
       <!-- Sub-items: Claude.ai -->
-      <text x="42" y="135" fill="#a9cd8e" font-family="DM Sans" font-size="9">• Projects &amp; Artifacts</text>
-      <text x="42" y="150" fill="#a9cd8e" font-family="DM Sans" font-size="9">• Team collaboration</text>
-      <text x="42" y="165" fill="#a9cd8e" font-family="DM Sans" font-size="9">• File uploads &amp; vision</text>
+      <text x="42" y="135" fill="#a9cd8e" font-family="Instrument Sans" font-size="9">• Projects &amp; Artifacts</text>
+      <text x="42" y="150" fill="#a9cd8e" font-family="Instrument Sans" font-size="9">• Team collaboration</text>
+      <text x="42" y="165" fill="#a9cd8e" font-family="Instrument Sans" font-size="9">• File uploads &amp; vision</text>
 
       <!-- Sub-items: API -->
-      <text x="530" y="130" fill="#73b9b4" font-family="DM Sans" font-size="9">• Messages API</text>
-      <text x="530" y="145" fill="#73b9b4" font-family="DM Sans" font-size="9">• Tool use &amp; function calling</text>
-      <text x="530" y="160" fill="#73b9b4" font-family="DM Sans" font-size="9">• Streaming &amp; batches</text>
+      <text x="530" y="130" fill="#73b9b4" font-family="Instrument Sans" font-size="9">• Messages API</text>
+      <text x="530" y="145" fill="#73b9b4" font-family="Instrument Sans" font-size="9">• Tool use &amp; function calling</text>
+      <text x="530" y="160" fill="#73b9b4" font-family="Instrument Sans" font-size="9">• Streaming &amp; batches</text>
 
       <!-- Sub-items: Claude Code -->
-      <text x="42" y="393" fill="#ba9ecc" font-family="DM Sans" font-size="9">• Terminal-based AI coding</text>
-      <text x="42" y="408" fill="#ba9ecc" font-family="DM Sans" font-size="9">• Agentic file editing</text>
+      <text x="42" y="393" fill="#ba9ecc" font-family="Instrument Sans" font-size="9">• Terminal-based AI coding</text>
+      <text x="42" y="408" fill="#ba9ecc" font-family="Instrument Sans" font-size="9">• Agentic file editing</text>
 
       <!-- Sub-items: Integrations -->
-      <text x="530" y="393" fill="#d77753" font-family="DM Sans" font-size="9">• Amazon Bedrock</text>
-      <text x="530" y="408" fill="#d77753" font-family="DM Sans" font-size="9">• Google Vertex AI</text>
+      <text x="530" y="393" fill="#d77753" font-family="Instrument Sans" font-size="9">• Amazon Bedrock</text>
+      <text x="530" y="408" fill="#d77753" font-family="Instrument Sans" font-size="9">• Google Vertex AI</text>
 
       <!-- MCP -->
       <line x1="390" y1="155" x2="390" y2="35" stroke="#dcad61" stroke-width="1.5" stroke-dasharray="4"/>
       <rect x="310" y="5" width="160" height="30" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1"/>
-      <text x="390" y="25" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="10" font-weight="500">Model Context Protocol</text>
+      <text x="390" y="25" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="10" font-weight="500">Model Context Protocol</text>
     </svg>
   </div>
 </section>
@@ -950,52 +950,52 @@
 
       <!-- 2021 -->
       <circle cx="90" cy="200" r="6" fill="#dcad61"/>
-      <text x="90" y="180" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="11" font-weight="500">2021</text>
+      <text x="90" y="180" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">2021</text>
       <rect x="40" y="215" width="100" height="50" rx="5" fill="#231e1a" stroke="#403831"/>
-      <text x="90" y="235" text-anchor="middle" fill="#ede5d9" font-family="DM Sans" font-size="9">Anthropic</text>
-      <text x="90" y="250" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Founded</text>
+      <text x="90" y="235" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans" font-size="9">Anthropic</text>
+      <text x="90" y="250" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Founded</text>
 
       <!-- 2023 Q1 -->
       <circle cx="220" cy="200" r="6" fill="#a9cd8e"/>
-      <text x="220" y="180" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono" font-size="11" font-weight="500">Mar 2023</text>
+      <text x="220" y="180" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono" font-size="11" font-weight="500">Mar 2023</text>
       <rect x="170" y="105" width="100" height="65" rx="5" fill="#231e1a" stroke="#a9cd8e"/>
-      <text x="220" y="125" text-anchor="middle" fill="#a9cd8e" font-family="DM Sans" font-size="9">Claude 1.0</text>
-      <text x="220" y="140" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">First public</text>
-      <text x="220" y="155" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">release</text>
+      <text x="220" y="125" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans" font-size="9">Claude 1.0</text>
+      <text x="220" y="140" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">First public</text>
+      <text x="220" y="155" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">release</text>
       <line x1="220" y1="170" x2="220" y2="194" stroke="#a9cd8e" stroke-width="1" stroke-dasharray="3"/>
 
       <!-- 2023 Q3 -->
       <circle cx="350" cy="200" r="6" fill="#73b9b4"/>
-      <text x="350" y="180" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono" font-size="11" font-weight="500">Jul 2023</text>
+      <text x="350" y="180" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono" font-size="11" font-weight="500">Jul 2023</text>
       <rect x="300" y="215" width="100" height="65" rx="5" fill="#231e1a" stroke="#73b9b4"/>
-      <text x="350" y="235" text-anchor="middle" fill="#73b9b4" font-family="DM Sans" font-size="9">Claude 2</text>
-      <text x="350" y="250" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">100K context</text>
-      <text x="350" y="265" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Improved coding</text>
+      <text x="350" y="235" text-anchor="middle" fill="#73b9b4" font-family="Instrument Sans" font-size="9">Claude 2</text>
+      <text x="350" y="250" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">100K context</text>
+      <text x="350" y="265" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Improved coding</text>
 
       <!-- 2024 Q1 -->
       <circle cx="480" cy="200" r="6" fill="#ba9ecc"/>
-      <text x="480" y="180" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono" font-size="11" font-weight="500">Mar 2024</text>
+      <text x="480" y="180" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono" font-size="11" font-weight="500">Mar 2024</text>
       <rect x="430" y="105" width="100" height="65" rx="5" fill="#231e1a" stroke="#ba9ecc"/>
-      <text x="480" y="125" text-anchor="middle" fill="#ba9ecc" font-family="DM Sans" font-size="9">Claude 3</text>
-      <text x="480" y="140" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Haiku, Sonnet,</text>
-      <text x="480" y="155" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Opus · 200K ctx</text>
+      <text x="480" y="125" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans" font-size="9">Claude 3</text>
+      <text x="480" y="140" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Haiku, Sonnet,</text>
+      <text x="480" y="155" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Opus · 200K ctx</text>
       <line x1="480" y1="170" x2="480" y2="194" stroke="#ba9ecc" stroke-width="1" stroke-dasharray="3"/>
 
       <!-- 2024 Q3 -->
       <circle cx="610" cy="200" r="6" fill="#d77753"/>
-      <text x="610" y="180" text-anchor="middle" fill="#d77753" font-family="JetBrains Mono" font-size="11" font-weight="500">Oct 2024</text>
+      <text x="610" y="180" text-anchor="middle" fill="#d77753" font-family="Geist Mono" font-size="11" font-weight="500">Oct 2024</text>
       <rect x="560" y="215" width="100" height="65" rx="5" fill="#231e1a" stroke="#d77753"/>
-      <text x="610" y="235" text-anchor="middle" fill="#d77753" font-family="DM Sans" font-size="9">Claude 3.5</text>
-      <text x="610" y="250" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Sonnet leap</text>
-      <text x="610" y="265" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Computer Use</text>
+      <text x="610" y="235" text-anchor="middle" fill="#d77753" font-family="Instrument Sans" font-size="9">Claude 3.5</text>
+      <text x="610" y="250" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Sonnet leap</text>
+      <text x="610" y="265" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Computer Use</text>
 
       <!-- 2025 -->
       <circle cx="740" cy="200" r="8" fill="#dcad61" stroke="#dcad61" stroke-width="2"/>
-      <text x="740" y="178" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono" font-size="11" font-weight="500">2025</text>
+      <text x="740" y="178" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">2025</text>
       <rect x="688" y="105" width="104" height="65" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-      <text x="740" y="125" text-anchor="middle" fill="#dcad61" font-family="DM Sans" font-size="9" font-weight="600">Claude 4.x</text>
-      <text x="740" y="140" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Opus &amp; Sonnet 4.6</text>
-      <text x="740" y="155" text-anchor="middle" fill="#988d82" font-family="DM Sans" font-size="8">Claude Code</text>
+      <text x="740" y="125" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans" font-size="9" font-weight="600">Claude 4.x</text>
+      <text x="740" y="140" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Opus &amp; Sonnet 4.6</text>
+      <text x="740" y="155" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Claude Code</text>
       <line x1="740" y1="170" x2="740" y2="192" stroke="#dcad61" stroke-width="1" stroke-dasharray="3"/>
 
       <!-- Arrow at end -->

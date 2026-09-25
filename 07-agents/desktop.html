@@ -8,23 +8,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
   :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal { font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Bricolage Grotesque', serif; font-weight: 700; }
   .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: .82em; color: var(--amber); margin-bottom: .2em; }
   .reveal h3 { font-size: .60em; color: var(--green); margin-bottom: .08em; }
   .reveal p { font-size: .42em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .40em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .65em; }
+  .reveal code { font-family: 'Geist Mono', monospace; font-size: .65em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .2em .4em; margin: .15em 0; }
   .reveal pre code { font-size: .40em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .15em; margin-bottom: .2em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr .tag { font-family: 'Geist Mono', monospace; font-size: .38em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .74em; }
   .cols { display: grid; gap: .35em; }
   .cols-2 { grid-template-columns: 1fr 1fr; }
@@ -50,17 +50,17 @@
   .p { color: var(--purple); font-weight: 600; }
   .b { color: var(--blue); font-weight: 600; }
   .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Geist Mono', monospace; }
   svg.diagram { display: block; margin: 0 auto; overflow: visible; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill { display: inline-block; font-family: 'Geist Mono', monospace; font-size: .40em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
   .pill.amber { color: var(--amber); border-color: var(--amber); }
   .pill.green { color: var(--green); border-color: var(--green); }
   .pill.purple { color: var(--purple); border-color: var(--purple); }
   .pill.blue { color: var(--blue); border-color: var(--blue); }
   .reveal .slide-footer { display: none; }
   .title-slide h1 { font-size: 1.3em; }
-  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .title-slide .subtitle { font-size: .52em; color: var(--green); font-family: 'Instrument Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'Geist Mono', monospace; }
   .reveal ul, .reveal ol { margin: .1em 0 .1em .8em; }
   .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
   
@@ -154,30 +154,30 @@
     </defs>
     <!-- Boxes -->
     <rect x="300" y="10" width="200" height="55" rx="8" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
-    <text x="400" y="43" text-anchor="middle" fill="#dcad61" font-family="Playfair Display,serif" font-size="18" font-weight="700">OBSERVE</text>
+    <text x="400" y="43" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">OBSERVE</text>
     <rect x="580" y="130" width="200" height="55" rx="8" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
-    <text x="680" y="163" text-anchor="middle" fill="#a9cd8e" font-family="Playfair Display,serif" font-size="18" font-weight="700">THINK</text>
+    <text x="680" y="163" text-anchor="middle" fill="#a9cd8e" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">THINK</text>
     <rect x="300" y="250" width="200" height="55" rx="8" fill="#231e1a" stroke="#ba9ecc" stroke-width="2"/>
-    <text x="400" y="283" text-anchor="middle" fill="#ba9ecc" font-family="Playfair Display,serif" font-size="18" font-weight="700">ACT</text>
+    <text x="400" y="283" text-anchor="middle" fill="#ba9ecc" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">ACT</text>
     <rect x="20" y="130" width="200" height="55" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
-    <text x="120" y="163" text-anchor="middle" fill="#73b9b4" font-family="Playfair Display,serif" font-size="18" font-weight="700">ITERATE</text>
+    <text x="120" y="163" text-anchor="middle" fill="#73b9b4" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">ITERATE</text>
     <!-- Arrows -->
     <path d="M500,45 Q560,45 570,130" fill="none" stroke="#dcad61" stroke-width="2" marker-end="url(#arrowA)"/>
     <path d="M580,175 Q500,250 500,260" fill="none" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arrowG)"/>
     <path d="M300,270 Q230,270 225,185" fill="none" stroke="#ba9ecc" stroke-width="2" marker-end="url(#arrowP)"/>
     <path d="M120,130 Q120,50 300,37" fill="none" stroke="#73b9b4" stroke-width="2" marker-end="url(#arrowB)"/>
     <!-- Labels -->
-    <text x="555" y="82" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Gather context,</text>
-    <text x="555" y="97" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">read environment</text>
-    <text x="545" y="225" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Plan next step,</text>
-    <text x="545" y="240" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">select tools</text>
-    <text x="140" y="235" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Execute tool call,</text>
-    <text x="140" y="250" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">make changes</text>
-    <text x="130" y="95" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">Check results,</text>
-    <text x="130" y="110" fill="#988d82" font-family="DM Sans,sans-serif" font-size="12">continue or stop</text>
+    <text x="555" y="82" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">Gather context,</text>
+    <text x="555" y="97" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">read environment</text>
+    <text x="545" y="225" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">Plan next step,</text>
+    <text x="545" y="240" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">select tools</text>
+    <text x="140" y="235" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">Execute tool call,</text>
+    <text x="140" y="250" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">make changes</text>
+    <text x="130" y="95" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">Check results,</text>
+    <text x="130" y="110" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">continue or stop</text>
     <!-- Stop condition -->
     <rect x="310" y="140" width="180" height="40" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5" stroke-dasharray="4"/>
-    <text x="400" y="165" text-anchor="middle" fill="#d77753" font-family="JetBrains Mono,monospace" font-size="13">goal_reached → stop</text>
+    <text x="400" y="165" text-anchor="middle" fill="#d77753" font-family="Geist Mono,monospace" font-size="13">goal_reached → stop</text>
   </svg>
 </section>
 
@@ -555,13 +555,13 @@ def create_github_issue(
       <h3>Orchestrator</h3>
       <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
         <rect x="60" y="5" width="100" height="35" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-        <text x="110" y="28" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono,monospace" font-size="11">Orchestrator</text>
+        <text x="110" y="28" text-anchor="middle" fill="#dcad61" font-family="Geist Mono,monospace" font-size="11">Orchestrator</text>
         <rect x="5" y="80" width="80" height="30" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.2"/>
-        <text x="45" y="100" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
+        <text x="45" y="100" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="9">Agent A</text>
         <rect x="70" y="140" width="80" height="30" rx="5" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.2"/>
-        <text x="110" y="160" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
+        <text x="110" y="160" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="9">Agent B</text>
         <rect x="135" y="80" width="80" height="30" rx="5" fill="#231e1a" stroke="#73b9b4" stroke-width="1.2"/>
-        <text x="175" y="100" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
+        <text x="175" y="100" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono,monospace" font-size="9">Agent C</text>
         <line x1="90" y1="40" x2="50" y2="80" stroke="#dcad61" stroke-width="1.2"/>
         <line x1="110" y1="40" x2="110" y2="140" stroke="#dcad61" stroke-width="1.2"/>
         <line x1="130" y1="40" x2="170" y2="80" stroke="#dcad61" stroke-width="1.2"/>
@@ -572,13 +572,13 @@ def create_github_issue(
       <h3>Pipeline</h3>
       <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
         <rect x="70" y="5" width="80" height="30" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.2"/>
-        <text x="110" y="25" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono,monospace" font-size="9">Stage 1</text>
+        <text x="110" y="25" text-anchor="middle" fill="#dcad61" font-family="Geist Mono,monospace" font-size="9">Stage 1</text>
         <rect x="70" y="60" width="80" height="30" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.2"/>
-        <text x="110" y="80" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono,monospace" font-size="9">Stage 2</text>
+        <text x="110" y="80" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="9">Stage 2</text>
         <rect x="70" y="115" width="80" height="30" rx="5" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.2"/>
-        <text x="110" y="135" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="9">Stage 3</text>
+        <text x="110" y="135" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="9">Stage 3</text>
         <rect x="70" y="170" width="80" height="30" rx="5" fill="#231e1a" stroke="#73b9b4" stroke-width="1.2"/>
-        <text x="110" y="190" text-anchor="middle" fill="#73b9b4" font-family="JetBrains Mono,monospace" font-size="9">Stage 4</text>
+        <text x="110" y="190" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono,monospace" font-size="9">Stage 4</text>
         <line x1="110" y1="35" x2="110" y2="60" stroke="#988d82" stroke-width="1.5" marker-end="url(#arrowA)"/>
         <line x1="110" y1="90" x2="110" y2="115" stroke="#988d82" stroke-width="1.5" marker-end="url(#arrowG)"/>
         <line x1="110" y1="145" x2="110" y2="170" stroke="#988d82" stroke-width="1.5" marker-end="url(#arrowP)"/>
@@ -589,11 +589,11 @@ def create_github_issue(
       <h3>Peer-to-Peer</h3>
       <svg class="diagram" viewBox="0 0 220 190" width="200" height="170">
         <rect x="70" y="5" width="80" height="30" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.2"/>
-        <text x="110" y="25" text-anchor="middle" fill="#dcad61" font-family="JetBrains Mono,monospace" font-size="9">Agent A</text>
+        <text x="110" y="25" text-anchor="middle" fill="#dcad61" font-family="Geist Mono,monospace" font-size="9">Agent A</text>
         <rect x="5" y="120" width="80" height="30" rx="5" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.2"/>
-        <text x="45" y="140" text-anchor="middle" fill="#a9cd8e" font-family="JetBrains Mono,monospace" font-size="9">Agent B</text>
+        <text x="45" y="140" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="9">Agent B</text>
         <rect x="135" y="120" width="80" height="30" rx="5" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.2"/>
-        <text x="175" y="140" text-anchor="middle" fill="#ba9ecc" font-family="JetBrains Mono,monospace" font-size="9">Agent C</text>
+        <text x="175" y="140" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="9">Agent C</text>
         <line x1="85" y1="35" x2="55" y2="120" stroke="#988d82" stroke-width="1"/>
         <line x1="135" y1="35" x2="165" y2="120" stroke="#988d82" stroke-width="1"/>
         <line x1="85" y1="135" x2="135" y2="135" stroke="#988d82" stroke-width="1"/>

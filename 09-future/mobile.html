@@ -8,23 +8,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
   :root { --amber:#dcad61; --green:#a9cd8e; --purple:#ba9ecc; --blue:#73b9b4; --red:#d77753; --bg:#1c1815; --bg2:#231e1a; --bg3:#29241f; --border:#403831; --text:#ede5d9; --muted:#988d82; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
-  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal { font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Bricolage Grotesque', serif; font-weight: 700; }
   .reveal h1 { font-size: 1.3em; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: 1.0em; color: var(--amber); margin-bottom: .2em; }
   .reveal h3 { font-size: .85em; color: var(--green); margin-bottom: .15em; }
   .reveal p { font-size: .62em; line-height: 1.45; color: var(--text); }
   .reveal li { font-size: .60em; line-height: 1.45; margin-bottom: .1em; }
-  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal code { font-family: 'Geist Mono', monospace; font-size: .72em; }
   .reveal pre { box-shadow: none; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
   .reveal pre code { font-size: .55em; line-height: 1.35; background: transparent; color: #dfd7cb; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
-  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr .tag { font-family: 'Geist Mono', monospace; font-size: .48em; font-weight: 500; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: .88em; }
   .cols { display: grid; gap: .5em; }
   .cols-2 { grid-template-columns: 1fr 1fr; }
@@ -51,17 +51,17 @@
   .p { color: var(--purple); font-weight: 600; }
   .b { color: var(--blue); font-weight: 600; }
   .r { color: var(--red); font-weight: 600; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Geist Mono', monospace; }
   svg.diagram { display: block; margin: 0 auto; overflow: visible;  max-width: 100%; height: auto; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
+  .pill { display: inline-block; font-family: 'Geist Mono', monospace; font-size: .50em; padding: .08em .4em; border-radius: 99px; border: 1px solid; margin: 0 .08em; }
   .pill.amber { color: var(--amber); border-color: var(--amber); }
   .pill.green { color: var(--green); border-color: var(--green); }
   .pill.purple { color: var(--purple); border-color: var(--purple); }
   .pill.blue { color: var(--blue); border-color: var(--blue); }
   .reveal .slide-footer { display: none; }
   .title-slide h1 { font-size: 1.5em; }
-  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
-  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .title-slide .subtitle { font-size: .65em; color: var(--green); font-family: 'Instrument Sans', sans-serif; font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em; }
+  .title-slide .meta { font-size: .50em; color: var(--muted); font-family: 'Geist Mono', monospace; }
   .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
   .reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; overflow-x: hidden !important; align-items: stretch !important; justify-content: flex-start !important; }
   </style>
@@ -138,39 +138,39 @@
     <line x1="40" y1="180" x2="820" y2="180" stroke="#403831" stroke-width="2"/>
     <!-- Era markers -->
     <rect x="60" y="100" width="140" height="60" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="130" y="122" fill="#dcad61" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 1</text>
-    <text x="130" y="140" fill="#988d82" font-size="9" font-family="DM Sans" text-anchor="middle">Mar 2023</text>
-    <text x="130" y="152" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">100K ctx, text only</text>
+    <text x="130" y="122" fill="#dcad61" font-size="12" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Claude 1</text>
+    <text x="130" y="140" fill="#988d82" font-size="9" font-family="Instrument Sans" text-anchor="middle">Mar 2023</text>
+    <text x="130" y="152" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">100K ctx, text only</text>
 
     <rect x="230" y="80" width="140" height="80" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="300" y="102" fill="#a9cd8e" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 2</text>
-    <text x="300" y="120" fill="#988d82" font-size="9" font-family="DM Sans" text-anchor="middle">Jul 2023</text>
-    <text x="300" y="132" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">200K ctx, better reasoning</text>
-    <text x="300" y="148" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">coding improvements</text>
+    <text x="300" y="102" fill="#a9cd8e" font-size="12" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Claude 2</text>
+    <text x="300" y="120" fill="#988d82" font-size="9" font-family="Instrument Sans" text-anchor="middle">Jul 2023</text>
+    <text x="300" y="132" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">200K ctx, better reasoning</text>
+    <text x="300" y="148" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">coding improvements</text>
 
     <rect x="400" y="60" width="140" height="100" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="470" y="82" fill="#ba9ecc" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 3</text>
-    <text x="470" y="100" fill="#988d82" font-size="9" font-family="DM Sans" text-anchor="middle">Mar 2024</text>
-    <text x="470" y="112" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Vision, model family</text>
-    <text x="470" y="128" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Opus/Sonnet/Haiku tiers</text>
-    <text x="470" y="148" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Extended thinking</text>
+    <text x="470" y="82" fill="#ba9ecc" font-size="12" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Claude 3</text>
+    <text x="470" y="100" fill="#988d82" font-size="9" font-family="Instrument Sans" text-anchor="middle">Mar 2024</text>
+    <text x="470" y="112" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Vision, model family</text>
+    <text x="470" y="128" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Opus/Sonnet/Haiku tiers</text>
+    <text x="470" y="148" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Extended thinking</text>
 
     <rect x="570" y="40" width="140" height="120" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="640" y="62" fill="#73b9b4" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude 4</text>
-    <text x="640" y="80" fill="#988d82" font-size="9" font-family="DM Sans" text-anchor="middle">2025</text>
-    <text x="640" y="92" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Frontier intelligence</text>
-    <text x="640" y="108" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Computer use, MCP</text>
-    <text x="640" y="124" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Claude Code, agentic</text>
-    <text x="640" y="148" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Multi-modal advances</text>
+    <text x="640" y="62" fill="#73b9b4" font-size="12" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Claude 4</text>
+    <text x="640" y="80" fill="#988d82" font-size="9" font-family="Instrument Sans" text-anchor="middle">2025</text>
+    <text x="640" y="92" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Frontier intelligence</text>
+    <text x="640" y="108" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Computer use, MCP</text>
+    <text x="640" y="124" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Claude Code, agentic</text>
+    <text x="640" y="148" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Multi-modal advances</text>
 
     <rect x="740" y="20" width="80" height="140" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5" stroke-dasharray="5,3"/>
-    <text x="780" y="50" fill="#d77753" font-size="12" font-family="Playfair Display" text-anchor="middle" font-weight="700">Next?</text>
-    <text x="780" y="70" fill="#988d82" font-size="9" font-family="DM Sans" text-anchor="middle">2025&ndash;2026</text>
-    <text x="780" y="86" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Longer context</text>
-    <text x="780" y="100" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Deeper agents</text>
-    <text x="780" y="114" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">New modalities</text>
-    <text x="780" y="128" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Memory</text>
-    <text x="780" y="142" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Customization</text>
+    <text x="780" y="50" fill="#d77753" font-size="12" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Next?</text>
+    <text x="780" y="70" fill="#988d82" font-size="9" font-family="Instrument Sans" text-anchor="middle">2025&ndash;2026</text>
+    <text x="780" y="86" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Longer context</text>
+    <text x="780" y="100" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Deeper agents</text>
+    <text x="780" y="114" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">New modalities</text>
+    <text x="780" y="128" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Memory</text>
+    <text x="780" y="142" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Customization</text>
 
     <!-- Dots on timeline -->
     <circle cx="130" cy="180" r="5" fill="#dcad61"/>
@@ -180,7 +180,7 @@
     <circle cx="780" cy="180" r="5" fill="#d77753" stroke="#d77753" stroke-width="2" fill-opacity="0.3"/>
 
     <!-- Capability arrow -->
-    <text x="40" y="230" fill="#988d82" font-size="9" font-family="JetBrains Mono">capability</text>
+    <text x="40" y="230" fill="#988d82" font-size="9" font-family="Geist Mono">capability</text>
     <line x1="40" y1="220" x2="820" y2="220" stroke="#988d82" stroke-width="1" marker-end="url(#arrow)"/>
     <defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#988d82"/></marker></defs>
   </svg>
@@ -217,26 +217,26 @@
     </div>
     <div>
       <svg class="diagram" viewBox="0 0 300 280" width="280" height="270">
-        <text x="150" y="20" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Context Window Growth</text>
+        <text x="150" y="20" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Context Window Growth</text>
         <!-- Bars -->
         <rect x="30" y="230" width="40" height="10" rx="2" fill="#dcad61" opacity="0.6"/>
-        <text x="50" y="260" fill="#988d82" font-size="8" font-family="DM Sans" text-anchor="middle">8K</text>
-        <text x="50" y="224" fill="#c8bfb3" font-size="7" font-family="JetBrains Mono" text-anchor="middle">GPT-3 era</text>
+        <text x="50" y="260" fill="#988d82" font-size="8" font-family="Instrument Sans" text-anchor="middle">8K</text>
+        <text x="50" y="224" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">GPT-3 era</text>
 
         <rect x="90" y="200" width="40" height="40" rx="2" fill="#a9cd8e" opacity="0.7"/>
-        <text x="110" y="260" fill="#988d82" font-size="8" font-family="DM Sans" text-anchor="middle">100K</text>
-        <text x="110" y="194" fill="#c8bfb3" font-size="7" font-family="JetBrains Mono" text-anchor="middle">Claude 1</text>
+        <text x="110" y="260" fill="#988d82" font-size="8" font-family="Instrument Sans" text-anchor="middle">100K</text>
+        <text x="110" y="194" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">Claude 1</text>
 
         <rect x="150" y="160" width="40" height="80" rx="2" fill="#ba9ecc" opacity="0.7"/>
-        <text x="170" y="260" fill="#988d82" font-size="8" font-family="DM Sans" text-anchor="middle">200K</text>
-        <text x="170" y="154" fill="#c8bfb3" font-size="7" font-family="JetBrains Mono" text-anchor="middle">Claude 3+</text>
+        <text x="170" y="260" fill="#988d82" font-size="8" font-family="Instrument Sans" text-anchor="middle">200K</text>
+        <text x="170" y="154" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">Claude 3+</text>
 
         <rect x="210" y="80" width="40" height="160" rx="2" fill="#73b9b4" opacity="0.5" stroke="#73b9b4" stroke-dasharray="3,2"/>
-        <text x="230" y="260" fill="#988d82" font-size="8" font-family="DM Sans" text-anchor="middle">1M+</text>
-        <text x="230" y="74" fill="#c8bfb3" font-size="7" font-family="JetBrains Mono" text-anchor="middle">Expected</text>
+        <text x="230" y="260" fill="#988d82" font-size="8" font-family="Instrument Sans" text-anchor="middle">1M+</text>
+        <text x="230" y="74" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">Expected</text>
 
         <!-- Labels -->
-        <text x="150" y="280" fill="#988d82" font-size="8" font-family="JetBrains Mono" text-anchor="middle">tokens</text>
+        <text x="150" y="280" fill="#988d82" font-size="8" font-family="Geist Mono" text-anchor="middle">tokens</text>
       </svg>
     </div>
   </div>
@@ -306,32 +306,32 @@
     </div>
     <div>
       <svg class="diagram" viewBox="0 0 280 290" width="260" height="280">
-        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Coding Autonomy Levels</text>
+        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Coding Autonomy Levels</text>
         <!-- Pyramid -->
         <polygon points="140,40 260,260 20,260" fill="none" stroke="#403831" stroke-width="1"/>
         <!-- Level fills -->
         <rect x="45" y="220" width="190" height="35" rx="3" fill="#a9cd8e" opacity="0.2"/>
-        <text x="140" y="238" fill="#a9cd8e" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Autocomplete</text>
-        <text x="140" y="250" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Line/block suggestions</text>
+        <text x="140" y="238" fill="#a9cd8e" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Autocomplete</text>
+        <text x="140" y="250" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Line/block suggestions</text>
 
         <rect x="65" y="175" width="150" height="35" rx="3" fill="#73b9b4" opacity="0.2"/>
-        <text x="140" y="193" fill="#73b9b4" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Task Completion</text>
-        <text x="140" y="205" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Implement feature from description</text>
+        <text x="140" y="193" fill="#73b9b4" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Task Completion</text>
+        <text x="140" y="205" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Implement feature from description</text>
 
         <rect x="80" y="130" width="120" height="35" rx="3" fill="#ba9ecc" opacity="0.2"/>
-        <text x="140" y="148" fill="#ba9ecc" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Agentic Coding</text>
-        <text x="140" y="160" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Multi-step, tool-using</text>
+        <text x="140" y="148" fill="#ba9ecc" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Agentic Coding</text>
+        <text x="140" y="160" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Multi-step, tool-using</text>
 
         <rect x="95" y="85" width="90" height="35" rx="3" fill="#dcad61" opacity="0.2"/>
-        <text x="140" y="103" fill="#dcad61" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Autonomous SWE</text>
-        <text x="140" y="115" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Full project ownership</text>
+        <text x="140" y="103" fill="#dcad61" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Autonomous SWE</text>
+        <text x="140" y="115" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Full project ownership</text>
 
         <rect x="110" y="45" width="60" height="30" rx="3" fill="#d77753" opacity="0.15" stroke="#d77753" stroke-dasharray="3,2"/>
-        <text x="140" y="63" fill="#d77753" font-size="8" font-family="DM Sans" text-anchor="middle" font-weight="600">System Architect</text>
+        <text x="140" y="63" fill="#d77753" font-size="8" font-family="Instrument Sans" text-anchor="middle" font-weight="600">System Architect</text>
 
         <!-- "We are here" -->
         <line x1="268" y1="150" x2="205" y2="150" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrowG)"/>
-        <text x="270" y="148" fill="#a9cd8e" font-size="8" font-family="JetBrains Mono" text-anchor="start">we are here</text>
+        <text x="270" y="148" fill="#a9cd8e" font-size="8" font-family="Geist Mono" text-anchor="start">we are here</text>
         <defs><marker id="arrowG" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#a9cd8e"/></marker></defs>
       </svg>
     </div>
@@ -410,26 +410,26 @@
     </div>
     <div>
       <svg class="diagram" viewBox="0 0 280 270" width="260" height="260">
-        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Computer Use Flow</text>
+        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Computer Use Flow</text>
         <!-- Monitor -->
         <rect x="60" y="35" width="160" height="100" rx="6" fill="#231e1a" stroke="#403831" stroke-width="1.5"/>
         <rect x="70" y="42" width="140" height="78" rx="3" fill="#29241f"/>
-        <text x="140" y="75" fill="#73b9b4" font-size="9" font-family="DM Sans" text-anchor="middle">Application UI</text>
-        <text x="140" y="90" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">(screenshot captured)</text>
+        <text x="140" y="75" fill="#73b9b4" font-size="9" font-family="Instrument Sans" text-anchor="middle">Application UI</text>
+        <text x="140" y="90" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">(screenshot captured)</text>
         <rect x="110" y="135" width="60" height="4" rx="2" fill="#403831"/>
         <!-- Arrow down -->
         <line x1="140" y1="145" x2="140" y2="170" stroke="#dcad61" stroke-width="1.5" marker-end="url(#arrowA)"/>
         <defs><marker id="arrowA" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#dcad61"/></marker></defs>
         <!-- Claude brain -->
         <rect x="80" y="175" width="120" height="35" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-        <text x="140" y="192" fill="#dcad61" font-size="10" font-family="Playfair Display" text-anchor="middle" font-weight="700">Claude</text>
-        <text x="140" y="204" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">analyzes &amp; decides action</text>
+        <text x="140" y="192" fill="#dcad61" font-size="10" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Claude</text>
+        <text x="140" y="204" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">analyzes &amp; decides action</text>
         <!-- Arrow down -->
         <line x1="140" y1="215" x2="140" y2="235" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrowB)"/>
         <defs><marker id="arrowB" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#a9cd8e"/></marker></defs>
         <!-- Action -->
         <rect x="60" y="240" width="160" height="25" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-        <text x="140" y="256" fill="#a9cd8e" font-size="9" font-family="JetBrains Mono" text-anchor="middle">click(x, y) / type("...")</text>
+        <text x="140" y="256" fill="#a9cd8e" font-size="9" font-family="Geist Mono" text-anchor="middle">click(x, y) / type("...")</text>
       </svg>
     </div>
   </div>
@@ -500,27 +500,27 @@
     </div>
     <div>
       <svg class="diagram" viewBox="0 0 280 250" width="260" height="240">
-        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Interaction Models</text>
+        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Interaction Models</text>
         <!-- Old model -->
         <rect x="20" y="40" width="240" height="60" rx="6" fill="#231e1a" stroke="#403831" stroke-width="1"/>
-        <text x="140" y="56" fill="#988d82" font-size="9" font-family="DM Sans" text-anchor="middle">Traditional: Request &rarr; Response</text>
+        <text x="140" y="56" fill="#988d82" font-size="9" font-family="Instrument Sans" text-anchor="middle">Traditional: Request &rarr; Response</text>
         <rect x="40" y="65" width="60" height="22" rx="3" fill="#dcad61" opacity="0.2" stroke="#dcad61" stroke-width="1"/>
-        <text x="70" y="80" fill="#dcad61" font-size="8" font-family="DM Sans" text-anchor="middle">User</text>
+        <text x="70" y="80" fill="#dcad61" font-size="8" font-family="Instrument Sans" text-anchor="middle">User</text>
         <line x1="105" y1="76" x2="145" y2="76" stroke="#988d82" stroke-width="1" marker-end="url(#arrowC)"/>
         <rect x="150" y="65" width="80" height="22" rx="3" fill="#a9cd8e" opacity="0.2" stroke="#a9cd8e" stroke-width="1"/>
-        <text x="190" y="80" fill="#a9cd8e" font-size="8" font-family="DM Sans" text-anchor="middle">Claude responds</text>
+        <text x="190" y="80" fill="#a9cd8e" font-size="8" font-family="Instrument Sans" text-anchor="middle">Claude responds</text>
         <!-- New model -->
         <rect x="20" y="120" width="240" height="110" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-        <text x="140" y="138" fill="#ba9ecc" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Future: Continuous Collaboration</text>
+        <text x="140" y="138" fill="#ba9ecc" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Future: Continuous Collaboration</text>
         <!-- Bidirectional arrows -->
         <rect x="40" y="150" width="60" height="22" rx="3" fill="#dcad61" opacity="0.2" stroke="#dcad61" stroke-width="1"/>
-        <text x="70" y="165" fill="#dcad61" font-size="8" font-family="DM Sans" text-anchor="middle">User</text>
+        <text x="70" y="165" fill="#dcad61" font-size="8" font-family="Instrument Sans" text-anchor="middle">User</text>
         <rect x="160" y="150" width="80" height="22" rx="3" fill="#a9cd8e" opacity="0.2" stroke="#a9cd8e" stroke-width="1"/>
-        <text x="200" y="165" fill="#a9cd8e" font-size="8" font-family="DM Sans" text-anchor="middle">Claude</text>
+        <text x="200" y="165" fill="#a9cd8e" font-size="8" font-family="Instrument Sans" text-anchor="middle">Claude</text>
         <line x1="100" y1="157" x2="155" y2="157" stroke="#ba9ecc" stroke-width="1" marker-end="url(#arrowD)"/>
         <line x1="155" y1="167" x2="100" y2="167" stroke="#ba9ecc" stroke-width="1" marker-end="url(#arrowD)"/>
-        <text x="140" y="198" fill="#c8bfb3" font-size="7.5" font-family="DM Sans" text-anchor="middle">Shared context, proactive suggestions,</text>
-        <text x="140" y="210" fill="#c8bfb3" font-size="7.5" font-family="DM Sans" text-anchor="middle">ambient awareness, live updates</text>
+        <text x="140" y="198" fill="#c8bfb3" font-size="7.5" font-family="Instrument Sans" text-anchor="middle">Shared context, proactive suggestions,</text>
+        <text x="140" y="210" fill="#c8bfb3" font-size="7.5" font-family="Instrument Sans" text-anchor="middle">ambient awareness, live updates</text>
         <defs><marker id="arrowC" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#988d82"/></marker><marker id="arrowD" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#ba9ecc"/></marker></defs>
       </svg>
     </div>
@@ -558,31 +558,31 @@
     </div>
     <div>
       <svg class="diagram" viewBox="0 0 280 250" width="260" height="240">
-        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Agent Architecture</text>
+        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Agent Architecture</text>
         <!-- Central agent -->
         <rect x="90" y="35" width="100" height="30" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-        <text x="140" y="54" fill="#dcad61" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">Claude Agent</text>
+        <text x="140" y="54" fill="#dcad61" font-size="10" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Claude Agent</text>
         <!-- Tools -->
         <rect x="10" y="95" width="72" height="24" rx="4" fill="#231e1a" stroke="#a9cd8e" stroke-width="1"/>
-        <text x="46" y="111" fill="#a9cd8e" font-size="8" font-family="JetBrains Mono" text-anchor="middle">code tools</text>
+        <text x="46" y="111" fill="#a9cd8e" font-size="8" font-family="Geist Mono" text-anchor="middle">code tools</text>
         <rect x="94" y="95" width="72" height="24" rx="4" fill="#231e1a" stroke="#73b9b4" stroke-width="1"/>
-        <text x="130" y="111" fill="#73b9b4" font-size="8" font-family="JetBrains Mono" text-anchor="middle">web/APIs</text>
+        <text x="130" y="111" fill="#73b9b4" font-size="8" font-family="Geist Mono" text-anchor="middle">web/APIs</text>
         <rect x="178" y="95" width="72" height="24" rx="4" fill="#231e1a" stroke="#ba9ecc" stroke-width="1"/>
-        <text x="214" y="111" fill="#ba9ecc" font-size="8" font-family="JetBrains Mono" text-anchor="middle">databases</text>
+        <text x="214" y="111" fill="#ba9ecc" font-size="8" font-family="Geist Mono" text-anchor="middle">databases</text>
         <!-- Lines to tools -->
         <line x1="120" y1="65" x2="46" y2="95" stroke="#403831" stroke-width="1"/>
         <line x1="140" y1="65" x2="130" y2="95" stroke="#403831" stroke-width="1"/>
         <line x1="160" y1="65" x2="214" y2="95" stroke="#403831" stroke-width="1"/>
         <!-- Reasoning loop -->
         <rect x="50" y="145" width="180" height="55" rx="6" fill="#231e1a" stroke="#403831" stroke-width="1"/>
-        <text x="140" y="162" fill="#dcad61" font-size="8" font-family="DM Sans" text-anchor="middle" font-weight="600">Reasoning Loop</text>
-        <text x="140" y="176" fill="#c8bfb3" font-size="7" font-family="DM Sans" text-anchor="middle">Plan &rarr; Execute &rarr; Observe &rarr; Adjust</text>
-        <text x="140" y="190" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">(repeat until goal achieved)</text>
+        <text x="140" y="162" fill="#dcad61" font-size="8" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Reasoning Loop</text>
+        <text x="140" y="176" fill="#c8bfb3" font-size="7" font-family="Instrument Sans" text-anchor="middle">Plan &rarr; Execute &rarr; Observe &rarr; Adjust</text>
+        <text x="140" y="190" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">(repeat until goal achieved)</text>
         <!-- Loop arrow -->
         <path d="M230,172 A 20 20 0 1 1 230,170" fill="none" stroke="#dcad61" stroke-width="1" stroke-dasharray="2,2"/>
         <!-- Output -->
         <rect x="70" y="220" width="140" height="24" rx="4" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-        <text x="140" y="236" fill="#a9cd8e" font-size="9" font-family="DM Sans" text-anchor="middle">Task Completed + Report</text>
+        <text x="140" y="236" fill="#a9cd8e" font-size="9" font-family="Instrument Sans" text-anchor="middle">Task Completed + Report</text>
         <line x1="140" y1="200" x2="140" y2="220" stroke="#a9cd8e" stroke-width="1" marker-end="url(#arrowB)"/>
       </svg>
     </div>
@@ -597,35 +597,35 @@
   </div>
   <p>Beyond single agents: systems where <span class="p">multiple specialized agents collaborate</span> on complex problems.</p>
   <svg class="diagram" viewBox="0 0 780 200" width="740" height="190">
-    <text x="390" y="18" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Multi-Agent Collaboration Pattern</text>
+    <text x="390" y="18" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Multi-Agent Collaboration Pattern</text>
     <!-- Orchestrator -->
     <rect x="300" y="35" width="180" height="35" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
-    <text x="390" y="57" fill="#dcad61" font-size="11" font-family="DM Sans" text-anchor="middle" font-weight="600">Orchestrator Agent</text>
+    <text x="390" y="57" fill="#dcad61" font-size="11" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Orchestrator Agent</text>
     <!-- Specialist agents -->
     <rect x="20" y="110" width="130" height="55" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-    <text x="85" y="132" fill="#a9cd8e" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Research Agent</text>
-    <text x="85" y="148" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Web search, data gathering</text>
-    <text x="85" y="160" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">source validation</text>
+    <text x="85" y="132" fill="#a9cd8e" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Research Agent</text>
+    <text x="85" y="148" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Web search, data gathering</text>
+    <text x="85" y="160" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">source validation</text>
 
     <rect x="170" y="110" width="130" height="55" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-    <text x="235" y="132" fill="#73b9b4" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Coding Agent</text>
-    <text x="235" y="148" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Implementation, testing</text>
-    <text x="235" y="160" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">code review</text>
+    <text x="235" y="132" fill="#73b9b4" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Coding Agent</text>
+    <text x="235" y="148" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Implementation, testing</text>
+    <text x="235" y="160" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">code review</text>
 
     <rect x="320" y="110" width="130" height="55" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
-    <text x="385" y="132" fill="#ba9ecc" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Analysis Agent</text>
-    <text x="385" y="148" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Data processing</text>
-    <text x="385" y="160" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">insights, visualization</text>
+    <text x="385" y="132" fill="#ba9ecc" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Analysis Agent</text>
+    <text x="385" y="148" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Data processing</text>
+    <text x="385" y="160" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">insights, visualization</text>
 
     <rect x="470" y="110" width="130" height="55" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5"/>
-    <text x="535" y="132" fill="#d77753" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Review Agent</text>
-    <text x="535" y="148" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Quality assurance</text>
-    <text x="535" y="160" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">safety checks</text>
+    <text x="535" y="132" fill="#d77753" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Review Agent</text>
+    <text x="535" y="148" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Quality assurance</text>
+    <text x="535" y="160" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">safety checks</text>
 
     <rect x="620" y="110" width="130" height="55" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-    <text x="685" y="132" fill="#dcad61" font-size="9" font-family="DM Sans" text-anchor="middle" font-weight="600">Comms Agent</text>
-    <text x="685" y="148" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Report generation</text>
-    <text x="685" y="160" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">stakeholder updates</text>
+    <text x="685" y="132" fill="#dcad61" font-size="9" font-family="Instrument Sans" text-anchor="middle" font-weight="600">Comms Agent</text>
+    <text x="685" y="148" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Report generation</text>
+    <text x="685" y="160" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">stakeholder updates</text>
 
     <!-- Connection lines -->
     <line x1="340" y1="70" x2="85" y2="110" stroke="#403831" stroke-width="1"/>
@@ -959,29 +959,29 @@
     </div>
     <div>
       <svg class="diagram" viewBox="0 0 280 260" width="260" height="250">
-        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Playfair Display" text-anchor="middle" font-weight="700">Responsible Scaling</text>
+        <text x="140" y="18" fill="#dcad61" font-size="11" font-family="Bricolage Grotesque" text-anchor="middle" font-weight="700">Responsible Scaling</text>
         <!-- ASL Levels -->
         <rect x="30" y="35" width="220" height="35" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
-        <text x="140" y="50" fill="#a9cd8e" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-1: No meaningful risk</text>
-        <text x="140" y="63" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Basic models, standard deployment</text>
+        <text x="140" y="50" fill="#a9cd8e" font-size="10" font-family="Instrument Sans" text-anchor="middle" font-weight="600">ASL-1: No meaningful risk</text>
+        <text x="140" y="63" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Basic models, standard deployment</text>
 
         <rect x="30" y="80" width="220" height="35" rx="6" fill="#231e1a" stroke="#73b9b4" stroke-width="1.5"/>
-        <text x="140" y="95" fill="#73b9b4" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-2: Current level</text>
-        <text x="140" y="108" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Today's frontier models; standard safeguards</text>
+        <text x="140" y="95" fill="#73b9b4" font-size="10" font-family="Instrument Sans" text-anchor="middle" font-weight="600">ASL-2: Current level</text>
+        <text x="140" y="108" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Today's frontier models; standard safeguards</text>
 
         <rect x="30" y="125" width="220" height="35" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-        <text x="140" y="140" fill="#dcad61" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-3: Elevated risk</text>
-        <text x="140" y="153" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Enhanced safeguards required</text>
+        <text x="140" y="140" fill="#dcad61" font-size="10" font-family="Instrument Sans" text-anchor="middle" font-weight="600">ASL-3: Elevated risk</text>
+        <text x="140" y="153" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Enhanced safeguards required</text>
 
         <rect x="30" y="170" width="220" height="35" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="1.5"/>
-        <text x="140" y="185" fill="#d77753" font-size="10" font-family="DM Sans" text-anchor="middle" font-weight="600">ASL-4+: Significant risk</text>
-        <text x="140" y="198" fill="#988d82" font-size="7" font-family="DM Sans" text-anchor="middle">Extraordinary safeguards; may not deploy</text>
+        <text x="140" y="185" fill="#d77753" font-size="10" font-family="Instrument Sans" text-anchor="middle" font-weight="600">ASL-4+: Significant risk</text>
+        <text x="140" y="198" fill="#988d82" font-size="7" font-family="Instrument Sans" text-anchor="middle">Extraordinary safeguards; may not deploy</text>
 
         <!-- Arrow -->
-        <text x="275" y="60" fill="#988d82" font-size="7" font-family="JetBrains Mono" transform="rotate(90,275,110)">increasing capability &amp; risk</text>
+        <text x="275" y="60" fill="#988d82" font-size="7" font-family="Geist Mono" transform="rotate(90,275,110)">increasing capability &amp; risk</text>
 
-        <text x="140" y="230" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">Each level triggers proportional safety investment</text>
-        <text x="140" y="245" fill="#c8bfb3" font-size="8" font-family="DM Sans" text-anchor="middle">before deployment is permitted</text>
+        <text x="140" y="230" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">Each level triggers proportional safety investment</text>
+        <text x="140" y="245" fill="#c8bfb3" font-size="8" font-family="Instrument Sans" text-anchor="middle">before deployment is permitted</text>
       </svg>
     </div>
   </div>
