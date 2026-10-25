@@ -168,13 +168,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <ul>
         <li>API, SDKs, MCP protocol</li>
         <li>Claude Code (CLI agent)</li>
-        <li>AWS Bedrock, GCP Vertex &amp; Azure AI Foundry</li>
+        <li>AWS Bedrock, Google Cloud &amp; Microsoft Foundry</li>
         <li>Enterprise deployments</li>
       </ul>
     </div>
   </div>
   <div class="card blue" style="margin-top:.4em;">
-    <p><span class="b">Model family:</span> Claude Opus 4 (flagship), Sonnet 4 (balanced), Haiku 3.5 (fast) &mdash; each optimized for different use cases and cost profiles.</p>
+    <p><span class="b">Model family:</span> Claude 5 &mdash; Fable 5.1 (hardest, long-horizon work), Opus 5.5 (recommended default), Sonnet 5.5 (balanced), Haiku 5.5 (fast), all with 1M-token context (October 2026).</p>
   </div>
 </section>
 
@@ -247,7 +247,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
   <div class="cols cols-6040">
     <div>
-      <p>Context windows have grown from 8K to 1M tokens (Opus 4.6 and Sonnet 4.6 at standard pricing since March 2026; Haiku 4.5 at 200K). This scale enables entirely new categories of use.</p>
+      <p>Context windows have grown from 8K to 1M tokens (every Claude 5 model, Haiku included, has a 1M-token window). This scale enables entirely new categories of use.</p>
       <div class="card green" style="margin-top:.3em;">
         <h3>What 1M+ Tokens Enables</h3>
         <ul>
@@ -284,8 +284,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <text x="170" y="154" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">Claude 3+</text>
 
         <rect x="210" y="80" width="40" height="160" rx="2" fill="#73b9b4" opacity="0.5" stroke="#73b9b4" stroke-dasharray="3,2"/>
-        <text x="230" y="260" fill="#988d82" font-size="8" font-family="Instrument Sans" text-anchor="middle">1M+</text>
-        <text x="230" y="74" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">Expected</text>
+        <text x="230" y="260" fill="#988d82" font-size="8" font-family="Instrument Sans" text-anchor="middle">1M</text>
+        <text x="230" y="74" fill="#c8bfb3" font-size="7" font-family="Geist Mono" text-anchor="middle">Claude 5</text>
 
         <!-- Labels -->
         <text x="150" y="280" fill="#988d82" font-size="8" font-family="Geist Mono" text-anchor="middle">tokens</text>
@@ -493,7 +493,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <span class="tag">MEMORY</span>
     <h2>Persistent Memory</h2>
   </div>
-  <p>Today each conversation starts fresh. The future includes <span class="a">persistent memory</span> that spans conversations, enabling true personalization.</p>
+  <p>Memory across conversations now ships on every claude.ai plan, including Free. The next step is richer <span class="a">persistent memory</span> for deeper personalisation.</p>
   <div class="cols cols-2">
     <div class="card amber">
       <h3>What Memory Enables</h3>
@@ -518,7 +518,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
   <div class="card green" style="margin-top:.3em;">
     <h3>Early Implementations</h3>
-    <p>Project-level context via system prompts, <code>CLAUDE.md</code> files in Claude Code, and user-specified preferences in claude.ai are precursors to richer memory systems. Anthropic has begun shipping memory features on claude.ai.</p>
+    <p>Project-level context via system prompts, <code>CLAUDE.md</code> files in Claude Code, and user-specified preferences in claude.ai are precursors to richer memory systems. Memory is now on every claude.ai plan, and Claude Code keeps auto memory per repository.</p>
   </div>
 </section>
 
@@ -743,7 +743,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </div>
   </div>
   <div class="card blue" style="margin-top:.3em;">
-    <p><span class="b">Platform maturity:</span> AWS Bedrock, Google Vertex AI, and Microsoft Azure AI Foundry already provide enterprise-grade Claude access. Expect deeper native integrations into cloud workflows, including serverless triggers, data pipelines, and CI/CD systems.</p>
+    <p><span class="b">Platform maturity:</span> AWS Bedrock, Google Cloud, and Microsoft Foundry already provide enterprise-grade Claude access. Expect deeper native integrations into cloud workflows, including serverless triggers, data pipelines, and CI/CD systems.</p>
   </div>
 </section>
 
@@ -930,7 +930,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </tr>
     <tr>
       <td><span class="r">Ecosystem</span></td>
-      <td>API, MCP, Bedrock/Vertex/Azure</td>
+      <td>API, MCP, Bedrock/Google Cloud/Foundry</td>
       <td>Largest ecosystem; plugins</td>
       <td>Deep Google integration</td>
       <td>Most flexible; self-hosted</td>
