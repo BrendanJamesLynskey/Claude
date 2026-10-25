@@ -178,7 +178,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <ul>
         <li>Added via <code>.mcp.json</code> config file</li>
         <li>Project-scoped &mdash; checked into version control</li>
-        <li>Provides: query, list tables, describe schema</li>
+        <li>Provides: run SQL, search schema objects</li>
       </ul>
     </div>
   </div>
@@ -194,7 +194,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <span class="tag">STEP 1</span>
     <h2>Add GitHub MCP Server via CLI</h2>
   </div>
-  <p>The <code>claude mcp add</code> command registers a new server. The <code>stdio</code> transport spawns a local process.</p>
+  <p>The <code>claude mcp add</code> command registers a new server. GitHub&rsquo;s official server is remote, so it uses the <code>http</code> transport.</p>
 
   <div class="term">
     <div class="term-bar">
@@ -202,24 +202,24 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <span class="term-title">~/my-project</span>
     </div>
     <div class="term-body">
-<span class="prompt">$</span> <span class="cmd">claude mcp add stdio github \</span><br>
-<span class="cmd">    npx @modelcontextprotocol/server-github \</span><br>
-<span class="cmd">    --env GITHUB_TOKEN=ghp_xxxxxxxxxxxx</span><br>
+<span class="prompt">$</span> <span class="cmd">claude mcp add --scope user --transport http github \</span><br>
+<span class="cmd">    https://api.githubcopilot.com/mcp/ \</span><br>
+<span class="cmd">    --header "Authorization: Bearer $GITHUB_PAT"</span><br>
 <br>
-<span class="ok">&#10003;</span> <span class="out">Added MCP server <span class="hi">github</span> (stdio)</span><br>
-<span class="dim">  Command: npx @modelcontextprotocol/server-github</span><br>
+<span class="ok">&#10003;</span> <span class="out">Added MCP server <span class="hi">github</span> (http)</span><br>
+<span class="dim">  URL: https://api.githubcopilot.com/mcp/</span><br>
 <span class="dim">  Scope: user (~/.claude.json)</span><br>
 <br>
 <span class="prompt">$</span> <span class="cmd">claude mcp list</span><br>
 <br>
 <span class="hi">MCP Servers</span><br>
-<span class="out">  <span class="ok">&#x25CF;</span> <span class="hi">github</span> <span class="dim">(stdio)</span> &mdash; user-scoped</span><br>
-<span class="dim">    npx @modelcontextprotocol/server-github</span>
+<span class="out">  <span class="ok">&#x25CF;</span> <span class="hi">github</span> <span class="dim">(http)</span> &mdash; user-scoped</span><br>
+<span class="dim">    https://api.githubcopilot.com/mcp/</span>
     </div>
   </div>
 
   <div class="callout">
-    <p><span class="label g">Scope</span> User-scoped servers (stored in <code>~/.claude.json</code>) are available in every project. Use <code>--scope project</code> to write to <code>.mcp.json</code> instead.</p>
+    <p><span class="label g">Scope</span> User-scoped servers (stored in <code>~/.claude.json</code>) are available in every project. The default <code>local</code> scope is this project only (also in <code>~/.claude.json</code>); <code>--scope project</code> writes <code>.mcp.json</code>.</p>
   </div>
 </section>
 
@@ -242,12 +242,9 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="out">    <span class="cmd">"postgres"</span>: {</span><br>
 <span class="out">      <span class="flag">"command"</span>: <span class="ok">"npx"</span>,</span><br>
 <span class="out">      <span class="flag">"args"</span>: [</span><br>
-<span class="out">        <span class="ok">"@modelcontextprotocol/server-postgres"</span>,</span><br>
-<span class="out">        <span class="ok">"postgresql://localhost:5432/myapp"</span></span><br>
-<span class="out">      ],</span><br>
-<span class="out">      <span class="flag">"env"</span>: {</span><br>
-<span class="out">        <span class="ok">"PGPASSWORD"</span>: <span class="ok">"dev-password"</span></span><br>
-<span class="out">      }</span><br>
+<span class="out">        <span class="ok">"-y"</span>, <span class="ok">"@bytebase/dbhub"</span>, <span class="ok">"--dsn"</span>,</span><br>
+<span class="out">        <span class="ok">"postgresql://readonly:${PGPASSWORD}@localhost:5432/myapp"</span></span><br>
+<span class="out">      ]</span><br>
 <span class="out">    }</span><br>
 <span class="out">  }</span><br>
 <span class="out">}</span>
@@ -257,7 +254,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="cols cols-2" style="margin-top:.15em;">
     <div class="card purple">
       <h3>Config Format</h3>
-      <p><code>command</code> + <code>args</code> defines the process to spawn. <code>env</code> passes environment variables securely.</p>
+      <p><code>command</code> + <code>args</code> defines the process to spawn. <code>${PGPASSWORD}</code> expands from your environment, so the secret stays out of the file.</p>
     </div>
     <div class="card blue">
       <h3>Version Control</h3>
@@ -283,7 +280,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="prompt">$</span> <span class="cmd">claude</span><br>
 <br>
 <span class="dim">╭──────────────────────────────────────────────────╮</span><br>
-<span class="dim">│</span> <span class="hi">Claude Code</span> <span class="dim">v1.0.32</span>                              <span class="dim">│</span><br>
+<span class="dim">│</span> <span class="hi">Claude Code</span> <span class="dim">v2.1.310</span>                             <span class="dim">│</span><br>
 <span class="dim">│</span> <span class="out">2 MCP servers connected</span>                          <span class="dim">│</span><br>
 <span class="dim">╰──────────────────────────────────────────────────╯</span><br>
 <br>
@@ -291,7 +288,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <br>
 <span class="hi">MCP Servers</span><br>
 <br>
-<span class="ok">&#x25CF;</span> <span class="hi">github</span> <span class="dim">(stdio &bull; user-scoped)</span><br>
+<span class="ok">&#x25CF;</span> <span class="hi">github</span> <span class="dim">(http &bull; user-scoped)</span><br>
 <span class="out">  Tools:</span><br>
 <span class="out">    mcp__github__create_issue</span><br>
 <span class="out">    mcp__github__list_pull_requests</span><br>
@@ -301,9 +298,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <br>
 <span class="ok">&#x25CF;</span> <span class="hi">postgres</span> <span class="dim">(stdio &bull; project-scoped)</span><br>
 <span class="out">  Tools:</span><br>
-<span class="out">    mcp__postgres__query</span><br>
-<span class="out">    mcp__postgres__list_tables</span><br>
-<span class="out">    mcp__postgres__describe_table</span>
+<span class="out">    mcp__postgres__execute_sql</span><br>
+<span class="out">    mcp__postgres__search_objects</span>
     </div>
   </div>
 
@@ -369,7 +365,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="prompt">&gt;</span> <span class="cmd">Check the users table schema, then update the</span><br>
 <span class="cmd">  User TypeScript interface to match the actual columns</span><br>
 <br>
-<span class="dim">  &#x2502; Calling mcp__postgres__describe_table...</span><br>
+<span class="dim">  &#x2502; Calling mcp__postgres__search_objects...</span><br>
 <span class="dim">  &#x2502;   table: "users"</span><br>
 <br>
 <span class="dim">  &#x2502; Reading src/types/User.ts...</span><br>
@@ -442,8 +438,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><th>Command</th><th>Purpose</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>claude mcp add stdio &lt;name&gt; &lt;cmd&gt; [args]</code></td><td>Add a new stdio MCP server</td></tr>
-      <tr><td><code>claude mcp add sse &lt;name&gt; &lt;url&gt;</code></td><td>Add a remote SSE (HTTP) MCP server</td></tr>
+      <tr><td><code>claude mcp add &lt;name&gt; -- &lt;cmd&gt; [args]</code></td><td>Add a local stdio MCP server</td></tr>
+      <tr><td><code>claude mcp add --transport http &lt;name&gt; &lt;url&gt;</code></td><td>Add a remote (Streamable HTTP) MCP server</td></tr>
       <tr><td><code>claude mcp list</code></td><td>List all configured servers and their scope</td></tr>
       <tr><td><code>claude mcp remove &lt;name&gt;</code></td><td>Remove a server</td></tr>
       <tr><td><code>/mcp</code> <span class="dim">(in session)</span></td><td>View connected servers and their tools</td></tr>
@@ -454,7 +450,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <div class="card amber">
       <h3>Config File Locations</h3>
       <ul>
-        <li><code>~/.claude.json</code> &mdash; user-scoped (all projects)</li>
+        <li><code>~/.claude.json</code> &mdash; local (default, this project) and user (all projects)</li>
         <li><code>.mcp.json</code> &mdash; project-scoped (version control)</li>
       </ul>
     </div>
@@ -462,13 +458,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3>Transport Types</h3>
       <ul>
         <li><span class="a">stdio</span> &mdash; local process, spawned by Claude Code</li>
-        <li><span class="g">sse</span> &mdash; HTTP Server-Sent Events (remote)</li>
+        <li><span class="g">http</span> &mdash; Streamable HTTP (remote; <code>sse</code> is deprecated)</li>
       </ul>
     </div>
   </div>
 
   <div class="callout" style="margin-top:.15em;">
-    <p><span class="label p">Tip</span> Popular MCP servers: <code>@modelcontextprotocol/server-github</code>, <code>server-postgres</code>, <code>server-filesystem</code>, <code>server-slack</code>, <code>server-google-drive</code>. Browse the registry at <code>mcp.so</code>.</p>
+    <p><span class="label p">Tip</span> The old reference servers for GitHub, Postgres, Slack and Google Drive are archived; use the vendors&rsquo; own servers (e.g. GitHub&rsquo;s remote server) or ones like <code>@bytebase/dbhub</code>. Browse reviewed connectors at <code>claude.ai/directory</code>.</p>
   </div>
 </section>
 
