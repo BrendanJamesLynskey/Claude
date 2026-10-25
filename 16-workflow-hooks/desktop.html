@@ -219,7 +219,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="out">          {</span><br>
 <span class="out">            "type": "command",</span><br>
 <span class="out">            "command": <span class="ok">"npx prettier --write</span></span><br>
-<span class="out">              <span class="ok">$(echo $TOOL_INPUT | jq -r '.file_path')"</span></span><br>
+<span class="out">              <span class="ok">$(jq -r '.tool_input.file_path')"</span></span><br>
 <span class="out">          }</span><br>
 <span class="out">        ]</span><br>
 <span class="out">      }</span><br>
@@ -230,7 +230,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
 
   <div class="callout">
-    <p><span class="label g">How it works</span> After every <code>Edit</code> or <code>Write</code> tool call, the hook extracts the <code>file_path</code> from the tool input JSON and runs Prettier on it. Exit code 0 means success &mdash; the session continues seamlessly.</p>
+    <p><span class="label g">How it works</span> After every <code>Edit</code> or <code>Write</code> tool call, the hook reads the event JSON on stdin, extracts <code>tool_input.file_path</code> and runs Prettier on it. Exit code 0 means success &mdash; the session continues seamlessly.</p>
   </div>
 </section>
 
@@ -255,28 +255,29 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="out">          {</span><br>
 <span class="out">            "type": "command",</span><br>
 <span class="out">            "command": <span class="ok">"bash -c '</span></span><br>
-<span class="out"><span class="ok">              CMD=$(echo $TOOL_INPUT | jq -r \".command\")</span></span><br>
+<span class="out"><span class="ok">              CMD=$(jq -r \".tool_input.command\")</span></span><br>
 <span class="out"><span class="ok">              if echo \"$CMD\" | grep -qE</span></span><br>
 <span class="out"><span class="ok">                \"rm -rf|DROP TABLE|--force|--no-verify\";</span></span><br>
 <span class="out"><span class="ok">              then</span></span><br>
-<span class="out"><span class="ok">                echo \"Blocked: destructive command\"</span></span><br>
+<span class="out"><span class="ok">                echo \"Blocked: destructive command\" &gt;&amp;2</span></span><br>
 <span class="out"><span class="ok">                exit 2</span></span><br>
 <span class="out"><span class="ok">              fi'"</span></span><br>
 <span class="out">          }</span><br>
 <span class="out">        ]</span><br>
 <span class="out">      },</span><br>
 <span class="out">      {</span><br>
-<span class="out">        <span class="flag">"matcher"</span>: <span class="ok">"Bash(git commit*)"</span>,</span><br>
+<span class="out">        <span class="flag">"matcher"</span>: <span class="ok">"Bash"</span>,</span><br>
+<span class="out">        <span class="flag">"if"</span>: <span class="ok">"Bash(git commit *)"</span>,</span><br>
 <span class="out">        "hooks": [</span><br>
 <span class="out">          {</span><br>
 <span class="out">            "type": "command",</span><br>
 <span class="out">            "command": <span class="ok">"bash -c '</span></span><br>
-<span class="out"><span class="ok">              MSG=$(echo $TOOL_INPUT | jq -r \".command\"</span></span><br>
+<span class="out"><span class="ok">              MSG=$(jq -r \".tool_input.command\"</span></span><br>
 <span class="out"><span class="ok">                | grep -oP \"(?<=-m \\\").*?(?=\\\")\")</span></span><br>
 <span class="out"><span class="ok">              if ! echo \"$MSG\" | grep -qE</span></span><br>
 <span class="out"><span class="ok">                \"^(feat|fix|docs|style|refactor|test|chore):\";</span></span><br>
 <span class="out"><span class="ok">              then</span></span><br>
-<span class="out"><span class="ok">                echo \"Commit msg must use conventional format\"</span></span><br>
+<span class="out"><span class="ok">                echo \"Commit msg must use conventional format\" &gt;&amp;2</span></span><br>
 <span class="out"><span class="ok">                exit 2</span></span><br>
 <span class="out"><span class="ok">              fi'"</span></span><br>
 <span class="out">          }</span><br>
@@ -289,11 +290,11 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="cols cols-2" style="margin-top:.15em;">
     <div class="card red">
       <h3>Exit Code 2 = Block</h3>
-      <p>The tool call is prevented and the hook's stderr/stdout is shown to Claude, which can adjust its approach</p>
+      <p>The tool call is prevented and the hook's stderr is shown to Claude, which can adjust its approach</p>
     </div>
     <div class="card purple">
       <h3>Matcher Patterns</h3>
-      <p><code>Bash(git commit*)</code> matches only Bash calls whose command starts with <code>git commit</code> &mdash; more precise than matching all Bash calls</p>
+      <p><code>matcher</code> matches the tool name (<code>Bash</code>, <code>Edit|Write</code>); the handler&rsquo;s <code>if</code> field takes permission-rule syntax, so <code>Bash(git commit *)</code> runs it only for <code>git commit</code></p>
     </div>
   </div>
 </section>
@@ -461,10 +462,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td><code>UserPromptSubmit</code></td><td>When the user sends a message</td><td><span class="ok">Yes (exit 2)</span></td></tr>
       <tr><td><code>SessionStart</code></td><td>When a Claude Code session begins</td><td><span class="dim">No</span></td></tr>
       <tr><td><code>SessionEnd</code></td><td>When a session ends</td><td><span class="dim">No</span></td></tr>
-      <tr><td><code>SubagentStart</code></td><td>When a sub-agent is launched</td><td><span class="ok">Yes (exit 2)</span></td></tr>
+      <tr><td><code>SubagentStart</code></td><td>When a sub-agent is launched</td><td><span class="dim">No</span></td></tr>
       <tr><td><code>Notification</code></td><td>When Claude sends a notification</td><td><span class="dim">No</span></td></tr>
-      <tr><td><code>PreCompact</code> / <code>PostCompact</code></td><td>Before/after context compaction</td><td><span class="dim">No</span></td></tr>
-      <tr><td><code>Stop</code></td><td>When Claude finishes a response turn</td><td><span class="dim">No</span></td></tr>
+      <tr><td><code>PreCompact</code> / <code>PostCompact</code></td><td>Before/after context compaction</td><td><span class="ok">Pre only (exit 2)</span></td></tr>
+      <tr><td><code>Stop</code></td><td>When Claude finishes a response turn</td><td><span class="ok">Yes (keeps Claude going)</span></td></tr>
     </tbody>
   </table>
 
@@ -476,15 +477,16 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li><span class="g">prompt</span> &mdash; single LLM call</li>
         <li><span class="p">agent</span> &mdash; sub-agent verification</li>
         <li><span class="b">http</span> &mdash; POST to an endpoint</li>
+        <li><span class="r">mcp_tool</span> &mdash; call a tool on an MCP server</li>
       </ul>
     </div>
     <div class="card green">
-      <h3>Environment Variables</h3>
+      <h3>Hook Input (JSON on stdin)</h3>
       <ul>
-        <li><code>$TOOL_INPUT</code> &mdash; JSON of tool parameters</li>
-        <li><code>$TOOL_OUTPUT</code> &mdash; JSON of tool result (post only)</li>
-        <li><code>$SESSION_ID</code> &mdash; current session ID</li>
-        <li><code>$CWD</code> &mdash; current working directory</li>
+        <li><code>tool_name</code>, <code>tool_input</code> &mdash; tool and its parameters</li>
+        <li><code>tool_response</code> &mdash; tool result (PostToolUse only)</li>
+        <li><code>session_id</code>, <code>cwd</code>, <code>hook_event_name</code></li>
+        <li><code>$CLAUDE_PROJECT_DIR</code> &mdash; env var for the project root</li>
       </ul>
     </div>
   </div>
