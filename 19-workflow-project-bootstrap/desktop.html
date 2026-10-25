@@ -321,7 +321,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
 
   <div class="callout">
-    <p><span class="label p">allowed-tools</span> restricts what tools the skill can use. This deploy skill gets <code>Bash</code> and <code>Read</code> only &mdash; it can run commands and read files but can't edit source code.</p>
+    <p><span class="label p">allowed-tools</span> pre-approves tools for the turn that runs the skill, so <code>Bash</code> and <code>Read</code> run without prompts. It does not restrict other tools; use <code>disallowed-tools</code> or permission rules for that.</p>
   </div>
 </section>
 
@@ -452,7 +452,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <span class="tag">STEP 7</span>
     <h2>Project Memory with /memory</h2>
   </div>
-  <p>The <code>/memory</code> command lets you view and edit what Claude Code remembers about your project across sessions.</p>
+  <p>The <code>/memory</code> command lists your CLAUDE.md files and auto memory, opens one in your editor, and toggles auto memory.</p>
 
   <div class="term">
     <div class="term-bar">
@@ -464,8 +464,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <br>
 <span class="hi">Project Memory</span> <span class="dim">(CLAUDE.md)</span><br>
 <br>
-<span class="out">Showing current CLAUDE.md contents for editing.</span><br>
-<span class="out">This file is loaded into every session automatically.</span><br>
+<span class="out">Opening ./CLAUDE.md in your editor (auto memory: on).</span><br>
+<span class="out">CLAUDE.md is loaded into every session automatically.</span><br>
 <br>
 <span class="dim">──────────────────────────────────────────</span><br>
 <span class="out"># Project: my-project</span><br>
@@ -502,9 +502,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <tbody>
       <tr><td>Project memory</td><td><code>CLAUDE.md</code> (project root)</td><td>All sessions in this project</td></tr>
       <tr><td>Personal memory</td><td><code>~/.claude/CLAUDE.md</code></td><td>All projects, your sessions only</td></tr>
+      <tr><td>Auto memory</td><td><code>~/.claude/projects/&lt;project&gt;/memory/</code></td><td>Notes Claude writes, per repository</td></tr>
       <tr><td>Project skills</td><td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td><td>All team members in this project</td></tr>
       <tr><td>Personal skills</td><td><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code></td><td>All your projects</td></tr>
-      <tr><td>Project agents</td><td><code>.claude/agents/&lt;name&gt;/AGENT.md</code></td><td>All team members in this project</td></tr>
+      <tr><td>Project agents</td><td><code>.claude/agents/&lt;name&gt;.md</code></td><td>All team members in this project</td></tr>
       <tr><td>Project settings</td><td><code>.claude/settings.json</code></td><td>All team members (hooks, etc.)</td></tr>
       <tr><td>Local settings</td><td><code>.claude/settings.local.json</code></td><td>Your machine only (gitignored)</td></tr>
     </tbody>
@@ -529,7 +530,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </div>
     <div class="card green">
       <h3>Custom Skills</h3>
-      <p>Reusable slash commands in <code>.claude/skills/</code> &mdash; with arguments, tool restrictions, and team sharing</p>
+      <p>Reusable slash commands in <code>.claude/skills/</code> &mdash; with arguments, pre-approved tools, and team sharing</p>
     </div>
     <div class="card purple">
       <h3>$ARGUMENTS</h3>
