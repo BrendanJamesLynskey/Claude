@@ -234,29 +234,29 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr>
         <th>Feature</th>
         <th>Free</th>
-        <th>Pro ($20/mo)</th>
-        <th>Team ($25/user/mo)</th>
-        <th>Enterprise (Custom)</th>
+        <th>Pro ($20/mo, $17 yearly)</th>
+        <th>Team ($25/seat/mo, $20 yearly)</th>
+        <th>Enterprise ($20/seat + API-rate usage)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><span class="a">Models</span></td>
-        <td>Sonnet (limited)</td>
+        <td>Sonnet, Haiku</td>
         <td>Opus, Sonnet, Haiku</td>
         <td>Opus, Sonnet, Haiku</td>
-        <td>All models + fine-tuning</td>
+        <td>All models</td>
       </tr>
       <tr>
         <td><span class="a">Usage</span></td>
-        <td>Limited messages/day</td>
-        <td>5x more usage</td>
+        <td>Limits reset every 5 hours</td>
+        <td>At least 5x Free</td>
         <td>Higher team limits</td>
         <td>Custom volume</td>
       </tr>
       <tr>
         <td><span class="a">Projects</span></td>
-        <td>Basic</td>
+        <td>Up to 5</td>
         <td>Full access</td>
         <td>Shared projects</td>
         <td>Org-wide projects</td>
@@ -278,7 +278,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr>
         <td><span class="a">Priority Access</span></td>
         <td>No</td>
-        <td>Yes</td>
+        <td>No (Max: yes)</td>
         <td>Yes</td>
         <td>Dedicated capacity</td>
       </tr>
@@ -319,7 +319,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <li><span class="g">System prompt</span> — hidden instructions that shape behavior (set via Projects or API)</li>
           <li><span class="a">User message</span> — your input: questions, instructions, data</li>
           <li><span class="b">Assistant response</span> — Claude's reply, which may include text, code, or artifacts</li>
-          <li><span class="p">Context window</span> — the full conversation history Claude can see (up to 200K tokens)</li>
+          <li><span class="p">Context window</span> — the full conversation history Claude can see (1M tokens on current models)</li>
         </ul>
       </div>
       <div class="card amber">
@@ -387,7 +387,7 @@ the result of an HTTP request...
     <text x="510" y="38" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans" font-size="12" font-weight="600">Chat Area</text>
     <!-- Model selector -->
     <rect x="440" y="48" width="140" height="22" rx="11" fill="#29241f" stroke="#403831" stroke-width="0.5"/>
-    <text x="510" y="63" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans" font-size="9">Claude Sonnet 4 ▾</text>
+    <text x="510" y="63" text-anchor="middle" fill="#ba9ecc" font-family="Instrument Sans" font-size="9">Claude Sonnet 5.5 ▾</text>
     <!-- Label: Model selector -->
     <line x1="580" y1="59" x2="660" y2="46" stroke="#ba9ecc" stroke-width="1" stroke-dasharray="3,2"/>
     <text x="664" y="50" fill="#ba9ecc" font-family="Instrument Sans" font-size="9" font-weight="600">Model Selector</text>
@@ -558,7 +558,7 @@ the result of an HTTP request...
           <li>Documentation &amp; style guides</li>
           <li>Codebase files &amp; configs</li>
           <li>Research papers &amp; references</li>
-          <li>Up to <span class="a">~200K tokens</span> of knowledge</li>
+          <li>Large knowledge bases; current models have a <span class="a">1M-token</span> context window</li>
         </ul>
       </div>
       <div class="card blue">
@@ -674,7 +674,7 @@ the result of an HTTP request...
       <div class="card green" style="margin-bottom:.4em;">
         <h3>Step-by-Step</h3>
         <ol>
-          <li>Go to <span class="mono a">console.anthropic.com</span></li>
+          <li>Go to <span class="mono a">platform.claude.com</span></li>
           <li>Sign up or log in (separate from claude.ai)</li>
           <li>Navigate to <span class="g">API Keys</span> section</li>
           <li>Click <span class="a">"Create Key"</span></li>
@@ -723,7 +723,10 @@ echo $ANTHROPIC_API_KEY</code></pre>
     <div>
       <div class="card green" style="margin-bottom:.4em;">
         <h3>Installation</h3>
-        <pre><code class="language-bash"># Install globally via npm
+        <pre><code class="language-bash"># Recommended: native installer
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Or via npm (Node.js 22+)
 npm install -g @anthropic-ai/claude-code
 
 # Verify installation
@@ -731,7 +734,7 @@ claude --version
 
 # First run — authenticates via browser
 claude</code></pre>
-        <p style="margin-top:.2em;"><span class="g">Requirements:</span> Node.js 18+, npm, a terminal emulator, and an Anthropic account.</p>
+        <p style="margin-top:.2em;"><span class="g">Requirements:</span> A terminal emulator and an Anthropic account. Node.js 22+ needed only for the npm install method.</p>
       </div>
       <div class="card amber">
         <h3>Authentication</h3>
@@ -784,9 +787,9 @@ claude --continue</code></pre>
       <ul>
         <li>Install the <span class="g">Claude Code</span> extension from the VS Code marketplace</li>
         <li>Or use Claude Code CLI with the <span class="mono">claude</span> command in VS Code's terminal</li>
-        <li>Inline code suggestions</li>
-        <li>Chat panel in sidebar</li>
-        <li>Context-aware completions</li>
+        <li>Inline diffs you accept or reject</li>
+        <li>Graphical chat panel</li>
+        <li>Plan review before edits</li>
         <li>Supports <span class="g">@-mentions</span> for files</li>
       </ul>
     </div>
@@ -831,7 +834,7 @@ client = anthropic.Anthropic()
 # Uses ANTHROPIC_API_KEY env var
 
 message = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {
@@ -858,7 +861,7 @@ const client = new Anthropic();
 
 const message =
   await client.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-sonnet-5-5",
     max_tokens: 1024,
     messages: [
       {
@@ -900,7 +903,7 @@ npm install @anthropic-ai/sdk</code></pre>
           <li>API responses include <span class="a">usage</span> field with exact counts</li>
           <li><span class="mono">input_tokens</span> — what you sent</li>
           <li><span class="mono">output_tokens</span> — Claude's response</li>
-          <li>Use the <span class="a">tokenizer tool</span> on docs.anthropic.com</li>
+          <li>Use the <span class="a">count_tokens</span> endpoint before sending</li>
         </ul>
       </div>
     </div>
@@ -910,12 +913,13 @@ npm install @anthropic-ai/sdk</code></pre>
         <table>
           <thead><tr><th>Model</th><th>Input</th><th>Output</th></tr></thead>
           <tbody>
-            <tr><td>Opus</td><td>$15/MTok</td><td>$75/MTok</td></tr>
-            <tr><td>Sonnet</td><td>$3/MTok</td><td>$15/MTok</td></tr>
-            <tr><td>Haiku</td><td>$0.25/MTok</td><td>$1.25/MTok</td></tr>
+            <tr><td>Fable 5.1</td><td>$10/MTok</td><td>$50/MTok</td></tr>
+            <tr><td>Opus 5.5</td><td>$4/MTok</td><td>$20/MTok</td></tr>
+            <tr><td>Sonnet 5.5</td><td>$2/MTok</td><td>$10/MTok</td></tr>
+            <tr><td>Haiku 5.5</td><td>$0.10/MTok</td><td>$0.50/MTok</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.15em; font-size:.46em; color:var(--muted);">MTok = million tokens. Prices as of early 2025; check anthropic.com for current pricing.</p>
+        <p style="margin-top:.15em; font-size:.46em; color:var(--muted);">MTok = million tokens. Prices as of October 2026 (platform.claude.com); check claude.com/pricing.</p>
       </div>
       <div class="card blue">
         <h3>Managing Costs</h3>
@@ -940,16 +944,16 @@ npm install @anthropic-ai/sdk</code></pre>
       <div class="card amber" style="margin-bottom:.4em;">
         <h3>API Tier System</h3>
         <table>
-          <thead><tr><th>Tier</th><th>Spend Req.</th></tr></thead>
+          <thead><tr><th>Tier</th><th>Spend cap</th></tr></thead>
           <tbody>
-            <tr><td><span class="a">Tier 1</span></td><td>$0 (new)</td></tr>
-            <tr><td><span class="g">Tier 2</span></td><td>$40+</td></tr>
-            <tr><td><span class="b">Tier 3</span></td><td>$200+</td></tr>
-            <tr><td><span class="p">Tier 4</span></td><td>$1,000+</td></tr>
-            <tr><td><span class="r">Scale</span></td><td>Custom</td></tr>
+            <tr><td><span class="a">Evaluation</span></td><td>New orgs (lower limits)</td></tr>
+            <tr><td><span class="g">Start</span></td><td>$500/month cap</td></tr>
+            <tr><td><span class="b">Build</span></td><td>$1,000/month cap</td></tr>
+            <tr><td><span class="p">Scale</span></td><td>$200,000/month cap</td></tr>
+            <tr><td><span class="r">Custom</span></td><td>No cap; via sales</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.15em;">Higher tiers unlock higher rate limits. Tiers upgrade automatically based on cumulative spend.</p>
+        <p style="margin-top:.15em;">Higher tiers unlock higher rate limits. Tiers move up automatically with usage history and account standing.</p>
       </div>
     </div>
     <div>
@@ -957,8 +961,8 @@ npm install @anthropic-ai/sdk</code></pre>
         <h3>Types of Limits</h3>
         <ul>
           <li><span class="g">Requests per minute (RPM)</span> — how many API calls you can make</li>
-          <li><span class="g">Tokens per minute (TPM)</span> — total tokens processed per minute</li>
-          <li><span class="g">Tokens per day (TPD)</span> — daily token budget</li>
+          <li><span class="g">Input/output tokens per minute (ITPM/OTPM)</span></li>
+          <li><span class="g">Monthly spend cap</span> — set by your tier</li>
           <li>Limits apply <span class="a">per model</span> and <span class="a">per organization</span></li>
         </ul>
       </div>
@@ -1112,8 +1116,8 @@ except anthropic.RateLimitError as e:
       <div class="card green" style="margin-bottom:.4em;">
         <h3>Essential Resources</h3>
         <ul>
-          <li><span class="g">docs.anthropic.com</span> — official documentation</li>
-          <li><span class="g">console.anthropic.com</span> — API dashboard</li>
+          <li><span class="g">platform.claude.com/docs</span> — official documentation</li>
+          <li><span class="g">platform.claude.com</span> — API dashboard</li>
           <li><span class="g">claude.ai</span> — start chatting now</li>
           <li><span class="g">github.com/anthropics</span> — SDKs &amp; examples</li>
           <li><span class="g">anthropic.com/research</span> — research papers</li>
