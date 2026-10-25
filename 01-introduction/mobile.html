@@ -209,7 +209,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li>Trained using <span class="a">Constitutional AI (CAI)</span> — a novel alignment approach that sets Claude apart from competitors</li>
         <li>Designed with <span class="g">safety</span> as a first-class priority, not an afterthought</li>
         <li>Available via web interface, API, and developer tools</li>
-        <li>Supports <span class="b">200K token context windows</span> — equivalent to roughly 150,000 words or a 500-page book</li>
+        <li>Supports a <span class="b">1M-token context window</span> on all current models — roughly 555,000 words</li>
       </ul>
       <blockquote>"Claude is designed to be an AI assistant that is helpful, harmless, and honest." — Anthropic</blockquote>
     </div>
@@ -244,15 +244,15 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <li>Headquartered in San Francisco, CA</li>
           <li>Mission: <em>"The responsible development and maintenance of advanced AI for the long-term benefit of humanity"</em></li>
           <li>Public Benefit Corporation (PBC) structure</li>
-          <li>Roughly 1,000+ employees (as of 2025)</li>
+          <li>Roughly 1,000+ employees (as of early 2025)</li>
         </ul>
       </div>
       <div class="card blue" style="margin-top:0.6em;">
         <h3 class="b">Funding</h3>
         <ul>
-          <li>Over <span class="a">$15 billion</span> raised in total funding</li>
+          <li>Over <span class="a">$15 billion</span> raised in total funding (as of early 2025)</li>
           <li>Key investors: Google, Spark Capital, Salesforce Ventures, Amazon (up to $4B commitment)</li>
-          <li>Valued at approximately $60 billion (2025)</li>
+          <li>Valued at approximately $60 billion (early 2025)</li>
         </ul>
       </div>
     </div>
@@ -284,10 +284,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <!-- ======================== SLIDE 4: MODEL FAMILY ======================== -->
 <section>
   <div class="slide-header"><span class="tag">03</span><h2>The Claude Model Family</h2></div>
-  <p>Anthropic offers three tiers of Claude models, each balancing <span class="a">capability</span>, <span class="g">speed</span>, and <span class="b">cost</span>.</p>
+  <p>The current family is <span class="a">Claude 5</span>: Haiku, Sonnet and Opus 5.5, plus <span class="r">Fable 5.1</span> for the most demanding long-horizon work, each balancing <span class="a">capability</span>, <span class="g">speed</span>, and <span class="b">cost</span>.</p>
   <div class="cols-3">
     <div class="card green">
-      <h3 class="g">Claude Haiku 4.5</h3>
+      <h3 class="g">Claude Haiku 5.5</h3>
       <p><span class="pill green">Fast</span> <span class="pill green">Affordable</span></p>
       <ul>
         <li>Fastest model in the family</li>
@@ -298,23 +298,23 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       </ul>
     </div>
     <div class="card blue">
-      <h3 class="b">Claude Sonnet 4.6</h3>
+      <h3 class="b">Claude Sonnet 5.5</h3>
       <p><span class="pill blue">Balanced</span> <span class="pill blue">Versatile</span></p>
       <ul>
         <li>Best balance of speed and intelligence</li>
         <li>Strong coding capabilities</li>
         <li>Excellent for most production tasks</li>
-        <li>Powers Claude.ai (default)</li>
+        <li>Available on the Free plan</li>
         <li>Great for agentic workflows</li>
       </ul>
     </div>
     <div class="card purple">
-      <h3 class="p">Claude Opus 4.6</h3>
+      <h3 class="p">Claude Opus 5.5</h3>
       <p><span class="pill purple">Powerful</span> <span class="pill purple">Deep</span></p>
       <ul>
-        <li>Most capable model</li>
-        <li>Best for complex reasoning</li>
-        <li>Extended thinking support</li>
+        <li>Recommended default for most work</li>
+        <li>Long-running agentic coding</li>
+        <li>Adaptive thinking, always on</li>
         <li>Research &amp; analysis tasks</li>
         <li>Highest accuracy</li>
       </ul>
@@ -322,16 +322,16 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
   <table style="margin-top:0.8em;">
     <thead>
-      <tr><th>Feature</th><th>Haiku 4.5</th><th>Sonnet 4.6</th><th>Opus 4.6</th></tr>
+      <tr><th>Feature</th><th>Haiku 5.5</th><th>Sonnet 5.5</th><th>Opus 5.5</th><th>Fable 5.1</th></tr>
     </thead>
     <tbody>
-      <tr><td>Context Window</td><td>200K tokens</td><td>200K tokens</td><td>200K tokens</td></tr>
-      <tr><td>Max Output</td><td>8,192 tokens</td><td>16,384 tokens</td><td>32,768 tokens</td></tr>
-      <tr><td>Speed</td><td class="g">Fastest</td><td class="b">Moderate</td><td class="p">Slower</td></tr>
-      <tr><td>Reasoning</td><td>Good</td><td class="b">Strong</td><td class="p">Best-in-class</td></tr>
-      <tr><td>Extended Thinking</td><td>No</td><td>Yes</td><td class="p">Yes (advanced)</td></tr>
-      <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-      <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Context Window</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td></tr>
+      <tr><td>Max Output</td><td>128K tokens</td><td>128K tokens</td><td>128K tokens</td><td>128K tokens</td></tr>
+      <tr><td>Speed</td><td class="g">Fastest</td><td class="b">Fast</td><td class="p">Moderate</td><td>Slower</td></tr>
+      <tr><td>Model ID</td><td><code>claude-haiku-5-5</code></td><td><code>claude-sonnet-5-5</code></td><td><code>claude-opus-5-5</code></td><td><code>claude-fable-5-1</code></td></tr>
+      <tr><td>Thinking</td><td>Adaptive</td><td>Adaptive</td><td class="p">Adaptive (always on)</td><td>Adaptive (always on)</td></tr>
+      <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
     </tbody>
   </table>
 </section>
@@ -481,7 +481,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <!-- ======================== SLIDE 7: BENCHMARKS ======================== -->
 <section>
   <div class="slide-header"><span class="tag">06</span><h2>Benchmark Performance</h2></div>
-  <p>Claude Opus 4.6 achieves <span class="a">state-of-the-art or near-state-of-the-art</span> results across major benchmarks. Numbers are approximate and from publicly available reports.</p>
+  <p><span class="r">Historical snapshot (early 2026, Claude Opus 4.6); not updated for the Claude 5 family.</span> Numbers are approximate and were not re-verified; see anthropic.com/news for current results.</p>
   <table>
     <thead>
       <tr><th>Benchmark</th><th>Claude Opus 4.6</th><th>GPT-4o</th><th>Gemini 2.5 Pro</th></tr>
@@ -514,13 +514,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="slide-header"><span class="tag">07</span><h2>Context Windows</h2></div>
   <div class="cols-6040">
     <div>
-      <p>Claude supports a <span class="a">200,000 token context window</span> across all model tiers, enabling work with massive amounts of text in a single conversation.</p>
+      <p>All current Claude models support a <span class="a">1M-token context window</span> and up to 128K output tokens. Competitor figures below are from early 2026.</p>
       <div class="svg-container">
         <svg width="420" height="180" viewBox="0 0 420 180" style="max-width: 100%; height: auto;">
           <!-- Context bar visualization -->
           <rect x="10" y="20" width="400" height="30" rx="4" fill="#231e1a" stroke="#403831"/>
           <rect x="10" y="20" width="400" height="30" rx="4" fill="rgba(220,173,97,0.2)"/>
-          <text x="210" y="40" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">200K Tokens (~150,000 words)</text>
+          <text x="210" y="40" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">1M Tokens (~555,000 words)</text>
 
           <!-- Comparisons -->
           <rect x="10" y="65" width="80" height="22" rx="3" fill="rgba(115,185,180,0.2)" stroke="#73b9b4" stroke-width="0.5"/>
@@ -533,7 +533,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <text x="290" y="80" text-anchor="middle" fill="#a9cd8e" font-family="Instrument Sans" font-size="9">Gemini 2.5 Pro: 1M tokens</text>
 
           <!-- What fits -->
-          <text x="10" y="115" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">What fits in 200K tokens?</text>
+          <text x="10" y="115" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">What fits in 1M tokens?</text>
 
           <text x="10" y="138" fill="#a9cd8e" font-family="Geist Mono" font-size="9">~</text>
           <text x="25" y="138" fill="#ede5d9" font-family="Instrument Sans" font-size="10">500 pages of text (a full novel)</text>
@@ -559,16 +559,16 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <div class="card purple" style="margin-top:0.6em;">
         <h3 class="p">Extended Thinking</h3>
         <ul>
-          <li>Sonnet &amp; Opus can use <span class="a">extended thinking</span></li>
+          <li>Current models use <span class="a">adaptive thinking</span> (always on for Opus 5.5 and Fable 5.1)</li>
           <li>Model reasons step-by-step before answering</li>
           <li>Dramatically improves accuracy on hard problems</li>
-          <li>Thinking tokens are separate from output tokens</li>
+          <li>Thinking tokens are billed as output tokens</li>
           <li>Configurable thinking budget</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:0.6em;">
         <h3 class="g">Prompt Caching</h3>
-        <p>Reuse large context prefixes across calls for <span class="a">up to 90% cost reduction</span> and faster time-to-first-token.</p>
+        <p>Reuse large context prefixes across calls for <span class="a">90% or more off cached input</span> and faster time-to-first-token.</p>
       </div>
     </div>
   </div>
@@ -624,7 +624,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 
       <!-- Sub-items: Integrations -->
       <text x="530" y="393" fill="#d77753" font-family="Instrument Sans" font-size="9">• Amazon Bedrock</text>
-      <text x="530" y="408" fill="#d77753" font-family="Instrument Sans" font-size="9">• Google Vertex AI</text>
+      <text x="530" y="408" fill="#d77753" font-family="Instrument Sans" font-size="9">• Google Cloud (Vertex AI)</text>
 
       <!-- MCP -->
       <line x1="390" y1="155" x2="390" y2="35" stroke="#dcad61" stroke-width="1.5" stroke-dasharray="4"/>
@@ -646,26 +646,32 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr>
         <td><span class="g">Free</span></td>
         <td>$0</td>
-        <td>Sonnet 4.6</td>
-        <td>Basic usage with rate limits, web &amp; mobile access</td>
+        <td>Sonnet, Haiku</td>
+        <td>Chat on web, desktop and mobile, web search, files, Artifacts, memory</td>
       </tr>
       <tr>
         <td><span class="a">Pro</span></td>
-        <td>$20/mo</td>
+        <td>$20/mo ($17/mo yearly)</td>
         <td>Sonnet, Opus, Haiku</td>
-        <td>5x more usage, extended thinking, Projects, priority access</td>
+        <td>At least 5x Free usage, Claude Code, Research, Projects</td>
+      </tr>
+      <tr>
+        <td><span class="r">Max</span></td>
+        <td>From $100/mo</td>
+        <td>All models (Fable within weekly limits)</td>
+        <td>5x or 20x Pro usage, higher output limits, priority access, monthly API credits</td>
       </tr>
       <tr>
         <td><span class="b">Team</span></td>
-        <td>$25/user/mo</td>
+        <td>$25/seat/mo ($20 yearly); premium $125 ($100)</td>
         <td>All models</td>
-        <td>Higher limits, admin controls, team sharing, longer context</td>
+        <td>2&ndash;150 seats, SSO, admin controls, project sharing, Claude Code</td>
       </tr>
       <tr>
         <td><span class="p">Enterprise</span></td>
-        <td>Custom</td>
+        <td>$20/seat/mo + usage at API rates</td>
         <td>All models</td>
-        <td>SSO/SAML, SCIM, audit logs, custom retention, SLA, dedicated support</td>
+        <td>SCIM, audit logs, RBAC, compliance API, custom retention (20-seat minimum)</td>
       </tr>
     </tbody>
   </table>
@@ -674,16 +680,16 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3 class="g">Free Tier Highlights</h3>
       <ul>
         <li>No credit card required</li>
-        <li>Access to Claude Sonnet</li>
+        <li>Access to Claude Sonnet and Haiku</li>
         <li>File uploads and vision</li>
-        <li>Limited daily messages</li>
+        <li>Usage limits reset every 5 hours</li>
       </ul>
     </div>
     <div class="card amber">
       <h3 class="a">Pro Tier Value</h3>
       <ul>
         <li>Access to all models including <span class="p">Opus</span></li>
-        <li>Extended thinking for deep reasoning</li>
+        <li>Claude Code and Research</li>
         <li>Projects with custom instructions</li>
         <li>Priority during high-traffic periods</li>
       </ul>
@@ -701,22 +707,28 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </thead>
     <tbody>
       <tr>
-        <td><span class="g">Haiku 4.5</span></td>
-        <td>$0.80</td>
+        <td><span class="g">Haiku 5.5</span></td>
+        <td>$0.10</td>
+        <td>$0.50</td>
+        <td>$0.01 (90% saving)</td>
+      </tr>
+      <tr>
+        <td><span class="b">Sonnet 5.5</span></td>
+        <td>$2.00</td>
+        <td>$10.00</td>
+        <td>$0.10 (95% saving)</td>
+      </tr>
+      <tr>
+        <td><span class="p">Opus 5.5</span></td>
         <td>$4.00</td>
-        <td>$0.08 (90% saving)</td>
+        <td>$20.00</td>
+        <td>$0.20 (95% saving)</td>
       </tr>
       <tr>
-        <td><span class="b">Sonnet 4.6</span></td>
-        <td>$3.00</td>
-        <td>$15.00</td>
-        <td>$0.30 (90% saving)</td>
-      </tr>
-      <tr>
-        <td><span class="p">Opus 4.6</span></td>
-        <td>$15.00</td>
-        <td>$75.00</td>
-        <td>$1.50 (90% saving)</td>
+        <td><span class="r">Fable 5.1</span></td>
+        <td>$10.00</td>
+        <td>$50.00</td>
+        <td>$0.25 (97.5% saving)</td>
       </tr>
     </tbody>
   </table>
@@ -734,14 +746,14 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <ul>
         <li>~4 characters = 1 token (English)</li>
         <li>~0.75 words = 1 token</li>
-        <li>1M tokens ≈ 750K words</li>
+        <li>1M tokens ≈ 555K words (current tokenizer)</li>
         <li>A typical page ≈ 300-400 tokens</li>
       </ul>
     </div>
     <div class="card purple">
       <h3 class="p">Rate Limits</h3>
       <ul>
-        <li>Tiered by usage level (1-4)</li>
+        <li>Tiers: Start, Build, Scale, Custom</li>
         <li>Requests per minute (RPM)</li>
         <li>Tokens per minute (TPM)</li>
         <li>Increase with spend history</li>
@@ -808,7 +820,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><th>Dimension</th><th class="a">Claude (Anthropic)</th><th>GPT-4o (OpenAI)</th><th>Gemini 2.5 (Google)</th></tr>
     </thead>
     <tbody>
-      <tr><td>Context Window</td><td>200K tokens</td><td>128K tokens</td><td class="g">1M tokens</td></tr>
+      <tr><td>Context Window</td><td>1M tokens</td><td>128K tokens</td><td class="g">1M tokens</td></tr>
       <tr><td>Safety Approach</td><td class="a">Constitutional AI</td><td>RLHF + rules</td><td>RLHF + filters</td></tr>
       <tr><td>Coding</td><td class="a">Excellent (SWE-bench leader)</td><td>Strong</td><td>Strong</td></tr>
       <tr><td>Reasoning</td><td class="a">Excellent</td><td>Strong</td><td>Strong</td></tr>
@@ -1037,10 +1049,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 
       <!-- 2025 -->
       <circle cx="740" cy="200" r="8" fill="#dcad61" stroke="#dcad61" stroke-width="2"/>
-      <text x="740" y="178" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">2025</text>
+      <text x="740" y="178" text-anchor="middle" fill="#dcad61" font-family="Geist Mono" font-size="11" font-weight="500">2025–26</text>
       <rect x="688" y="105" width="104" height="65" rx="5" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
-      <text x="740" y="125" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans" font-size="9" font-weight="600">Claude 4.x</text>
-      <text x="740" y="140" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Opus &amp; Sonnet 4.6</text>
+      <text x="740" y="125" text-anchor="middle" fill="#dcad61" font-family="Instrument Sans" font-size="9" font-weight="600">Claude 4.x &amp; 5</text>
+      <text x="740" y="140" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Opus 5.5, Fable 5.1</text>
       <text x="740" y="155" text-anchor="middle" fill="#988d82" font-family="Instrument Sans" font-size="8">Claude Code</text>
       <line x1="740" y1="170" x2="740" y2="192" stroke="#dcad61" stroke-width="1" stroke-dasharray="3"/>
 
@@ -1055,7 +1067,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </div>
     <div class="card green">
       <h3 class="g">Key Milestones</h3>
-      <p>Notable jumps include the <span class="a">200K context window</span> (Claude 3), <span class="b">Sonnet's coding breakthrough</span> (3.5), <span class="p">Computer Use</span>, and the <span class="a">Claude 4 generation</span> with extended thinking and Claude Code.</p>
+      <p>Notable jumps include the <span class="a">200K context window</span> (Claude 3), <span class="b">Sonnet's coding breakthrough</span> (3.5), <span class="p">Computer Use</span>, the <span class="a">Claude 4 generation</span> with extended thinking and Claude Code, and the <span class="a">Claude 5 family</span> (2026) with adaptive thinking and 1M context throughout.</p>
     </div>
   </div>
 </section>
@@ -1173,10 +1185,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <div class="card amber">
         <h3 class="a">Key Takeaways</h3>
         <ul>
-          <li>Claude is Anthropic's family of AI models — <span class="g">Haiku</span>, <span class="b">Sonnet</span>, and <span class="p">Opus</span></li>
+          <li>Claude is Anthropic's family of AI models — <span class="g">Haiku</span>, <span class="b">Sonnet</span>, <span class="p">Opus</span> and <span class="r">Fable</span></li>
           <li>Built with <span class="a">Constitutional AI</span> — a novel safety-first alignment approach</li>
           <li>Excels at reasoning, coding, writing, and analysis</li>
-          <li>200K token context window across all models</li>
+          <li>1M-token context window on all current models</li>
           <li>Available via <span class="b">Claude.ai</span>, <span class="p">API</span>, and <span class="g">Claude Code</span></li>
           <li>Competitive performance with strong safety guarantees</li>
           <li>Flexible pricing from free to enterprise</li>
@@ -1192,10 +1204,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <h3 class="b">Essential Links</h3>
         <ul>
           <li><span class="mono a">claude.ai</span> — Use Claude directly</li>
-          <li><span class="mono a">docs.anthropic.com</span> — API documentation</li>
+          <li><span class="mono a">platform.claude.com/docs</span> — API documentation</li>
           <li><span class="mono a">anthropic.com/research</span> — Research papers</li>
           <li><span class="mono a">anthropic.com/news</span> — Latest announcements</li>
-          <li><span class="mono a">console.anthropic.com</span> — API console &amp; keys</li>
+          <li><span class="mono a">platform.claude.com</span> — Claude Console &amp; keys</li>
           <li><span class="mono a">github.com/anthropics</span> — SDKs &amp; tools</li>
         </ul>
       </div>
