@@ -208,7 +208,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <span class="tag">STEP 1</span>
     <h2>Scaffold the Agent Directory</h2>
   </div>
-  <p>Agent definitions live in <code>.claude/agents/</code>. Each agent gets its own directory with an <code>AGENT.md</code> file.</p>
+  <p>Agent definitions live in <code>.claude/agents/</code>. Each agent is a single Markdown file, such as <code>code-reviewer.md</code> (subfolders are allowed; the <code>name</code> field identifies the agent).</p>
 
   <div class="term">
     <div class="term-bar">
@@ -216,13 +216,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <span class="term-title">~/my-project</span>
     </div>
     <div class="term-body">
-<span class="prompt">$</span> <span class="cmd">mkdir -p .claude/agents/code-reviewer .claude/agents/test-writer</span><br>
+<span class="prompt">$</span> <span class="cmd">mkdir -p .claude/agents &amp;&amp; touch .claude/agents/{code-reviewer,test-writer}.md</span><br>
 <span class="prompt">$</span> <span class="cmd">tree .claude/agents/</span><br>
 <span class="out">.claude/agents/</span><br>
-<span class="out">&boxvr;&boxh;&boxh; code-reviewer/</span><br>
-<span class="out">&boxur;&boxh;&boxh; test-writer/</span><br>
+<span class="out">&boxvr;&boxh;&boxh; code-reviewer.md</span><br>
+<span class="out">&boxur;&boxh;&boxh; test-writer.md</span><br>
 <br>
-<span class="dim"># Two directories ready &mdash; each will hold an AGENT.md</span>
+<span class="dim"># Two empty agent files &mdash; one Markdown file per agent</span>
     </div>
   </div>
 
@@ -244,7 +244,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="term">
     <div class="term-bar">
       <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-      <span class="term-title">.claude/agents/code-reviewer/AGENT.md</span>
+      <span class="term-title">.claude/agents/code-reviewer.md</span>
     </div>
     <div class="term-body">
 <span class="line-num"> 1</span> <span class="flag">---</span><br>
@@ -297,7 +297,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="term">
     <div class="term-bar">
       <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-      <span class="term-title">.claude/agents/test-writer/AGENT.md</span>
+      <span class="term-title">.claude/agents/test-writer.md</span>
     </div>
     <div class="term-body">
 <span class="line-num"> 1</span> <span class="flag">---</span><br>
@@ -328,7 +328,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </div>
     <div class="card amber">
       <h3>maxTurns: 30</h3>
-      <p>Caps the agent at 30 tool calls &mdash; prevents runaway loops while allowing iterative test-fix cycles</p>
+      <p>Caps the agent at 30 agentic turns &mdash; prevents runaway loops while allowing iterative test-fix cycles</p>
     </div>
   </div>
 </section>
@@ -352,8 +352,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="prompt">$</span> <span class="cmd">claude</span><br>
 <br>
 <span class="dim">╭──────────────────────────────────────────────────╮</span><br>
-<span class="dim">│</span> <span class="hi">Claude Code</span> <span class="dim">v1.0.32</span>                              <span class="dim">│</span><br>
-<span class="dim">│</span> <span class="out">/help for commands &bull; /agents to manage agents</span>   <span class="dim">│</span><br>
+<span class="dim">│</span> <span class="hi">Claude Code</span> <span class="dim">v2.1.310</span>                             <span class="dim">│</span><br>
+<span class="dim">│</span> <span class="out">/help for commands &bull; edit .claude/agents/ to add agents</span><span class="dim">│</span><br>
 <span class="dim">╰──────────────────────────────────────────────────╯</span><br>
 <br>
 <span class="prompt">&gt;</span> <span class="cmd">Create src/users.js with a simple Express router</span><br>
@@ -394,7 +394,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="ok">&#9654;</span> <span class="hi">Delegating to agent: code-reviewer</span><br>
 <span class="dim">  model: opus &bull; isolation: worktree &bull; tools: Read, Grep, Glob</span><br>
 <br>
-<span class="dim">  Creating worktree at /tmp/claude-wt-a3f8c2...</span><br>
+<span class="dim">  Creating worktree under .claude/worktrees/ ...</span><br>
 <span class="dim">  Agent started &bull; reviewing files...</span><br>
 <br>
 <span class="dim">  &#x2502; Reading src/users.js...</span><br>
@@ -442,7 +442,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="dim">&#x24D8; INFO</span> <span class="hi">No rate limiting on POST /users</span><br>
 <span class="out">  Consider adding express-rate-limit to prevent abuse.</span><br>
 <br>
-<span class="dim">Worktree /tmp/claude-wt-a3f8c2 cleaned up (no changes made).</span>
+<span class="dim">Worktree cleaned up (no changes made).</span>
     </div>
   </div>
 
@@ -472,7 +472,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <span class="ok">&#9654;</span> <span class="hi">Delegating to agent: test-writer</span><br>
 <span class="dim">  model: sonnet &bull; isolation: worktree &bull; tools: Read, Grep, Glob, Edit, Write, Bash</span><br>
 <br>
-<span class="dim">  Creating worktree at /tmp/claude-wt-7b2e1f...</span><br>
+<span class="dim">  Creating worktree under .claude/worktrees/ ...</span><br>
 <span class="dim">  Agent started &bull; analysing source...</span><br>
 <br>
 <span class="dim">  &#x2502; Reading src/users.js...</span><br>
@@ -566,18 +566,18 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td><code>description</code></td><td>string</td><td>Matched against task descriptions for auto-delegation</td></tr>
       <tr><td><code>tools</code></td><td>comma-separated</td><td>Allowlist of tools the agent can use</td></tr>
       <tr><td><code>disallowedTools</code></td><td>comma-separated</td><td>Denylist alternative &mdash; everything except these</td></tr>
-      <tr><td><code>model</code></td><td><code>opus</code> | <code>sonnet</code> | <code>haiku</code> | <code>inherit</code></td><td>Which Claude model powers the agent</td></tr>
+      <tr><td><code>model</code></td><td><code>fable</code> | <code>opus</code> | <code>sonnet</code> | <code>haiku</code> | full ID | <code>inherit</code></td><td>Which Claude model powers the agent</td></tr>
       <tr><td><code>isolation</code></td><td><code>worktree</code></td><td>Run in an isolated Git worktree</td></tr>
-      <tr><td><code>maxTurns</code></td><td>number</td><td>Maximum tool-call turns before the agent stops</td></tr>
-      <tr><td><code>permissionMode</code></td><td><code>bypassPermissions</code> | <code>acceptEdits</code> | <code>auto</code></td><td>How the agent handles permission prompts</td></tr>
-      <tr><td><code>background</code></td><td>boolean</td><td>Run the agent as a background task</td></tr>
-      <tr><td><code>skills</code></td><td>comma-separated</td><td>Skills (slash commands) available to this agent</td></tr>
-      <tr><td><code>mcpServers</code></td><td>comma-separated</td><td>MCP servers this agent can access</td></tr>
+      <tr><td><code>maxTurns</code></td><td>number</td><td>Maximum agentic turns before the agent stops</td></tr>
+      <tr><td><code>permissionMode</code></td><td><code>default</code> | <code>acceptEdits</code> | <code>auto</code> | <code>dontAsk</code> | <code>plan</code> | <code>bypassPermissions</code></td><td>Permission mode (the main session&rsquo;s bypass, accept-edits, auto or plan mode takes precedence)</td></tr>
+      <tr><td><code>background</code></td><td>boolean</td><td>Keep the agent in the background even when Claude asks to wait</td></tr>
+      <tr><td><code>skills</code></td><td>comma-separated</td><td>Skills preloaded into the agent&rsquo;s context</td></tr>
+      <tr><td><code>mcpServers</code></td><td>list</td><td>MCP server names or inline definitions for this agent</td></tr>
     </tbody>
   </table>
 
   <div class="callout" style="margin-top:.2em;">
-    <p><span class="label g">Tip</span> Start with a restrictive tool set and widen as needed. Read-only agents are safe to run with <code>bypassPermissions</code>.</p>
+    <p><span class="label g">Tip</span> Start with a restrictive tool set and widen as needed. Read-only tool lists are the safest default; a subagent runs in <code>bypassPermissions</code> only when the main session does.</p>
   </div>
 </section>
 
@@ -593,7 +593,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="cols cols-2">
     <div class="card amber">
       <h3>Agent Definition</h3>
-      <p>YAML frontmatter in <code>.claude/agents/&lt;name&gt;/AGENT.md</code> controls tools, model, isolation, and turn limits</p>
+      <p>YAML frontmatter in <code>.claude/agents/&lt;name&gt;.md</code> controls tools, model, isolation, and turn limits</p>
     </div>
     <div class="card green">
       <h3>Auto-Delegation</h3>
