@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html data-concept="transcript" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Max Plan for Batch Work</title>
+  <meta name="description" content="Using a Claude Max subscription in place of metered API calls: running Claude Code headless as the agent, in CI, with usage tracking — techniques, pros, cons and the measurement rules that keep results honest.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --amber:  #dcad61;
+    --green:  #a9cd8e;
+    --purple: #ba9ecc;
+    --blue:   #73b9b4;
+    --red:    #d77753;
+    --bg:     #1c1815;
+    --bg2:    #231e1a;
+    --bg3:    #29241f;
+    --border: #403831;
+    --text:   #ede5d9;
+    --muted:  #988d82;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Sans', sans-serif;
+    line-height: 1.6;
+    padding: 2.5em 1.5em;
+    display: flex;
+    justify-content: center;
+  }
+  .container { max-width: 960px; width: 100%; }
+
+  /* ── header ── */
+  .report-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: .75em;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: .5em;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque', serif;
+    font-weight: 700;
+    font-size: 2.2em;
+    color: var(--amber);
+    line-height: 1.15;
+    margin-bottom: .1em;
+  }
+  .subtitle {
+    font-size: 1.05em;
+    color: var(--green);
+    font-weight: 300;
+    margin-bottom: .4em;
+  }
+  .meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: .8em;
+    color: var(--muted);
+    margin-bottom: 1.6em;
+  }
+  .bar { width: 60px; height: 3px; background: var(--amber); margin-bottom: 2em; }
+
+  /* ── sections ── */
+  h2 {
+    font-family: 'Bricolage Grotesque', serif;
+    font-weight: 700;
+    font-size: 1.5em;
+    color: var(--amber);
+    margin: 2em 0 .5em;
+    padding-bottom: .25em;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 .num {
+    font-family: 'Geist Mono', monospace;
+    font-size: .55em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--amber);
+    padding: .1em .45em;
+    border-radius: 3px;
+    margin-right: .4em;
+    vertical-align: middle;
+    letter-spacing: .04em;
+  }
+  h3 {
+    font-family: 'Bricolage Grotesque', serif;
+    font-weight: 700;
+    font-size: 1.15em;
+    color: var(--green);
+    margin: 1.4em 0 .3em;
+  }
+  h4 {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 600;
+    font-size: .95em;
+    color: var(--purple);
+    margin: 1em 0 .2em;
+  }
+  p { font-size: .95em; margin: .4em 0; color: var(--text); }
+  ul, ol { margin: .3em 0 .6em 1.4em; }
+  li { font-size: .93em; margin-bottom: .25em; color: #d7cec2; }
+  strong { color: var(--text); }
+
+  /* ── cards ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1em 1.3em;
+    margin: .8em 0;
+  }
+  .card.amber  { border-left: 3px solid var(--amber); }
+  .card.green  { border-left: 3px solid var(--green); }
+  .card.purple { border-left: 3px solid var(--purple); }
+  .card.blue   { border-left: 3px solid var(--blue); }
+  .card.red    { border-left: 3px solid var(--red); }
+  .card h3 { margin-top: 0; }
+  .card p, .card li { font-size: .9em; }
+
+  /* ── grid ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .8em; }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ── tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88em;
+    margin: .6em 0 1em;
+  }
+  th {
+    background: var(--bg3);
+    color: var(--amber);
+    font-weight: 600;
+    padding: .5em .7em;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  td {
+    padding: .45em .7em;
+    border: 1px solid var(--border);
+    color: #d7cec2;
+  }
+  tr:nth-child(even) td { background: #211c19; }
+
+  /* ── pills ── */
+  .pill {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: .72em;
+    padding: .12em .5em;
+    border-radius: 99px;
+    border: 1px solid;
+    margin: 0 .1em;
+  }
+  .pill.amber  { color: var(--amber); border-color: var(--amber); }
+  .pill.green  { color: var(--green); border-color: var(--green); }
+  .pill.purple { color: var(--purple); border-color: var(--purple); }
+  .pill.blue   { color: var(--blue); border-color: var(--blue); }
+  .pill.red    { color: var(--red); border-color: var(--red); }
+
+  /* ── accents ── */
+  .a { color: var(--amber); font-weight: 600; }
+  .g { color: var(--green); font-weight: 600; }
+  .p { color: var(--purple); font-weight: 600; }
+  .b { color: var(--blue); font-weight: 600; }
+  .r { color: var(--red); font-weight: 600; }
+
+  /* ── verdict box ── */
+  .verdict {
+    background: var(--bg3);
+    border: 1px solid var(--amber);
+    border-radius: 8px;
+    padding: 1.2em 1.5em;
+    margin: 1.2em 0;
+  }
+  .verdict h3 { color: var(--amber); margin-top: 0; }
+
+  /* ── footer ── */
+  footer {
+    margin-top: 3em;
+    padding-top: 1.5em;
+    border-top: 1px solid var(--border);
+    font-family: 'Geist Mono', monospace;
+    font-size: .78em;
+    color: var(--muted);
+  }
+
+  /* ── print ── */
+  @media print {
+    body { background: #faf6f0; color: #231e1a; padding: 1em; }
+    .card { border-color: #d7cec2; background: #f7f2ea; }
+    .card p, .card li, td, li { color: #443c35; }
+    th { background: #f1e9de; color: #443c35; }
+    h1, h2, h3 { color: #231e1a; }
+    .pill { color: #443c35; border-color: #a89d91; }
+    .bar { background: #443c35; }
+    .verdict { border-color: #443c35; background: #f5efe6; }
+  }
+  </style>
+<style id="deck-concept">@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+html[data-concept=transcript] .reveal .slides section.title-slide.present:has(.cx-fig){display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-auto-rows:min-content;column-gap:52px;align-content:start;text-align:left;height:100%;padding:24px 10px!important;box-sizing:border-box}
+html[data-concept=transcript] .title-slide:has(.cx-fig)>*{grid-column:1;margin-left:0!important;margin-right:0!important;max-width:none!important}
+html[data-concept=transcript] .title-slide:has(.cx-fig) div[style*="letter-spacing"],html[data-concept=transcript] .title-slide:has(.cx-fig) div[style*="width:60px"]{display:none!important}
+html[data-concept=transcript] .title-slide:has(.cx-fig)>div:not([class]){padding:0!important;text-align:left!important}
+html[data-concept=transcript] .cx-head{grid-column:1/-1!important;display:flex;justify-content:space-between;border-bottom:1px solid var(--muted);padding-bottom:8px;margin-bottom:30px;font-size:.34em;color:var(--text)}
+html[data-concept=transcript] .cx-head span:last-child{color:var(--muted)}
+html[data-concept=transcript] .title-slide:has(.cx-fig) h1{font-size:1.75em!important;line-height:1.02!important;text-transform:none!important;text-align:left!important;margin:0 0 .35em!important;hyphens:manual;overflow-wrap:normal;word-break:normal}
+html[data-concept=transcript] .title-slide:has(.cx-fig) .subtitle,html[data-concept=transcript] .title-slide:has(.cx-fig) .meta{text-align:left!important}
+html[data-concept=transcript] .title-slide:has(.cx-fig) .pill{border-radius:2px!important}
+html[data-concept=transcript] .title-slide:has(.cx-fig) div[style*="display:flex"],html[data-concept=transcript] .title-slide:has(.cx-fig) div[style*="display: flex"],html[data-concept=transcript] .title-slide:has(.cx-fig) .ss-row{flex-wrap:wrap!important;row-gap:.3em}
+html[data-concept=transcript] .cx-fig{grid-column:2!important;grid-row:2/span 8;margin:0!important;align-self:start}
+html[data-concept=transcript] .cx-fig figcaption{font-size:.3em;line-height:1.45;color:var(--muted);margin-top:.6em;text-align:left;}
+html[data-concept=transcript] .concept-art{display:block;width:100%;height:auto;overflow:visible}
+
+html[data-concept=transcript] .title-slide:has(.cx-fig) .series-label,html[data-concept=transcript] .title-slide:has(.cx-fig) .divider{display:none!important}
+html[data-concept=transcript] .title-slide:has(.cx-fig) p.meta:first-child{display:none!important}
+html[data-concept=transcript] .title-slide:has(.cx-fig)>div[style*="margin-top"]{margin-top:0!important}
+html[data-concept=transcript] .tx-card{background:#f6f1e7;color:#22201c;border-radius:4px;padding:18px 22px;box-shadow:0 14px 30px rgba(0,0,0,.4);text-align:left;font-size:15px}
+html[data-concept=transcript] .reveal .tx-card{font-size:.42em}
+html[data-concept=transcript] .tx-turn{display:grid;grid-template-columns:5.2em 1fr;gap:.6em;padding:.55em 0;border-bottom:1px solid #ddd4c2}
+html[data-concept=transcript] .tx-turn:last-child{border-bottom:0}
+html[data-concept=transcript] .tx-who{font-family:'Geist Mono',monospace;font-size:.78em;color:#8a7f6c;padding-top:.15em}
+html[data-concept=transcript] .tx-turn p{margin:0!important;font-size:1em!important;line-height:1.45!important;color:#22201c!important;text-align:left!important}
+html[data-concept=transcript] .tx-a p{font-family:'Newsreader',Georgia,serif;font-size:1.12em!important}
+html[data-concept=transcript] .tx-a .tx-who{color:#c25d3a}
+html[data-concept=transcript] .tx-tool p,html[data-concept=transcript] .tx-res p{font-family:'Geist Mono',monospace;font-size:.85em!important;color:#4a6b5c!important}
+html[data-concept=transcript] .tx-res p{color:#7a7262!important}
+html[data-concept=transcript] .reveal .slides section.title-slide.present:has(.cx-stack){grid-template-columns:minmax(0,1fr);overflow-y:auto!important}
+html[data-concept=transcript] .cx-fig.cx-stack{grid-column:1!important;grid-row:auto;order:10;margin-top:18px!important}
+/* landing pages (container layout, no Reveal) */
+html[data-concept=transcript] body>.container:has(.cx-fig){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:2.5rem;align-items:start;text-align:left;max-width:1100px}
+html[data-concept=transcript] body>.container:has(.cx-fig)>*{grid-column:1;margin-left:0!important;margin-right:0!important;text-align:left}
+html[data-concept=transcript] body>.container:has(.cx-fig)>.cx-head{grid-column:1/-1;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:.8rem;color:var(--muted,#988d82);border-bottom:1px solid var(--border,#403831);padding-bottom:.5rem;margin-bottom:2rem}
+html[data-concept=transcript] body>.container:has(.cx-fig)>.cx-fig{grid-column:2;grid-row:2/span 12;margin:0}
+html[data-concept=transcript] body>.container:has(.cx-fig) .cx-fig figcaption{font-size:.8rem;color:var(--muted,#988d82);margin-top:.5rem}
+html[data-concept=transcript] body>.container:has(.cx-fig) .series-label{display:none}
+html[data-concept=transcript] body>.container:has(.cx-fig) .bar,html[data-concept=transcript] .accent-border-top{display:none}
+html[data-concept=transcript] body>.container:has(.cx-fig) .buttons,html[data-concept=transcript] body>.container:has(.cx-fig) .grid{justify-content:flex-start}
+html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-1}
+@media (max-width:820px){
+ html[data-concept=transcript] body>.container:has(.cx-fig){grid-template-columns:minmax(0,1fr)}
+ html[data-concept=transcript] body>.container:has(.cx-fig)>.cx-fig{grid-column:1;grid-row:auto;order:5}
+}
+</style>
+  <style>
+  code { font-family: 'Geist Mono', monospace; font-size: .86em; background: var(--bg3); border: 1px solid var(--border); border-radius: 3px; padding: .05em .35em; color: var(--text); }
+  pre { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .8em 1em; overflow-x: auto; margin: .5em 0 .9em; }
+  pre code { background: none; border: 0; padding: 0; font-size: .82em; line-height: 1.55; }
+  table { display: block; overflow-x: auto; }
+  @media (max-width: 820px) { body > .container { display: block !important; } .cx-fig { margin: 0 0 1.5em !important; } }
+  @media print { code, pre { background: #f1e9de; color: #231e1a; border-color: #d7cec2; } }
+  </style>
+</head>
+<body>
+<div class="container">
+<!-- deck-concept:start --><div class="cx-head" aria-hidden="true"><span>Anthropic Claude</span><span>Report</span></div><figure class="cx-fig"><div class="tx-card" role="img" aria-label="An illustrative exchange"><div class="tx-turn tx-h"><span class="tx-who">You</span><p>I have a quarter of my weekly allowance left and it resets tonight. Can it do real work?</p></div><div class="tx-turn tx-a"><span class="tx-who">Claude</span><p>Yes: run Claude Code itself as the agent, headless, and score what it leaves on disk. Just don't call the result a cost.</p></div></div><figcaption>An illustrative exchange for this section.</figcaption></figure><!-- deck-concept:end -->
+  <div class="report-label">FIELD REPORT</div>
+  <h1>A Max Plan in Place of API Calls</h1>
+  <div class="subtitle">Running batch agent work on a Claude subscription: techniques, pros and cons</div>
+  <div class="meta">October 2026 · worked example: the <a href="https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent" style="color:var(--blue)">CVDP RTL Agent</a> benchmark</div>
+  <div class="bar"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">01</span>Summary</h2>
+  <p>A Claude Max subscription has a weekly allowance that is lost if it is not used. Metered API calls cost money per token. For batch work you run yourself (evaluations, benchmarks, bulk code changes), the unused allowance can do work that would otherwise be paid for. The supported way to do that is to <span class="a">run Claude Code itself</span>, headless, as the worker, rather than trying to turn the subscription into a raw model endpoint.</p>
+  <div class="verdict">
+    <h3>Key findings</h3>
+    <ul>
+      <li><strong>The pattern that works:</strong> one headless <code>claude -p</code> session per task, with its tools, turns and wall time capped, its transcript saved, and the result judged by something outside it (tests, a grader, a diff).</li>
+      <li><strong>It runs in CI:</strong> <code>claude setup-token</code> issues a long-lived token for the plan, which goes into a repository secret as <code>CLAUDE_CODE_OAUTH_TOKEN</code>.</li>
+      <li><strong>Usage is measurable:</strong> <code>claude -p "/usage"</code> prints the session (5-hour) and weekly percentages headless, so a script can log them while a batch runs.</li>
+      <li><strong>In the worked example,</strong> 10 hardware-design tasks on Opus 5.5 took about 1% of a weekly allowance; Claude Code's own API-rate estimate for the same work was $2.31.</li>
+      <li><strong>The main cost is to the measurement:</strong> there is no billed cost per call, the worker is a whole agent rather than a model call, and plan limits can stop a batch part-way. Each needs a rule, set out in section 05.</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">02</span>Two ways to try it, and the one to use</h2>
+  <div class="grid-2">
+    <div class="card red">
+      <h3>Don't: a subscription session per LLM call</h3>
+      <p>Replacing each API call inside your own agent with a Claude session that receives the prompt.</p>
+      <ul>
+        <li>A Claude Code session is not a plain model call: it brings its own system prompt and tools, so you get a harness inside your harness.</li>
+        <li>Your agent's tool definitions have to be described in text and the replies parsed, which changes the model's behaviour and adds parsing failures.</li>
+        <li>Hundreds of short sessions per task run into plan limits quickly.</li>
+        <li>It turns a consumer plan into a model backend for another system, which is the use the terms are least likely to cover.</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Do: Claude Code as the whole worker</h3>
+      <p>Give one headless Claude Code session the whole task and let it work with its own tools, then score what it leaves behind.</p>
+      <ul>
+        <li>This is Claude Code used as Claude Code, which is what the plan is for, including headless and CI use.</li>
+        <li>It makes a clean comparison point: an off-the-shelf agent beside the one you built, on the same tasks and the same grader.</li>
+        <li>One session per task keeps the number of sessions, and the load on the limits, low.</li>
+        <li>Prompt caching inside Claude Code keeps the token count per turn down.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">03</span>Techniques</h2>
+
+  <h3>3.1 The headless call</h3>
+  <p>Each task gets one call. The flags that matter are the output format (so the run can be audited), the caps, and the tool lists:</p>
+<pre><code>claude -p "$PROMPT" \
+  --output-format stream-json --verbose \
+  --model claude-opus-5-5 \
+  --max-turns 60 \
+  --permission-mode acceptEdits \
+  --allowedTools Read Edit Write Glob Grep Bash \
+  --disallowedTools WebFetch WebSearch Task "Bash(curl:*)" "Bash(wget:*)" "Bash(git:*)" "Bash(pip:*)"</code></pre>
+  <ul>
+    <li><code>stream-json</code> gives one JSON event per line: every tool call, the served model, and a final <code>result</code> event with <code>num_turns</code>, token usage and <code>total_cost_usd</code>.</li>
+    <li>Put a wall-time limit around the process yourself (a subprocess timeout); <code>--max-turns</code> alone doesn't bound time.</li>
+    <li>Run it with the task tree as its working directory, and keep anything it must not see (hidden tests, answers) out of that tree.</li>
+  </ul>
+
+  <h3>3.2 Authentication in CI</h3>
+<pre><code>claude setup-token                                   # interactive: log in, prints a long-lived token
+gh secret set CLAUDE_CODE_OAUTH_TOKEN -R owner/repo  # paste it at the prompt; never echo it</code></pre>
+  <ul>
+    <li>The token starts with <code>sk-ant-oat01-</code>. The terminal often wraps it over two lines, and a partly copied token fails with <code>401 authentication_failed</code>.</li>
+    <li>To diagnose a 401 without exposing the secret, log only its shape: its length, whether it has the prefix, and whether it holds whitespace.</li>
+    <li>Pass the token only to the step that runs Claude Code. Add it, and the pattern <code>sk-ant-</code>, to the redaction list and to a scan of everything uploaded as artifacts, and fail the upload if either is found.</li>
+  </ul>
+
+  <h3>3.3 Packaging Claude Code in a container</h3>
+  <ul>
+    <li>Pin the version (the installer takes one: <code>curl -fsSL https://claude.ai/install.sh | bash -s 2.1.310</code>) and set <code>DISABLE_AUTOUPDATER=1</code>, so every task in a batch runs the same Claude Code.</li>
+    <li>The installer puts the binary under <code>/root/.local</code>. If the container runs the worker as a non-root user, that user gets <code>Permission denied: 'claude'</code>; copy the real binary to <code>/usr/local/bin</code> instead of linking to it.</li>
+    <li>Claude Code writes its settings under <code>$HOME</code>. Give the worker a writable home folder if its user has none.</li>
+  </ul>
+
+  <h3>3.4 Reading the result</h3>
+  <ul>
+    <li><strong>An API failure can look like a success.</strong> On a 401, Claude Code retries, then emits a reply whose model is <code>&lt;synthetic&gt;</code>, and a <code>result</code> whose subtype can still read <code>success</code>. Check <code>is_error</code> and <code>terminal_reason</code> (<code>api_error</code>) before counting a task as attempted.</li>
+    <li><strong>Redact parsed values, not raw lines.</strong> A redaction pattern can swallow a quote and leave a line that is no longer JSON; parse each event, redact its values, then write it out again.</li>
+    <li><strong>Record what the worker could see:</strong> a listing of the top of its working tree, saved with each result, shows that the answers weren't there.</li>
+  </ul>
+
+  <h3>3.5 Tracking usage while a batch runs</h3>
+<pre><code>claude -p "/usage"
+# Current session: 26% used · resets 4pm
+# Current week (all models): 75% used · resets 1am
+# Current week (Fable): 0% used · resets 1am</code></pre>
+  <ul>
+    <li>It runs headless, so a loop can log it every 10 minutes beside the batch's progress, and stop or warn before a limit.</li>
+    <li><strong>Two limits apply:</strong> a rolling 5-hour session limit and a weekly one. The weekly limit is the one that can't be waited out; the session limit only pauses work for a few hours.</li>
+    <li>Some models can have their own weekly allowance. In the worked example, Fable's weekly figure was separate from the all-models one, so a Fable batch didn't draw on the shared 25%.</li>
+    <li>Any interactive session you run at the same time draws on the same allowance.</li>
+  </ul>
+
+  <h3>3.6 Planning a batch against the allowance</h3>
+  <ol>
+    <li><strong>Smoke-test first:</strong> run about 10 tasks and read the change in the weekly figure. That gives a rate per task.</li>
+    <li><strong>Scale from the smoke test:</strong> in the worked example, 10 tasks took about 1%, so 86 tasks needed about 9%.</li>
+    <li><strong>Spend the costly models first:</strong> run the large models while there is room, and use the small, cheap ones to fill what is left before the reset.</li>
+    <li><strong>Make tasks independent and resumable:</strong> a task cut off by a limit should fail with a clear reason and be rerun alone after the reset, without spoiling the rest of the batch.</li>
+    <li><strong>Mind the concurrency:</strong> several sessions in parallel finish sooner but reach the session limit sooner. Two to four at a time was comfortable here.</li>
+  </ol>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">04</span>Pros and cons</h2>
+  <table>
+    <tr><th style="width:50%">Pros</th><th>Cons</th></tr>
+    <tr><td><span class="g">No marginal cost</span> within the allowance, and the weekly allowance is lost at reset if unused.</td><td><span class="r">No billed cost per call.</span> <code>total_cost_usd</code> is Claude Code's API-rate estimate, not money spent, so cost-per-result charts lose a column.</td></tr>
+    <tr><td><span class="g">Frontier models become affordable</span> for experiments that would cost tens of dollars per run on the API.</td><td><span class="r">Limits stop batches.</span> A run that hits the session or weekly limit loses its remaining tasks until the reset.</td></tr>
+    <tr><td><span class="g">A strong agent for free:</span> Claude Code's tools, its prompt caching and its handling of long tasks come with it.</td><td><span class="r">It is an agent, not a model.</span> No custom tool schemas, structured outputs or sampling settings; you measure Claude Code with a model, never the model alone.</td></tr>
+    <tr><td><span class="g">Simple to run in CI</span> with one secret and a pinned binary.</td><td><span class="r">Its shell can reach the network.</span> Web tools can be switched off, but a shell command can still fetch; you need deny rules and an audit of the transcript.</td></tr>
+    <tr><td><span class="g">Easy model ladders:</span> change <code>--model</code> and rerun the same tasks.</td><td><span class="r">Others can't reproduce it on your account;</span> they need their own plan, and Claude Code versions drift unless pinned.</td></tr>
+    <tr><td><span class="g">Usage is visible</span> through <code>/usage</code>, headless.</td><td><span class="r">Terms and data settings differ</span> from the API: a consumer plan is for your own use, and its data-use settings are not the API's.</td></tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">05</span>Rules that keep the results honest</h2>
+  <div class="card amber">
+    <ul>
+      <li><strong>Never report the estimate as a cost.</strong> Leave the cost field blank, keep <code>total_cost_usd</code> in its own field named as an estimate, and record tokens, turns and wall time.</li>
+      <li><strong>Name what was measured:</strong> "Claude Code with Opus 5.5", not "Opus 5.5". Comparing it with your own agent on another model changes both the harness and the model at once.</li>
+      <li><strong>Grade outside the agent,</strong> with tests it can't see, and record its view of the working tree with each result.</li>
+      <li><strong>Close the side doors:</strong> deny web tools and fetching commands, audit every shell command in the transcript for hosts, URLs and fetch tools, and exclude any task that tried.</li>
+      <li><strong>Keep failed calls separate from failed tasks.</strong> A task stopped by a limit or a 401 is an <code>llm_error</code>, rerun later; it is not a wrong answer.</li>
+      <li><strong>Pin the Claude Code version,</strong> and give one run per model the noise it has: on about 90 tasks, a single run is good to about ±5 points.</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <h2><span class="num">06</span>Worked example: hardware-design tasks</h2>
+  <p>The <a href="https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent" style="color:var(--blue)">CVDP RTL Agent</a> project measures agents on 86 problems from NVIDIA's CVDP benchmark: the agent edits Verilog in a task tree, and hidden tests score the result. Its own agent runs on a cheap model through OpenRouter. A third harness option, <code>claudecode</code>, runs Claude Code on a Max plan instead, through the same sweep workflow, task trees and hidden tests (<code>agent/cvdp_agent/claude_code.py</code>).</p>
+  <table>
+    <tr><th>Step</th><th>What happened</th></tr>
+    <tr><td>First run</td><td>All tasks failed with <code>Permission denied: 'claude'</code>: the binary was under <code>/root</code> and the harness runs the agent as another user. Fixed by copying the binary into <code>/usr/local/bin</code>.</td></tr>
+    <tr><td>Second run</td><td>A <code>401</code>, reported as a <code>&lt;synthetic&gt;</code> reply that looked like a submit. The token's shape (92 characters, no <code>sk-ant-oat01-</code> prefix) showed a partly copied token.</td></tr>
+    <tr><td>One-task check</td><td>Solved in 14 s: 4 turns, about 69k prompt tokens (most of them cached) and 700 output tokens.</td></tr>
+    <tr><td>10-task smoke, Opus 5.5</td><td><strong>8 of 10 solved</strong>, most in under 90 s. About 1% of the weekly allowance; Claude Code's estimate at API rates was $2.31. No shell command touched the network.</td></tr>
+    <tr><td>Model ladder</td><td>Haiku 5.5, Sonnet 5.5, Opus 5.5 and Fable 5.1, one run each on the 86 problems, with usage logged every 10 minutes. Results go in the project's reports.</td></tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <footer>
+    <p>Report prepared October 2026, from work on a Max plan. Plan limits, the <code>/usage</code> output, model names and Claude Code's flags change over time; check the Claude Code documentation and your plan's terms before relying on any of them.</p>
+    <p style="margin-top:.6em">Part of the <a href="../" style="color:var(--muted)">Anthropic Claude series</a>.</p>
+  </footer>
+
+</div>
+</body>
+</html>
