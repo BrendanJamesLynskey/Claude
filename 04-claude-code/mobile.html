@@ -703,7 +703,7 @@ This is a TypeScript monorepo using Turborepo.
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r .tool_input.file_path | xargs npx prettier --write"
+            "command": "jq -r .tool_input.file_path | xargs npx prettier -w"
           }
         ]
       }
@@ -903,7 +903,7 @@ claude mcp remove github</code></pre>
         <h3>How Memory Works</h3>
         <ul>
           <li>Claude Code reads <code>CLAUDE.md</code> at the start of every session</li>
-          <li>Ask it to "remember" something and it saves to auto memory (<code>~/.claude/projects/&lt;project&gt;/memory/</code>); say "add this to CLAUDE.md" to edit CLAUDE.md instead</li>
+          <li>Ask it to "remember" something and it saves to auto memory (browse it with <code>/memory</code>); say "add this to CLAUDE.md" to edit CLAUDE.md instead</li>
           <li>Memory persists between sessions and across team members (if committed)</li>
           <li>CLAUDE.md files load from broad to specific: managed &rarr; user &rarr; project &rarr; local; subfolder files load on demand</li>
         </ul>

@@ -701,7 +701,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
     <span class="tag">12</span>
     <h2>Coming from the CLI: Shared Config &amp; Comparison</h2>
   </div>
-  <p>Desktop and CLI run the same underlying engine. On <span class="g">macOS</span>, they read the same config files &mdash; MCP servers added via the CLI appear in the Desktop Code tab automatically. The current docs describe shared configuration with no platform caveat; the Windows note on the right is from early-2026 docs.</p>
+  <p>Desktop and CLI run the same engine and read the same config files &mdash; MCP servers added via the CLI appear in the Code tab. The Windows note is from early-2026 docs.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div>
       <div class="card green">
@@ -715,7 +715,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         </ul>
       </div>
       <div class="card red" style="margin-top:.3em;">
-        <h3>Windows (MSIX) &mdash; Early-2026 Caveat (no longer in docs)</h3>
+        <h3>Windows (MSIX) &mdash; Early-2026 Caveat</h3>
         <ul>
           <li>The standard Windows installer is an MSIX package that <span class="r">sandboxes Desktop&rsquo;s filesystem</span></li>
           <li>CLI writes to <code>C:\Users\user\.claude.json</code> (real filesystem)</li>
