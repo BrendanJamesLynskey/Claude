@@ -127,7 +127,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <p class="meta" style="margin-bottom:.5em;">PRESENTATION 10 OF 10</p>
   <h1>Summary &amp;<br>Quick Reference</h1>
   <p class="subtitle">The Complete Claude Cheat Sheet</p>
-  <p class="meta">Anthropic Claude Series &middot; 2025</p>
+  <p class="meta">Anthropic Claude Series &middot; updated October 2026</p>
   <div style="margin-top:1em; display:flex; gap:.5em; justify-content:center; flex-wrap:wrap;">
     <span class="pill amber">MODELS</span>
     <span class="pill green">PRICING</span>
@@ -158,19 +158,19 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <section>
   <div class="slide-hdr"><span class="tag">MODELS</span><h2>Model Comparison Cheat Sheet</h2></div>
   <table style="font-size:.43em;">
-    <tr><th>Attribute</th><th><span class="g">Haiku 3.5</span></th><th><span class="b">Sonnet 4</span></th><th><span class="p">Opus 4</span></th></tr>
-    <tr><td>Speed (tokens/sec)</td><td>Fastest (~100+ t/s)</td><td>Fast (~80 t/s)</td><td>Moderate (~50 t/s)</td></tr>
-    <tr><td>Input $/1M tokens</td><td>$0.80</td><td>$3.00</td><td>$15.00</td></tr>
-    <tr><td>Output $/1M tokens</td><td>$4.00</td><td>$15.00</td><td>$75.00</td></tr>
-    <tr><td>Context Window</td><td>200K tokens</td><td>1M tokens</td><td>1M tokens</td></tr>
-    <tr><td>Max Output</td><td>8,192 tokens</td><td>16,000 tokens</td><td>32,000 tokens</td></tr>
-    <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-    <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-    <tr><td>Extended Thinking</td><td>No</td><td>Yes</td><td>Yes</td></tr>
-    <tr><td>Best For</td><td>Classification, routing, high-volume tasks, chat</td><td>Coding, analysis, general-purpose, daily driver</td><td>Complex reasoning, research, agentic tasks</td></tr>
-    <tr><td>API Model ID</td><td><code>claude-3-5-haiku-latest</code></td><td><code>claude-sonnet-4-20250514</code></td><td><code>claude-opus-4-20250514</code></td></tr>
+    <tr><th>Attribute</th><th><span class="g">Haiku 5.5</span></th><th><span class="b">Sonnet 5.5</span></th><th><span class="p">Opus 5.5</span></th><th><span class="a">Fable 5.1</span></th></tr>
+    <tr><td>Comparative latency</td><td>Fastest</td><td>Fast</td><td>Moderate</td><td>Slower</td></tr>
+    <tr><td>Input $/1M tokens</td><td>$0.10 (&gt;100K prompt: $0.50)</td><td>$2.00</td><td>$4.00</td><td>$10.00</td></tr>
+    <tr><td>Output $/1M tokens</td><td>$0.50 (&gt;100K prompt: $2.50)</td><td>$10.00</td><td>$20.00</td><td>$50.00</td></tr>
+    <tr><td>Context Window</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td><td>1M tokens</td></tr>
+    <tr><td>Max Output</td><td>128K tokens</td><td>128K tokens</td><td>128K tokens</td><td>128K tokens</td></tr>
+    <tr><td>Vision</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Tool Use</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Thinking</td><td>Adaptive</td><td>Adaptive</td><td>Adaptive (always on)</td><td>Adaptive (always on)</td></tr>
+    <tr><td>Best For</td><td>Classification, extraction, routing, high-volume tasks</td><td>Speed and intelligence balance, daily driver</td><td>Long-running agentic coding and knowledge work</td><td>Demanding reasoning, long-horizon agents</td></tr>
+    <tr><td>API Model ID</td><td><code>claude-haiku-5-5</code></td><td><code>claude-sonnet-5-5</code></td><td><code>claude-opus-5-5</code></td><td><code>claude-fable-5-1</code></td></tr>
   </table>
-  <p style="font-size:.42em; color:var(--muted); margin-top:.3em;">Tip: Use <span class="a">Haiku</span> for routing/classification, <span class="b">Sonnet</span> as your default, <span class="p">Opus</span> for hard problems.</p>
+  <p style="font-size:.42em; color:var(--muted); margin-top:.3em;">Tip: Anthropic suggests <span class="p">Opus</span> for most workloads, <span class="a">Fable</span> for the hardest long-horizon work, <span class="b">Sonnet</span> for speed, <span class="g">Haiku</span> for high volume. Prices and limits from platform.claude.com, October 2026.</p>
 </section>
 
 <!-- ============== SLIDE 4: PRICING QUICK REFERENCE ============== -->
@@ -181,27 +181,28 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3>Consumer &amp; Business Plans</h3>
       <table style="font-size:.42em;">
         <tr><th>Plan</th><th>Price</th><th>Includes</th></tr>
-        <tr><td>Free</td><td>$0/mo</td><td>Limited Sonnet access, basic features</td></tr>
-        <tr><td>Pro</td><td>$20/mo</td><td>All models, 5x more usage, Projects</td></tr>
-        <tr><td>Max</td><td>$100&ndash;$200/mo</td><td>Pro + highest usage limits</td></tr>
-        <tr><td>Team</td><td>$30/seat/mo</td><td>Pro + admin, sharing, higher limits</td></tr>
-        <tr><td>Enterprise</td><td>Custom</td><td>SSO, SCIM, audit logs, SLA, dedicated</td></tr>
+        <tr><td>Free</td><td>$0/mo</td><td>Chat, web search, files, Artifacts, memory</td></tr>
+        <tr><td>Pro</td><td>$20/mo ($17/mo yearly)</td><td>More usage, Opus, Claude Code, Projects</td></tr>
+        <tr><td>Max</td><td>From $100/mo</td><td>5x or 20x Pro usage, Fable via usage credits</td></tr>
+        <tr><td>Team</td><td>$25/seat/mo ($20 yearly); premium $125 ($100)</td><td>Admin, sharing, SSO, Claude Code</td></tr>
+        <tr><td>Enterprise</td><td>$20/seat/mo + usage at API rates</td><td>SCIM, audit logs, RBAC, compliance API</td></tr>
       </table>
     </div>
     <div class="card green">
       <h3>API Pricing (per 1M tokens)</h3>
       <table style="font-size:.42em;">
         <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td>Haiku 3.5</td><td>$0.80</td><td>$4.00</td></tr>
-        <tr><td>Sonnet 4</td><td>$3.00</td><td>$15.00</td></tr>
-        <tr><td>Opus 4</td><td>$15.00</td><td>$75.00</td></tr>
+        <tr><td>Haiku 5.5</td><td>$0.10</td><td>$0.50</td></tr>
+        <tr><td>Sonnet 5.5</td><td>$2.00</td><td>$10.00</td></tr>
+        <tr><td>Opus 5.5</td><td>$4.00</td><td>$20.00</td></tr>
+        <tr><td>Fable 5.1</td><td>$10.00</td><td>$50.00</td></tr>
       </table>
-      <p style="font-size:.4em; margin-top:.2em;">Prompt caching: <span class="g">90% discount</span> on cache hits. Batches: <span class="g">50% discount</span>.</p>
+      <p style="font-size:.4em; margin-top:.2em;">Prompt caching: cache hits cost <span class="g">10% of input</span> (5% on Opus/Sonnet 5.5, 2.5% on Fable 5.1). Batches: <span class="g">50% discount</span>.</p>
     </div>
   </div>
   <div class="card blue" style="margin-top:.4em;">
     <h3>Claude Code</h3>
-    <p>Included with <span class="a">Max plan ($100/mo)</span> or uses API credits directly. Max includes 5x Pro usage for Claude Code.</p>
+    <p>Included with <span class="a">Pro, Max, Team and Enterprise</span> plans (shared with chat usage limits; check with <code>/usage</code>), or billed per token with a Console API key.</p>
   </div>
 </section>
 
@@ -248,7 +249,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <tr><td><code>/clear</code></td><td>Clear conversation history</td></tr>
         <tr><td><code>/compact</code></td><td>Compact conversation to save context</td></tr>
         <tr><td><code>/config</code></td><td>Open or edit configuration</td></tr>
-        <tr><td><code>/cost</code></td><td>Show token usage and cost</td></tr>
+        <tr><td><code>/usage</code></td><td>Cost, plan limits and activity (alias <code>/cost</code>)</td></tr>
         <tr><td><code>/doctor</code></td><td>Diagnose setup issues</td></tr>
         <tr><td><code>/init</code></td><td>Initialize CLAUDE.md in project</td></tr>
       </table>
@@ -257,16 +258,16 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <table style="font-size:.42em;">
         <tr><th>Command</th><th>Description</th></tr>
         <tr><td><code>/login</code></td><td>Authenticate with Anthropic</td></tr>
-        <tr><td><code>/logout</code></td><td>Sign out of current session</td></tr>
+        <tr><td><code>/logout</code></td><td>Sign out of your Anthropic account</td></tr>
         <tr><td><code>/model</code></td><td>Switch model (sonnet/opus)</td></tr>
         <tr><td><code>/permissions</code></td><td>View and manage tool permissions</td></tr>
-        <tr><td><code>/review</code></td><td>Review git changes / PR</td></tr>
-        <tr><td><code>/status</code></td><td>Show current session status</td></tr>
-        <tr><td><code>/terminal-setup</code></td><td>Install shell integration (Shift+Enter)</td></tr>
+        <tr><td><code>/code-review</code></td><td>Review the diff or a PR (alias <code>/review</code>)</td></tr>
+        <tr><td><code>/status</code></td><td>Version, model, account, connectivity</td></tr>
+        <tr><td><code>/terminal-setup</code></td><td>Install a Shift+Enter newline keybinding</td></tr>
       </table>
     </div>
   </div>
-  <p style="font-size:.42em; color:var(--muted); margin-top:.2em;">Run <code>claude --help</code> for CLI flags: <code>--model</code>, <code>--allowedTools</code>, <code>--print</code>, <code>--dangerously-skip-permissions</code></p>
+  <p style="font-size:.42em; color:var(--muted); margin-top:.2em;">Run <code>claude --help</code> for CLI flags: <code>--model</code>, <code>--allowedTools</code>, <code>--print</code>, <code>--output-format</code>, <code>--permission-mode</code></p>
 </section>
 
 <!-- ============== SLIDE 7: CLAUDE CODE TOOLS ============== -->
@@ -280,9 +281,9 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <tr><td><span class="p">Bash</span></td><td>Execute shell commands</td><td><code>command</code>, <code>timeout</code>, <code>run_in_background</code></td></tr>
     <tr><td><span class="g">Grep</span></td><td>Regex search across files (ripgrep)</td><td><code>pattern</code>, <code>path</code>, <code>glob</code>, <code>output_mode</code></td></tr>
     <tr><td><span class="b">Glob</span></td><td>Find files by name pattern</td><td><code>pattern</code>, <code>path</code></td></tr>
-    <tr><td><span class="p">Agent</span></td><td>Spawn sub-agent for complex subtasks</td><td><code>task</code>, <code>tools</code></td></tr>
-    <tr><td><span class="a">WebFetch</span></td><td>Fetch content from URLs</td><td><code>url</code>, <code>format</code></td></tr>
-    <tr><td><span class="g">WebSearch</span></td><td>Search the web</td><td><code>query</code>, <code>max_results</code></td></tr>
+    <tr><td><span class="p">Agent</span></td><td>Spawn sub-agent for complex subtasks</td><td><code>description</code>, <code>prompt</code>, <code>subagent_type</code></td></tr>
+    <tr><td><span class="a">WebFetch</span></td><td>Fetch content from URLs</td><td><code>url</code>, <code>prompt</code></td></tr>
+    <tr><td><span class="g">WebSearch</span></td><td>Search the web</td><td><code>query</code>, <code>allowed_domains</code>, <code>blocked_domains</code></td></tr>
   </table>
   <p style="font-size:.42em; color:var(--muted);">Permissions: tools require approval on first use. Grant with <code>/permissions</code> or <code>allowedTools</code> in settings.</p>
 </section>
@@ -304,7 +305,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <div class="card green">
       <h3>Required Headers</h3>
       <pre><code>x-api-key: YOUR_API_KEY
-anthropic-version: 2023-06-01
+anthropic-version: 2026-10-21
 content-type: application/json</code></pre>
       <p style="font-size:.4em; margin-top:.2em;">Base URL: <code>https://api.anthropic.com</code></p>
     </div>
@@ -313,11 +314,11 @@ content-type: application/json</code></pre>
     <h3>Common Request Body Parameters</h3>
     <table style="font-size:.4em;">
       <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-      <tr><td><code>model</code></td><td>string</td><td>Yes</td><td>Model ID (e.g., <code>claude-sonnet-4-20250514</code>)</td></tr>
+      <tr><td><code>model</code></td><td>string</td><td>Yes</td><td>Model ID (e.g., <code>claude-sonnet-5-5</code>)</td></tr>
       <tr><td><code>messages</code></td><td>array</td><td>Yes</td><td>Conversation messages [{role, content}]</td></tr>
       <tr><td><code>max_tokens</code></td><td>int</td><td>Yes</td><td>Maximum tokens in response</td></tr>
       <tr><td><code>system</code></td><td>string</td><td>No</td><td>System prompt</td></tr>
-      <tr><td><code>temperature</code></td><td>float</td><td>No</td><td>0.0 &ndash; 1.0 (default 1.0)</td></tr>
+      <tr><td><code>output_config</code></td><td>object</td><td>No</td><td>e.g. <code>{"effort": "high"}</code> (<code>temperature</code>/<code>top_p</code>/<code>top_k</code> are rejected from API version 2026-10-21)</td></tr>
       <tr><td><code>stream</code></td><td>bool</td><td>No</td><td>Enable SSE streaming</td></tr>
       <tr><td><code>tools</code></td><td>array</td><td>No</td><td>Tool definitions for function calling</td></tr>
     </table>
@@ -337,7 +338,7 @@ import anthropic
 client = anthropic.Anthropic()  # uses ANTHROPIC_API_KEY
 
 message = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {"role": "user",
@@ -349,7 +350,7 @@ print(message.content[0].text)</code></pre>
     <div>
       <pre><code># Streaming
 with client.messages.stream(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{"role": "user",
                "content": "Write a poem"}]
@@ -359,7 +360,7 @@ with client.messages.stream(
 
 # With system prompt
 message = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system="You are a helpful tutor.",
     messages=[{"role": "user",
@@ -370,7 +371,7 @@ message = client.messages.create(
   <pre><code># Tool use
 tools = [{"name": "get_weather", "description": "Get current weather",
   "input_schema": {"type": "object", "properties": {"location": {"type": "string"}}, "required": ["location"]}}]
-msg = client.messages.create(model="claude-sonnet-4-20250514", max_tokens=1024, tools=tools,
+msg = client.messages.create(model="claude-sonnet-5-5", max_tokens=1024, tools=tools,
   messages=[{"role": "user", "content": "Weather in Tokyo?"}])</code></pre>
 </section>
 
@@ -387,7 +388,7 @@ import Anthropic from "@anthropic-ai/sdk";
 const client = new Anthropic(); // ANTHROPIC_API_KEY
 
 const message = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
+  model: "claude-sonnet-5-5",
   max_tokens: 1024,
   messages: [
     { role: "user",
@@ -399,7 +400,7 @@ console.log(message.content[0].text);</code></pre>
     <div>
       <pre><code>// Streaming
 const stream = client.messages.stream({
-  model: "claude-sonnet-4-20250514",
+  model: "claude-sonnet-5-5",
   max_tokens: 1024,
   messages: [
     { role: "user", content: "Write a poem" }
@@ -422,7 +423,7 @@ const messages = [
   { role: "assistant", content: "The capital of France is Paris." },
   { role: "user", content: "What is its population?" }
 ];
-const resp = await client.messages.create({ model: "claude-sonnet-4-20250514", max_tokens: 1024, messages });</code></pre>
+const resp = await client.messages.create({ model: "claude-sonnet-5-5", max_tokens: 1024, messages });</code></pre>
 </section>
 
 <!-- ============== SLIDE 11: PROMPT ENGINEERING ============== -->
@@ -438,7 +439,7 @@ const resp = await client.messages.create({ model: "claude-sonnet-4-20250514", m
         <li>Set role in system prompt: "You are a senior engineer..."</li>
         <li>Ask Claude to think step-by-step for reasoning</li>
         <li>Specify output format: JSON, markdown, table</li>
-        <li>Use prefilled assistant responses to steer output</li>
+        <li>Use structured outputs or clear format instructions (current models reject assistant prefill)</li>
         <li>Break complex tasks into subtasks</li>
       </ul>
     </div>
@@ -449,7 +450,7 @@ const resp = await client.messages.create({ model: "claude-sonnet-4-20250514", m
         <li>Don't overload a single prompt with many tasks</li>
         <li>Don't rely on implied context &mdash; be explicit</li>
         <li>Don't ignore system prompts (they're powerful)</li>
-        <li>Don't set temperature to 0 unless determinism needed</li>
+        <li>Don't send <code>temperature</code>/<code>top_p</code> to current models &mdash; they return a 400 error</li>
         <li>Don't forget to handle tool_use stop reasons</li>
         <li>Don't send huge contexts when a summary suffices</li>
         <li>Don't skip testing with edge cases</li>
@@ -458,7 +459,7 @@ const resp = await client.messages.create({ model: "claude-sonnet-4-20250514", m
   </div>
   <div class="card purple" style="margin-top:.3em;">
     <h3>Key Patterns</h3>
-    <p><span class="a">Chain of Thought:</span> "Think step by step" &nbsp; <span class="g">Few-Shot:</span> Provide 2-3 examples &nbsp; <span class="b">Role:</span> System prompt persona &nbsp; <span class="p">XML Tags:</span> <code>&lt;doc&gt;...&lt;/doc&gt;</code> for structure &nbsp; <span class="r">Prefill:</span> Start assistant response with desired prefix</p>
+    <p><span class="a">Chain of Thought:</span> "Think step by step" &nbsp; <span class="g">Few-Shot:</span> Provide 2-3 examples &nbsp; <span class="b">Role:</span> System prompt persona &nbsp; <span class="p">XML Tags:</span> <code>&lt;doc&gt;...&lt;/doc&gt;</code> for structure &nbsp; <span class="r">Effort:</span> tune <code>output_config.effort</code> per task</p>
   </div>
 </section>
 
@@ -584,13 +585,13 @@ by searching and reading relevant files.</code></pre>
     <tr><th>Use Case</th><th>Best Option</th><th>Why</th></tr>
     <tr><td>Quick questions &amp; brainstorming</td><td><span class="a">Claude.ai</span></td><td>No setup, rich UI, artifacts</td></tr>
     <tr><td>Coding in a repo</td><td><span class="g">Claude Code CLI</span></td><td>Full repo context, file editing, git-aware</td></tr>
-    <tr><td>IDE-integrated coding</td><td><span class="b">VS Code / JetBrains plugin</span></td><td>Inline suggestions, stays in editor</td></tr>
+    <tr><td>IDE-integrated coding</td><td><span class="b">VS Code / JetBrains plugin</span></td><td>Claude Code panel with inline diffs, stays in editor</td></tr>
     <tr><td>Building a product/app</td><td><span class="p">API + SDK</span></td><td>Full control, custom UI, production-grade</td></tr>
-    <tr><td>High-volume processing</td><td><span class="p">Batch API</span></td><td>50% cheaper, async, up to 10K requests</td></tr>
+    <tr><td>High-volume processing</td><td><span class="p">Batch API</span></td><td>50% cheaper, async, up to 100K requests</td></tr>
     <tr><td>Real-time chat product</td><td><span class="b">Streaming API</span></td><td>SSE, token-by-token, low latency</td></tr>
     <tr><td>Connecting external tools</td><td><span class="g">MCP</span></td><td>Standardized protocol, growing ecosystem</td></tr>
     <tr><td>CI/CD automation</td><td><span class="a">Claude Code + GitHub Actions</span></td><td>Headless mode, PR reviews, code gen</td></tr>
-    <tr><td>Multi-agent orchestration</td><td><span class="p">API + Agent framework</span></td><td>Custom routing, tool use, state management</td></tr>
+    <tr><td>Multi-agent orchestration</td><td><span class="p">Claude Agent SDK or Managed Agents</span></td><td>Custom routing, tool use, state management</td></tr>
     <tr><td>Data analysis / research</td><td><span class="a">Claude.ai Projects</span></td><td>Upload docs, persistent context, artifacts</td></tr>
     <tr><td>Team knowledge base</td><td><span class="b">Team plan + Projects</span></td><td>Shared projects, admin controls</td></tr>
   </table>
@@ -616,7 +617,7 @@ by searching and reading relevant files.</code></pre>
     </div>
     <div class="card green">
       <h3>Rate Limits by Tier</h3>
-      <p>Tier 1: 60 RPM, 60K tokens/min. Tier 2: 1000 RPM, 80K t/m. Tier 3: 2000 RPM, 160K t/m. Tier 4: 4000 RPM, 400K t/m. Check with <code>x-ratelimit-*</code> headers.</p>
+      <p>Tiers: Evaluation, Start, Build, Scale, Custom. Sonnet/Opus 5.5 standard RPM: Start 1,000, Build 5,000, Scale 10,000 (October 2026). Check with <code>anthropic-ratelimit-*</code> and <code>retry-after</code> headers.</p>
     </div>
   </div>
 </section>
@@ -629,10 +630,10 @@ by searching and reading relevant files.</code></pre>
       <h3>Context Windows</h3>
       <table style="font-size:.4em;">
         <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td>Haiku 4.5</td><td>200K tokens</td><td>8K tokens</td></tr>
-        <tr><td>Sonnet 4.6, Opus 4.6</td><td>1M tokens</td><td>16K-32K tokens</td></tr>
+        <tr><td>Haiku, Sonnet, Opus 5.5</td><td>1M tokens</td><td>128K tokens</td></tr>
+        <tr><td>Fable 5.1</td><td>1M tokens</td><td>128K tokens</td></tr>
       </table>
-      <p style="font-size:.4em; margin-top:.2em;">1 token ~ 4 characters ~ 0.75 words (English). 1M tokens ~ 750K words ~ 2,500 pages.</p>
+      <p style="font-size:.4em; margin-top:.2em;">Current tokenizer (Claude 4.7 on): 1M tokens ~ 555K words ~ 2.5M characters. Older models fitted ~750K words.</p>
     </div>
     <div class="card green">
       <h3>Cost Formulas</h3>
@@ -641,18 +642,18 @@ output_cost = output_tokens * (price / 1M)
 total = input_cost + output_cost
 
 # Example: Sonnet, 1K in / 500 out
-# ($3 * 1000/1M) + ($15 * 500/1M)
-# = $0.003 + $0.0075 = $0.0105</code></pre>
+# ($2 * 1000/1M) + ($10 * 500/1M)
+# = $0.002 + $0.005 = $0.007</code></pre>
     </div>
   </div>
   <div class="card purple" style="margin-top:.3em;">
     <h3>Optimization Tips</h3>
     <div class="cols cols-3">
       <div>
-        <p><span class="a">Prompt Caching</span><br>Cache static system prompts and long documents. 90% input discount on cache hits. Min 1024 tokens to cache.</p>
+        <p><span class="a">Prompt Caching</span><br>Cache static system prompts and long documents. Cache hits cost 10% of input or less. Min 512 tokens on Claude 5 models.</p>
       </div>
       <div>
-        <p><span class="g">Batch API</span><br>50% discount for non-urgent requests. Results within 24 hours. Up to 10,000 requests per batch.</p>
+        <p><span class="g">Batch API</span><br>50% discount for non-urgent requests. Results within 24 hours. Up to 100,000 requests (256 MB) per batch.</p>
       </div>
       <div>
         <p><span class="b">Token Reduction</span><br>Summarize long docs before sending. Use smaller models for simple tasks. Set appropriate <code>max_tokens</code>.</p>
@@ -730,7 +731,7 @@ total = input_cost + output_cost
         <tr><td><span class="p">MCP</span></td><td>Model Context Protocol &mdash; open standard (donated to the Linux Foundation's Agentic AI Foundation) for connecting AI to external tools and data</td></tr>
         <tr><td><span class="a">Tool Use</span></td><td>Ability for Claude to call defined functions and process their results</td></tr>
         <tr><td><span class="g">Artifacts</span></td><td>Rich, interactive outputs (code, documents, diagrams) in Claude.ai</td></tr>
-        <tr><td><span class="b">Extended Thinking</span></td><td>Mode where Claude shows its reasoning process (chain-of-thought)</td></tr>
+        <tr><td><span class="b">Extended Thinking</span></td><td>Manual thinking budget on older models; current models use adaptive thinking steered by <code>effort</code></td></tr>
         <tr><td><span class="p">Prompt Caching</span></td><td>Reuse previously sent context at 90% cost reduction</td></tr>
         <tr><td><span class="a">Batch API</span></td><td>Async endpoint for processing many requests at 50% discount</td></tr>
         <tr><td><span class="g">Agentic Coding</span></td><td>AI autonomously reads, writes, tests code with tool access</td></tr>
@@ -748,7 +749,7 @@ total = input_cost + output_cost
       <h3>Official Products</h3>
       <ul>
         <li><span class="a">claude.ai</span> &mdash; Web interface</li>
-        <li><span class="a">console.anthropic.com</span> &mdash; API Console</li>
+        <li><span class="a">platform.claude.com</span> &mdash; Claude Console</li>
         <li><span class="a">anthropic.com</span> &mdash; Company site</li>
         <li><span class="a">claude.ai/download</span> &mdash; Desktop apps</li>
       </ul>
@@ -756,8 +757,8 @@ total = input_cost + output_cost
     <div class="card green">
       <h3>Documentation</h3>
       <ul>
-        <li><span class="g">docs.anthropic.com</span> &mdash; API docs</li>
-        <li><span class="g">docs.anthropic.com/en/docs/claude-code</span> &mdash; Claude Code</li>
+        <li><span class="g">platform.claude.com/docs</span> &mdash; API docs</li>
+        <li><span class="g">code.claude.com/docs</span> &mdash; Claude Code</li>
         <li><span class="g">modelcontextprotocol.io</span> &mdash; MCP spec (Linux Foundation Agentic AI Foundation)</li>
         <li><span class="g">github.com/anthropics</span> &mdash; SDKs</li>
       </ul>
@@ -765,11 +766,11 @@ total = input_cost + output_cost
     <div class="card purple">
       <h3>SDKs &amp; Tools</h3>
       <ul>
-        <li><span class="p">anthropic-ai/anthropic-sdk-python</span></li>
-        <li><span class="p">anthropic-ai/anthropic-sdk-typescript</span></li>
-        <li><span class="p">anthropic-ai/anthropic-sdk-java</span></li>
-        <li><span class="p">anthropic-ai/anthropic-sdk-go</span></li>
-        <li><span class="p">anthropic-ai/anthropic-sdk-ruby, C#, PHP</span></li>
+        <li><span class="p">anthropics/anthropic-sdk-python</span></li>
+        <li><span class="p">anthropics/anthropic-sdk-typescript</span></li>
+        <li><span class="p">anthropics/anthropic-sdk-java</span></li>
+        <li><span class="p">anthropics/anthropic-sdk-go</span></li>
+        <li><span class="p">anthropics/anthropic-sdk-ruby, C#, PHP</span></li>
         <li><span class="p">anthropics/claude-code</span> &mdash; CLI</li>
         <li><span class="p">modelcontextprotocol/servers</span> &mdash; MCP</li>
       </ul>
@@ -779,9 +780,9 @@ total = input_cost + output_cost
     <div class="card blue">
       <h3>Community &amp; Support</h3>
       <ul>
-        <li><span class="b">support.anthropic.com</span> &mdash; Help center</li>
+        <li><span class="b">support.claude.com</span> &mdash; Help center</li>
         <li><span class="b">status.anthropic.com</span> &mdash; API status</li>
-        <li><span class="b">discord.gg/anthropic</span> &mdash; Discord community</li>
+        <li><span class="b">anthropic.com/discord</span> &mdash; Discord community</li>
         <li><span class="b">anthropic.com/research</span> &mdash; Research papers</li>
       </ul>
     </div>
@@ -789,9 +790,9 @@ total = input_cost + output_cost
       <h3>Important Pages</h3>
       <ul>
         <li><span class="r">anthropic.com/policies</span> &mdash; Usage policy</li>
-        <li><span class="r">anthropic.com/pricing</span> &mdash; Current pricing</li>
+        <li><span class="r">claude.com/pricing</span> &mdash; Current pricing</li>
         <li><span class="r">anthropic.com/news</span> &mdash; Announcements</li>
-        <li><span class="r">console.anthropic.com/settings</span> &mdash; API keys</li>
+        <li><span class="r">platform.claude.com/settings</span> &mdash; API keys</li>
       </ul>
     </div>
   </div>

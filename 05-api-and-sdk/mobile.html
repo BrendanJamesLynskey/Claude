@@ -149,9 +149,9 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <line x1="400" y1="90" x2="480" y2="90" stroke="#a9cd8e" stroke-width="1.5" marker-end="url(#arrow-g)"/>
     <rect x="480" y="45" width="200" height="90" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="1.5"/>
     <text x="580" y="70" text-anchor="middle" fill="#dcad61" font-size="12" font-family="Instrument Sans" font-weight="600">Claude Models</text>
-    <text x="580" y="88" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">Opus / Sonnet / Haiku</text>
+    <text x="580" y="88" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">Fable / Opus / Sonnet / Haiku</text>
     <text x="580" y="104" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">+ Vision + Tools</text>
-    <text x="580" y="120" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">+ Extended Thinking</text>
+    <text x="580" y="120" text-anchor="middle" fill="#988d82" font-size="9" font-family="Geist Mono">+ Adaptive Thinking</text>
     <defs><marker id="arrow-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a9cd8e"/></marker></defs>
   </svg>
   <div class="cols cols-3" style="margin-top:.3em;">
@@ -169,7 +169,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <div class="card amber">
       <h3>Getting Your Key</h3>
       <ul>
-        <li>Visit <span class="a">console.anthropic.com</span></li>
+        <li>Visit <span class="a">platform.claude.com</span></li>
         <li>Create an account or sign in</li>
         <li>Navigate to <span class="g">API Keys</span> section</li>
         <li>Generate a new key (starts with <code>sk-ant-</code>)</li>
@@ -181,7 +181,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <ul>
         <li><code>x-api-key: YOUR_API_KEY</code></li>
         <li><code>content-type: application/json</code></li>
-        <li><code>anthropic-version: 2023-06-01</code></li>
+        <li><code>anthropic-version: 2026-10-21</code></li>
         <li>Optional: <code>anthropic-beta</code> for beta features</li>
       </ul>
     </div>
@@ -189,9 +189,9 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <pre><code class="language-bash"># cURL example
 curl https://api.anthropic.com/v1/messages \
   -H "x-api-key: $ANTHROPIC_API_KEY" \
-  -H "anthropic-version: 2023-06-01" \
+  -H "anthropic-version: 2026-10-21" \
   -H "content-type: application/json" \
-  -d '{"model":"claude-sonnet-4-20250514","max_tokens":1024,
+  -d '{"model":"claude-sonnet-5-5","max_tokens":1024,
        "messages":[{"role":"user","content":"Hello, Claude!"}]}'</code></pre>
   <p style="color:var(--red);font-size:.48em;">Never commit API keys to source control. Use environment variables or secret managers.</p>
 </section>
@@ -205,7 +205,7 @@ curl https://api.anthropic.com/v1/messages \
       <pre><code class="language-http">POST /v1/messages
 
 {
-  "model": "claude-sonnet-4-20250514",
+  "model": "claude-sonnet-5-5",
   "max_tokens": 1024,
   "system": "You are a helpful assistant.",
   "messages": [
@@ -228,7 +228,7 @@ curl https://api.anthropic.com/v1/messages \
       </ul>
     </div>
   </div>
-  <p style="font-size:.48em;color:var(--muted);">Base URL: <code>https://api.anthropic.com</code> &mdash; API version: <code>2023-06-01</code></p>
+  <p style="font-size:.48em;color:var(--muted);">Base URL: <code>https://api.anthropic.com</code> &mdash; API version: <code>2026-10-21</code></p>
 </section>
 
 <!-- ============ SLIDE 5 — REQUEST ANATOMY ============ -->
@@ -241,11 +241,10 @@ curl https://api.anthropic.com/v1/messages \
 client = anthropic.Anthropic()
 
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system="You are a senior developer.",
-    temperature=0.7,
-    top_p=0.9,
+    output_config={"effort": "medium"},
     messages=[
         {
             "role": "user",
@@ -263,9 +262,9 @@ response = client.messages.create(
         <tr><td><code>max_tokens</code></td><td class="a">Yes</td><td>Max output tokens</td></tr>
         <tr><td><code>messages</code></td><td class="a">Yes</td><td>Conversation array</td></tr>
         <tr><td><code>system</code></td><td>No</td><td>System prompt string</td></tr>
-        <tr><td><code>temperature</code></td><td>No</td><td>Randomness (0&ndash;1)</td></tr>
-        <tr><td><code>top_p</code></td><td>No</td><td>Nucleus sampling</td></tr>
-        <tr><td><code>top_k</code></td><td>No</td><td>Top-k sampling</td></tr>
+        <tr><td><code>output_config</code></td><td>No</td><td>Effort level, structured output</td></tr>
+        <tr><td><code>thinking</code></td><td>No</td><td>Adaptive thinking settings</td></tr>
+        <tr><td><code>temperature</code>, <code>top_p</code>, <code>top_k</code></td><td>&mdash;</td><td>Rejected (400) on current models</td></tr>
         <tr><td><code>stop_sequences</code></td><td>No</td><td>Custom stop strings</td></tr>
         <tr><td><code>stream</code></td><td>No</td><td>Enable streaming</td></tr>
         <tr><td><code>metadata</code></td><td>No</td><td>Request metadata</td></tr>
@@ -283,7 +282,7 @@ response = client.messages.create(
   "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
   "type": "message",
   "role": "assistant",
-  "model": "claude-sonnet-4-20250514",
+  "model": "claude-sonnet-5-5",
   "content": [
     {
       "type": "text",
@@ -341,7 +340,7 @@ response = client.messages.create(
 client = anthropic.Anthropic()
 
 message = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {"role": "user",
@@ -363,7 +362,7 @@ async def main():
     client = anthropic.AsyncAnthropic()
 
     message = await client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         messages=[
             {"role": "user",
@@ -401,7 +400,7 @@ const client = new Anthropic();
 // Uses ANTHROPIC_API_KEY env var
 
 const message = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
+  model: "claude-sonnet-5-5",
   max_tokens: 1024,
   messages: [
     {
@@ -423,7 +422,7 @@ console.log(message.content[0].text);</code></pre>
 
 // Access response metadata
 const msg = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
+  model: "claude-sonnet-5-5",
   max_tokens: 512,
   messages: [
     { role: "user", content: "Hello!" }
@@ -435,7 +434,7 @@ console.log(`Tokens used:
   Out: ${msg.usage.output_tokens}`);</code></pre>
       <div class="card purple" style="margin-top:.3em;">
         <h3>Runtime Compatibility</h3>
-        <p>Works with Node.js 18+, Deno, Bun, Cloudflare Workers, and Vercel Edge.</p>
+        <p>Works with Node.js 20+, Deno, Bun, Cloudflare Workers, and Vercel Edge.</p>
       </div>
     </div>
   </div>
@@ -456,7 +455,7 @@ def chat(user_input: str) -> str:
     })
 
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         system="You are a helpful tutor.",
         messages=conversation
@@ -507,7 +506,7 @@ chat("How does the call stack work?")</code></pre>
     <div>
       <pre><code class="language-python"># Simple system prompt
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system="You are a senior Python developer. "
            "Respond with clean, well-documented "
@@ -520,7 +519,7 @@ response = client.messages.create(
 
 # System prompt with cache_control
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system=[
         {
@@ -568,7 +567,7 @@ response = client.messages.create(
       <h3>Python Streaming</h3>
       <pre><code class="language-python"># Using the stream manager
 with client.messages.stream(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {"role": "user",
@@ -585,7 +584,7 @@ print(f"\nTokens: {final.usage}")</code></pre>
     <div>
       <h3>TypeScript Streaming</h3>
       <pre><code class="language-typescript">const stream = await client.messages.stream({
-  model: "claude-sonnet-4-20250514",
+  model: "claude-sonnet-5-5",
   max_tokens: 1024,
   messages: [
     { role: "user",
@@ -690,7 +689,7 @@ def get_weather(city: str, units: str = "celsius") -> dict:
 
 messages = [{"role": "user", "content": "What's the weather in Paris?"}]
 response = client.messages.create(
-    model="claude-sonnet-4-20250514", max_tokens=1024, tools=tools, messages=messages
+    model="claude-sonnet-5-5", max_tokens=1024, tools=tools, messages=messages
 )
 
 if response.stop_reason == "tool_use":
@@ -703,7 +702,7 @@ if response.stop_reason == "tool_use":
     ]})
 
     final = client.messages.create(
-        model="claude-sonnet-4-20250514", max_tokens=1024, tools=tools, messages=messages
+        model="claude-sonnet-5-5", max_tokens=1024, tools=tools, messages=messages
     )
     print(final.content[0].text)  # "The weather in Paris is currently sunny at 22°C."</code></pre>
 </section>
@@ -723,7 +722,7 @@ with open("chart.png", "rb") as f:
     ).decode("utf-8")
 
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{
         "role": "user",
@@ -747,7 +746,7 @@ response = client.messages.create(
     <div>
       <h3>URL Image</h3>
       <pre><code class="language-python">response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{
         "role": "user",
@@ -768,7 +767,7 @@ response = client.messages.create(
 )</code></pre>
       <div class="card green" style="margin-top:.3em;">
         <h3>Supported Formats</h3>
-        <p><code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>, <code>image/webp</code>. Max ~20 images per request. Each image costs tokens based on dimensions.</p>
+        <p><code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>, <code>image/webp</code>. Up to 600 images per request (100 on 200K-context models); above 20, a stricter per-image size limit applies. Each image costs tokens based on dimensions.</p>
       </div>
     </div>
   </div>
@@ -776,18 +775,18 @@ response = client.messages.create(
 
 <!-- ============ SLIDE 15 — EXTENDED THINKING ============ -->
 <section>
-  <div class="slide-hdr"><span class="tag">14</span><h2>Extended Thinking</h2></div>
-  <p>Extended thinking lets Claude <span class="a">reason step-by-step</span> before responding, producing higher-quality answers for complex tasks.</p>
+  <div class="slide-hdr"><span class="tag">14</span><h2>Adaptive Thinking &amp; Effort</h2></div>
+  <p>Thinking lets Claude <span class="a">reason step-by-step</span> before responding, producing higher-quality answers for complex tasks.</p>
   <div class="cols cols-2">
     <div>
-      <h3>Enabling Extended Thinking</h3>
+      <h3>Thinking on Claude 5 Models</h3>
       <pre><code class="language-python">response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-opus-5-5",
     max_tokens=16000,
-    thinking={
-        "type": "enabled",
-        "budget_tokens": 10000
-    },
+    # On by default; show summaries
+    thinking={"type": "adaptive",
+              "display": "summarized"},
+    output_config={"effort": "high"},
     messages=[{
         "role": "user",
         "content": "Prove that sqrt(2) "
@@ -806,10 +805,11 @@ for block in response.content:
       <div class="card amber" style="margin-bottom:.3em;">
         <h3>Key Parameters</h3>
         <ul>
-          <li><code>budget_tokens</code> &mdash; max tokens for thinking (min 1024)</li>
-          <li><code>max_tokens</code> must be &gt; <code>budget_tokens</code></li>
+          <li><code>effort</code> &mdash; <code>low</code> to <code>max</code> (defaults vary by model)</li>
+          <li>Always on for Opus 5.5 and Fable 5.1; no manual <code>budget_tokens</code> on current models</li>
+          <li><code>max_tokens</code> caps thinking plus answer</li>
           <li>Thinking tokens count toward output billing</li>
-          <li>Cannot use <code>temperature</code> with thinking</li>
+          <li><code>display</code> defaults to <code>"omitted"</code> on Claude 5 models</li>
         </ul>
       </div>
       <div class="card green" style="margin-bottom:.3em;">
@@ -841,7 +841,7 @@ for block in response.content:
         {
             "custom_id": "req-1",
             "params": {
-                "model": "claude-sonnet-4-20250514",
+                "model": "claude-sonnet-5-5",
                 "max_tokens": 1024,
                 "messages": [
                     {"role": "user",
@@ -852,7 +852,7 @@ for block in response.content:
         {
             "custom_id": "req-2",
             "params": {
-                "model": "claude-sonnet-4-20250514",
+                "model": "claude-sonnet-5-5",
                 "max_tokens": 1024,
                 "messages": [
                     {"role": "user",
@@ -903,7 +903,7 @@ if batch.processing_status == "ended":
       <h3>Count Tokens API</h3>
       <pre><code class="language-python"># Count tokens before sending
 count = client.messages.count_tokens(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     messages=[
         {"role": "user",
          "content": "Hello, how are you?"}
@@ -917,8 +917,8 @@ response = client.messages.create(...)
 print(f"Input:  {response.usage.input_tokens}")
 print(f"Output: {response.usage.output_tokens}")
 total_cost = (
-    response.usage.input_tokens * 3 / 1_000_000
-    + response.usage.output_tokens * 15 / 1_000_000
+    response.usage.input_tokens * 2 / 1_000_000
+    + response.usage.output_tokens * 10 / 1_000_000
 )
 print(f"Cost: ${total_cost:.4f}")</code></pre>
     </div>
@@ -936,9 +936,10 @@ print(f"Cost: ${total_cost:.4f}")</code></pre>
         <h3>Context Windows</h3>
         <table>
           <tr><th>Model</th><th>Context</th></tr>
-          <tr><td>Claude Opus 4</td><td>200K tokens</td></tr>
-          <tr><td>Claude Sonnet 4</td><td>200K tokens</td></tr>
-          <tr><td>Claude Haiku 3.5</td><td>200K tokens</td></tr>
+          <tr><td>Claude Fable 5.1</td><td>1M tokens</td></tr>
+          <tr><td>Claude Opus 5.5</td><td>1M tokens</td></tr>
+          <tr><td>Claude Sonnet 5.5</td><td>1M tokens</td></tr>
+          <tr><td>Claude Haiku 5.5</td><td>1M tokens</td></tr>
         </table>
       </div>
       <div class="card purple">
@@ -974,7 +975,7 @@ client = anthropic.Anthropic(
 
 try:
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         messages=[{"role":"user",
                    "content":"Hello"}]
@@ -1022,7 +1023,7 @@ except APIConnectionError:
     <div>
       <h3>Enabling Caching</h3>
       <pre><code class="language-python">response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system=[
         {
@@ -1051,8 +1052,8 @@ print(f"Uncached:    {u.input_tokens}")</code></pre>
         <ul>
           <li>Add <code>cache_control</code> to content blocks</li>
           <li>First request writes to cache (small premium)</li>
-          <li>Subsequent requests read from cache (<span class="g">90% cheaper</span>)</li>
-          <li>Cache TTL: <span class="a">5 minutes</span> (resets on use)</li>
+          <li>Subsequent requests read from cache (<span class="g">90&ndash;97.5% cheaper</span>)</li>
+          <li>Cache TTL: <span class="a">5 minutes</span> (resets on use), or 1 hour at 2x write cost</li>
         </ul>
       </div>
       <div class="card green" style="margin-bottom:.3em;">
@@ -1061,12 +1062,12 @@ print(f"Uncached:    {u.input_tokens}")</code></pre>
           <li>System prompt blocks</li>
           <li>User message content blocks</li>
           <li>Tool definitions</li>
-          <li>Minimum 1024 tokens to cache</li>
+          <li>Minimum 512 tokens on Claude 5 models (more on some older models)</li>
         </ul>
       </div>
       <div class="card purple">
         <h3>Cost Breakdown</h3>
-        <p>Cache write: <span class="a">1.25x</span> base price. Cache read: <span class="g">0.1x</span> base price. Net savings on repeated prompts: up to 90%.</p>
+        <p>Cache write: <span class="a">1.25x</span> base price. Cache read: <span class="g">0.1x</span> base price (0.05x on Opus/Sonnet 5.5, 0.025x on Fable 5.1).</p>
       </div>
     </div>
   </div>
@@ -1081,7 +1082,7 @@ print(f"Uncached:    {u.input_tokens}")</code></pre>
       <h3>Classification with Claude</h3>
       <pre><code class="language-python">def classify_text(text: str) -> dict:
     response = client.messages.create(
-        model="claude-haiku-3-5-20241022",
+        model="claude-haiku-5-5",
         max_tokens=100,
         system="""Classify the given text into
 exactly one category: positive, negative,
@@ -1105,7 +1106,7 @@ result = classify_text(
       <h3>Multi-label Classification</h3>
       <pre><code class="language-python">def tag_support_ticket(ticket: str):
     response = client.messages.create(
-        model="claude-haiku-3-5-20241022",
+        model="claude-haiku-5-5",
         max_tokens=200,
         system="""Tag the support ticket.
 Return JSON: {"priority": "low|med|high",
@@ -1160,7 +1161,7 @@ Return JSON: {"priority": "low|med|high",
         <li>Provide examples (few-shot)</li>
         <li>Put long content in system prompt</li>
         <li>Request structured output (JSON)</li>
-        <li>Use <code>temperature=0</code> for determinism</li>
+        <li>Use structured outputs for fixed formats</li>
       </ul>
     </div>
   </div>
@@ -1178,7 +1179,8 @@ Return JSON: {"priority": "low|med|high",
     <div class="card red">
       <h3>Model Selection Guide</h3>
       <ul>
-        <li><span class="a">Opus</span> &mdash; hardest tasks, max quality</li>
+        <li><span class="a">Fable</span> &mdash; hardest, longest-horizon tasks</li>
+        <li><span class="a">Opus</span> &mdash; recommended starting point for most work</li>
         <li><span class="g">Sonnet</span> &mdash; balanced performance/cost</li>
         <li><span class="b">Haiku</span> &mdash; fast, cheap, simple tasks</li>
         <li>Start with Sonnet, upgrade/downgrade as needed</li>
@@ -1197,28 +1199,28 @@ Return JSON: {"priority": "low|med|high",
       <h3>Pricing (per million tokens)</h3>
       <table>
         <tr><th>Model</th><th>Input</th><th>Output</th></tr>
-        <tr><td><span class="a">Claude Opus 4</span></td><td>$15</td><td>$75</td></tr>
-        <tr><td><span class="g">Claude Sonnet 4</span></td><td>$3</td><td>$15</td></tr>
-        <tr><td><span class="b">Claude Haiku 3.5</span></td><td>$0.80</td><td>$4</td></tr>
+        <tr><td><span class="a">Claude Fable 5.1</span></td><td>$10</td><td>$50</td></tr>
+        <tr><td><span class="a">Claude Opus 5.5</span></td><td>$4</td><td>$20</td></tr>
+        <tr><td><span class="g">Claude Sonnet 5.5</span></td><td>$2</td><td>$10</td></tr>
+        <tr><td><span class="b">Claude Haiku 5.5</span></td><td>$0.10</td><td>$0.50</td></tr>
       </table>
-      <p style="font-size:.45em;color:var(--muted);margin-top:.2em;">Batch API: 50% discount. Prompt caching read: 90% discount.</p>
+      <p style="font-size:.45em;color:var(--muted);margin-top:.2em;">Batch API: 50% discount. Cache reads: 90% off or more. Haiku 5.5 prompts over 100K tokens: $0.50/$2.50. Source: platform.claude.com pricing, October 2026.</p>
     </div>
     <div>
       <h3>Usage Tiers</h3>
       <table>
-        <tr><th>Tier</th><th>Spend</th><th>RPM</th></tr>
-        <tr><td>Tier 1 (Free)</td><td>$0</td><td>5</td></tr>
-        <tr><td>Tier 1</td><td>$5+ credit</td><td>50</td></tr>
-        <tr><td>Tier 2</td><td>$40+ spent</td><td>1,000</td></tr>
-        <tr><td>Tier 3</td><td>$200+ spent</td><td>2,000</td></tr>
-        <tr><td>Tier 4</td><td>$400+ spent</td><td>4,000</td></tr>
-        <tr><td>Scale</td><td>Custom</td><td>Custom</td></tr>
+        <tr><th>Tier</th><th>Monthly cap</th><th>RPM*</th></tr>
+        <tr><td>Evaluation</td><td>&mdash;</td><td>Lower</td></tr>
+        <tr><td>Start</td><td>$500</td><td>1,000</td></tr>
+        <tr><td>Build</td><td>$1,000</td><td>5,000</td></tr>
+        <tr><td>Scale</td><td>$200,000</td><td>10,000</td></tr>
+        <tr><td>Custom</td><td>None</td><td>Custom</td></tr>
       </table>
     </div>
   </div>
   <div class="card blue" style="margin-top:.3em;">
     <h3>Rate Limit Headers</h3>
-    <p>Responses include <code>x-ratelimit-limit-requests</code>, <code>x-ratelimit-limit-tokens</code>, <code>x-ratelimit-remaining-requests</code>, <code>x-ratelimit-remaining-tokens</code>, and <code>x-ratelimit-reset</code> headers for proactive management.</p>
+    <p>*RPM for Opus/Sonnet/Haiku 5.5. Responses include <code>anthropic-ratelimit-requests-limit</code>, <code>anthropic-ratelimit-requests-remaining</code>, <code>anthropic-ratelimit-tokens-remaining</code>, <code>anthropic-ratelimit-requests-reset</code>, and <code>retry-after</code> on 429s.</p>
   </div>
 </section>
 
@@ -1262,14 +1264,14 @@ Return JSON: {"priority": "low|med|high",
     <div class="card blue">
       <h3>Documentation</h3>
       <ul>
-        <li><span class="a">docs.anthropic.com</span> &mdash; Full API reference</li>
-        <li><span class="g">console.anthropic.com</span> &mdash; Dashboard &amp; keys</li>
+        <li><span class="a">platform.claude.com/docs</span> &mdash; Full API reference</li>
+        <li><span class="g">platform.claude.com</span> &mdash; Dashboard &amp; keys</li>
         <li><span class="p">github.com/anthropics</span> &mdash; SDK source code</li>
       </ul>
     </div>
     <div class="card green">
       <h3>Next: Presentation 6</h3>
-      <p style="font-size:.54em;"><span class="a">Claude in the Enterprise</span> &mdash; deployment patterns, Amazon Bedrock, Google Vertex AI, and production architectures.</p>
+      <p style="font-size:.54em;"><span class="a">Claude in the Enterprise</span> &mdash; deployment patterns, Amazon Bedrock, Google Cloud (Vertex AI / Agent Platform), Microsoft Foundry, and production architectures.</p>
     </div>
   </div>
 </section>

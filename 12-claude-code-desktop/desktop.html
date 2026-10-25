@@ -135,7 +135,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     </p>
     <div style="margin-top:1.2em;">
       <span class="pill amber">Code Tab</span>
-      <span class="pill green">macOS &amp; Windows</span>
+      <span class="pill green">macOS, Windows &amp; Linux (beta)</span>
       <span class="pill purple">Visual Diffs</span>
       <span class="pill blue">Same Engine as CLI</span>
     </div>
@@ -175,7 +175,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3>Cowork &mdash; deck 13</h3>
       <ul>
         <li>Autonomous background agent</li>
-        <li>Runs in a cloud VM</li>
+        <li>Runs in a sandboxed VM on your computer</li>
         <li>Works independently while you do other work</li>
         <li>Hosts <span class="b">Dispatch</span> (task from your phone)</li>
       </ul>
@@ -203,11 +203,11 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <tr><td><span class="a">macOS</span></td><td>Universal DMG (Intel + Apple Silicon)</td><td>Most Macs include Git by default</td></tr>
           <tr><td><span class="a">Windows x64</span></td><td>Setup <code>.exe</code></td><td>Git is required for local sessions</td></tr>
           <tr><td><span class="a">Windows ARM64</span></td><td>Separate installer</td><td>Fully supported</td></tr>
-          <tr><td><span class="r">Linux</span></td><td colspan="2"><span class="r">Not currently supported</span> (use the CLI instead)</td></tr>
+          <tr><td><span class="r">Linux</span></td><td colspan="2"><span class="a">Beta</span> &mdash; install with apt (computer use not yet available)</td></tr>
         </tbody>
       </table>
       <h3 style="margin-top:.3em;">Download</h3>
-      <p>All installers come from <code>claude.ai/api/desktop/&hellip;</code> via the links on <code>code.claude.com/docs/en/desktop-quickstart</code>. There are no Homebrew, winget, or Linux package-manager distributions mentioned in the docs.</p>
+      <p>All installers come from <code>claude.ai/api/desktop/&hellip;</code> via the links on <code>code.claude.com/docs/en/desktop-quickstart</code>. On Linux the beta installs through apt; macOS and Windows use the downloaded installers.</p>
       <pre><code>macOS    &rarr; Claude.dmg    (universal)
 Win x64  &rarr; Setup.exe
 Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
@@ -227,7 +227,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
       </div>
       <div class="card red" style="margin-top:.3em;">
         <h3>Cowork Tab Caveat</h3>
-        <p>The Cowork tab requires Apple Silicon (M1 or later) on macOS. On Intel Macs, the Chat and Code tabs still work normally. On Windows, Cowork works on all supported hardware.</p>
+        <p>As of early 2026 the Cowork tab required Apple Silicon on macOS. Cowork runs a virtual machine on the device, so Windows needs the Virtual Machine Platform feature and hardware virtualisation (x64 or Arm64).</p>
       </div>
       <div class="card blue" style="margin-top:.3em;">
         <h3>CLI Is Separate</h3>
@@ -253,7 +253,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <ul>
           <li><span class="a">Local</span> &mdash; runs on your machine, direct file access</li>
           <li><span class="a">Remote</span> &mdash; Anthropic cloud, continues if you close the app</li>
-          <li><span class="a">SSH</span> &mdash; a remote machine you manage (Claude Code must be installed on it)</li>
+          <li><span class="a">SSH</span> &mdash; a remote machine you manage (Desktop installs Claude Code there on first connect)</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
@@ -270,7 +270,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <ul>
           <li>Dropdown next to the send button</li>
           <li>Opus, Sonnet, Haiku &mdash; see docs for comparison</li>
-          <li><span class="r">Locked once the session starts</span></li>
+          <li><span class="g">Can be changed mid-session</span> from the same picker</li>
         </ul>
       </div>
       <div class="card blue" style="margin-top:.3em;">
@@ -278,7 +278,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <ul>
           <li>Mode selector next to the send button</li>
           <li>Can be changed during the session</li>
-          <li>Defaults to <span class="b">Ask permissions</span> for new users</li>
+          <li>Defaults to <span class="b">Manual</span> (set <code>permissions.defaultMode</code> to change)</li>
         </ul>
       </div>
     </div>
@@ -302,40 +302,40 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="a">Ask permissions</span></td>
+        <td><span class="a">Manual</span></td>
         <td><code>default</code></td>
         <td>Asks before editing files or running commands. You see a diff and accept or reject each change. Recommended for new users.</td>
       </tr>
       <tr>
-        <td><span class="g">Auto accept edits</span></td>
+        <td><span class="g">Accept edits</span></td>
         <td><code>acceptEdits</code></td>
         <td>Auto-accepts file edits and common filesystem commands (<code>mkdir</code>, <code>touch</code>, <code>mv</code>), still asks before other terminal commands.</td>
       </tr>
       <tr>
-        <td><span class="p">Plan mode</span></td>
+        <td><span class="p">Plan</span></td>
         <td><code>plan</code></td>
         <td>Reads files and runs commands to explore, then proposes a plan without editing source code. Good before a large refactor.</td>
       </tr>
       <tr>
         <td><span class="b">Auto</span></td>
         <td><code>auto</code></td>
-        <td>Executes all actions with background safety checks. <span class="b">Research preview</span>. Team, Enterprise, and API plans only. Requires Sonnet 4.6 or Opus 4.6. Enable in Settings &rarr; Claude Code.</td>
+        <td>Runs without routine prompts; a background classifier checks shell commands and network requests first. Needs Opus 4.6+, Sonnet 4.6+, Haiku 5.5 or a Fable model; no separate Settings toggle. Admins can turn it off with <code>disableAutoMode</code>.</td>
       </tr>
       <tr>
         <td><span class="r">Bypass permissions</span></td>
         <td><code>bypassPermissions</code></td>
-        <td>No permission prompts. Equivalent to <code>--dangerously-skip-permissions</code>. Off by default; enable under Settings &rarr; Claude Code &rarr; &ldquo;Allow bypass permissions mode&rdquo;. Enterprise admins can disable this option.</td>
+        <td>No permission prompts. Equivalent to <code>--dangerously-skip-permissions</code>. Off by default. On Pro and Max, enable under Settings &rarr; Claude Code &rarr; &ldquo;Allow bypass permissions mode&rdquo;; on Team and Enterprise, organisation policy controls it.</td>
       </tr>
     </tbody>
   </table>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card amber">
       <h3>Best Practice</h3>
-      <p>Start complex tasks in <span class="a">Plan mode</span> so Claude maps out an approach first. Approve the plan, then switch to <span class="a">Auto accept edits</span> to execute it quickly.</p>
+      <p>Start complex tasks in <span class="a">Plan</span> so Claude maps out an approach first. Approve the plan, then switch to <span class="a">Accept edits</span> or <span class="a">Manual</span> to execute it. (Earlier versions called these modes Plan mode, Auto accept edits and Ask permissions.)</p>
     </div>
     <div class="card red">
       <h3>Remote Session Differences</h3>
-      <p>Remote sessions support Auto accept edits and Plan mode only. <span class="r">Ask permissions is not available</span> (remote auto-accepts edits) and <span class="r">Bypass permissions is not available</span> (the remote environment is already sandboxed). The <code>dontAsk</code> mode is CLI-only.</p>
+      <p>Cloud sessions support Accept edits, Plan and Auto. <span class="r">Manual is not offered</span> (cloud sessions pre-approve file edits) and <span class="r">Bypass permissions is not available</span>. The <code>dontAsk</code> mode is CLI-only.</p>
     </div>
   </div>
 </section>
@@ -397,10 +397,10 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
   </div>
   <div class="cols cols-2">
     <div>
-      <p>Click <span class="a">+ New session</span> in the sidebar to work on multiple tasks in parallel. Each session tracks its own context and changes independently.</p>
-      <h3 style="margin-top:.3em;">Automatic Git Worktrees</h3>
+      <p>Click <span class="a">+ New</span> in the sidebar (<code>Cmd/Ctrl+N</code>) to work on multiple tasks in parallel. Each session tracks its own context and changes independently.</p>
+      <h3 style="margin-top:.3em;">Optional Git Worktrees</h3>
       <ul>
-        <li>For Git repos, each session gets its <span class="g">own isolated copy</span> via Git worktrees</li>
+        <li>For Git repos, turn on <span class="g">Worktree</span> before starting to give a session its own isolated copy (off by default)</li>
         <li>Changes in one session don&rsquo;t affect others until you commit</li>
         <li>Default location: <code>&lt;project-root&gt;/.claude/worktrees/</code></li>
         <li>Custom location: Settings &rarr; Claude Code &rarr; &ldquo;Worktree location&rdquo;</li>
@@ -471,14 +471,14 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <li>Connect to a remote machine over SSH</li>
         <li>Environment dropdown &rarr; <span class="p">+ Add SSH connection</span></li>
         <li>Fields: Name, SSH Host, SSH Port (default 22), Identity File</li>
-        <li>Claude Code must be installed on the remote machine</li>
+        <li>Desktop installs Claude Code on the remote machine automatically</li>
         <li>Supports permission modes, connectors, plugins, and MCP servers</li>
       </ul>
     </div>
   </div>
   <div class="card blue" style="margin-top:.3em;">
     <h3>Extended Thinking Tuning</h3>
-    <p>Extended thinking is on by default. To disable entirely, set <code>MAX_THINKING_TOKENS=0</code> in the local environment editor. On Opus 4.6 and Sonnet 4.6, other <code>MAX_THINKING_TOKENS</code> values are ignored because adaptive reasoning controls thinking depth &mdash; to force a fixed budget, also set <code>CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1</code>.</p>
+    <p>Extended thinking is on by default. <code>MAX_THINKING_TOKENS=0</code> in the local environment editor turns it off, except on Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable, which always think. Adaptive models ignore other values; only Opus 4.6 and Sonnet 4.6 accept a fixed budget, with <code>CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1</code>.</p>
   </div>
 </section>
 
@@ -498,7 +498,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         <li>Interact with your running app in the embedded browser</li>
         <li>Watch Claude verify its own changes &mdash; screenshots, DOM inspection, clicking, filling forms, fixing issues</li>
         <li>Start or stop servers from the <span class="a">Preview</span> dropdown</li>
-        <li>Persist cookies and local storage across server restarts with <span class="a">Persist sessions</span></li>
+        <li>Persist cookies and local storage across server restarts with <span class="a">Keep cookies</span> (Browser pane &#8942; menu)</li>
         <li>Edit server configuration or stop all servers at once</li>
       </ul>
       <h3 style="margin-top:.3em;">Configuration</h3>
@@ -552,15 +552,15 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
   </div>
   <div class="cols cols-2">
     <div>
-      <p>After you open a pull request, a <span class="a">CI status bar</span> appears in the session. Claude Code uses the GitHub CLI (<code>gh</code>) to poll check results and surface failures.</p>
+      <p>After you open a pull request, it appears in the <span class="a">Changes</span> card of the session details panel with its CI status. Claude Code uses the GitHub CLI (<code>gh</code>) to poll check results and surface failures.</p>
       <h3 style="margin-top:.3em;">Auto-Fix</h3>
       <ul>
-        <li>Toggle in the CI status bar</li>
+        <li>Toggle in the PR&rsquo;s &#8942; menu</li>
         <li>Claude reads the failure output and iterates to fix failing CI checks</li>
       </ul>
       <h3 style="margin-top:.3em;">Auto-Merge</h3>
       <ul>
-        <li>Toggle in the CI status bar</li>
+        <li>Toggle in the PR&rsquo;s &#8942; menu</li>
         <li>Merges the PR once all checks pass</li>
         <li><span class="a">Merge method is squash</span></li>
         <li>Must also be enabled in your GitHub repository settings</li>
@@ -682,7 +682,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
           <li>Configure via Connectors UI, <code>~/.claude.json</code>, or project <code>.mcp.json</code></li>
           <li>Add from CLI: <code>claude mcp add &lt;name&gt; &lt;cmd&gt;</code> (stdio) or <code>claude mcp add --transport http &lt;name&gt; &lt;url&gt;</code></li>
           <li>The Code tab connects <em>from your machine</em> &mdash; plain <span class="g">HTTP and private-network IPs work</span> (e.g. <code>http://10.60.12.34:3001/mcp</code>)</li>
-          <li>Chat-tab MCP config (<code>claude_desktop_config.json</code>) is <span class="r">separate</span> and does not appear here</li>
+          <li>Servers in the chat app&rsquo;s <code>claude_desktop_config.json</code> also load into local Code tab sessions</li>
         </ul>
       </div>
       <div class="card purple" style="margin-top:.3em;">
@@ -701,7 +701,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
     <span class="tag">12</span>
     <h2>Coming from the CLI: Shared Config &amp; Comparison</h2>
   </div>
-  <p>Desktop and CLI run the same underlying engine. On <span class="g">macOS</span>, they read the same config files &mdash; MCP servers added via the CLI appear in the Desktop Code tab automatically. On <span class="r">Windows</span>, the standard MSIX installer sandboxes Desktop&rsquo;s filesystem, so config is <em>not</em> shared.</p>
+  <p>Desktop and CLI run the same engine and read the same config files &mdash; MCP servers added via the CLI appear in the Code tab. The Windows note is from early-2026 docs.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div>
       <div class="card green">
@@ -715,7 +715,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         </ul>
       </div>
       <div class="card red" style="margin-top:.3em;">
-        <h3>Windows (MSIX) &mdash; Config Is Not Shared</h3>
+        <h3>Windows (MSIX) &mdash; Early-2026 Caveat</h3>
         <ul>
           <li>The standard Windows installer is an MSIX package that <span class="r">sandboxes Desktop&rsquo;s filesystem</span></li>
           <li>CLI writes to <code>C:\Users\user\.claude.json</code> (real filesystem)</li>
@@ -726,20 +726,20 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
         </ul>
       </div>
       <h3 style="margin-top:.3em;">Move a Session into Desktop</h3>
-      <p>Run <code>/desktop</code> in the terminal. Claude saves your session and opens it in the desktop app, then exits the CLI. <span class="r">macOS and Windows only.</span></p>
+      <p>Run <code>/desktop</code> in the terminal. Claude saves your session and opens it in the desktop app, then exits the CLI. <span class="r">macOS and x64 Windows, with a Claude subscription.</span> <code>claude --desktop</code> does the same from the shell.</p>
     </div>
     <div>
       <h3>Feature Comparison (Selected)</h3>
       <table>
         <thead><tr><th>Feature</th><th>CLI</th><th>Desktop</th></tr></thead>
         <tbody>
-          <tr><td>Permission modes</td><td>All, including <code>dontAsk</code></td><td>Ask, Auto accept, Plan, Auto, Bypass</td></tr>
-          <tr><td>Third-party providers</td><td>Bedrock, Vertex, Foundry</td><td>Not available</td></tr>
+          <tr><td>Permission modes</td><td>All, including <code>dontAsk</code></td><td>Manual, Accept edits, Plan, Auto; Bypass once enabled</td></tr>
+          <tr><td>Third-party providers</td><td>Bedrock, Agent Platform, Foundry</td><td>Anthropic API by default; 3P via &ldquo;Claude Desktop on 3P&rdquo;</td></tr>
           <tr><td>MCP transports</td><td>stdio, Streamable HTTP</td><td>stdio, Streamable HTTP, Connectors UI</td></tr>
           <tr><td>Plugins</td><td><code>/plugin</code></td><td>Plugin manager UI</td></tr>
-          <tr><td>@mention files</td><td>Text-based</td><td>With autocomplete; local/SSH only</td></tr>
+          <tr><td>@mention files</td><td>Text-based</td><td>With autocomplete (not in a cloud session&rsquo;s first message)</td></tr>
           <tr><td>File attachments</td><td>Not available</td><td>Images, PDFs</td></tr>
-          <tr><td>Session isolation</td><td><code>--worktree</code> flag</td><td>Automatic worktrees</td></tr>
+          <tr><td>Session isolation</td><td><code>--worktree</code> flag</td><td>Per-session Worktree toggle</td></tr>
           <tr><td>Multiple sessions</td><td>Separate terminals</td><td>Sidebar tabs</td></tr>
           <tr><td>Recurring tasks</td><td>Cron / CI</td><td>Scheduled tasks</td></tr>
           <tr><td>Dispatch integration</td><td>Not available</td><td>Sidebar with Dispatch badge</td></tr>
@@ -816,13 +816,13 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
     <div>
       <h3>Not Available in Desktop</h3>
       <ul>
-        <li><span class="r">Linux</span> &mdash; macOS and Windows only</li>
-        <li><span class="r">Third-party providers</span> &mdash; Bedrock, Vertex, Foundry (use the CLI)</li>
+        <li><span class="r">Computer use on Linux</span> &mdash; the Linux app is in beta</li>
+        <li><span class="r">Third-party providers by default</span> &mdash; Bedrock, Agent Platform, Foundry need the separate 3P setup</li>
         <li><span class="r">Inline code suggestions</span> &mdash; Desktop works through conversational prompts, not autocomplete</li>
         <li><span class="r">Agent teams</span> &mdash; multi-agent orchestration is CLI / Agent SDK</li>
         <li><span class="r">Scripting and automation</span> &mdash; no <code>--print</code>, no Agent SDK headless mode</li>
         <li><span class="r"><code>--allowedTools</code> / <code>--disallowedTools</code></span> &mdash; no equivalent</li>
-        <li><span class="r"><code>--verbose</code></span> &mdash; check Console.app (macOS) or Event Viewer (Windows) instead</li>
+        <li><span class="r"><code>--verbose</code></span> &mdash; use the Verbose view mode instead</li>
         <li><span class="r"><code>dontAsk</code> permission mode</span> &mdash; CLI only</li>
       </ul>
     </div>
@@ -840,11 +840,11 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
       </div>
       <div class="card blue" style="margin-top:.3em;">
         <h3>When to Use Desktop vs CLI</h3>
-        <p>From the docs: &ldquo;Use Desktop when you want visual diff review, file attachments, or session management in a sidebar. Use the CLI when you need scripting, automation, third-party providers, or prefer a terminal workflow.&rdquo;</p>
+        <p>From the docs: &ldquo;use Desktop when you want to manage parallel sessions in one window, arrange panes side by side, or review changes visually. Use the CLI when you need scripting, automation, or prefer a terminal workflow.&rdquo;</p>
       </div>
       <div class="card green" style="margin-top:.3em;">
-        <h3>Config Sharing: macOS Only</h3>
-        <p>CLI and Desktop share CLAUDE.md, MCP config, and settings on <span class="g">macOS</span>. On <span class="r">Windows</span>, the MSIX installer sandboxes Desktop &mdash; add MCP servers through the Desktop UI, not the CLI. WSL2 adds a third separate config.</p>
+        <h3>Config Sharing</h3>
+        <p>CLI and Desktop share CLAUDE.md, MCP config (<code>~/.claude.json</code>, <code>.mcp.json</code>) and settings. WSL sessions use the configuration inside the WSL distribution.</p>
       </div>
     </div>
   </div>
@@ -879,7 +879,7 @@ Win ARM  &rarr; Setup.exe     (ARM64 build)</code></pre>
     </div>
     <div style="margin-top:1.4em;">
       <span class="pill amber">Code Tab</span>
-      <span class="pill green">macOS &amp; Windows</span>
+      <span class="pill green">macOS, Windows &amp; Linux (beta)</span>
       <span class="pill purple">Visual Diffs</span>
       <span class="pill blue">Same Engine as CLI</span>
     </div>

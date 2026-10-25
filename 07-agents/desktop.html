@@ -379,7 +379,7 @@ specializing in Python microservices.
       </ul>
     </div>
   </div>
-  <p style="margin-top:.3em;">Claude Code automatically reads <code>AGENTS.md</code>, <code>.claude/agents.md</code>, and any <code>AGENTS.md</code> files in parent directories, merging them hierarchically.</p>
+  <p style="margin-top:.3em;">Claude Code reads <code>AGENTS.md</code> (and <code>.claude/AGENTS.md</code>) in the working directory and its parents when no <code>CLAUDE.md</code> is present; otherwise import it from <code>CLAUDE.md</code> with <code>@AGENTS.md</code>.</p>
 </section>
 
 <!-- Slide 7: Claude Agent SDK -->
@@ -388,50 +388,50 @@ specializing in Python microservices.
     <span class="tag">SDK</span>
     <h2>Claude Agent SDK</h2>
   </div>
-  <p>The <span class="a">Anthropic Agent SDK</span> provides a Python framework for building production-grade agents with Claude, including tool management, orchestration, and guardrails.</p>
+  <p>The <span class="a">Claude Agent SDK</span> gives you the same tools, agent loop and context management that power Claude Code, as a library for Python and TypeScript.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div>
       <div class="card amber">
         <h3>Overview</h3>
         <ul>
-          <li>Open-source Python SDK</li>
-          <li>Built on top of the Anthropic API</li>
-          <li>First-class tool use support</li>
-          <li>Multi-agent orchestration built in</li>
-          <li>Streaming &amp; async support</li>
+          <li>Python and TypeScript SDKs (MIT-licensed)</li>
+          <li>Runs the Claude Code engine as a library</li>
+          <li>Built-in tools: Read, Edit, Bash, Glob, WebSearch&hellip;</li>
+          <li>Subagents, hooks, permissions, sessions</li>
+          <li>Streams messages as the agent works</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
         <h3>What It Enables</h3>
         <ul>
-          <li>Declarative agent definitions</li>
-          <li>Typed tool schemas with validation</li>
-          <li>Agent handoffs &amp; delegation</li>
-          <li>Guardrail integration</li>
-          <li>Tracing &amp; observability</li>
+          <li>Options-driven agents (<code>ClaudeAgentOptions</code>)</li>
+          <li>Custom tools as in-process MCP servers</li>
+          <li>Subagent delegation (<code>agents=</code>)</li>
+          <li>Permission modes and hooks as guardrails</li>
+          <li>Cost tracking and OpenTelemetry</li>
         </ul>
       </div>
     </div>
     <div>
       <div class="card purple">
         <h3>Installation</h3>
-        <pre><code># Install the SDK
-pip install anthropic-agents
+        <pre><code># Python
+pip install claude-agent-sdk
 
-# Or with extras
-pip install anthropic-agents[all]
+# TypeScript
+npm install @anthropic-ai/claude-agent-sdk
 
 # Verify installation
-python -c "import agents; print('OK')"</code></pre>
+python -c "import claude_agent_sdk; print('OK')"</code></pre>
       </div>
       <div class="card blue" style="margin-top:.3em;">
         <h3>Key Components</h3>
         <ul>
-          <li><code>Agent</code> &mdash; core agent class</li>
-          <li><code>Runner</code> &mdash; execution engine</li>
-          <li><code>Tool</code> &mdash; tool definitions</li>
-          <li><code>Guardrail</code> &mdash; safety checks</li>
-          <li><code>Handoff</code> &mdash; agent delegation</li>
+          <li><code>query()</code> &mdash; runs the agent loop</li>
+          <li><code>ClaudeAgentOptions</code> &mdash; tools, mode, prompt</li>
+          <li><code>@tool</code> + <code>create_sdk_mcp_server</code> &mdash; custom tools</li>
+          <li><code>AgentDefinition</code> &mdash; subagents</li>
+          <li><code>ClaudeSDKClient</code> &mdash; multi-turn sessions</li>
         </ul>
       </div>
     </div>
@@ -446,57 +446,47 @@ python -c "import agents; print('OK')"</code></pre>
   </div>
   <div class="cols cols-6040">
     <div>
-      <pre><code class="language-python">from agents import Agent, Runner, tool
+      <pre><code class="language-python">import asyncio
+from claude_agent_sdk import (
+    query, ClaudeAgentOptions,
+    AssistantMessage, ResultMessage,
+)
 
-@tool
-def read_file(path: str) -> str:
-    """Read contents of a file."""
-    with open(path, 'r') as f:
-        return f.read()
-
-@tool
-def write_file(path: str, content: str) -> str:
-    """Write content to a file."""
-    with open(path, 'w') as f:
-        f.write(content)
-    return f"Wrote {len(content)} bytes to {path}"
-
-@tool
-def run_tests() -> str:
-    """Run the project test suite."""
-    import subprocess
-    result = subprocess.run(
-        ["pytest", "--tb=short", "-q"],
-        capture_output=True, text=True
-    )
-    return result.stdout + result.stderr
-
-# Define the agent
-coding_agent = Agent(
-    name="CodingAssistant",
-    instructions="""You are a Python developer.
+# Configure the agent: built-in tools,
+# permission mode, system prompt, model
+options = ClaudeAgentOptions(
+    allowed_tools=["Read", "Edit", "Glob", "Bash"],
+    permission_mode="acceptEdits",
+    system_prompt="""You are a Python developer.
     Read files, make changes, then run tests
     to verify your work.""",
-    tools=[read_file, write_file, run_tests],
-    model="claude-sonnet-4-20250514",
+    model="claude-sonnet-5-5",
 )
 
-# Run the agent
-result = Runner.run_sync(
-    coding_agent,
-    "Fix the bug in src/parser.py where
-     empty input causes a crash"
-)
-print(result.final_output)</code></pre>
+async def main():
+    # The agent loop streams messages as it works
+    async for msg in query(
+        prompt="Fix the bug in src/parser.py where "
+               "empty input causes a crash",
+        options=options,
+    ):
+        if isinstance(msg, AssistantMessage):
+            for block in msg.content:
+                if hasattr(block, "text"):
+                    print(block.text)
+        elif isinstance(msg, ResultMessage):
+            print("Done:", msg.subtype)
+
+asyncio.run(main())</code></pre>
     </div>
     <div>
       <div class="card amber">
         <h3>Step-by-Step</h3>
         <ul>
-          <li><span class="a">1.</span> Define tools with <code>@tool</code> decorator</li>
-          <li><span class="a">2.</span> Create an <code>Agent</code> with instructions</li>
-          <li><span class="a">3.</span> Attach tools to the agent</li>
-          <li><span class="a">4.</span> Run with <code>Runner.run_sync()</code></li>
+          <li><span class="a">1.</span> Pick built-in tools to allow</li>
+          <li><span class="a">2.</span> Set the permission mode and system prompt</li>
+          <li><span class="a">3.</span> Call <code>query()</code> with the task</li>
+          <li><span class="a">4.</span> Iterate over the streamed messages</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
@@ -506,10 +496,10 @@ print(result.final_output)</code></pre>
       <div class="card purple" style="margin-top:.3em;">
         <h3>Key Features Used</h3>
         <ul>
-          <li>Typed tool parameters</li>
-          <li>Auto-generated tool schemas</li>
+          <li>Claude Code&rsquo;s built-in tools</li>
+          <li>Permission mode as a guardrail</li>
           <li>Agent loop with self-correction</li>
-          <li>Natural language instructions</li>
+          <li>Streaming message types</li>
         </ul>
       </div>
     </div>
@@ -525,65 +515,61 @@ print(result.final_output)</code></pre>
   <p>Tools give agents the ability to interact with the real world. Each tool has a <span class="a">name</span>, <span class="g">description</span>, <span class="p">input schema</span>, and an <span class="b">execution function</span>.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div>
-      <pre><code class="language-python"># Simple tool with the @tool decorator
-@tool
-def search_codebase(
-    query: str,
-    file_type: str = "py"
-) -> str:
-    """Search the codebase for a pattern.
+      <pre><code class="language-python">from typing import Any
+import subprocess
+from claude_agent_sdk import (
+    tool, create_sdk_mcp_server, ClaudeAgentOptions,
+)
 
-    Args:
-        query: Regex pattern to search for
-        file_type: File extension filter
-    """
-    import subprocess
-    result = subprocess.run(
-        ["rg", query, "--type", file_type,
-         "--json"],
-        capture_output=True, text=True
-    )
-    return result.stdout
+# name, description, input schema, handler
+@tool("search_codebase",
+      "Search the codebase for a regex pattern",
+      {"query": str, "file_type": str})
+async def search_codebase(args: dict[str, Any]):
+    out = subprocess.run(
+        ["rg", args["query"], "--type",
+         args["file_type"]],
+        capture_output=True, text=True).stdout
+    # Return a content array: Claude sees this
+    return {"content": [{"type": "text",
+                         "text": out}]}
 
-# Tool with complex schema
-@tool
-def create_github_issue(
-    title: str,
-    body: str,
-    labels: list[str] = [],
-    assignees: list[str] = []
-) -> str:
-    """Create a GitHub issue."""
-    # Implementation here
-    return f"Created issue: {title}"</code></pre>
+# Bundle tools into an in-process MCP server
+server = create_sdk_mcp_server(
+    name="code", tools=[search_codebase])
+
+options = ClaudeAgentOptions(
+    mcp_servers={"code": server},
+    allowed_tools=["mcp__code__search_codebase"],
+)</code></pre>
     </div>
     <div>
       <div class="card amber">
         <h3>Defining Custom Tools</h3>
         <ul>
-          <li>Use <code>@tool</code> decorator for simplicity</li>
-          <li>Type hints become the JSON schema</li>
-          <li>Docstring becomes the description</li>
-          <li>Return value goes back to the agent</li>
+          <li><code>@tool(name, description, schema)</code></li>
+          <li>Schema: a dict of types or JSON Schema</li>
+          <li>Handler is async and gets an <code>args</code> dict</li>
+          <li>Returned <code>content</code> goes back to the agent</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
-        <h3>Tool Schema (auto-generated)</h3>
+        <h3>Tool Schema (generated)</h3>
         <pre><code class="language-json">{
   "name": "search_codebase",
   "description": "Search the codebase...",
-  "parameters": {
-    "query": {"type": "string"},
-    "file_type": {
-      "type": "string",
-      "default": "py"
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "query": {"type": "string"},
+      "file_type": {"type": "string"}
     }
   }
 }</code></pre>
       </div>
       <div class="card blue" style="margin-top:.3em;">
         <h3>Execution Flow</h3>
-        <p>Agent decides to call tool &rarr; SDK validates inputs &rarr; function executes &rarr; result returned to agent &rarr; agent continues reasoning</p>
+        <p>Agent calls <code>mcp__code__search_codebase</code> &rarr; SDK validates inputs &rarr; handler runs &rarr; result returned to agent &rarr; agent continues reasoning</p>
       </div>
     </div>
   </div>
@@ -668,7 +654,9 @@ def create_github_issue(
         <li>Results &amp; status updates</li>
         <li>Error reports &amp; retries</li>
       </ul>
-      <pre><code class="language-python">result = await runner.handoff(
+      <pre><code class="language-python"># Illustrative pseudocode, not a real SDK API.
+# For Claude, see the Agent SDK (slides 7-9).
+result = await runner.handoff(
     target=review_agent,
     message="Review this PR",
     context={"diff": diff}
@@ -682,7 +670,9 @@ def create_github_issue(
         <li>Database for state persistence</li>
         <li>Event logs all agents can read</li>
       </ul>
-      <pre><code class="language-python">ctx = SharedContext()
+      <pre><code class="language-python"># Illustrative pseudocode, not a real SDK API.
+# For Claude, see the Agent SDK (slides 7-9).
+ctx = SharedContext()
 ctx.set("plan", plan_output)
 # Other agents can read:
 plan = ctx.get("plan")</code></pre>
@@ -695,7 +685,8 @@ plan = ctx.get("plan")</code></pre>
         <li>Context preservation on handoff</li>
         <li>Return results to caller</li>
       </ul>
-      <pre><code class="language-python">agent = Agent(
+      <pre><code class="language-python"># Illustrative pseudocode
+agent = Agent(
     name="Router",
     handoffs=[
         billing_agent,
@@ -784,7 +775,9 @@ plan = ctx.get("plan")</code></pre>
   </div>
   <div class="card blue" style="margin-top:.3em;">
     <h3>Delegation Pattern</h3>
-    <pre><code class="language-python">explorer = Agent(name="Explorer", tools=[Read, Glob, Grep],
+    <pre><code class="language-python"># Illustrative pseudocode. In the Claude Agent SDK, pass
+# agents={"explorer": AgentDefinition(...)} in ClaudeAgentOptions.
+explorer = Agent(name="Explorer", tools=[Read, Glob, Grep],
                  instructions="Find all usages of the deprecated API...")
 
 planner = Agent(name="Planner", tools=[Read],
@@ -810,8 +803,8 @@ result = await Runner.run(worker, f"Execute: {plan.output}")</code></pre>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card amber">
       <h3>Managing Multiple Agents</h3>
-      <pre><code class="language-python">from agents import Agent, Runner
-
+      <pre><code class="language-python"># Illustrative pseudocode, not a real SDK API.
+# For Claude, see the Agent SDK (slides 7-9).
 orchestrator = Agent(
     name="ProjectManager",
     instructions="""You coordinate a team:
@@ -903,7 +896,8 @@ results = await asyncio.gather(*tasks)</code></pre>
   </div>
   <div class="card purple" style="margin-top:.3em;">
     <h3>Guardrail Implementation</h3>
-    <pre><code class="language-python">from agents import Agent, Guardrail, GuardrailResult
+    <pre><code class="language-python"># Illustrative pseudocode, not a real SDK API.
+# For Claude, see the Agent SDK (slides 7-9).
 
 @guardrail
 async def no_secrets_guardrail(ctx, agent, input_text) -> GuardrailResult:
@@ -941,7 +935,7 @@ agent = Agent(name="SafeAgent", guardrails=[no_secrets_guardrail])</code></pre>
         <li>Cross-session knowledge store</li>
         <li>User preferences &amp; patterns</li>
         <li>Project-specific learnings</li>
-        <li>Claude Code: <code>~/.claude/memory</code></li>
+        <li>Claude Code: auto memory per repo (<code>/memory</code>)</li>
       </ul>
     </div>
     <div class="card purple">
@@ -1041,8 +1035,8 @@ relevant = memory_store.search(query)</code></pre>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card amber">
       <h3>Observability &amp; Logging</h3>
-      <pre><code class="language-python">from agents import Agent, Runner
-from agents.tracing import TracingConfig
+      <pre><code class="language-python"># Illustrative pseudocode, not a real SDK API.
+# For Claude, see the Agent SDK (slides 7-9).
 
 # Enable detailed tracing
 config = TracingConfig(
@@ -1326,7 +1320,7 @@ services:
       </div>
     </div>
   </div>
-  <p style="text-align:center;margin-top:.4em;color:var(--muted);font-size:.5em;">Next: <span class="a">08 &mdash; Model Context Protocol (MCP)</span></p>
+  <p style="text-align:center;margin-top:.4em;color:var(--muted);font-size:.5em;">Next: <span class="a">08 &mdash; Productivity &amp; Workflows</span></p>
 </section>
 
 </div>

@@ -131,7 +131,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <span class="pill amber">CLI</span>
       <span class="pill green">Agentic</span>
       <span class="pill purple">Terminal-native</span>
-      <span class="pill blue">Open Source</span>
+      <span class="pill blue">Proprietary (Anthropic)</span>
     </div>
   </div>
 </section>
@@ -189,21 +189,24 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
   <div class="cols cols-6040">
     <div>
-      <h3>Install via npm</h3>
-      <pre><code class="language-bash"># Install globally
+      <h3>Install (Recommended: Native Installer)</h3>
+      <pre><code class="language-bash"># Native installer — no Node.js required
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Or via npm (Node.js 22+)
 npm install -g @anthropic-ai/claude-code
 
 # Verify installation
 claude --version
 
-# Update to latest
-npm update -g @anthropic-ai/claude-code</code></pre>
+# Update (native installs also auto-update)
+claude update</code></pre>
       <h3 style="margin-top:.3em;">Prerequisites</h3>
       <table>
         <tr><th>Requirement</th><th>Minimum</th></tr>
-        <tr><td>Node.js</td><td>v18.0.0+</td></tr>
-        <tr><td>Operating System</td><td>macOS 12+, Ubuntu 20.04+, Windows via WSL2</td></tr>
-        <tr><td>RAM</td><td>4 GB recommended</td></tr>
+        <tr><td>Node.js</td><td>22+ (npm method only)</td></tr>
+        <tr><td>Operating System</td><td>macOS 13+, Ubuntu 20.04+, Windows 10 1809+ (native or WSL)</td></tr>
+        <tr><td>RAM</td><td>4 GB+</td></tr>
         <tr><td>Git</td><td>Recommended (not required)</td></tr>
       </table>
     </div>
@@ -248,24 +251,27 @@ ANTHROPIC_API_KEY=sk-ant-... claude</code></pre>
     <div class="card green">
       <h3>OAuth / Browser Login</h3>
       <pre><code class="language-bash"># Interactive login flow
-claude login
+claude auth login   # or /login in a session
 
 # Opens browser for OAuth
 # Tokens stored securely</code></pre>
-      <p style="margin-top:.15em;">Browser-based login tied to your Anthropic Console account. Supports Max plan with included usage.</p>
+      <p style="margin-top:.15em;">Browser-based login with a Claude subscription (Pro, Max, Team, Enterprise) or a Console account. For CI, <code>claude setup-token</code> creates a long-lived <code>CLAUDE_CODE_OAUTH_TOKEN</code>.</p>
     </div>
     <div class="card purple">
       <h3>Third-Party Providers</h3>
       <pre><code class="language-bash"># Amazon Bedrock
 export CLAUDE_CODE_USE_BEDROCK=1
 
-# Google Vertex AI
-export CLAUDE_CODE_USE_VERTEX=1</code></pre>
-      <p style="margin-top:.15em;">Route through your cloud provider. Use existing AWS or GCP credentials and billing.</p>
+# Google Cloud's Agent Platform (formerly Vertex AI)
+export CLAUDE_CODE_USE_VERTEX=1
+
+# Microsoft Foundry
+export CLAUDE_CODE_USE_FOUNDRY=1</code></pre>
+      <p style="margin-top:.15em;">Route through your cloud provider. Use existing AWS, GCP or Azure credentials and billing.</p>
     </div>
   </div>
   <div class="card blue" style="margin-top:.3em;">
-    <p><span class="b">Console Setup:</span> Go to <span class="mono">console.anthropic.com</span> &rarr; create an API key &rarr; set usage limits &rarr; enable billing. Claude Code uses <span class="a">Claude Sonnet</span> by default, switchable to <span class="a">Opus</span> via <code>/model</code>.</p>
+    <p><span class="b">Console Setup:</span> Go to <span class="mono">platform.claude.com</span> &rarr; create an API key &rarr; set usage limits &rarr; enable billing. The default model depends on your account; switch with <code>/model</code> (aliases <span class="a">fable</span>, <span class="a">opus</span>, <span class="a">sonnet</span>, <span class="a">haiku</span>).</p>
   </div>
 </section>
 
@@ -282,7 +288,7 @@ export CLAUDE_CODE_USE_VERTEX=1</code></pre>
       <pre><code class="language-text">$ cd my-project &amp;&amp; claude
 
 ╭──────────────────────────────────╮
-│  Claude Code        v1.0.32     │
+│  Claude Code       v2.1.310     │
 │                                  │
 │  /help for commands              │
 │  Type your request...            │
@@ -311,7 +317,7 @@ export CLAUDE_CODE_USE_VERTEX=1</code></pre>
           <li><span class="a">Tool transparency</span> &mdash; see every tool call in real time</li>
           <li><span class="a">Permission prompts</span> &mdash; approve or deny file writes and commands</li>
           <li><span class="a">Multi-turn</span> &mdash; context carries across turns</li>
-          <li><span class="a">Vim keybindings</span> &mdash; Escape for multi-line edit mode</li>
+          <li><span class="a">Vim editing mode</span> &mdash; via <code>/config</code> &rarr; Editor mode; <code>Shift+Enter</code> or <code>\</code>+Enter for a new line</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
@@ -323,7 +329,7 @@ claude -p "explain this codebase"
 cat error.log | claude -p "fix this"
 
 # Output as JSON
-claude -p "list files" --json</code></pre>
+claude -p "list files" --output-format json</code></pre>
       </div>
     </div>
   </div>
@@ -522,8 +528,8 @@ claude -p "list files" --json</code></pre>
         <tr><td><code>/model</code></td><td>Switch model (e.g., Sonnet &harr; Opus)</td></tr>
         <tr><td><code>/clear</code></td><td>Reset conversation context</td></tr>
         <tr><td><code>/compact</code></td><td>Summarize context to free up token space</td></tr>
-        <tr><td><code>/cost</code></td><td>Show token usage and estimated cost</td></tr>
-        <tr><td><code>/login</code></td><td>Switch authentication method</td></tr>
+        <tr><td><code>/usage</code></td><td>Session cost, plan limits, activity (<code>/cost</code> is an alias)</td></tr>
+        <tr><td><code>/login</code></td><td>Sign in to your Anthropic account</td></tr>
         <tr><td><code>/config</code></td><td>Open or edit settings</td></tr>
         <tr><td><code>/permissions</code></td><td>View and manage tool permissions</td></tr>
       </table>
@@ -531,19 +537,19 @@ claude -p "list files" --json</code></pre>
     <div>
       <table>
         <tr><th>Command</th><th>Description</th></tr>
-        <tr><td><code>/commit</code></td><td>Generate a commit for staged changes</td></tr>
+        <tr><td><code>/code-review</code></td><td>Review the current diff or a PR (alias <code>/review</code>)</td></tr>
         <tr><td><code>/review-pr</code></td><td>Review a pull request</td></tr>
-        <tr><td><code>/pr-comments</code></td><td>View and address PR feedback</td></tr>
+        <tr><td><code>/rewind</code></td><td>Roll back conversation and/or code to a checkpoint</td></tr>
         <tr><td><code>/init</code></td><td>Generate a CLAUDE.md for current project</td></tr>
-        <tr><td><code>/bug</code></td><td>Report a bug to Anthropic</td></tr>
+        <tr><td><code>/bug</code></td><td>Report a bug to Anthropic (or <code>/feedback</code>)</td></tr>
         <tr><td><code>/doctor</code></td><td>Diagnose common configuration issues</td></tr>
-        <tr><td><code>/vim</code></td><td>Toggle vim keybinding mode</td></tr>
-        <tr><td><code>/add-dir</code></td><td>Add additional directories to context</td></tr>
+        <tr><td><code>/mcp</code></td><td>View and manage MCP servers</td></tr>
+        <tr><td><code>/add-dir</code></td><td>Add a working directory for file access</td></tr>
       </table>
     </div>
   </div>
   <div class="card green" style="margin-top:.3em;">
-    <p><span class="g">Custom slash commands:</span> You can create custom commands by adding them as <span class="mono">.claude/commands/</span> markdown files. They show up under <code>/</code> and can include templates with <code>$ARGUMENTS</code> placeholder.</p>
+    <p><span class="g">Custom slash commands:</span> Custom commands are now <span class="mono">skills</span>: <span class="mono">.claude/skills/&lt;name&gt;/SKILL.md</span> (older <span class="mono">.claude/commands/*.md</span> files still work). They show up under <code>/</code> and can use the <code>$ARGUMENTS</code> placeholder.</p>
   </div>
 </section>
 
@@ -606,7 +612,8 @@ This is a TypeScript monorepo using Turborepo.
       <div class="card purple" style="margin-top:.3em;">
         <h3>Generate Automatically</h3>
         <pre><code class="language-bash"># Auto-generate from codebase
-claude /init</code></pre>
+# then, inside a session:
+/init</code></pre>
       </div>
     </div>
   </div>
@@ -626,13 +633,13 @@ claude /init</code></pre>
       <svg class="diagram" viewBox="0 0 420 240" style="max-width: 100%; height: auto;">
         <rect x="10" y="10" width="400" height="50" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
         <text x="210" y="40" text-anchor="middle" fill="#a9cd8e" font-family="Bricolage Grotesque,serif" font-size="14" font-weight="700">Always Allowed (No Prompt)</text>
-        <text x="210" y="55" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">Read, Glob, Grep, Fetch</text>
+        <text x="210" y="55" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">Read, Glob, Grep (inside the working directory)</text>
         <rect x="10" y="75" width="400" height="50" rx="6" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
         <text x="210" y="105" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="14" font-weight="700">Requires Approval</text>
-        <text x="210" y="120" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">Write, Edit, Bash (first time or new pattern)</text>
+        <text x="210" y="120" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">Edit, Write, Bash, WebFetch, WebSearch (read-only Bash commands excepted)</text>
         <rect x="10" y="140" width="400" height="50" rx="6" fill="#231e1a" stroke="#d77753" stroke-width="2"/>
-        <text x="210" y="170" text-anchor="middle" fill="#d77753" font-family="Bricolage Grotesque,serif" font-size="14" font-weight="700">Denied by Default</text>
-        <text x="210" y="185" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">Destructive ops (rm -rf, git push --force)</text>
+        <text x="210" y="170" text-anchor="middle" fill="#d77753" font-family="Bricolage Grotesque,serif" font-size="14" font-weight="700">Denied by Your Rules</text>
+        <text x="210" y="185" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="10">Anything matching a deny rule, e.g. Bash(rm *) or Bash(git push *)</text>
       </svg>
     </div>
     <div>
@@ -640,9 +647,9 @@ claude /init</code></pre>
         <h3>Approval Options</h3>
         <ul>
           <li><span class="g">Yes</span> &mdash; allow this one time</li>
-          <li><span class="a">Always allow</span> &mdash; auto-approve this tool</li>
-          <li><span class="r">No</span> &mdash; deny this action</li>
-          <li><span class="p">Always allow for project</span> &mdash; scope to this repo</li>
+          <li><span class="a">Yes, and don&rsquo;t ask again</span> &mdash; saves an allow rule (Bash and WebFetch: per repository; edits: for the session)</li>
+          <li><span class="r">No</span> &mdash; deny, and tell Claude what to do instead</li>
+          <li><span class="p">Permission modes</span> &mdash; <code>Shift+Tab</code> cycles Manual, Accept edits, Plan and Auto</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
@@ -650,13 +657,13 @@ claude /init</code></pre>
         <pre><code class="language-json">{
   "permissions": {
     "allow": [
-      "Bash(npm test*)",
-      "Bash(git diff*)",
-      "Write(src/**)"
+      "Bash(npm test *)",
+      "Bash(git diff *)",
+      "Edit(src/**)"
     ],
     "deny": [
-      "Bash(rm -rf*)",
-      "Bash(*--force*)"
+      "Bash(rm *)",
+      "Bash(git push *)"
     ]
   }
 }</code></pre>
@@ -692,11 +699,11 @@ claude /init</code></pre>
     ],
     "PostToolUse": [
       {
-        "matcher": "Write",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "npx prettier --write $CLAUDE_FILE_PATH"
+            "command": "jq -r .tool_input.file_path | xargs npx prettier -w"
           }
         ]
       }
@@ -737,8 +744,8 @@ claude /init</code></pre>
         </ul>
       </div>
       <div class="card purple" style="margin-top:.3em;">
-        <h3>Environment Variables</h3>
-        <p>Hooks receive context via env vars: <code>CLAUDE_FILE_PATH</code>, <code>CLAUDE_TOOL_NAME</code>, <code>CLAUDE_TOOL_INPUT</code></p>
+        <h3>Hook Input</h3>
+        <p>Command hooks receive JSON on stdin (<code>session_id</code>, <code>cwd</code>, <code>hook_event_name</code>, <code>tool_name</code>, <code>tool_input</code>, &hellip;). Exit code 2 blocks the action; <code>$CLAUDE_PROJECT_DIR</code> points at the project root.</p>
       </div>
     </div>
   </div>
@@ -760,16 +767,14 @@ claude /init</code></pre>
         <p>An open protocol for connecting AI models to external tools, APIs, and data. Claude Code acts as an MCP <span class="a">client</span> that can connect to any MCP <span class="g">server</span>.</p>
       </div>
       <h3 style="margin-top:.3em;">Configuration</h3>
-      <pre><code class="language-json">// .claude/mcp_servers.json
+      <pre><code class="language-json">// .mcp.json (project scope, check in)
 {
   "mcpServers": {
     "github": {
-      "command": "npx",
-      "args": [
-        "-y", "@modelcontextprotocol/server-github"
-      ],
-      "env": {
-        "GITHUB_TOKEN": "ghp_..."
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PAT}"
       }
     },
     "postgres": {
@@ -798,8 +803,9 @@ claude /init</code></pre>
       <div class="card purple" style="margin-top:.3em;">
         <h3>Adding Servers</h3>
         <pre><code class="language-bash"># Add via CLI
-claude mcp add github \
-  npx -y @modelcontextprotocol/server-github
+claude mcp add --transport http github \
+  https://api.githubcopilot.com/mcp/ \
+  --header "Authorization: Bearer $GITHUB_PAT"
 
 # List configured servers
 claude mcp list
@@ -809,7 +815,7 @@ claude mcp remove github</code></pre>
       </div>
       <div class="card blue" style="margin-top:.3em;">
         <h3>Scope</h3>
-        <p><span class="b">Project:</span> <code>.claude/mcp_servers.json</code><br/><span class="a">Global:</span> <code>~/.claude/mcp_servers.json</code></p>
+        <p><span class="b">Local</span> (default) and <span class="a">user</span>: <code>~/.claude.json</code><br/><span class="g">Project:</span> <code>.mcp.json</code> &mdash; pick with <code>--scope</code></p>
       </div>
     </div>
   </div>
@@ -890,16 +896,16 @@ claude mcp remove github</code></pre>
     <span class="tag">14</span>
     <h2>Memory System</h2>
   </div>
-  <p>Claude Code maintains <span class="a">persistent memory</span> across sessions via CLAUDE.md files, enabling it to learn and remember project-specific context.</p>
+  <p>Claude Code maintains <span class="a">persistent memory</span> across sessions via CLAUDE.md files (which you write) and auto memory (notes Claude writes itself).</p>
   <div class="cols cols-2">
     <div>
       <div class="card amber">
         <h3>How Memory Works</h3>
         <ul>
           <li>Claude Code reads <code>CLAUDE.md</code> at the start of every session</li>
-          <li>You can ask it to "remember" something and it writes to CLAUDE.md</li>
+          <li>Ask it to "remember" something and it saves to auto memory (browse it with <code>/memory</code>); say "add this to CLAUDE.md" to edit CLAUDE.md instead</li>
           <li>Memory persists between sessions and across team members (if committed)</li>
-          <li>Memories follow the file hierarchy: global &rarr; project &rarr; folder</li>
+          <li>CLAUDE.md files load from broad to specific: managed &rarr; user &rarr; project &rarr; local; subfolder files load on demand</li>
         </ul>
       </div>
       <div class="card green" style="margin-top:.3em;">
@@ -909,7 +915,7 @@ claude mcp remove github</code></pre>
           <tr><td>User</td><td>All projects</td><td><code>~/.claude/CLAUDE.md</code></td></tr>
           <tr><td>Project</td><td>Current repo</td><td><code>./CLAUDE.md</code></td></tr>
           <tr><td>Folder</td><td>Subdirectory</td><td><code>./src/CLAUDE.md</code></td></tr>
-          <tr><td>User-Project</td><td>Per user per repo</td><td><code>.claude/local/CLAUDE.md</code></td></tr>
+          <tr><td>Local</td><td>Per user per repo</td><td><code>./CLAUDE.local.md</code> (gitignored)</td></tr>
         </table>
       </div>
     </div>
@@ -955,8 +961,7 @@ claude mcp remove github</code></pre>
         <pre><code class="language-bash"># Ask Claude to commit
 &gt; commit these changes
 
-# Or use slash command
-/commit
+# (there is no built-in /commit command)
 
 # Claude will:
 # 1. Run git status &amp; git diff
@@ -971,10 +976,10 @@ claude mcp remove github</code></pre>
 &gt; create a PR for this branch
 
 # Review an existing PR
-/review-pr 123
+/code-review 123
 
 # Address PR comments
-/pr-comments</code></pre>
+&gt; address the review comments on PR 123</code></pre>
         <p style="margin-top:.1em;">Uses <code>gh</code> CLI under the hood for all GitHub operations.</p>
       </div>
     </div>
@@ -1080,11 +1085,11 @@ claude mcp remove github</code></pre>
     <div class="card amber">
       <h3>VS Code Extension</h3>
       <ul>
-        <li>Embeds Claude Code terminal in VS Code</li>
+        <li>Native graphical chat panel (bundles its own CLI)</li>
         <li>File diffs shown in VS Code's native diff viewer</li>
         <li>Click to open referenced files</li>
         <li>Shares workspace context</li>
-        <li>Keyboard shortcut: <code>Ctrl+Shift+`</code></li>
+        <li>Toggle focus editor/Claude: <code>Cmd+Esc</code> / <code>Ctrl+Esc</code></li>
       </ul>
       <pre><code class="language-bash"># Install extension
 code --install-extension anthropic.claude-code</code></pre>
@@ -1135,14 +1140,14 @@ code --install-extension anthropic.claude-code</code></pre>
       </table>
       <h3 style="margin-top:.3em;">Key Settings</h3>
       <pre><code class="language-json">{
-  "model": "claude-sonnet-4-20250514",
+  "model": "sonnet",
   "permissions": {
     "allow": ["Bash(npm *)"],
     "deny": ["Bash(rm *)"]
   },
   "hooks": { ... },
-  "mcpServers": { ... },
-  "customCommands": { ... }
+  "enabledPlugins": { ... },
+  "env": { ... }
 }</code></pre>
     </div>
     <div>
@@ -1151,9 +1156,10 @@ code --install-extension anthropic.claude-code</code></pre>
         <table>
           <tr><th>Variable</th><th>Purpose</th></tr>
           <tr><td><code>ANTHROPIC_API_KEY</code></td><td>API authentication</td></tr>
-          <tr><td><code>CLAUDE_MODEL</code></td><td>Override default model</td></tr>
+          <tr><td><code>ANTHROPIC_MODEL</code></td><td>Override default model</td></tr>
           <tr><td><code>CLAUDE_CODE_USE_BEDROCK</code></td><td>Use AWS Bedrock</td></tr>
-          <tr><td><code>CLAUDE_CODE_USE_VERTEX</code></td><td>Use Google Vertex</td></tr>
+          <tr><td><code>CLAUDE_CODE_USE_VERTEX</code></td><td>Use Google Cloud&rsquo;s Agent Platform</td></tr>
+          <tr><td><code>CLAUDE_CODE_USE_FOUNDRY</code></td><td>Use Microsoft Foundry</td></tr>
           <tr><td><code>ANTHROPIC_BASE_URL</code></td><td>Custom API endpoint</td></tr>
           <tr><td><code>CLAUDE_CODE_MAX_TURNS</code></td><td>Limit agent turns</td></tr>
         </table>
@@ -1161,13 +1167,13 @@ code --install-extension anthropic.claude-code</code></pre>
       <div class="card green" style="margin-top:.3em;">
         <h3>Model Selection</h3>
         <pre><code class="language-bash"># In REPL
-/model claude-opus-4-20250514
+/model opus
 
 # Via environment
-export CLAUDE_MODEL=claude-opus-4-20250514
+export ANTHROPIC_MODEL=claude-opus-5-5
 
 # Via CLI flag
-claude --model claude-opus-4-20250514</code></pre>
+claude --model claude-fable-5-1</code></pre>
       </div>
     </div>
   </div>
@@ -1187,7 +1193,7 @@ claude --model claude-opus-4-20250514</code></pre>
         <h3>Common Issues</h3>
         <table>
           <tr><th>Problem</th><th>Solution</th></tr>
-          <tr><td>Authentication errors</td><td>Run <code>claude login</code> or check API key</td></tr>
+          <tr><td>Authentication errors</td><td>Run <code>/login</code> (or <code>claude auth status</code>) or check API key</td></tr>
           <tr><td>Slow responses</td><td>Use <code>/compact</code> to reduce context</td></tr>
           <tr><td>Wrong file edits</td><td>Be more specific in your prompt</td></tr>
           <tr><td>Context too long</td><td><code>/clear</code> to reset, or <code>/compact</code></td></tr>
@@ -1201,7 +1207,7 @@ claude --model claude-opus-4-20250514</code></pre>
 /doctor
 
 # Checks:
-# - Node.js version
+# - Installation and updates
 # - Authentication status
 # - MCP server connectivity
 # - Settings file validity</code></pre>
@@ -1214,24 +1220,24 @@ claude --model claude-opus-4-20250514</code></pre>
 claude --verbose
 
 # Debug logging
-CLAUDE_CODE_DEBUG=1 claude
+claude --debug        # log: ~/.claude/debug/
 
-# View conversation log
-# (stored in ~/.claude/logs/)</code></pre>
+# Transcripts are stored in
+# ~/.claude/projects/</code></pre>
       </div>
       <div class="card blue" style="margin-top:.3em;">
         <h3>Context Management</h3>
         <ul>
           <li><span class="b">/compact</span> &mdash; summarizes conversation, frees tokens</li>
           <li><span class="b">/clear</span> &mdash; wipes all context, fresh start</li>
-          <li><span class="b">/cost</span> &mdash; shows token usage and spend</li>
+          <li><span class="b">/usage</span> &mdash; shows cost, plan limits and spend (<code>/context</code> shows context use)</li>
           <li>Claude Code auto-compacts when context is near the limit</li>
           <li>Prefer focused prompts over open-ended ones to reduce context growth</li>
         </ul>
       </div>
       <div class="card red" style="margin-top:.3em;">
         <h3>When Things Go Wrong</h3>
-        <p>Claude Code never makes changes it can't undo. Use <code>git diff</code> to review changes and <code>git checkout</code> to revert if needed.</p>
+        <p>Claude Code checkpoints its file edits: press <code>Esc</code> twice or run <code>/rewind</code> to roll back. Checkpoints don&rsquo;t cover shell side effects, so still use <code>git diff</code> and <code>git checkout</code>.</p>
       </div>
     </div>
   </div>
@@ -1345,7 +1351,7 @@ Claude will:
     </div>
     <div class="card purple">
       <h3>Code Review</h3>
-      <pre><code class="language-text">&gt; /review-pr 456
+      <pre><code class="language-text">&gt; /code-review 456
 
 Claude will:
 1. Fetch the PR diff via gh CLI
@@ -1396,7 +1402,7 @@ Claude will:
         <li>Use <code>/compact</code> regularly on long sessions</li>
         <li>Start fresh with <code>/clear</code> for unrelated tasks</li>
         <li>Keep CLAUDE.md concise and current</li>
-        <li>Use <code>/cost</code> to monitor token usage</li>
+        <li>Use <code>/usage</code> to monitor cost and plan limits</li>
         <li>Prefer focused prompts over vague ones</li>
       </ul>
     </div>
@@ -1404,9 +1410,9 @@ Claude will:
       <h3>Power User Techniques</h3>
       <ul>
         <li>Pipe error output: <code>npm test 2>&amp;1 | claude -p "fix"</code></li>
-        <li>Use <code>Escape</code> for multi-line input mode</li>
+        <li>Use <code>Shift+Enter</code> for multi-line input</li>
         <li>Create custom <code>/commands</code> for repeated tasks</li>
-        <li>Use <code>--json</code> for scripting integration</li>
+        <li>Use <code>--output-format json</code> for scripting integration</li>
         <li>Set up hooks for auto-formatting</li>
       </ul>
     </div>
@@ -1474,7 +1480,7 @@ Claude will:
   <div class="card blue" style="margin-top:.3em;">
     <p style="font-size:.55em; text-align:center;">
       <span class="b">Get started:</span> &nbsp;
-      <code>npm install -g @anthropic-ai/claude-code &amp;&amp; cd your-project &amp;&amp; claude</code>
+      <code>curl -fsSL https://claude.ai/install.sh | bash &amp;&amp; cd your-project &amp;&amp; claude</code>
     </p>
   </div>
   <div style="margin-top:.5em; text-align:center;">

@@ -196,7 +196,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <tr><td><span class="a">macOS</span></td><td class="g">Supported</td><td>Universal DMG, Intel + Apple Silicon</td></tr>
           <tr><td><span class="a">Windows x64</span></td><td class="g">Supported</td><td>Win 10 and later</td></tr>
           <tr><td><span class="a">Windows ARM64</span></td><td class="g">Supported</td><td>Native build</td></tr>
-          <tr><td><span class="r">Linux</span></td><td class="r">No app</td><td>Use <code>claude.ai</code> in a browser instead</td></tr>
+          <tr><td><span class="r">Linux</span></td><td class="a">Beta</td><td>apt package for Ubuntu 22.04+ / Debian 12+</td></tr>
         </tbody>
       </table>
       <h3 style="margin-top:.3em;">Plans</h3>
@@ -416,7 +416,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li>Next to the send button</li>
         <li>Switch between Opus, Sonnet, Haiku</li>
         <li>Choice is per-message, not per-chat &mdash; you can mix</li>
-        <li>Free plan is limited to the smaller models</li>
+        <li>Free plan: Sonnet and Haiku (no Opus or Fable)</li>
       </ul>
     </div>
     <div class="card green">
@@ -425,7 +425,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li>Toggle in the prompt bar on Pro and above</li>
         <li>Claude produces a visible scratchpad before the final answer</li>
         <li>Latency is higher; quality on hard problems is noticeably better</li>
-        <li>On Opus / Sonnet 4.6 thinking depth is adaptive &mdash; you don&rsquo;t tune a budget</li>
+        <li>Claude 5 models use adaptive thinking &mdash; you don&rsquo;t tune a budget</li>
       </ul>
     </div>
     <div class="card amber">
@@ -617,9 +617,9 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td>Global hotkey / tray</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
       <tr><td>Voice mode</td><td class="g">Yes</td><td class="a">Partial</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Local stdio MCP</td><td class="g">Yes (<code>claude_desktop_config.json</code>)</td><td class="r">No</td><td class="r">No</td><td class="g">Yes (CLI config)</td><td class="r">No</td></tr>
-      <tr><td>Edits files on disk</td><td class="r">No</td><td class="r">No</td><td class="r">No</td><td class="g">Yes</td><td class="r">No (cloud VM only)</td></tr>
+      <tr><td>Edits files on disk</td><td class="r">No</td><td class="r">No</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes (local files, via its VM)</td></tr>
       <tr><td>Runs autonomously</td><td class="r">No</td><td class="r">No</td><td class="r">No</td><td class="a">Opt-in</td><td class="g">Yes</td></tr>
-      <tr><td>Available on Linux</td><td class="r">No</td><td class="g">Yes</td><td class="r">N/A</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Available on Linux</td><td class="a">Beta</td><td class="g">Yes</td><td class="r">N/A</td><td class="a">Beta</td><td class="a">Beta</td></tr>
       <tr><td>Available on Free plan</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
     </tbody>
   </table>

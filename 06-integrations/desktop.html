@@ -248,43 +248,40 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="cols cols-6040">
     <div>
       <h3>Example: Automated PR Review Workflow</h3>
-      <pre><code class="language-yaml">name: Claude PR Review
+      <pre><code class="language-yaml">name: Code Review
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize,
+            ready_for_review, reopened]
 
 jobs:
   review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
-      - name: Get diff
-        run: |
-          git diff origin/main...HEAD > diff.txt
-
-      - name: Claude Review
-        uses: anthropics/claude-action@v1
+      # Claude Code GitHub Action, running the
+      # code-review plugin (posts inline comments)
+      - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_KEY }}
-          prompt: |
-            Review this PR diff for bugs,
-            security issues, and improvements.
-          files: diff.txt
-          max_tokens: 4096
-
-      - name: Post Review Comment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.pulls.createReview({
-              ...context.repo,
-              pull_number: context.issue.number,
-              body: process.env.CLAUDE_RESPONSE,
-              event: 'COMMENT'
-            })</code></pre>
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          plugin_marketplaces: >-
+            https://github.com/anthropics/claude-code.git
+          plugins: "code-review@claude-code-plugins"
+          prompt: >-
+            /code-review:code-review --comment
+            ${{ github.repository }}/pull/${{
+            github.event.pull_request.number }}
+          claude_args: >-
+            --allowedTools
+            "mcp__github_inline_comment__create_inline_comment"</code></pre>
     </div>
     <div>
       <div class="card amber" style="margin-bottom: .4em;">
@@ -300,9 +297,9 @@ jobs:
       <div class="card green">
         <h3>Best Practices</h3>
         <ul>
-          <li>Store API keys in GitHub Secrets</li>
-          <li>Set appropriate token limits</li>
-          <li>Use <code>fetch-depth: 0</code> for full context</li>
+          <li>Quick setup: run <code>/install-github-app</code> in Claude Code</li>
+          <li>Store <code>ANTHROPIC_API_KEY</code> or <code>CLAUDE_CODE_OAUTH_TOKEN</code> in GitHub Secrets</li>
+          <li>Mention <code>@claude</code> in issues and PRs for interactive mode</li>
           <li>Rate-limit to avoid API quota issues</li>
           <li>Cache responses for identical diffs</li>
         </ul>
@@ -317,42 +314,42 @@ jobs:
     <span class="tag">IDE</span>
     <h2>VS Code Extension</h2>
   </div>
-  <p>The Claude VS Code extension brings AI assistance directly into your editor with deep workspace integration.</p>
+  <p>The Claude Code extension gives VS Code (and Cursor) a native graphical panel for Claude Code. It works through conversation and reviewable diffs, not autocomplete.</p>
   <div class="cols cols-3">
     <div class="card green">
-      <h3>Inline Suggestions</h3>
+      <h3>Inline Diffs &amp; Plans</h3>
       <ul>
-        <li>Context-aware code completions</li>
-        <li>Multi-line function generation</li>
-        <li>Smart import suggestions</li>
-        <li>Docstring auto-generation</li>
-        <li>Tab to accept, Esc to dismiss</li>
+        <li>Proposed edits shown as inline diffs</li>
+        <li>Accept or reject change by change</li>
+        <li>Review and edit plans before accepting</li>
+        <li>Auto-accept edits mode</li>
+        <li>No autocomplete-style completions</li>
       </ul>
     </div>
     <div class="card amber">
       <h3>Chat Panel</h3>
       <ul>
         <li>Side panel for conversations</li>
-        <li>Reference files with <code>@file</code></li>
-        <li>Reference symbols with <code>@symbol</code></li>
-        <li>Ask questions about your codebase</li>
-        <li>Generate code from descriptions</li>
+        <li><code>@</code>-mention files with line ranges</li>
+        <li>Conversation history</li>
+        <li>Multiple conversations in tabs or windows</li>
+        <li>Bundles its own copy of the CLI</li>
       </ul>
     </div>
     <div class="card purple">
       <h3>Commands</h3>
       <ul>
-        <li><code>Explain Selection</code></li>
-        <li><code>Fix This Code</code></li>
-        <li><code>Add Tests</code></li>
-        <li><code>Refactor Selection</code></li>
-        <li><code>Generate Documentation</code></li>
+        <li><code>Cmd/Ctrl+Esc</code> &mdash; focus editor &harr; Claude</li>
+        <li><code>Accept Change at Cursor</code></li>
+        <li><code>Reject Change at Cursor</code></li>
+        <li>Slash commands and skills in the prompt</li>
+        <li>Plugins from <code>/plugin</code></li>
       </ul>
     </div>
   </div>
   <div class="card blue" style="margin-top: .3em;">
     <h3>Setup</h3>
-    <p>Install from VS Code Marketplace &rarr; Search "Claude" &rarr; Enter API key or sign in with Anthropic account &rarr; Configure model preferences in settings. Supports <span class="b">workspace-level</span> and <span class="b">user-level</span> configuration.</p>
+    <p>Install &ldquo;Claude Code&rdquo; (<code>anthropic.claude-code</code>, VS Code 1.94+) &rarr; sign in with a Claude subscription or Console account &rarr; settings come from the same <span class="b">user</span> and <span class="b">project</span> <code>settings.json</code> files as the CLI.</p>
   </div>
 </section>
 
@@ -362,7 +359,7 @@ jobs:
     <span class="tag">IDE</span>
     <h2>JetBrains Plugin</h2>
   </div>
-  <p>Claude support across the entire JetBrains ecosystem with IDE-native integration.</p>
+  <p>The Claude Code plugin runs the <code>claude</code> CLI in the IDE&rsquo;s terminal and connects it to the editor.</p>
   <div class="cols cols-2">
     <div>
       <div class="card amber" style="margin-bottom: .4em;">
@@ -380,10 +377,10 @@ jobs:
       <div class="card green">
         <h3>IDE-Specific Advantages</h3>
         <ul>
-          <li>Uses JetBrains' PSI for deep code understanding</li>
-          <li>Integrates with built-in refactoring tools</li>
-          <li>Respects IDE-level code style settings</li>
-          <li>Works with project-specific SDK configurations</li>
+          <li>Changes open in the IDE diff viewer</li>
+          <li>Current selection or tab shared automatically</li>
+          <li>Reads IDE inspection diagnostics (lint, syntax)</li>
+          <li>Works with remote development and WSL</li>
         </ul>
       </div>
     </div>
@@ -391,17 +388,17 @@ jobs:
       <div class="card purple" style="margin-bottom: .4em;">
         <h3>Key Features</h3>
         <ul>
-          <li>Tool window for chat-based interaction</li>
-          <li>Intention actions via <code>Alt+Enter</code></li>
-          <li>Smart code generation from context</li>
-          <li>Test generation for selected classes</li>
-          <li>Commit message suggestions</li>
-          <li>Code review before commit</li>
+          <li>Quick launch: <code>Cmd+Esc</code> / <code>Ctrl+Esc</code></li>
+          <li>Insert file references: <code>Cmd+Option+K</code> / <code>Alt+Ctrl+K</code></li>
+          <li>References like <code>@src/auth.ts#L1-99</code></li>
+          <li>Diff tool chosen in <code>/config</code></li>
+          <li>Same CLAUDE.md, skills and settings as the CLI</li>
+          <li>Plugin auto-updates (optional)</li>
         </ul>
       </div>
       <div class="card blue">
         <h3>Installation</h3>
-        <p>Settings &rarr; Plugins &rarr; Marketplace &rarr; Search "Claude" &rarr; Install &rarr; Restart IDE &rarr; Configure API key in Settings &rarr; Tools &rarr; Claude</p>
+        <p>Install the Claude Code CLI first (the plugin does not bundle it) &rarr; Settings &rarr; Plugins &rarr; Marketplace &rarr; &ldquo;Claude Code&rdquo; &rarr; Install &rarr; Restart IDE</p>
       </div>
     </div>
   </div>
@@ -462,7 +459,7 @@ jobs:
     <line x1="400" y1="60" x2="400" y2="85" stroke="#a9cd8e" stroke-width="1.5"/>
     <!-- Protocol layer -->
     <rect x="250" y="148" width="300" height="30" rx="4" fill="#29241f" stroke="#403831" stroke-width="1"/>
-    <text x="400" y="167" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="10">JSON-RPC 2.0 over stdio / HTTP+SSE</text>
+    <text x="400" y="167" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="10">JSON-RPC 2.0 over stdio / Streamable HTTP</text>
     <line x1="400" y1="123" x2="400" y2="148" stroke="#ba9ecc" stroke-width="1.5" stroke-dasharray="4,3"/>
     <!-- MCP Servers -->
     <line x1="300" y1="178" x2="150" y2="225" stroke="#73b9b4" stroke-width="1.5" stroke-dasharray="4,3"/>
@@ -499,7 +496,7 @@ jobs:
     </div>
     <div class="card purple">
       <h3>Transport</h3>
-      <p>Supports <span class="p">stdio</span> for local servers and <span class="p">HTTP+SSE</span> for remote servers</p>
+      <p>Supports <span class="p">stdio</span> for local servers and <span class="p">Streamable HTTP</span> for remote servers (HTTP+SSE is deprecated)</p>
     </div>
   </div>
 </section>
@@ -550,7 +547,7 @@ jobs:
   </div>
   <div class="card red" style="margin-top: .1em;">
     <h3>Server Discovery</h3>
-    <p>Find servers at <span class="mono r">github.com/modelcontextprotocol/servers</span> &mdash; the official registry of reference and community MCP server implementations. Configuration is managed through <span class="mono">claude_desktop_config.json</span> or project-level <span class="mono">.mcp.json</span> files.</p>
+    <p>Find reviewed servers in the <span class="mono r">claude.ai/directory</span>; <span class="mono r">github.com/modelcontextprotocol/servers</span> keeps a few reference servers (many older ones, such as GitHub and Postgres, are archived). Configuration is managed through <span class="mono">claude_desktop_config.json</span> or project-level <span class="mono">.mcp.json</span> files.</p>
   </div>
 </section>
 
@@ -563,65 +560,53 @@ jobs:
   <div class="cols cols-6040">
     <div>
       <h3>TypeScript MCP Server Example</h3>
-      <pre><code class="language-typescript">import { Server } from "@modelcontextprotocol/sdk/server";
-import { StdioTransport }
-  from "@modelcontextprotocol/sdk/server/stdio";
+      <pre><code class="language-typescript">import { McpServer } from "@modelcontextprotocol/server";
+import { serveStdio }
+  from "@modelcontextprotocol/server/stdio";
+import { z } from "zod";
 
-const server = new Server({
-  name: "my-custom-server",
-  version: "1.0.0",
-});
+// serveStdio may ask for several instances,
+// so build a fresh server on each call
+function createServer() {
+  const server = new McpServer({
+    name: "my-custom-server",
+    version: "1.0.0",
+  });
 
-// Define a tool
-server.setRequestHandler(
-  "tools/list",
-  async () => ({
-    tools: [{
-      name: "search_docs",
+  // Define a tool: name, schema, handler
+  server.registerTool(
+    "search_docs",
+    {
       description: "Search internal documentation",
-      inputSchema: {
-        type: "object",
-        properties: {
-          query: {
-            type: "string",
-            description: "Search query"
-          }
-        },
-        required: ["query"]
-      }
-    }]
-  })
-);
-
-// Handle tool calls
-server.setRequestHandler(
-  "tools/call",
-  async (request) => {
-    if (request.params.name === "search_docs") {
-      const results = await searchDocs(
-        request.params.arguments.query
-      );
+      inputSchema: z.object({
+        query: z.string().describe("Search query"),
+      }),
+    },
+    async ({ query }) => {
+      const results = await searchDocs(query);
       return {
         content: [{
           type: "text",
-          text: JSON.stringify(results)
-        }]
+          text: JSON.stringify(results),
+        }],
       };
-    }
-  }
-);
+    },
+  );
 
-const transport = new StdioTransport();
-await server.connect(transport);</code></pre>
+  return server;
+}
+
+// Answers both 2026-07-28 and 2025-era clients
+serveStdio(createServer);</code></pre>
     </div>
     <div>
       <div class="card amber" style="margin-bottom: .3em;">
         <h3>Available SDKs</h3>
         <ul>
-          <li><span class="a">TypeScript</span> &mdash; @modelcontextprotocol/sdk</li>
+          <li><span class="a">TypeScript</span> &mdash; @modelcontextprotocol/server</li>
           <li><span class="g">Python</span> &mdash; mcp Python package</li>
           <li><span class="b">Kotlin</span> &mdash; JVM-based server SDK</li>
-          <li><span class="p">C#</span> &mdash; .NET SDK</li>
+          <li><span class="p">C#</span> &mdash; .NET SDK; also Java, Go, Rust, Swift, Ruby, PHP</li>
         </ul>
       </div>
       <div class="card green" style="margin-bottom: .3em;">
@@ -637,7 +622,7 @@ await server.connect(transport);</code></pre>
         <h3>Deployment Options</h3>
         <ul>
           <li><span class="p">Local</span> &mdash; stdio transport, runs as subprocess</li>
-          <li><span class="p">Remote</span> &mdash; HTTP+SSE, deploy anywhere</li>
+          <li><span class="p">Remote</span> &mdash; Streamable HTTP, deploy anywhere</li>
           <li><span class="p">Container</span> &mdash; Docker for isolation</li>
           <li><span class="p">Serverless</span> &mdash; AWS Lambda, Cloud Functions</li>
         </ul>
@@ -656,29 +641,26 @@ await server.connect(transport);</code></pre>
   <div class="cols cols-6040">
     <div>
       <h3>Bedrock API Example</h3>
-      <pre><code class="language-python">import boto3
-import json
+      <pre><code class="language-python"># pip install -U "anthropic[bedrock]"
+from anthropic import AnthropicBedrockMantle
 
-client = boto3.client(
-    "bedrock-runtime",
-    region_name="us-east-1"
+# Bedrock's Messages-API endpoint; uses the
+# standard AWS credential chain (IAM, SSO...)
+client = AnthropicBedrockMantle(
+    aws_region="us-east-1"
 )
 
-response = client.invoke_model(
-    modelId="anthropic.claude-sonnet-4-20250514",
-    body=json.dumps({
-        "anthropic_version": "bedrock-2023-05-31",
-        "messages": [{
-            "role": "user",
-            "content": "Explain microservices."
-        }],
-        "max_tokens": 1024,
-        "temperature": 0.7
-    })
+message = client.messages.create(
+    model="anthropic.claude-sonnet-5-5",
+    max_tokens=1024,
+    messages=[{
+        "role": "user",
+        "content": "Explain microservices."
+    }],
 )
 
-result = json.loads(response["body"].read())
-print(result["content"][0]["text"])</code></pre>
+print(next(b.text for b in message.content
+           if b.type == "text"))</code></pre>
     </div>
     <div>
       <div class="card amber" style="margin-bottom: .3em;">
@@ -721,11 +703,11 @@ print(result["content"][0]["text"])</code></pre>
 
 client = AnthropicVertex(
     project_id="my-gcp-project",
-    region="us-east5"
+    region="global"
 )
 
 response = client.messages.create(
-    model="claude-sonnet-4@20250514",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{
         "role": "user",
@@ -757,7 +739,7 @@ print(response.content[0].text)</code></pre>
       </div>
       <div class="card purple">
         <h3>Supported Regions</h3>
-        <p><span class="p">us-east5</span>, <span class="p">europe-west1</span>, <span class="p">asia-southeast1</span> &mdash; check availability for latest regions</p>
+        <p><span class="p">global</span> endpoint by default; multi-region and regional endpoints cost 10% more &mdash; check availability for latest regions</p>
       </div>
     </div>
   </div>
@@ -975,8 +957,7 @@ from langchain.agents import create_tool_calling_agent
 from langchain.tools import tool
 
 llm = ChatAnthropic(
-    model="claude-sonnet-4-20250514",
-    temperature=0
+    model="claude-sonnet-5-5",
 )
 
 @tool
@@ -1003,7 +984,7 @@ from llama_index.core import (
 )
 
 llm = Anthropic(
-    model="claude-sonnet-4-20250514"
+    model="claude-sonnet-5-5"
 )
 
 # Build index from documents
@@ -1054,7 +1035,7 @@ const client = new Anthropic();
 
 // Streaming response
 const stream = await client.messages.stream({
-  model: "claude-sonnet-4-20250514",
+  model: "claude-sonnet-5-5",
   max_tokens: 1024,
   system: "You are a helpful assistant.",
   messages: [
@@ -1250,7 +1231,7 @@ for await (const event of stream) {
       <ul>
         <li><span class="b">AWS Bedrock</span> &mdash; VPC, IAM, compliance</li>
         <li><span class="b">Google Vertex AI</span> &mdash; GCP-native integration</li>
-        <li><span class="b">Microsoft Azure AI Foundry</span> &mdash; Azure-native access</li>
+        <li><span class="b">Microsoft Foundry</span> &mdash; Azure-native access</li>
         <li><span class="b">SSO, RBAC, data residency</span> for enterprise</li>
         <li><span class="b">SOC 2, GDPR, HIPAA</span> compliance paths</li>
       </ul>
@@ -1266,7 +1247,7 @@ for await (const event of stream) {
     </div>
   </div>
   <div style="text-align: center; margin-top: .5em;">
-    <p style="color: var(--muted); font-size: .48em;">Next: <span class="a">07 &mdash; Safety &amp; Alignment</span></p>
+    <p style="color: var(--muted); font-size: .48em;">Next: <span class="a">07 &mdash; Agents &amp; Multi-Agent Systems</span></p>
   </div>
 </section>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Cowork — Autonomous Background Agents in Cloud VMs</title>
+  <title>Claude Cowork — Autonomous Agents in a Local VM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,13 +114,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div style="margin-top: 2em;">
     <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 13</p>
     <h1>Claude Cowork</h1>
-    <div class="subtitle">Autonomous Agents in Cloud VMs</div>
+    <div class="subtitle">Autonomous Agents in a VM on Your Computer</div>
     <p style="font-size:.55em; color:var(--muted); max-width:32em;">
       Hand Claude a task and walk away. Each session is a real VM with browser, terminal, Python, Node, and Git &mdash; driven autonomously.
     </p>
     <div style="margin-top:1.2em;">
       <span class="pill blue">Cowork</span>
-      <span class="pill green">Cloud VMs</span>
+      <span class="pill green">Local VM</span>
       <span class="pill purple">Dispatch</span>
     </div>
   </div>
@@ -128,8 +128,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 
 <section>
   <div class="slide-hdr"><span class="tag">01</span><h2>What It Is</h2></div>
-  <p>Cowork is the <span class="b">autonomous</span> tab of Claude Desktop. Hand it a goal; it runs in an Anthropic-hosted VM until done.</p>
-  <div class="card blue" style="margin-top:.4em;"><h3>Is</h3><ul><li>Agent loop in a real VM</li><li>Detached &mdash; keeps running if you close the app</li><li>Live video feed of progress</li><li>Persistent workspace for the task</li></ul></div>
+  <p>Cowork is the <span class="b">autonomous</span> tab of Claude Desktop. Hand it a goal; its commands run in a sandboxed VM that the app hosts on your computer until done. Cowork and chat are merging into one Claude (from September 2026).</p>
+  <div class="card blue" style="margin-top:.4em;"><h3>Is</h3><ul><li>Agent loop in a real VM</li><li>Works directly with your local files</li><li>Live video feed of progress</li><li>Persistent workspace for the task</li></ul></div>
   <div class="card red" style="margin-top:.4em;"><h3>Is Not</h3><ul><li>Not a server you SSH into</li><li>Not running on your machine</li><li>Not the Code tab</li><li>Not offline</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><p><span class="g">Core idea:</span> give Claude a body &mdash; a computer it can use &mdash; so you can delegate tasks that don&rsquo;t fit in a chat turn.</p></div>
 </section>
@@ -143,7 +143,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td>macOS (Intel)</td><td class="r">No</td></tr>
       <tr><td>Windows x64</td><td class="g">Yes</td></tr>
       <tr><td>Windows ARM64</td><td class="g">Yes</td></tr>
-      <tr><td>Linux</td><td class="r">No app</td></tr>
+      <tr><td>Linux</td><td class="a">Beta (KVM/QEMU)</td></tr>
     </tbody>
   </table>
   <div class="card blue" style="margin-top:.4em;"><h3>VM Image</h3><ul><li>Linux desktop, browser, terminal</li><li><code>git</code>, <code>python</code>, <code>node</code>, build tools</li><li>Persistent <code>~/workspace</code></li></ul></div>
@@ -156,7 +156,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="card blue" style="margin-top:.4em;"><h3>1. Goal</h3><ul><li>Describe the outcome, not the steps</li><li>State success criteria</li><li>Paste URLs / ticket numbers</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><h3>2. Context</h3><ul><li>Drag files &rarr; land in <code>~/workspace</code></li><li>Link a Project</li><li>Enable connectors</li></ul></div>
   <div class="card purple" style="margin-top:.4em;"><h3>3. Model &amp; Mode</h3><ul><li>Opus / Sonnet / Haiku</li><li>Extended thinking</li><li>Ask-before-risky toggle</li></ul></div>
-  <div class="card amber" style="margin-top:.4em;"><h3>4. Launch</h3><ul><li>VM spins up in seconds</li><li>Live feed on the right</li><li>Close the app &mdash; it keeps going</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>4. Launch</h3><ul><li>VM spins up in seconds</li><li>Live feed on the right</li><li>Get a notification when it finishes</li></ul></div>
 </section>
 
 <section>
@@ -164,7 +164,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="card blue" style="margin-top:.4em;"><h3>Computer Use</h3><ul><li>Mouse, keyboard, vision</li><li>Real browser &mdash; fills forms</li><li>Screenshots at any step</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><h3>Shell &amp; Dev</h3><ul><li>Terminal, <code>git</code>, builds</li><li>Install pkgs (<code>apt</code>, <code>pip</code>, <code>npm</code>)</li><li>VS Code server</li></ul></div>
   <div class="card purple" style="margin-top:.4em;"><h3>Data</h3><ul><li>Python, pandas, matplotlib</li><li>Read/write <code>~/workspace</code></li></ul></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Can&rsquo;t</h3><ul><li>Reach your localhost, LAN, or private network</li><li>Run stdio MCP servers from your machine</li><li>Connect to plain HTTP or self-signed cert endpoints</li><li>Share state between tasks &middot; GPU workloads</li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Can&rsquo;t</h3><ul><li>Run stdio MCP servers from your machine</li><li>Connect to plain HTTP or self-signed cert endpoints</li><li>Share state between tasks &middot; GPU workloads</li></ul></div>
 </section>
 
 <section>
@@ -197,7 +197,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <table>
     <thead><tr><th>Dimension</th><th>Cowork</th><th>Code</th><th>CLI</th></tr></thead>
     <tbody>
-      <tr><td>Runs in</td><td class="b">Cloud VM</td><td class="a">Local/SSH</td><td class="a">Local</td></tr>
+      <tr><td>Runs in</td><td class="b">VM on your computer</td><td class="a">Local/SSH</td><td class="a">Local</td></tr>
       <tr><td>Supervision</td><td class="b">Auto</td><td class="a">Approve</td><td class="a">Approve</td></tr>
       <tr><td>Your files</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
       <tr><td>Runs when closed</td><td class="g">Yes</td><td class="g">Remote</td><td class="r">No</td></tr>

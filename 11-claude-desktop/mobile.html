@@ -131,7 +131,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="slide-hdr"><span class="tag">01</span><h2>What Is It?</h2></div>
   <p>Claude Desktop is the <span class="a">native app</span> for Claude on macOS and Windows. A signed-in wrapper around <code>claude.ai</code> with system integration a browser can&rsquo;t give you.</p>
   <div class="card purple" style="margin-top:.4em;"><h3>Chat</h3><ul><li>Conversation, Projects, Artifacts</li><li>Files, images, voice</li><li>Extended thinking, Styles</li></ul></div>
-  <div class="card blue" style="margin-top:.4em;"><h3>Cowork</h3><ul><li>Autonomous background agent</li><li>Runs in an Anthropic-hosted VM</li><li>Dispatch from your phone</li></ul></div>
+  <div class="card blue" style="margin-top:.4em;"><h3>Cowork</h3><ul><li>Autonomous background agent</li><li>Runs in a VM the app hosts on your computer</li><li>Dispatch from your phone</li></ul></div>
   <div class="card amber" style="margin-top:.4em;"><h3>Code</h3><ul><li>Interactive pair programming</li><li>Local files, visual diffs</li><li>Same engine as the CLI</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><p><span class="g">Why native?</span> Global hotkey, menu-bar/tray icon, drag-and-drop, native notifications, and installable MCP connectors.</p></div>
 </section>
@@ -144,7 +144,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td><span class="a">macOS</span></td><td>Universal <code>.dmg</code></td></tr>
       <tr><td><span class="a">Windows x64</span></td><td><code>Setup.exe</code></td></tr>
       <tr><td><span class="a">Windows ARM64</span></td><td>Separate installer</td></tr>
-      <tr><td><span class="r">Linux</span></td><td><span class="r">Not supported</span></td></tr>
+      <tr><td><span class="r">Linux</span></td><td><span class="a">Beta</span> (apt)</td></tr>
     </tbody>
   </table>
   <div class="card amber" style="margin-top:.4em;"><h3>First Launch</h3><ol><li>Run the installer</li><li>Sign in with your Anthropic account</li><li>Approve the OAuth redirect</li><li>Your plan, Projects, chat history follow the account</li></ol></div>
@@ -163,18 +163,18 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 
 <section>
   <div class="slide-hdr"><span class="tag">04</span><h2>Cowork Tab</h2></div>
-  <p>Hand Claude a task and walk away. Each task runs in an <span class="b">Anthropic-hosted VM</span> with its own filesystem, network, and tools.</p>
+  <p>Hand Claude a task and walk away. Each task&rsquo;s commands run in a <span class="b">sandboxed VM the app hosts on your computer</span>, with access to your local files.</p>
   <div class="card blue" style="margin-top:.4em;"><h3>Typical Uses</h3><ul><li>Research and comparison writeups</li><li>Clone repo, run tests, open PR</li><li>Monitor a PR queue</li><li>Draft status emails from tickets</li></ul></div>
   <div class="card purple" style="margin-top:.4em;"><h3>Free in the VM</h3><ul><li>Browser, terminal, Python, Node, Git</li><li>Persistent workspace</li><li>Live video of progress</li><li>Dispatch from phone</li></ul></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Caveat</h3><p>macOS Cowork requires <span class="r">Apple Silicon (M1+)</span>. Windows: all supported hardware.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Caveat</h3><p>Needs hardware virtualisation: Apple Silicon on macOS (as of early 2026), Virtual Machine Platform on Windows, KVM on Linux.</p></div>
   <p style="margin-top:.3em;">&rarr; Presentation <span class="b">13</span> is the Cowork deep dive.</p>
 </section>
 
 <section>
   <div class="slide-hdr"><span class="tag">05</span><h2>Code Tab</h2></div>
-  <p>GUI for the same engine as the <code>claude</code> CLI. Pick a folder (local / SSH / Anthropic cloud) and Claude edits files with you.</p>
+  <p>GUI for the same engine as the <code>claude</code> CLI. Pick a folder (local / SSH / cloud) and Claude edits files with you.</p>
   <div class="card amber" style="margin-top:.4em;"><h3>What&rsquo;s Graphical</h3><ul><li>Side-by-side visual diffs</li><li>Permission dialogs</li><li>Live app preview pane</li><li>Parallel sessions in Git worktrees</li></ul></div>
-  <div class="card green" style="margin-top:.4em;"><h3>Shared With CLI (macOS)</h3><ul><li><code>CLAUDE.md</code>, hooks, sub-agents</li><li>Slash commands, skills, memory</li><li>MCP servers configured once</li><li><span class="r">Windows:</span> MSIX sandbox breaks sharing &mdash; use Desktop UI for MCP</li></ul></div>
+  <div class="card green" style="margin-top:.4em;"><h3>Shared With CLI</h3><ul><li><code>CLAUDE.md</code>, hooks, sub-agents</li><li>Slash commands, skills, memory</li><li>MCP servers configured once</li><li><span class="r">Windows:</span> early-2026 docs reported an MSIX caveat (not in current docs)</li></ul></div>
   <p style="margin-top:.3em;">&rarr; Presentation <span class="a">12</span> is the Code tab deep dive.</p>
 </section>
 
@@ -214,11 +214,11 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td>Visual diffs</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Global hotkey</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Local MCP</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td></tr>
-      <tr><td>Linux</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Linux</td><td class="a">Beta</td><td class="g">Yes</td><td class="g">Yes</td></tr>
     </tbody>
   </table>
-  <div class="card amber" style="margin-top:.4em;"><p><span class="a">Rule of thumb:</span> Desktop for one window with OS integration; Web on a machine you don&rsquo;t control or on Linux; CLI in a terminal or scripts. Same account across all three.</p></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Windows: Config Not Shared</h3><p>The MSIX installer sandboxes Desktop. CLI (PowerShell) writes to <code>%USERPROFILE%\.claude.json</code>; Desktop reads from a virtualized path. <code>claude mcp add</code> <span class="r">does not reach Desktop</span>. Add MCP servers through the Desktop UI. WSL2 adds a third separate config. On <span class="g">macOS</span>, CLI and Desktop share config seamlessly.</p></div>
+  <div class="card amber" style="margin-top:.4em;"><p><span class="a">Rule of thumb:</span> Desktop for one window with OS integration; Web on a machine you don&rsquo;t control; CLI in a terminal or scripts. Same account across all three.</p></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows: Early-2026 Caveat</h3><p>Early-2026 docs: the MSIX installer sandboxed Desktop. CLI (PowerShell) writes to <code>%USERPROFILE%\.claude.json</code>; Desktop reads from a virtualized path. <code>claude mcp add</code> <span class="r">does not reach Desktop</span>. Add MCP servers through the Desktop UI. WSL2 adds a third separate config. On <span class="g">macOS</span>, CLI and Desktop share config seamlessly.</p></div>
 </section>
 
 <section>
@@ -233,8 +233,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div class="slide-hdr"><span class="tag">10</span><h2>Config by Platform</h2></div>
   <div class="card amber" style="margin-top:.4em;"><h3>macOS</h3><ul><li>Chat MCP: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li><li>Code CLI / Code tab: <code>~/.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>~/.claude/settings.json</code></li><li>Logs: <code>~/Library/Logs/Claude/</code></li></ul></div>
   <div class="card green" style="margin-top:.4em;"><h3>Windows (CLI paths)</h3><ul><li>Chat MCP: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li><li>Code CLI: <code>%USERPROFILE%\.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>%USERPROFILE%\.claude\settings.json</code></li><li>Logs: <code>%APPDATA%\Claude\logs\</code></li></ul></div>
-  <div class="card purple" style="margin-top:.4em;"><h3>Linux</h3><ul><li>No Desktop app</li><li>Code CLI: <code>~/.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>~/.claude/settings.json</code></li><li>Logs: <code>~/.claude/logs/</code></li></ul></div>
-  <div class="card red" style="margin-top:.4em;"><h3>Windows: MSIX Sandbox</h3><p>Desktop&rsquo;s MSIX package virtualizes its filesystem. CLI paths above are what the <em>CLI</em> reads &mdash; Desktop reads from <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\</code>. <code>claude mcp add</code> does not reach Desktop. WSL2 adds a third config surface. Use the Desktop UI for MCP on Windows.</p></div>
+  <div class="card purple" style="margin-top:.4em;"><h3>Linux</h3><ul><li>Desktop app in beta (apt)</li><li>Code CLI: <code>~/.claude.json</code> + <code>.mcp.json</code></li><li>Settings: <code>~/.claude/settings.json</code></li><li>Debug logs: <code>~/.claude/debug/</code></li></ul></div>
+  <div class="card red" style="margin-top:.4em;"><h3>Windows: MSIX (early-2026 docs)</h3><p>Early-2026 docs: Desktop&rsquo;s MSIX package virtualized its filesystem. CLI paths above are what the <em>CLI</em> reads &mdash; Desktop reads from <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\</code>. <code>claude mcp add</code> does not reach Desktop. WSL2 adds a third config surface. Use the Desktop UI for MCP on Windows.</p></div>
   <div class="card blue" style="margin-top:.4em;"><h3>All Platforms</h3><p>Project instructions: <code>CLAUDE.md</code> / <code>CLAUDE.local.md</code> in project root. Project MCP: <code>.mcp.json</code> in project root.</p></div>
 </section>
 
@@ -267,7 +267,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
 <section>
   <div class="slide-hdr"><span class="tag">13</span><h2>Troubleshooting</h2></div>
   <div class="card red" style="margin-top:.4em;"><h3>Sign-in Loops</h3><ul><li>Quit fully, relaunch, sign in again</li><li>Clear OAuth from the keychain</li><li>403 &rarr; sign out from app menu</li></ul></div>
-  <div class="card amber" style="margin-top:.4em;"><h3>Cowork Missing</h3><ul><li>macOS: check <code>uname -m</code> &rarr; <code>arm64</code></li><li>Free plans: no Cowork tab</li><li>Region rollout &mdash; see Account</li></ul></div>
+  <div class="card amber" style="margin-top:.4em;"><h3>Cowork Missing</h3><ul><li>Check hardware virtualisation is available</li><li>Free plans: no Cowork tab</li><li>Region rollout &mdash; see Account</li></ul></div>
   <div class="card blue" style="margin-top:.4em;"><h3>Connectors</h3><ul><li>Local ones need the target app installed</li><li>Remote ones need OAuth</li><li>Corporate firewall may block MCP WebSocket</li></ul></div>
   <div class="card green" style="margin-top:.4em;"><h3>Logs</h3><ul><li><code>~/Library/Logs/Claude</code> (mac)</li><li><code>%APPDATA%\Claude\logs</code> (win)</li><li>Help &rarr; Send Feedback attaches them</li></ul></div>
   <div style="margin-top:.4em; text-align:center;">
