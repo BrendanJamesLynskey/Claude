@@ -162,7 +162,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <div class="card green">
       <h3>What It Offers</h3>
       <ul>
-        <li>Multi-model access (Haiku, Sonnet, Opus)</li>
+        <li>Multi-model access (Haiku, Sonnet, Opus, Fable)</li>
         <li>Rich artifacts &mdash; code, docs, diagrams</li>
         <li>Project-based organization &amp; context</li>
         <li>File uploads, images, extended thinking</li>
@@ -171,7 +171,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
   <div class="card blue" style="margin-top:.4em;">
     <h3>Tiers</h3>
-    <p><span class="b">Free</span> &mdash; limited messages &nbsp;|&nbsp; <span class="g">Pro ($20/mo)</span> &mdash; 5x usage, all models &nbsp;|&nbsp; <span class="a">Max ($100/mo or $200/mo)</span> &mdash; 20x usage &nbsp;|&nbsp; <span class="p">Team ($30/seat/mo)</span> &mdash; shared workspaces &nbsp;|&nbsp; <span class="a">Enterprise</span> &mdash; SSO, audit, custom retention</p>
+    <p><span class="b">Free</span> &mdash; limited messages &nbsp;|&nbsp; <span class="g">Pro ($20/mo)</span> &mdash; at least 5x Free usage, Opus &nbsp;|&nbsp; <span class="a">Max (from $100/mo)</span> &mdash; 5x or 20x Pro usage &nbsp;|&nbsp; <span class="p">Team ($25/seat/mo, $20 yearly)</span> &mdash; shared workspaces &nbsp;|&nbsp; <span class="a">Enterprise</span> &mdash; SSO, audit, custom retention</p>
   </div>
 </section>
 
@@ -280,7 +280,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li>Most capable &amp; nuanced</li>
         <li>Complex reasoning &amp; research</li>
         <li>Long-form writing &amp; strategy</li>
-        <li>Pro/Team/Enterprise only</li>
+        <li>Paid plans only (Fable: Max, or usage credits)</li>
       </ul>
     </div>
   </div>
@@ -396,7 +396,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <text x="460" y="96" font-family="Instrument Sans" font-size="7.5" fill="#c8bfb3">A/B test ideas</text>
     <!-- Bottom note -->
     <text x="50" y="140" font-family="Instrument Sans" font-size="9" fill="#988d82">All conversations in this project automatically inherit instructions + knowledge.</text>
-    <text x="50" y="155" font-family="Instrument Sans" font-size="9" fill="#988d82">Up to 200k tokens of project context available per conversation.</text>
+    <text x="50" y="155" font-family="Instrument Sans" font-size="9" fill="#988d82">Current models offer a 1M-token context window per conversation.</text>
   </svg>
   <div class="cols cols-3" style="margin-top:.2em;">
     <div class="card amber">
@@ -437,7 +437,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <ul>
           <li>Files are loaded into Claude's context window</li>
           <li>Knowledge is available in <em>every</em> project conversation</li>
-          <li>Max ~200k tokens of combined knowledge</li>
+          <li>Large files are retrieved by relevance when knowledge exceeds context</li>
           <li>Claude can reference, quote, and reason over docs</li>
         </ul>
       </div>
@@ -847,7 +847,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <span class="tag">16</span>
     <h2>Claude.ai for Teams</h2>
   </div>
-  <p><span class="a">$30/seat/month</span> &mdash; Designed for collaborative workgroups who need shared context and admin controls.</p>
+  <p><span class="a">$25/seat/month ($20 billed yearly)</span>, 2&ndash;150 seats &mdash; Designed for collaborative workgroups who need shared context and admin controls.</p>
   <div class="cols cols-3" style="margin-top:.3em;">
     <div class="card amber">
       <h3>Shared Workspaces</h3>
@@ -939,10 +939,10 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   </div>
   <table style="margin-top:.3em;">
     <tr><th>Plan</th><th>Models</th><th>Message Limits</th><th>Rate Reset</th></tr>
-    <tr><td><span class="b">Free</span></td><td>Sonnet, Haiku</td><td>Limited daily messages</td><td>Every ~8 hours</td></tr>
-    <tr><td><span class="g">Pro ($20/mo)</span></td><td>All (incl. Opus)</td><td>5x more than Free</td><td>Every ~5 hours</td></tr>
-    <tr><td><span class="a">Max ($100/mo or $200/mo)</span></td><td>All (incl. Opus)</td><td>20x more than Free</td><td>Every ~5 hours</td></tr>
-    <tr><td><span class="p">Team ($30/seat)</span></td><td>All (incl. Opus)</td><td>Higher than Pro</td><td>Every ~5 hours</td></tr>
+    <tr><td><span class="b">Free</span></td><td>Sonnet, Haiku</td><td>Limited usage</td><td>Every ~5 hours</td></tr>
+    <tr><td><span class="g">Pro ($20/mo)</span></td><td>All (incl. Opus)</td><td>At least 5x Free</td><td>Every ~5 hours</td></tr>
+    <tr><td><span class="a">Max (from $100/mo)</span></td><td>All (incl. Fable)</td><td>5x or 20x Pro</td><td>Every ~5 hours</td></tr>
+    <tr><td><span class="p">Team ($25/seat)</span></td><td>All (incl. Opus)</td><td>Standard: more than Pro; premium: 5x standard</td><td>Every ~5 hours</td></tr>
     <tr><td><span class="a">Enterprise</span></td><td>All + custom</td><td>Negotiated volume</td><td>Custom SLA</td></tr>
   </table>
   <div class="cols cols-2" style="margin-top:.3em;">
@@ -953,7 +953,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li>Longer conversations use more per message (growing context)</li>
         <li>File uploads add to input tokens</li>
         <li>Extended thinking uses additional tokens</li>
-        <li>Opus costs ~5x more tokens than Haiku per message</li>
+        <li>Larger models use more of your limit per message than Haiku</li>
       </ul>
     </div>
     <div class="card green">
