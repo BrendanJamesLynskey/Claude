@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Cowork — Autonomous Background Agents in Cloud VMs</title>
+  <title>Claude Cowork — Autonomous Agents in a Local VM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,15 +128,15 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div style="margin-top: 2em;">
     <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 13</p>
     <h1>Claude Cowork</h1>
-    <div class="subtitle">Autonomous Background Agents in Anthropic-Hosted Cloud VMs</div>
+    <div class="subtitle">Autonomous Agents in a Sandboxed VM on Your Computer</div>
     <p style="font-size:.5em; color:var(--muted); max-width:34em;">
-      Hand Claude a task and walk away. Each Cowork session is a real virtual machine &mdash; browser, terminal, Python,
+      Hand Claude a task and walk away. Claude runs a task&rsquo;s commands inside a virtual machine that the desktop app hosts on your computer, working with your local files,
       Node, Git &mdash; that Claude drives autonomously while you watch live, or ignore, or queue up five more.
       Pair it with <span class="b">Dispatch</span> and you can kick off the same task from your phone.
     </p>
     <div style="margin-top:1.2em;">
       <span class="pill blue">Cowork Tab</span>
-      <span class="pill green">Cloud VMs</span>
+      <span class="pill green">Local VM</span>
       <span class="pill purple">Dispatch</span>
       <span class="pill amber">Parallel Agents</span>
     </div>
@@ -152,13 +152,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
     <span class="tag">01</span>
     <h2>What Cowork Is &mdash; and What It Isn&rsquo;t</h2>
   </div>
-  <p>Cowork is the <span class="b">autonomous</span> mode of the Claude Desktop app. Unlike Chat (stateless turn-by-turn) or Code (you approve every edit), a Cowork session is handed a goal and then runs on its own inside a cloud-hosted virtual machine until it finishes, asks for input, or hits its budget.</p>
+  <p>Cowork is the <span class="b">autonomous</span> mode of the Claude Desktop app. Unlike Chat (stateless turn-by-turn) or Code (you approve every edit), a Cowork session is handed a goal and then runs on its own &mdash; shell commands inside a sandboxed VM on your machine &mdash; until it finishes or asks for input. Since September 2026, Cowork and chat are merging into one Claude on Pro and Max.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card blue">
       <h3>What It Is</h3>
       <ul>
         <li>An agent loop running inside a real VM &mdash; filesystem, network, desktop environment</li>
-        <li>Detached from your machine &mdash; close the app, it keeps running</li>
+        <li>Works directly with files on your computer &mdash; no uploads</li>
         <li>Live video feed so you can watch it click, type, and browse</li>
         <li>Persistent workspace for the task&rsquo;s lifetime</li>
         <li>Composable &mdash; tasks can trigger other tasks, or report back on a schedule</li>
@@ -168,7 +168,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3>What It Is Not</h3>
       <ul>
         <li><span class="r">Not</span> a rented server you SSH into &mdash; Claude is the only user</li>
-        <li><span class="r">Not</span> a container on your machine &mdash; it runs in Anthropic&rsquo;s cloud</li>
+        <li><span class="r">Not</span> a cloud VM &mdash; the VM runs on your device (Apple Virtualization, Windows Virtual Machine Platform, or KVM/QEMU on Linux)</li>
         <li><span class="r">Not</span> the Code tab &mdash; Cowork is for goals you&rsquo;d rather not supervise</li>
         <li><span class="r">Not</span> the API&rsquo;s managed-agent endpoint &mdash; this is the consumer-product surface</li>
         <li><span class="r">Not</span> offline &mdash; a network and your Anthropic account are required</li>
@@ -198,7 +198,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <tr><td><span class="a">macOS (Intel)</span></td><td class="r">Hidden</td><td>Chat and Code still work</td></tr>
           <tr><td><span class="a">Windows x64</span></td><td class="g">Supported</td><td>Win 10 and later</td></tr>
           <tr><td><span class="a">Windows ARM64</span></td><td class="g">Supported</td><td>Native build</td></tr>
-          <tr><td><span class="r">Linux</span></td><td class="r">No desktop app</td><td>Use <code>claude.ai</code> or the CLI</td></tr>
+          <tr><td><span class="r">Linux</span></td><td class="a">Beta</td><td>apt package; needs KVM and QEMU</td></tr>
         </tbody>
       </table>
       <h3 style="margin-top:.3em;">Plans</h3>
@@ -209,7 +209,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
         <li><span class="g">Team / Enterprise</span> &mdash; pooled quota, admin controls, audit log</li>
       </ul>
       <h3 style="margin-top:.3em;">Network</h3>
-      <p>Your machine only needs outbound HTTPS to Anthropic. The VM&rsquo;s own outbound network goes through Anthropic&rsquo;s infrastructure &mdash; so any site that allow-lists by IP will see an Anthropic range, not yours.</p>
+      <p>The VM runs on your machine and follows your operating system&rsquo;s proxy settings; the app downloads the Cowork workspace image (about 20 GB of disk, 8 GB RAM recommended on Windows) the first time you start a task.</p>
     </div>
     <div>
       <div class="card blue">
@@ -282,7 +282,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <li>Click send &mdash; a VM spins up in a few seconds</li>
           <li>Live desktop feed appears on the right</li>
           <li>Chat transcript on the left mirrors Claude&rsquo;s reasoning and tool calls</li>
-          <li>You can close the window &mdash; the task keeps running</li>
+          <li>You can switch to other work &mdash; the app notifies you when the task finishes</li>
         </ul>
       </div>
     </div>
@@ -339,7 +339,6 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
   <div class="card red" style="margin-top:.3em;">
     <h3>What It Can&rsquo;t Do</h3>
     <ul>
-      <li>Reach your local network, localhost, or LAN hosts &mdash; the VM resolves DNS from Anthropic&rsquo;s infrastructure</li>
       <li>Run stdio MCP servers from your machine &mdash; use the Code or Chat tab for those</li>
       <li>Connect to plain HTTP (no TLS) or self-signed-certificate MCP endpoints</li>
       <li>Persist state between unrelated tasks (each task gets a fresh VM)</li>
@@ -417,7 +416,7 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
         <ul>
           <li>Open the Claude mobile app &rarr; Dispatch tab</li>
           <li>Type a goal or dictate with voice</li>
-          <li>Tap send &mdash; Anthropic provisions a Cowork VM</li>
+          <li>Tap send &mdash; your desktop app picks the task up (keep it running and online)</li>
           <li>Push notification when the task is done or needs input</li>
           <li>Open the desktop app later to see the full transcript and artefacts</li>
         </ul>
@@ -508,10 +507,10 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
   <table>
     <thead><tr><th>Dimension</th><th>Cowork</th><th>Code Tab</th><th>Claude Code CLI</th></tr></thead>
     <tbody>
-      <tr><td>Where it runs</td><td class="b">Anthropic cloud VM</td><td class="a">Local / SSH / cloud</td><td class="a">Local / SSH</td></tr>
+      <tr><td>Where it runs</td><td class="b">VM on your computer</td><td class="a">Local / SSH / cloud</td><td class="a">Local / SSH</td></tr>
       <tr><td>Supervision</td><td class="b">Autonomous</td><td class="a">Interactive, approve each step</td><td class="a">Interactive (with modes)</td></tr>
       <tr><td>Access to your files</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
-      <tr><td>Runs while app is closed</td><td class="g">Yes</td><td class="g">Yes (remote)</td><td class="r">No</td></tr>
+      <tr><td>Runs while app is closed</td><td class="r">No (desktop app hosts the VM)</td><td class="g">Yes (remote)</td><td class="r">No</td></tr>
       <tr><td>Computer use / GUI apps</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
       <tr><td>Mobile entry point</td><td class="g">Dispatch</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Good for long research</td><td class="g">Excellent</td><td class="a">OK</td><td class="a">OK</td></tr>
@@ -542,7 +541,7 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
           <li>No connector tokens written to the VM disk</li>
           <li>Connectors enforce per-tool allow-lists &mdash; risky writes still prompt you</li>
           <li>Audit log of every tool call (Enterprise)</li>
-          <li>VM outbound traffic goes via Anthropic infrastructure</li>
+          <li>VM traffic follows your OS proxy settings; admins can set allowed network hosts</li>
         </ul>
       </div>
       <div class="card red" style="margin-top:.3em;">
@@ -571,7 +570,7 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
           <li>Max wall-clock per task (plan-dependent &mdash; minutes to hours)</li>
           <li>Max concurrent tasks per account</li>
           <li>No GPU, no inbound network, no access to your LAN</li>
-          <li>No custom base VM image &mdash; the OS image is managed by Anthropic</li>
+          <li>No custom base VM image &mdash; the workspace image is supplied by Anthropic</li>
         </ul>
       </div>
     </div>
@@ -658,7 +657,7 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
     </div>
     <div style="margin-top:1.4em;">
       <span class="pill blue">Cowork Tab</span>
-      <span class="pill green">Cloud VMs</span>
+      <span class="pill green">Local VM</span>
       <span class="pill purple">Dispatch</span>
       <span class="pill amber">Parallel Agents</span>
     </div>
