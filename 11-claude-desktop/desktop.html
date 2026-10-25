@@ -169,7 +169,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3>Cowork</h3>
       <ul>
         <li>Autonomous background agent</li>
-        <li>Runs in an Anthropic-hosted VM</li>
+        <li>Runs in a VM the app hosts on your computer</li>
         <li>Works while you do something else</li>
         <li>Dispatched from desktop <em>or</em> phone</li>
       </ul>
@@ -206,7 +206,7 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
           <tr><td><span class="a">macOS</span></td><td>Universal <code>.dmg</code></td><td>Intel + Apple Silicon</td></tr>
           <tr><td><span class="a">Windows x64</span></td><td><code>Setup.exe</code></td><td>Win 10 and later</td></tr>
           <tr><td><span class="a">Windows ARM64</span></td><td>Separate installer</td><td>Native ARM build</td></tr>
-          <tr><td><span class="r">Linux</span></td><td colspan="2"><span class="r">No official build</span> &mdash; use <code>claude.ai</code> or the CLI</td></tr>
+          <tr><td><span class="r">Linux</span></td><td colspan="2"><span class="a">Beta</span> &mdash; apt package for Ubuntu 22.04+ / Debian 12+</td></tr>
         </tbody>
       </table>
       <h3 style="margin-top:.3em;">Where It Lives</h3>
@@ -287,7 +287,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <div class="card blue" style="margin-top:.3em;">
         <h3>Model &amp; Thinking Controls</h3>
         <ul>
-          <li>Model picker next to the send button: Opus, Sonnet, Haiku</li>
+          <li>Model picker next to the send button: Fable, Opus, Sonnet, Haiku</li>
           <li><span class="b">Extended thinking</span> toggle for harder problems</li>
           <li><span class="b">Styles</span> &mdash; concise, explanatory, formal, or your own writing sample</li>
           <li>Per-message regenerate, edit, and branch</li>
@@ -309,7 +309,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <span class="tag">04</span>
     <h2>The Cowork Tab &mdash; Autonomous Background Agents</h2>
   </div>
-  <p>Cowork is where you hand Claude a task and walk away. Each task runs inside an <span class="b">Anthropic-hosted cloud VM</span> with its own filesystem, network, and tools &mdash; independent of your machine. When the task finishes (or needs your input), the desktop app surfaces a notification.</p>
+  <p>Cowork is where you hand Claude a task and walk away. Each task&rsquo;s commands run inside a <span class="b">sandboxed virtual machine that the desktop app hosts on your computer</span>, and Claude can work directly with your local files. Since September 2026 Cowork and chat are merging into one Claude on Pro and Max. When the task finishes (or needs your input), the desktop app surfaces a notification.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card blue">
       <h3>Typical Uses</h3>
@@ -332,7 +332,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
   </div>
   <div class="card red" style="margin-top:.3em;">
     <h3>Platform Caveat</h3>
-    <p>On macOS the Cowork tab currently requires <span class="r">Apple Silicon (M1 or later)</span>. On Intel Macs the Chat and Code tabs still work, but Cowork is hidden. On Windows, Cowork is available on all supported hardware.</p>
+    <p>Cowork needs hardware virtualisation: as of early 2026 it required <span class="r">Apple Silicon</span> on macOS; Windows needs the Virtual Machine Platform feature (x64 or Arm64, about 8 GB RAM); Linux needs KVM and QEMU.</p>
   </div>
   <p style="margin-top:.3em;">&rarr; <span class="b">Presentation 13</span> is the dedicated deep dive on Cowork &mdash; architecture, session lifecycle, Dispatch, parallel agents, costs, and limits.</p>
 </section>
@@ -493,13 +493,13 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <tbody>
       <tr><td>Chat, Projects, Artifacts</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
       <tr><td>Extended thinking, Styles</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes (via model)</td></tr>
-      <tr><td>Cowork (cloud VM)</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Cowork (local VM)</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Interactive file editing</td><td class="g">Yes (Code tab)</td><td class="r">No</td><td class="g">Yes</td></tr>
       <tr><td>Visual diff review</td><td class="g">Yes</td><td class="r">No</td><td class="r">No (text diff)</td></tr>
       <tr><td>Global hotkey, tray icon</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Native notifications</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Local MCP connectors</td><td class="g">Yes</td><td class="r">No</td><td class="g">Yes</td></tr>
-      <tr><td>Linux</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+      <tr><td>Linux</td><td class="a">Beta</td><td class="g">Yes</td><td class="g">Yes</td></tr>
       <tr><td>Air-gapped / fully offline</td><td class="r">No</td><td class="r">No</td><td class="r">No</td></tr>
       <tr><td>Good for long autonomous tasks</td><td class="g">Yes (Cowork)</td><td class="r">No</td><td class="g">Yes</td></tr>
       <tr><td>Good for terminal / scripting</td><td class="r">No</td><td class="r">No</td><td class="g">Yes</td></tr>
@@ -510,7 +510,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
   </div>
   <div class="card red" style="margin-top:.3em;">
     <h3>Windows: CLI and Desktop Config Are Separate</h3>
-    <p>On <span class="r">Windows</span>, the standard MSIX installer sandboxes Desktop&rsquo;s filesystem. The CLI (PowerShell) writes to <code>C:\Users\user\.claude.json</code>, but Desktop reads from a virtualized path inside <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\</code>. MCP servers added via <code>claude mcp add</code> <span class="r">do not appear</span> in the Desktop Code tab &mdash; add them through the Desktop UI instead. WSL2 creates a <em>third</em> separate config. On <span class="g">macOS</span> this problem does not exist &mdash; CLI and Desktop share the same <code>~/.claude.json</code>.</p>
+    <p><span class="r">Early-2026 docs:</span> on <span class="r">Windows</span>, the standard MSIX installer sandboxed Desktop&rsquo;s filesystem. The CLI (PowerShell) writes to <code>C:\Users\user\.claude.json</code>, but Desktop reads from a virtualized path inside <code>%LOCALAPPDATA%\Packages\Claude_&hellip;\</code>. MCP servers added via <code>claude mcp add</code> <span class="r">do not appear</span> in the Desktop Code tab &mdash; add them through the Desktop UI instead. WSL2 creates a <em>third</em> separate config. On <span class="g">macOS</span> this problem does not exist &mdash; CLI and Desktop share the same <code>~/.claude.json</code>.</p>
   </div>
 </section>
 
@@ -587,7 +587,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <div class="card amber" style="margin-top:.3em;">
         <h3>Cowork Tab Missing</h3>
         <ul>
-          <li>macOS: check you&rsquo;re on Apple Silicon (<code>uname -m</code> &rarr; <code>arm64</code>)</li>
+          <li>Check hardware virtualisation (Apple Silicon on macOS as of early 2026; Virtual Machine Platform on Windows; KVM on Linux)</li>
           <li>Check your plan &mdash; Free plans don&rsquo;t see Cowork</li>
           <li>Region: Cowork availability is rolling out by region &mdash; check Settings &rarr; Account</li>
         </ul>
@@ -672,13 +672,13 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <td>Desktop / CLI</td>
         <td><code>~/Library/Logs/Claude/</code></td>
         <td><code>%APPDATA%\Claude\logs\</code></td>
-        <td><code>~/.claude/logs/</code></td>
+        <td><code>~/.claude/debug/</code> (CLI)</td>
       </tr>
     </tbody>
   </table>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card red">
-      <h3>Windows &mdash; MSIX Sandbox Breaks Shared Config</h3>
+      <h3>Windows &mdash; MSIX Caveat (early-2026 docs; not in current docs)</h3>
       <ul>
         <li>The standard Windows installer is an <span class="r">MSIX package</span> that sandboxes Desktop&rsquo;s filesystem</li>
         <li>CLI (PowerShell) writes to <code>C:\Users\user\.claude.json</code> (real filesystem)</li>
@@ -692,10 +692,10 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <h3>Key Points</h3>
       <ul>
         <li>The <span class="p">Chat tab</span> always has its own config file &mdash; separate from Code/CLI</li>
-        <li>The <span class="a">Code tab</span> and <span class="a">CLI</span> share config on <span class="g">macOS</span> but <span class="r">not on Windows</span> (MSIX sandbox)</li>
+        <li>The <span class="a">Code tab</span> and <span class="a">CLI</span> share config; local Code sessions also load <code>claude_desktop_config.json</code> servers</li>
         <li>The <span class="b">Cowork tab</span> and <span class="p">claude.ai web</span> have no local config &mdash; Connectors only</li>
         <li><code>CLAUDE.md</code> and <code>.mcp.json</code> in the project root are shared with the team via Git</li>
-        <li>Linux has the CLI only &mdash; no Desktop app, no Chat-tab MCP surface</li>
+        <li>Linux has a beta Desktop app (apt) as well as the CLI</li>
       </ul>
     </div>
   </div>
@@ -740,7 +740,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <li>Two channels: one SSE stream for server&rarr;client, one POST endpoint for client&rarr;server</li>
         <li>Deprecated in March 2025 in favour of Streamable HTTP</li>
         <li>All Claude surfaces still accept it for backwards compatibility</li>
-        <li>Planned removal from the spec by mid-2026; migrate to Streamable HTTP</li>
+        <li>Not part of the current 2026-07-28 spec (stdio and Streamable HTTP only); migrate to Streamable HTTP</li>
       </ul>
     </div>
   </div>
@@ -810,7 +810,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <td class="g">Yes</td>
         <td class="g">HTTP &amp; HTTPS</td>
         <td class="g">Yes</td>
-        <td>Same files as CLI on <span class="g">macOS</span>; <span class="r">sandboxed on Windows</span> (MSIX) &mdash; use Desktop UI</td>
+        <td>Same files as the CLI, plus <code>claude_desktop_config.json</code> in local sessions</td>
       </tr>
       <tr>
         <td><span class="b">Desktop &mdash; Cowork</span></td>
@@ -842,7 +842,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </tr>
     </tbody>
   </table>
-  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork&rsquo;s cloud VM <em>could</em> spawn a stdio process inside the VM itself, but cannot reach a process on your local machine.<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
+  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork runs commands inside its VM on your machine; MCP comes from the connectors, skills and plugins enabled under Customize, not from local config files.<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
   <div class="cols cols-2" style="margin-top:.25em;">
     <div class="card green">
       <h3>Private-Network MCP &mdash; How It Works</h3>
@@ -858,7 +858,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <ul>
         <li>Configuring a server in <code>claude_desktop_config.json</code> and expecting the Code tab to see it &mdash; they&rsquo;re separate config files</li>
         <li>Expecting Cowork to reach a private-network MCP server or one running on <code>http://</code> &mdash; it&rsquo;s in Anthropic&rsquo;s cloud and requires HTTPS + CA-signed cert</li>
-        <li><span class="r">Windows (all):</span> the MSIX-packaged Desktop sandboxes its filesystem &mdash; <code>claude mcp add</code> in PowerShell or WSL2 does <em>not</em> reach the Desktop Code tab. Add MCP servers through the Desktop UI</li>
+        <li><span class="r">Windows (early-2026 docs):</span> the MSIX-packaged Desktop sandboxed its filesystem &mdash; <code>claude mcp add</code> in PowerShell or WSL2 does <em>not</em> reach the Desktop Code tab. Add MCP servers through the Desktop UI</li>
         <li>Corporate firewalls blocking outbound connections &rarr; Connectors silently fail</li>
       </ul>
     </div>
@@ -884,7 +884,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </div>
       <div class="card blue">
         <h3>Cowork &mdash; deck 13</h3>
-        <p>Autonomous background agents running in Anthropic-hosted cloud VMs.</p>
+        <p>Autonomous agentic tasks in a sandboxed VM on your computer.</p>
       </div>
     </div>
     <div style="margin-top:1.4em;">
