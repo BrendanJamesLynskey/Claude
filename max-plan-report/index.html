@@ -274,7 +274,8 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <li><strong>The pattern that works:</strong> one headless <code>claude -p</code> session per task, with its tools, turns and wall time capped, its transcript saved, and the result judged by something outside it (tests, a grader, a diff).</li>
       <li><strong>It runs in CI:</strong> <code>claude setup-token</code> issues a long-lived token for the plan, which goes into a repository secret as <code>CLAUDE_CODE_OAUTH_TOKEN</code>.</li>
       <li><strong>Usage is measurable:</strong> <code>claude -p "/usage"</code> prints the session (5-hour) and weekly percentages headless, so a script can log them while a batch runs.</li>
-      <li><strong>In the worked example,</strong> 10 hardware-design tasks on Opus 5.5 took about 1% of a weekly allowance; Claude Code's own API-rate estimate for the same work was $2.31.</li>
+      <li><strong>In the worked example,</strong> 10 hardware-design tasks on Opus 5.5 took about 1% of a weekly allowance; Claude Code's own API-rate estimate for the same work was $2.31. A full four-model ladder on 86 tasks, which Claude Code estimates at about $145 at API rates, fitted into the allowance across two weeks.</li>
+      <li><strong>Bigger is not always better here:</strong> Opus 5.5 solved the most (73%). Fable 5.1, the largest model, worked longest per task and ran into the per-task time cap, so its score (67%) was below Sonnet's.</li>
       <li><strong>The main cost is to the measurement:</strong> there is no billed cost per call, the worker is a whole agent rather than a model call, and plan limits can stop a batch part-way. Each needs a rule, set out in section 05.</li>
     </ul>
   </div>
@@ -363,7 +364,8 @@ gh secret set CLAUDE_CODE_OAUTH_TOKEN -R owner/repo  # paste it at the prompt; n
     <li><strong>Scale from the smoke test:</strong> in the worked example, 10 tasks took about 1%, so 86 tasks needed about 9%.</li>
     <li><strong>Spend the costly models first:</strong> run the large models while there is room, and use the small, cheap ones to fill what is left before the reset.</li>
     <li><strong>Make tasks independent and resumable:</strong> a task cut off by a limit should fail with a clear reason and be rerun alone after the reset, without spoiling the rest of the batch.</li>
-    <li><strong>Mind the concurrency:</strong> several sessions in parallel finish sooner but reach the session limit sooner. Two to four at a time was comfortable here.</li>
+    <li><strong>Mind the concurrency:</strong> the 5-hour session limit, not the weekly one, is what stops a parallel batch. Four models at four sessions each (16 at once) used about 63% of the session limit in 10 minutes, and every task still running when it reached 100% was lost. One model at two sessions ran steadily through a whole 5-hour window.</li>
+    <li><strong>Large models burn the allowance faster per task, and not always in proportion:</strong> Fable 5.1 has its own weekly bucket, and its 86 tasks used about 64 points of it, spread over two weekly resets.</li>
   </ol>
 
   <!-- ═══════════════════════════════════════════ -->
@@ -400,8 +402,20 @@ gh secret set CLAUDE_CODE_OAUTH_TOKEN -R owner/repo  # paste it at the prompt; n
     <tr><td>Second run</td><td>A <code>401</code>, reported as a <code>&lt;synthetic&gt;</code> reply that looked like a submit. The token's shape (92 characters, no <code>sk-ant-oat01-</code> prefix) showed a partly copied token.</td></tr>
     <tr><td>One-task check</td><td>Solved in 14 s: 4 turns, about 69k prompt tokens (most of them cached) and 700 output tokens.</td></tr>
     <tr><td>10-task smoke, Opus 5.5</td><td><strong>8 of 10 solved</strong>, most in under 90 s. About 1% of the weekly allowance; Claude Code's estimate at API rates was $2.31. No shell command touched the network.</td></tr>
-    <tr><td>Model ladder</td><td>Haiku 5.5, Sonnet 5.5, Opus 5.5 and Fable 5.1, one run each on the 86 problems, with usage logged every 10 minutes. Results go in the project's reports.</td></tr>
+    <tr><td>Model ladder</td><td>Haiku 5.5, Sonnet 5.5, Opus 5.5 and Fable 5.1, one run each on the 86 problems, with usage logged every 5 to 10 minutes. Tasks cut off by the session or weekly limit were rerun after the reset until each had one valid attempt.</td></tr>
   </table>
+
+  <h3>Ladder results</h3>
+  <p>Each row is one run of Claude Code with that model on the 86 problems, paired with the project's own agent (LangGraph with <code>gpt-6-luna</code>, 3 runs, 61.6%). The interval is a 95% paired bootstrap over problems. The estimate is Claude Code's figure at API rates; nothing was billed per call.</p>
+  <table>
+    <tr><th>Model</th><th>Solved</th><th>vs own agent</th><th>Median time</th><th>API-rate estimate</th></tr>
+    <tr><td>Opus 5.5</td><td><strong>63 (73%)</strong></td><td>+11.6 [+1.9, +21.3]</td><td>50 s</td><td>$24.86</td></tr>
+    <tr><td>Sonnet 5.5</td><td>60 (70%)</td><td>+8.1 [−0.4, +17.4]</td><td>24 s</td><td>$8.39</td></tr>
+    <tr><td>Fable 5.1</td><td>58 (67%)</td><td>+5.8 [−1.2, +12.8]</td><td>265 s*</td><td>$109.39</td></tr>
+    <tr><td>Haiku 5.5</td><td>57 (66%)</td><td>+4.7 [−2.3, +11.2]</td><td>83 s</td><td>$1.98</td></tr>
+  </table>
+  <p>* 17 of Fable's tasks stopped at the 480 s cap per task. Solved counts are out of 86; the middle column is the difference in points of pass rate.</p>
+  <p>Only Opus is clearly ahead of the project's agent, and each comparison changes the harness as well as the model. Full tables are in the project's <a href="https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/docs/reports/claude_code_ladder.md" style="color:var(--blue)">ladder report</a>.</p>
 
   <!-- ═══════════════════════════════════════════ -->
   <footer>
