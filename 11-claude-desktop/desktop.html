@@ -169,9 +169,9 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <h3>Cowork</h3>
       <ul>
         <li>Autonomous background agent</li>
-        <li>Runs in a VM the app hosts on your computer</li>
+        <li>Runs in a cloud sandbox (or, for local sessions, a VM on your computer)</li>
         <li>Works while you do something else</li>
-        <li>Dispatched from desktop <em>or</em> phone</li>
+        <li>Start on desktop, steer from web or phone</li>
       </ul>
     </div>
     <div class="card amber">
@@ -309,7 +309,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <span class="tag">04</span>
     <h2>The Cowork Tab &mdash; Autonomous Background Agents</h2>
   </div>
-  <p>Cowork is where you hand Claude a task and walk away. Each task&rsquo;s commands run inside a <span class="b">sandboxed virtual machine that the desktop app hosts on your computer</span>, and Claude can work directly with your local files. Since September 2026 Cowork and chat are merging into one Claude on Pro and Max. When the task finishes (or needs your input), the desktop app surfaces a notification.</p>
+  <p>Cowork is where you hand Claude a task and walk away. Each task&rsquo;s commands run in an <span class="b">isolated sandbox</span>: since 6 October 2026, new Pro and Max tasks run in the cloud on Anthropic&rsquo;s servers and reach the local folders you connect through the desktop app; local sessions run a VM that the desktop app hosts. Since September 2026 Cowork and chat are merging into one Claude on Pro and Max. When the task finishes (or needs your input), the desktop app surfaces a notification.</p>
   <div class="cols cols-2" style="margin-top:.3em;">
     <div class="card blue">
       <h3>Typical Uses</h3>
@@ -323,16 +323,16 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <div class="card purple">
       <h3>What You Get for Free</h3>
       <ul>
-        <li>Browser, terminal, Python, Node, Git &mdash; pre-installed</li>
-        <li>Persistent workspace for the task&rsquo;s lifetime</li>
-        <li>Live video of the VM so you can watch progress</li>
-        <li><span class="p">Dispatch</span> integration &mdash; kick off the same task from your phone</li>
+        <li>Code and shell commands in an isolated sandbox, one per session</li>
+        <li>A built-in browser in the desktop app, or Claude in Chrome</li>
+        <li>Scheduled tasks that run in the cloud with no device online</li>
+        <li><span class="p">Dispatch</span> (phone to desktop) &mdash; limited beta, not open to new users</li>
       </ul>
     </div>
   </div>
   <div class="card red" style="margin-top:.3em;">
     <h3>Platform Caveat</h3>
-    <p>Cowork needs hardware virtualisation: as of early 2026 it required <span class="r">Apple Silicon</span> on macOS; Windows needs the Virtual Machine Platform feature (x64 or Arm64, about 8 GB RAM); Linux needs KVM and QEMU.</p>
+    <p>Local sessions need hardware virtualisation: macOS 14+ on Apple silicon or Intel; Windows 10 build 19041+ (x64 or Arm64) with the Virtual Machine Platform feature; Linux needs KVM, QEMU, about 25 GB of disk and 8 GB RAM.</p>
   </div>
   <p style="margin-top:.3em;">&rarr; <span class="b">Presentation 13</span> is the dedicated deep dive on Cowork &mdash; architecture, session lifecycle, Dispatch, parallel agents, costs, and limits.</p>
 </section>
@@ -493,7 +493,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
     <tbody>
       <tr><td>Chat, Projects, Artifacts</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
       <tr><td>Extended thinking, Styles</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes (via model)</td></tr>
-      <tr><td>Cowork (local VM)</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+      <tr><td>Cowork</td><td class="g">Yes</td><td class="g">Yes (local files via the desktop app)</td><td class="r">No</td></tr>
       <tr><td>Interactive file editing</td><td class="g">Yes (Code tab)</td><td class="r">No</td><td class="g">Yes</td></tr>
       <tr><td>Visual diff review</td><td class="g">Yes</td><td class="r">No</td><td class="r">No (text diff)</td></tr>
       <tr><td>Global hotkey, tray icon</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
@@ -530,7 +530,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
           <li>Consumer plans (Free / Pro / Max): conversations are <span class="g">not</span> used for model training by default</li>
           <li>Team / Enterprise: contractually excluded from training</li>
           <li>Chat history synced to Anthropic and retained per your plan&rsquo;s policy</li>
-          <li>Cowork VMs are ephemeral &mdash; destroyed when the task is archived</li>
+          <li>Cowork cloud sessions run in a sandbox that is destroyed when the session ends</li>
         </ul>
       </div>
       <div class="card amber" style="margin-top:.3em;">
@@ -558,7 +558,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <h3>Managed Deployment</h3>
         <ul>
           <li>Silent install via MDM (Jamf, Intune)</li>
-          <li>Config profile can lock the global shortcut, disable Cowork, or pin a region</li>
+          <li>Config profile can turn off Cowork (<code>secureVmFeaturesEnabled</code>), limit its folders (<code>allowedWorkspaceFolders</code>) and require your organisation&rsquo;s login</li>
           <li>AWS Bedrock and GCP Vertex routes available for regulated customers</li>
         </ul>
       </div>
@@ -587,9 +587,9 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <div class="card amber" style="margin-top:.3em;">
         <h3>Cowork Tab Missing</h3>
         <ul>
-          <li>Check hardware virtualisation (Apple Silicon on macOS as of early 2026; Virtual Machine Platform on Windows; KVM on Linux)</li>
+          <li>In the new Claude experience there is no Cowork tab &mdash; any conversation can take on a task</li>
           <li>Check your plan &mdash; Free plans don&rsquo;t see Cowork</li>
-          <li>Region: Cowork availability is rolling out by region &mdash; check Settings &rarr; Account</li>
+          <li>Local sessions need hardware virtualisation (Virtual Machine Platform on Windows; KVM on Linux)</li>
         </ul>
       </div>
     </div>
@@ -730,7 +730,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
         <li>Firewall-friendly &mdash; one URL, one port, standard CORS</li>
         <li><span class="a">Claude Code CLI</span> and the <span class="a">Code tab</span> support this natively &mdash; plain <span class="g">HTTP</span> and private IPs work</li>
         <li>The <span class="p">Chat tab</span> does <span class="r">not</span> support Streamable HTTP via its config file &mdash; use Connectors (brokered, HTTPS) or a stdio proxy like <code>mcp-remote</code></li>
-        <li>Brokered surfaces (Cowork, Web, Mobile, API) require <span class="r">HTTPS + CA-signed cert</span></li>
+        <li>Brokered surfaces (Cowork, Web, Mobile, API) need a <span class="r">public HTTPS URL</span></li>
       </ul>
     </div>
     <div class="card purple">
@@ -765,7 +765,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <h3>Brokered &mdash; HTTPS Required</h3>
       <ul>
         <li><span class="r">Connectors UI</span> (all tabs), <span class="r">Cowork</span>, <span class="r">Web</span>, <span class="r">Mobile</span>, <span class="r">API</span> route through Anthropic</li>
-        <li>Require <span class="r">HTTPS + CA-signed cert</span></li>
+        <li>Need a <span class="r">public HTTPS URL</span></li>
         <li>Private IPs unreachable; tunnel via ngrok / Cloudflare / Tailscale</li>
       </ul>
     </div>
@@ -814,10 +814,10 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </tr>
       <tr>
         <td><span class="b">Desktop &mdash; Cowork</span></td>
-        <td class="r">No *</td>
+        <td class="a">Local *</td>
         <td class="a">HTTPS only</td>
-        <td class="r">No</td>
-        <td>Connectors authorised in the app (brokered by Anthropic)</td>
+        <td class="r">No *</td>
+        <td>Connectors under Customize</td>
       </tr>
       <tr>
         <td><span class="p">claude.ai (web)</span></td>
@@ -842,7 +842,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </tr>
     </tbody>
   </table>
-  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork runs commands inside its VM on your machine; MCP comes from the connectors, skills and plugins enabled under Customize, not from local config files.<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
+  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork: cloud sandbox by default; MCP from Customize, not local config; local extensions run via the desktop app (deck 13).<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
   <div class="cols cols-2" style="margin-top:.25em;">
     <div class="card green">
       <h3>Private-Network MCP &mdash; How It Works</h3>
@@ -857,7 +857,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       <h3>Common Pitfalls</h3>
       <ul>
         <li>Configuring a server in <code>claude_desktop_config.json</code> and expecting the Code tab to see it &mdash; they&rsquo;re separate config files</li>
-        <li>Expecting Cowork to reach a private-network MCP server or one running on <code>http://</code> &mdash; it&rsquo;s in Anthropic&rsquo;s cloud and requires HTTPS + CA-signed cert</li>
+        <li>Expecting Cowork to reach a private-network MCP server or one running on <code>http://</code> &mdash; connectors are called from Anthropic&rsquo;s cloud</li>
         <li><span class="r">Windows (early-2026 docs):</span> the MSIX-packaged Desktop sandboxed its filesystem &mdash; <code>claude mcp add</code> in PowerShell or WSL2 does <em>not</em> reach the Desktop Code tab. Add MCP servers through the Desktop UI</li>
         <li>Corporate firewalls blocking outbound connections &rarr; Connectors silently fail</li>
       </ul>
@@ -884,7 +884,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </div>
       <div class="card blue">
         <h3>Cowork &mdash; deck 13</h3>
-        <p>Autonomous agentic tasks in a sandboxed VM on your computer.</p>
+        <p>Autonomous agentic tasks in an isolated cloud sandbox or local VM.</p>
       </div>
     </div>
     <div style="margin-top:1.4em;">

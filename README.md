@@ -22,7 +22,7 @@ Interactive slide decks covering every aspect of Anthropic Claude — from first
 | 10 | [Summary & Quick Reference](10-reference/) | Cheat sheets for models, pricing, commands, API, SDKs, prompt patterns, MCP config, and a full glossary |
 | 11 | [Claude Desktop — The Native Claude App](11-claude-desktop/) | The native Claude app for macOS, Windows and Linux (beta) — Chat, Code, and Cowork tabs, connectors, shortcuts, enterprise controls, and an MCP-across-products matrix |
 | 12 | [Claude Code Desktop — The Code Tab](12-claude-code-desktop/) | Deep dive on the Code tab — visual diffs, permission modes, Git worktrees, app preview, PR monitoring, computer use, and CLI/Desktop config differences by platform |
-| 13 | [Claude Cowork — Autonomous Background Agents](13-claude-cowork/) | Deep dive on the Cowork tab — on-device VM, computer use, Dispatch, parallel agents, budgets, and limits |
+| 13 | [Claude Cowork — Hand Claude a Whole Task](13-claude-cowork/) | Cowork as part of one Claude (October 2026) — cloud sandbox and local VM mode, files and permission modes, connectors and MCP, scheduled tasks, admin controls, and limits |
 | 14 | [Claude Chat Desktop — The Chat Tab](14-claude-chat-desktop/) | Deep dive on the Chat tab — Projects, Artifacts, Styles, input modalities, Connectors, and the original stdio MCP surface via `claude_desktop_config.json` |
 
 ## Workflow Walkthroughs
