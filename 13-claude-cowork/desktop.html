@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Cowork — Autonomous Agents in a Local VM</title>
+  <title>Claude Cowork — Hand Claude a Whole Task</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,6 +69,11 @@
   .reveal .slides > section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   .reveal .slides > section::-webkit-scrollbar-thumb:hover { background: var(--muted); }
   .reveal .slides > section { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg2); }
+  .reveal .slides section .fragment { transition: opacity .35s ease; }
+  svg.diagram text { text-rendering: geometricPrecision; }
+  .flow { stroke-dasharray: 7 6; animation: cw-flow 1.4s linear infinite; }
+  @keyframes cw-flow { to { stroke-dashoffset: -26; } }
+  @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
   </style>
 <style id="deck-concept">@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
 html[data-concept=transcript] .reveal .slides section.title-slide.present:has(.cx-fig){display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-auto-rows:min-content;column-gap:52px;align-content:start;text-align:left;height:100%;padding:24px 10px!important;box-sizing:border-box}
@@ -128,324 +133,363 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
   <div style="margin-top: 2em;">
     <p class="meta" style="margin-bottom:.4em;">Anthropic Claude Series &mdash; Presentation 13</p>
     <h1>Claude Cowork</h1>
-    <div class="subtitle">Autonomous Agents in a Sandboxed VM on Your Computer</div>
+    <div class="subtitle">Hand Claude a whole task; it works in an isolated sandbox and hands back finished work</div>
     <p style="font-size:.5em; color:var(--muted); max-width:34em;">
-      Hand Claude a task and walk away. Claude runs a task&rsquo;s commands inside a virtual machine that the desktop app hosts on your computer, working with your local files,
-      Node, Git &mdash; that Claude drives autonomously while you watch live, or ignore, or queue up five more.
-      Pair it with <span class="b">Dispatch</span> and you can kick off the same task from your phone.
+      Cowork brings Claude Code&rsquo;s agentic architecture to everyday knowledge work, with no terminal. Since September 2026 it is part of one Claude: describe an outcome in any conversation and Claude plans the work, runs code in a sandbox, reaches only the folders you connect, and returns documents, spreadsheets and decks. On Pro and Max, new tasks have run in the cloud since 6 October 2026.
     </p>
     <div style="margin-top:1.2em;">
-      <span class="pill blue">Cowork Tab</span>
-      <span class="pill green">Local VM</span>
-      <span class="pill purple">Dispatch</span>
-      <span class="pill amber">Parallel Agents</span>
+      <span class="pill blue">One Claude</span>
+      <span class="pill green">Cloud Sandbox</span>
+      <span class="pill purple">Your Folders</span>
+      <span class="pill amber">Scheduled Tasks</span>
     </div>
-    <p style="font-size:.38em; color:var(--muted); margin-top:1.4em;">Based on <code>support.anthropic.com</code> Cowork docs and the Claude Desktop app</p>
+    <p style="font-size:.38em; color:var(--muted); margin-top:1.4em;">Based on the Cowork articles on <code>support.claude.com</code> and the Cowork docs on <code>claude.com/docs</code>, checked October 2026</p>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 2: What Cowork Is -->
+<!-- SLIDE 2: What Cowork Is Now -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">01</span>
-    <h2>What Cowork Is &mdash; and What It Isn&rsquo;t</h2>
+    <h2>What Cowork Is Now</h2>
   </div>
-  <p>Cowork is the <span class="b">autonomous</span> mode of the Claude Desktop app. Unlike Chat (stateless turn-by-turn) or Code (you approve every edit), a Cowork session is handed a goal and then runs on its own &mdash; shell commands inside a sandboxed VM on your machine &mdash; until it finishes or asks for input. Since September 2026, Cowork and chat are merging into one Claude on Pro and Max.</p>
-  <div class="cols cols-2" style="margin-top:.3em;">
+  <p>Cowork uses the same agent loop as Claude Code, aimed at work beyond coding. Instead of answering one prompt at a time, Claude takes an outcome, plans the steps, and works through them: searching, reading your files, running code, and assembling the result.</p>
+  <div class="cols cols-2" style="margin-top:.2em;">
     <div class="card blue">
-      <h3>What It Is</h3>
+      <h3>What It Does</h3>
       <ul>
-        <li>An agent loop running inside a real VM &mdash; filesystem, network, desktop environment</li>
-        <li>Works directly with files on your computer &mdash; no uploads</li>
-        <li>Live video feed so you can watch it click, type, and browse</li>
-        <li>Persistent workspace for the task&rsquo;s lifetime</li>
-        <li>Composable &mdash; tasks can trigger other tasks, or report back on a schedule</li>
+        <li>Describe an outcome, step away, and come back to finished work</li>
+        <li>Splits complex work into sub-agents that run in parallel</li>
+        <li>Runs code and shell commands in an isolated environment, never on your bare machine</li>
+        <li>Delivers real files: Excel with working formulas, PowerPoint decks, formatted documents</li>
+        <li>Reads and writes local folders you connect, through the desktop app</li>
       </ul>
     </div>
-    <div class="card red">
-      <h3>What It Is Not</h3>
+    <div class="card green">
+      <h3>How It Is Presented Now</h3>
       <ul>
-        <li><span class="r">Not</span> a rented server you SSH into &mdash; Claude is the only user</li>
-        <li><span class="r">Not</span> a cloud VM &mdash; the VM runs on your device (Apple Virtualization, Windows Virtual Machine Platform, or KVM/QEMU on Linux)</li>
-        <li><span class="r">Not</span> the Code tab &mdash; Cowork is for goals you&rsquo;d rather not supervise</li>
-        <li><span class="r">Not</span> the API&rsquo;s managed-agent endpoint &mdash; this is the consumer-product surface</li>
-        <li><span class="r">Not</span> offline &mdash; a network and your Anthropic account are required</li>
+        <li>&ldquo;Cowork is now Claude&rdquo; (16 Sep 2026): chat and Cowork become one conversation</li>
+        <li>No mode to pick: a quick question gets a quick answer; a task becomes a Cowork session</li>
+        <li>Until an account moves over, the message box still shows <span class="g">Chat</span> and <span class="g">Cowork</span></li>
+        <li>Tasks sit with chats in Recents; Code stays a separate tab</li>
       </ul>
     </div>
   </div>
-  <div class="card green" style="margin-top:.3em;">
-    <p><span class="g">Core idea:</span> Cowork gives Claude a body &mdash; a computer it can actually use &mdash; so you can delegate tasks that don&rsquo;t fit in a chat turn. Research, repo work, data wrangling, triage, PR monitoring, content drafting from web sources. The desktop app is just the viewport onto that remote body.</p>
-  </div>
+  <h3 style="margin-top:.3em;">2026 milestones</h3>
+  <svg class="diagram" viewBox="0 0 1000 175" width="1000" height="175">
+    <line x1="40" y1="40" x2="960" y2="40" stroke="#403831" stroke-width="2"/>
+    <g class="fragment" data-fragment-index="1">
+      <circle cx="90" cy="40" r="8" fill="#231e1a" stroke="#ba9ecc" stroke-width="2.5"/>
+      <text x="90" y="18" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="17">19 Aug</text>
+      <text x="90" y="78" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">Cowork artifacts become</text>
+      <text x="90" y="100" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">ordinary artifacts</text>
+      <text x="90" y="122" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="15">(desktop and web)</text>
+    </g>
+    <g class="fragment" data-fragment-index="2">
+      <circle cx="300" cy="40" r="8" fill="#231e1a" stroke="#73b9b4" stroke-width="2.5"/>
+      <text x="300" y="18" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono,monospace" font-size="17">16 Sep</text>
+      <text x="300" y="78" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">&ldquo;Cowork is now Claude&rdquo;</text>
+      <text x="300" y="100" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">chat + Cowork merge</text>
+      <text x="300" y="122" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="15">(Pro and Max first)</text>
+    </g>
+    <g class="fragment" data-fragment-index="3">
+      <circle cx="510" cy="40" r="8" fill="#231e1a" stroke="#a9cd8e" stroke-width="2.5"/>
+      <text x="510" y="18" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="17">6 Oct</text>
+      <text x="510" y="78" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">New Pro/Max tasks</text>
+      <text x="510" y="100" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">run in the cloud</text>
+      <text x="510" y="122" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="15">(local-only option removed)</text>
+    </g>
+    <g class="fragment" data-fragment-index="4">
+      <circle cx="720" cy="40" r="8" fill="#231e1a" stroke="#dcad61" stroke-width="2.5"/>
+      <text x="720" y="18" text-anchor="middle" fill="#dcad61" font-family="Geist Mono,monospace" font-size="17">10 Nov</text>
+      <text x="720" y="78" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">Unified Claude enforced</text>
+      <text x="720" y="100" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">on Desktop on 3P</text>
+      <text x="720" y="122" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="15">(own-cloud deployments)</text>
+    </g>
+    <g class="fragment" data-fragment-index="5">
+      <circle cx="910" cy="40" r="8" fill="#231e1a" stroke="#d77753" stroke-width="2.5"/>
+      <text x="910" y="18" text-anchor="middle" fill="#d77753" font-family="Geist Mono,monospace" font-size="17">16 Nov</text>
+      <text x="910" y="78" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">Enterprise: unified</text>
+      <text x="910" y="100" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="17">on by default</text>
+      <text x="910" y="122" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="15">(unless an owner chose)</text>
+    </g>
+  </svg>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 3: Requirements and Availability -->
+<!-- SLIDE 3: Where It Lives, Plans and Platforms -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">02</span>
-    <h2>Requirements and Availability</h2>
+    <h2>Where It Lives &mdash; Plans and Platforms</h2>
   </div>
   <div class="cols cols-6040">
     <div>
-      <h3>Platforms</h3>
+      <h3>Surfaces and plans</h3>
       <table>
-        <thead><tr><th>Host OS</th><th>Cowork Tab</th><th>Notes</th></tr></thead>
+        <thead><tr><th style="width:30%;">Surface</th><th style="width:34%;">Plans</th><th>Notes</th></tr></thead>
         <tbody>
-          <tr><td><span class="a">macOS (Apple Silicon)</span></td><td class="g">Supported</td><td>M1 / M2 / M3 / M4</td></tr>
-          <tr><td><span class="a">macOS (Intel)</span></td><td class="r">Hidden</td><td>Chat and Code still work</td></tr>
-          <tr><td><span class="a">Windows x64</span></td><td class="g">Supported</td><td>Win 10 and later</td></tr>
-          <tr><td><span class="a">Windows ARM64</span></td><td class="g">Supported</td><td>Native build</td></tr>
-          <tr><td><span class="r">Linux</span></td><td class="a">Beta</td><td>apt package; needs KVM and QEMU</td></tr>
+          <tr><td><span class="b">Claude Desktop</span><br/>macOS, Windows, Linux (beta)</td><td class="g">All paid plans</td><td>The full experience: local folders, built-in browser, computer use</td></tr>
+          <tr><td><span class="b">Web</span> (claude.ai) and <span class="b">Claude mobile</span></td><td>Pro, Max; Team (beta); Enterprise when an owner enables it</td><td>Reaches local files and the browser through your desktop app while it is open</td></tr>
+          <tr><td><span class="b">Claude in Chrome</span> side panel</td><td class="g">All paid plans</td><td>Opening the panel starts a Cowork session; Enterprise owners enable it</td></tr>
+          <tr><td><span class="r">Free plan</span></td><td class="r">No Cowork</td><td>Chat only</td></tr>
         </tbody>
       </table>
-      <h3 style="margin-top:.3em;">Plans</h3>
-      <ul>
-        <li><span class="r">Free</span> &mdash; no Cowork</li>
-        <li><span class="g">Pro</span> &mdash; Cowork with per-session limits</li>
-        <li><span class="g">Max</span> &mdash; higher concurrency, longer sessions</li>
-        <li><span class="g">Team / Enterprise</span> &mdash; pooled quota, admin controls, audit log</li>
-      </ul>
-      <h3 style="margin-top:.3em;">Network</h3>
-      <p>The VM runs on your machine and follows your operating system&rsquo;s proxy settings; the app downloads the Cowork workspace image (about 20 GB of disk, 8 GB RAM recommended on Windows) the first time you start a task.</p>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Finding It</h3>
+        <ul>
+          <li><span class="b">New experience:</span> type in the message box on the home screen; any conversation can take on a task</li>
+          <li><span class="b">Older layout:</span> pick <span class="g">Cowork</span> in the message box (bottom left), or <span class="g">Chat</span> to go back</li>
+          <li>The rollout is staged: accounts on the same plan move at different times, and can&rsquo;t switch back</li>
+        </ul>
+      </div>
     </div>
     <div>
-      <div class="card blue">
-        <h3>The VM Image</h3>
-        <ul>
-          <li>Linux desktop environment (browser, terminal, file manager)</li>
-          <li>Pre-installed: <code>git</code>, <code>python</code>, <code>node</code>, <code>npm</code>, <code>curl</code>, <code>jq</code>, <code>ffmpeg</code>, common build tools</li>
-          <li>Headless Chromium for browsing</li>
-          <li>Ephemeral root filesystem with a persistent <code>~/workspace</code></li>
-          <li>Snapshots taken when the task pauses for your input</li>
-        </ul>
-      </div>
+      <h3>What each surface can do</h3>
+      <table>
+        <thead><tr><th style="width:46%;">Feature</th><th>Desktop</th><th>Web</th><th>Mobile</th></tr></thead>
+        <tbody>
+          <tr><td>Start, steer, review tasks</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+          <tr><td>Connectors, skills, plugins</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+          <tr><td>Scheduled tasks, projects</td><td class="g">Yes</td><td class="g">Yes</td><td class="g">Yes</td></tr>
+          <tr><td>Local files, browser, computer use</td><td class="g">Yes</td><td class="a">Via desktop *</td><td class="a">Via desktop *</td></tr>
+          <tr><td>Local MCP servers</td><td class="g">Yes</td><td class="r">No</td><td class="r">No</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.34em; color:var(--muted); margin-top:.15em;">* Only while the desktop app is open on that computer, for folders connected there.</p>
       <div class="card purple" style="margin-top:.3em;">
-        <h3>Budgets &amp; Timeouts</h3>
+        <h3>Desktop Requirements</h3>
         <ul>
-          <li>Each task has a plan-dependent <span class="p">compute budget</span> (wall-clock + tool calls)</li>
-          <li>Tasks auto-pause when the budget is nearly spent and ask if you want to continue</li>
-          <li>Idle sessions are hibernated; resuming restores the VM state</li>
+          <li>Desktop app: macOS 13+, Windows 10+, Ubuntu 22.04+ or Debian 12+ (x64 or arm64)</li>
+          <li>Cowork itself needs a paid plan and an internet connection throughout the session</li>
+          <li>Running Cowork&rsquo;s VM locally adds more (slide 06)</li>
         </ul>
-      </div>
-      <div class="card red" style="margin-top:.3em;">
-        <h3>Rollout Note</h3>
-        <p>Cowork is still rolling out region-by-region. If the tab is missing on a supported platform and plan, check Settings &rarr; Account for region status.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 4: Starting a Cowork Task -->
+<!-- SLIDE 4: Cowork vs Chat vs Claude Code -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">03</span>
-    <h2>Starting a Cowork Task</h2>
+    <h2>How It Differs from Chat and from Claude Code</h2>
   </div>
-  <p>The Cowork tab has a prompt box, a model picker, and an <em>attach</em> button. That&rsquo;s it. Everything else happens after you hit send.</p>
-  <div class="cols cols-2">
-    <div>
-      <div class="card blue">
-        <h3>1. Write the Goal</h3>
-        <ul>
-          <li>Describe the outcome, not the steps (&ldquo;produce X&rdquo; beats &ldquo;open Y, click Z&rdquo;)</li>
-          <li>State success criteria &mdash; how will you know it&rsquo;s done?</li>
-          <li>Paste URLs, file excerpts, or ticket numbers as context</li>
-          <li>Mention credentials or connectors the task will need</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>2. Attach Context (Optional)</h3>
-        <ul>
-          <li>Drag files from your machine &mdash; they land in <code>~/workspace</code></li>
-          <li>Link a Project &mdash; its files and system prompt apply</li>
-          <li>Enable connectors: GitHub, Linear, Slack, Gmail, Google Drive</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card purple">
-        <h3>3. Model &amp; Mode</h3>
-        <ul>
-          <li>Model picker &mdash; Opus for hard reasoning, Sonnet for most work, Haiku for fast jobs</li>
-          <li>Extended thinking toggle for multi-step research</li>
-          <li>&ldquo;Ask before risky actions&rdquo; vs &ldquo;run until done&rdquo;</li>
-        </ul>
-      </div>
-      <div class="card amber" style="margin-top:.3em;">
-        <h3>4. Launch</h3>
-        <ul>
-          <li>Click send &mdash; a VM spins up in a few seconds</li>
-          <li>Live desktop feed appears on the right</li>
-          <li>Chat transcript on the left mirrors Claude&rsquo;s reasoning and tool calls</li>
-          <li>You can switch to other work &mdash; the app notifies you when the task finishes</li>
-        </ul>
-      </div>
-    </div>
+  <div class="card green">
+    <p><span class="g">Chat and Cowork are now one conversation.</span> It starts as a chat; when a task needs to run code or work with files, Claude continues the same conversation in a Cowork session, then goes back to chat when it doesn&rsquo;t. A quick question still gets a quick answer. The real choice left is between Cowork and Claude Code.</p>
   </div>
-  <pre><code>Good: &ldquo;Clone github.com/acme/pipeline, run the test suite,
-       open a PR that fixes any failing tests, and post a
-       summary in #eng-notes when done.&rdquo;
-
-Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
+  <table style="margin:.3em 0 0;">
+    <thead><tr><th style="width:22%;">Dimension</th><th>Cowork</th><th>Claude Code</th></tr></thead>
+    <tbody>
+      <tr><td>Made for</td><td class="b">Knowledge work: research, reports, spreadsheets, decks, file tidying</td><td class="a">Software: code in a repository, tests, pull requests</td></tr>
+      <tr><td>Interface</td><td>Claude Desktop, web, mobile, Chrome side panel &mdash; no terminal</td><td>Terminal CLI, IDE extensions, the desktop Code tab (decks 04 and 12)</td></tr>
+      <tr><td>Where code runs</td><td>Isolated sandbox on Anthropic&rsquo;s servers (local VM for local sessions)</td><td>On your computer, or on an SSH host or cloud session you choose</td></tr>
+      <tr><td>Your files</td><td>Only folders you connect, reached through the desktop app</td><td>The project directory you open it in</td></tr>
+      <tr><td>Laptop closed</td><td class="g">Cloud sessions and scheduled tasks keep going</td><td>Local sessions stop with your machine</td></tr>
+      <tr><td>Extensions</td><td>Connectors, skills and plugins from <strong>Customize</strong> on your claude.ai account; ignores <code>~/.claude</code></td><td><code>~/.claude</code>, <code>.mcp.json</code>, <code>CLAUDE.md</code> on the machine it runs on</td></tr>
+      <tr><td>Keep it on your computer</td><td class="r">Not for new Pro/Max tasks</td><td class="g">Yes &mdash; Anthropic&rsquo;s own advice for work that must stay local</td></tr>
+    </tbody>
+  </table>
+  <div class="card blue" style="margin-top:.3em;">
+    <p><span class="b">Moving a task across:</span> open a Cowork task, choose <span class="b">Download task data</span>, unzip it, open the folder in Claude Code and run <code>/port-task-data</code> to carry on with its context.</p>
+  </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 5: Inside the VM -->
+<!-- SLIDE 5: A Worked Task -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">04</span>
-    <h2>Inside the VM &mdash; What Claude Can Do</h2>
+    <h2>A Worked Task, Start to Finish</h2>
   </div>
-  <div class="cols cols-3">
-    <div class="card blue">
-      <h3>Computer Use</h3>
+  <p>One of Anthropic&rsquo;s own examples: drop receipts in a folder and ask for an expense report. The steps below follow the documented flow; the wording is illustrative.</p>
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="card blue fragment" data-fragment-index="1">
+      <h3>1 &middot; Connect a folder</h3>
       <ul>
-        <li>Move the mouse, click, type, scroll</li>
-        <li>Read the screen with vision</li>
-        <li>Drive a real browser &mdash; fill forms, click through modals, handle cookies</li>
-        <li>Screenshot the desktop at any step</li>
+        <li>In Claude Desktop, give Claude access to <code>~/Expenses/October</code></li>
+        <li>It appears under <span class="b">Trusted folders</span>; Claude can read and write only there</li>
       </ul>
     </div>
-    <div class="card green">
-      <h3>Shell &amp; Dev Tools</h3>
+    <div class="card green fragment" data-fragment-index="2">
+      <h3>2 &middot; Describe the outcome</h3>
       <ul>
-        <li>Open a terminal &mdash; <code>bash</code>, <code>zsh</code></li>
-        <li>Clone repos, run builds, start servers</li>
-        <li>Install packages (<code>apt</code>, <code>pip</code>, <code>npm</code>)</li>
-        <li>Edit files with <code>vim</code> or VS Code server</li>
+        <li>Say what you want, the format, and the inputs, as you would brief a colleague</li>
+        <li><em>&ldquo;Turn these receipts into a spreadsheet: one row each, totals by category.&rdquo;</em></li>
       </ul>
     </div>
-    <div class="card purple">
-      <h3>Data &amp; Files</h3>
+    <div class="card purple fragment" data-fragment-index="3">
+      <h3>3 &middot; Choose how it checks in</h3>
       <ul>
-        <li>Python / Jupyter for analysis</li>
-        <li><code>pandas</code>, <code>numpy</code>, <code>matplotlib</code> pre-installed</li>
-        <li>Read and write to <code>~/workspace</code></li>
-        <li>Export results back to your machine via the chat transcript</li>
+        <li><span class="p">Auto</span> (default on Pro, Max, Team): actions are screened and unsafe ones blocked</li>
+        <li><span class="p">Manual</span> (default on Enterprise): you allow or deny each action</li>
+      </ul>
+    </div>
+    <div class="card amber fragment" data-fragment-index="4">
+      <h3>4 &middot; Claude plans and runs</h3>
+      <ul>
+        <li>Plans, splits into sub-agents if useful, and runs its code in the sandbox</li>
+        <li>Fetches a copy of each receipt it needs through the desktop app</li>
+      </ul>
+    </div>
+    <div class="card blue fragment" data-fragment-index="5">
+      <h3>5 &middot; Steer from anywhere</h3>
+      <ul>
+        <li>Progress shows each step; jump in to redirect at any time</li>
+        <li>Open the same session on your phone to answer a question; you get a notification when it&rsquo;s done</li>
+      </ul>
+    </div>
+    <div class="card green fragment" data-fragment-index="6">
+      <h3>6 &middot; Get the file, then repeat it</h3>
+      <ul>
+        <li>The spreadsheet appears beside the conversation: preview, download, or ask for changes</li>
+        <li>Make it recurring: <em>&ldquo;Every Monday at 9 AM, add last week&rsquo;s receipts.&rdquo;</em></li>
       </ul>
     </div>
   </div>
-  <div class="card amber" style="margin-top:.3em;">
-    <h3>MCP in Cowork &mdash; Connectors Only, HTTPS Only</h3>
-    <p>Any connector (remote MCP server) you&rsquo;ve authorised in the desktop app is projected into the VM as a tool call. Each call is <em>brokered through Anthropic</em> &mdash; the VM never sees your tokens. Revoking a connector cuts off in-progress tasks immediately.</p>
-    <p style="margin-top:.15em;">Unlike the CLI, Chat, or Code tabs &mdash; which connect from <em>your machine</em> and accept plain HTTP / private IPs &mdash; <span class="a">Cowork is Anthropic-brokered</span> and requires <span class="r">HTTPS with a CA-signed certificate</span>. Private-network, localhost, and plain-HTTP URLs are not routable from the VM. To expose a private server: tunnel via ngrok, Cloudflare Tunnel, or Tailscale Funnel.</p>
-  </div>
-  <div class="card red" style="margin-top:.3em;">
-    <h3>What It Can&rsquo;t Do</h3>
-    <ul>
-      <li>Run stdio MCP servers from your machine &mdash; use the Code or Chat tab for those</li>
-      <li>Connect to plain HTTP (no TLS) or self-signed-certificate MCP endpoints</li>
-      <li>Persist state between unrelated tasks (each task gets a fresh VM)</li>
-      <li>Run GPU workloads &mdash; the VM is CPU-only</li>
-      <li>Bypass the connector permission layer &mdash; every external write is still gated</li>
-    </ul>
+  <div class="card red fragment" data-fragment-index="7" style="margin-top:.3em;">
+    <p><span class="r">Before you press send:</span> deleting files always needs your explicit <em>Allow</em>, in every mode. For anything with real consequences &mdash; money, messages sent as you, important files &mdash; Anthropic advises staying close or switching to Manual.</p>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 6: Monitoring, Pausing, Resuming -->
+<!-- SLIDE 6: How It Runs (Cloud) -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">05</span>
-    <h2>Monitoring, Pausing, and Resuming</h2>
+    <h2>How It Runs &mdash; A Cloud Sandbox, Your Computer on a Leash</h2>
   </div>
-  <div class="cols cols-2">
-    <div>
-      <div class="card blue">
-        <h3>The Live Feed</h3>
-        <ul>
-          <li>Right pane shows the VM desktop in real time</li>
-          <li>Left pane shows Claude&rsquo;s reasoning and tool calls</li>
-          <li>Click on a tool call to jump to the moment in the feed</li>
-          <li>Scrub backwards to see what Claude saw before a decision</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>Interrupting</h3>
-        <ul>
-          <li><span class="g">Stop</span> &mdash; kills the task and snapshots the VM</li>
-          <li><span class="g">Pause</span> &mdash; halts after the current tool call</li>
-          <li><span class="g">Message</span> &mdash; type a correction; Claude resumes with it in context</li>
-          <li><span class="g">Take control</span> &mdash; grab the mouse/keyboard yourself, then hand back</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card purple">
-        <h3>When Claude Pauses Itself</h3>
-        <ul>
-          <li>Risky action pending &mdash; delete, send, publish, pay</li>
-          <li>Credential or 2FA challenge in a web flow</li>
-          <li>Ambiguous instruction &mdash; asks for clarification</li>
-          <li>Budget running low &mdash; asks before continuing</li>
-          <li>Desktop app surfaces an OS notification so you don&rsquo;t miss the prompt</li>
-        </ul>
-      </div>
-      <div class="card amber" style="margin-top:.3em;">
-        <h3>Resuming Later</h3>
-        <ul>
-          <li>Close the app and come back &mdash; task history is on the left sidebar</li>
-          <li>Click a paused task &mdash; VM rehydrates in seconds from its snapshot</li>
-          <li>Past tasks can be <em>forked</em> into a new session with the same workspace state</li>
-        </ul>
-      </div>
-    </div>
+  <p>On Pro and Max, every new task runs in the cloud; Team runs there by default and Enterprise when an owner turns it on. The agent loop and code run on Anthropic&rsquo;s servers; your computer joins only through the desktop app.</p>
+  <svg class="diagram" viewBox="0 0 1040 370" width="1040" height="370">
+    <defs>
+      <marker id="arB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#73b9b4"/></marker>
+      <marker id="arG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a9cd8e"/></marker>
+      <marker id="arA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#dcad61"/></marker>
+    </defs>
+    <!-- Your computer -->
+    <rect x="10" y="20" width="300" height="300" rx="10" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
+    <text x="160" y="48" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="19" font-weight="700">Your computer</text>
+    <rect x="30" y="64" width="260" height="42" rx="6" fill="#29241f" stroke="#dcad61" stroke-width="1.2"/>
+    <text x="160" y="90" text-anchor="middle" fill="#ede5d9" font-family="Geist Mono,monospace" font-size="14">Claude Desktop app</text>
+    <text x="40" y="136" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="14">&#9632; Connected folders only</text>
+    <text x="40" y="164" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="14">&#9632; Built-in browser / Claude in Chrome</text>
+    <text x="40" y="192" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="14">&#9632; Local MCP servers, extensions</text>
+    <text x="40" y="220" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="14">&#9632; Your apps (computer use, beta)</text>
+    <text x="40" y="258" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">Each local tool call is checked against</text>
+    <text x="40" y="276" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">your permissions before it runs.</text>
+    <text x="40" y="304" fill="#d77753" font-family="Instrument Sans,sans-serif" font-size="13">App closed &rarr; the session can&rsquo;t reach it.</text>
+    <!-- Brokered link -->
+    <g class="fragment" data-fragment-index="1">
+      <line class="flow" x1="312" y1="150" x2="455" y2="150" stroke="#73b9b4" stroke-width="2.5" marker-end="url(#arB)"/>
+      <line class="flow" x1="455" y1="176" x2="314" y2="176" stroke="#73b9b4" stroke-width="2.5" marker-end="url(#arB)"/>
+      <text x="384" y="128" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono,monospace" font-size="12">Anthropic-brokered</text>
+      <text x="384" y="204" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">copies of just the</text>
+      <text x="384" y="220" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">files a task needs</text>
+    </g>
+    <!-- Cloud -->
+    <rect x="460" y="20" width="350" height="300" rx="10" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
+    <text x="635" y="48" text-anchor="middle" fill="#73b9b4" font-family="Bricolage Grotesque,serif" font-size="19" font-weight="700">Anthropic&rsquo;s servers</text>
+    <rect x="480" y="64" width="310" height="120" rx="8" fill="#29241f" stroke="#a9cd8e" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="635" y="90" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="14">Session sandbox</text>
+    <text x="635" y="114" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="14">agent loop + code execution</text>
+    <text x="635" y="138" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">one per session: created at start,</text>
+    <text x="635" y="156" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">destroyed at the end, no shared state</text>
+    <text x="635" y="174" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">short-lived, session-scoped tokens only</text>
+    <g class="fragment" data-fragment-index="2">
+      <rect x="480" y="198" width="150" height="56" rx="6" fill="#29241f" stroke="#d77753" stroke-width="1.2"/>
+      <text x="555" y="221" text-anchor="middle" fill="#d77753" font-family="Geist Mono,monospace" font-size="13">Egress proxy</text>
+      <text x="555" y="241" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">allow-listed sites only</text>
+      <rect x="640" y="198" width="150" height="56" rx="6" fill="#29241f" stroke="#ba9ecc" stroke-width="1.2"/>
+      <text x="715" y="221" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="13">Connector calls</text>
+      <text x="715" y="241" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">made server-side</text>
+      <text x="635" y="284" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">No route to private, internal, link-local</text>
+      <text x="635" y="302" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">or cloud-metadata addresses</text>
+    </g>
+    <!-- Outside world -->
+    <g class="fragment" data-fragment-index="3">
+      <line x1="812" y1="226" x2="868" y2="226" stroke="#ba9ecc" stroke-width="2" marker-end="url(#arA)"/>
+      <rect x="872" y="196" width="160" height="60" rx="6" fill="#231e1a" stroke="#ba9ecc" stroke-width="1.5"/>
+      <text x="952" y="221" text-anchor="middle" fill="#ba9ecc" font-family="Geist Mono,monospace" font-size="13">Your services</text>
+      <text x="952" y="241" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">Drive, Gmail, Slack&hellip;</text>
+      <rect x="872" y="64" width="160" height="96" rx="6" fill="#231e1a" stroke="#a9cd8e" stroke-width="1.5"/>
+      <text x="952" y="90" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="13">Any surface</text>
+      <text x="952" y="112" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">desktop, web, mobile,</text>
+      <text x="952" y="130" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">Chrome side panel</text>
+      <text x="952" y="148" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">open the same session</text>
+      <line x1="868" y1="112" x2="814" y2="112" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arG)"/>
+    </g>
+    <text x="520" y="350" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">Connector tokens never enter the sandbox. Work, including local files Claude opens, is processed on Anthropic&rsquo;s servers.</text>
+  </svg>
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="card green"><h3>Keeps Going</h3><p>Close the laptop and the task continues; the result waits in the conversation. Scheduled tasks need no device online.</p></div>
+    <div class="card blue"><h3>Isolation Has Limits</h3><p>It keeps Claude&rsquo;s code off your machine and network. It does not limit what Claude can read or do through the access you grant.</p></div>
+    <div class="card purple"><h3>Your Data</h3><p>Sessions and files live in your Claude account. Team and Enterprise data isn&rsquo;t used for training; on consumer plans your privacy setting decides.</p></div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 7: Dispatch -->
+<!-- SLIDE 7: Local Mode -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">06</span>
-    <h2>Dispatch &mdash; Kick Off Cowork From Your Phone</h2>
+    <h2>Local Mode &mdash; The VM on Your Device</h2>
   </div>
-  <p><span class="b">Dispatch</span> is the mobile entry point to Cowork. It lives inside the <code>claude.ai</code> mobile apps and lets you queue up autonomous tasks without having to open the desktop.</p>
-  <div class="cols cols-2">
+  <p>Cowork began as a desktop feature that ran on your computer, and that design still exists. A <span class="b">local session</span> runs the agent loop natively and puts code inside a Linux virtual machine that the desktop app hosts.</p>
+  <div class="cols cols-4060">
     <div>
-      <div class="card blue">
-        <h3>How It Works</h3>
-        <ul>
-          <li>Open the Claude mobile app &rarr; Dispatch tab</li>
-          <li>Type a goal or dictate with voice</li>
-          <li>Tap send &mdash; your desktop app picks the task up (keep it running and online)</li>
-          <li>Push notification when the task is done or needs input</li>
-          <li>Open the desktop app later to see the full transcript and artefacts</li>
-        </ul>
-      </div>
-      <div class="card green" style="margin-top:.3em;">
-        <h3>Why It Matters</h3>
-        <ul>
-          <li>You&rsquo;re away from your machine and remember something &mdash; &ldquo;research X by tonight&rdquo;</li>
-          <li>You want to chain work: Cowork runs a 30-minute task while you&rsquo;re in a meeting</li>
-          <li>Voice-first task capture while walking, commuting, or driving</li>
-        </ul>
-      </div>
+      <svg class="diagram" viewBox="0 0 420 330" width="420" height="330">
+        <rect x="5" y="5" width="410" height="320" rx="10" fill="#231e1a" stroke="#dcad61" stroke-width="2"/>
+        <text x="210" y="32" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">Your computer</text>
+        <rect x="22" y="46" width="376" height="100" rx="7" fill="#29241f" stroke="#73b9b4" stroke-width="1.5"/>
+        <text x="210" y="70" text-anchor="middle" fill="#73b9b4" font-family="Geist Mono,monospace" font-size="14">Agent loop (native, in the app)</text>
+        <text x="36" y="96" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="13">conversation &middot; file reads/writes in connected folders</text>
+        <text x="36" y="116" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="13">web fetches &middot; local plugin MCP servers</text>
+        <text x="36" y="136" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">gated by folder rules and your egress settings</text>
+        <line x1="210" y1="146" x2="210" y2="172" stroke="#988d82" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <g class="fragment" data-fragment-index="1">
+          <rect x="22" y="172" width="376" height="104" rx="7" fill="#29241f" stroke="#a9cd8e" stroke-width="1.8" stroke-dasharray="6 4"/>
+          <text x="210" y="196" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="14">Linux VM &mdash; shell and code</text>
+          <text x="36" y="222" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="13">own egress filter &middot; syscall limits &middot; per-session user</text>
+          <text x="36" y="246" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">isolated from the host OS by the hypervisor</text>
+          <text x="36" y="266" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="12">EDR tools can&rsquo;t see inside it</text>
+        </g>
+        <g class="fragment" data-fragment-index="2">
+          <text x="210" y="300" text-anchor="middle" fill="#dcad61" font-family="Geist Mono,monospace" font-size="12">macOS: Virtualization.framework &middot; Windows: Hyper-V</text>
+          <text x="210" y="317" text-anchor="middle" fill="#dcad61" font-family="Geist Mono,monospace" font-size="12">Linux (beta): KVM + QEMU</text>
+        </g>
+      </svg>
     </div>
     <div>
-      <div class="card purple">
-        <h3>Templates</h3>
+      <div class="card blue">
+        <h3>Who Still Runs Locally</h3>
         <ul>
-          <li>Save a prompt as a <span class="p">template</span> &mdash; &ldquo;daily news digest&rdquo;, &ldquo;PR triage&rdquo;, &ldquo;weekly status&rdquo;</li>
-          <li>Tap once to launch without retyping</li>
-          <li>Templates sync with desktop &mdash; pick them up anywhere</li>
+          <li>Pro and Max: only tasks and scheduled tasks started on the device before 6 Oct 2026</li>
+          <li>Team and Enterprise: local sessions remain; Enterprise has cloud sessions off until an owner turns them on</li>
+          <li>HIPAA-ready Enterprise with the local-mode configuration (cloud unavailable)</li>
+          <li>Claude Desktop on 3P (your own cloud inference provider)</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>What the VM Needs</h3>
+        <ul>
+          <li><span class="p">Linux:</span> KVM enabled in firmware, your user in the <code>kvm</code> group, QEMU (apt pulls it in), ~25 GB free disk, 8 GB RAM; the workspace uses 4 GB while running</li>
+          <li><span class="p">macOS / Windows</span> (per the Desktop on 3P guide): macOS 14+ on Apple silicon or Intel; Windows 10 build 19041+ on x64 or Arm64, the <code>.msix</code> installer, and the Virtual Machine Platform feature</li>
         </ul>
       </div>
       <div class="card amber" style="margin-top:.3em;">
-        <h3>Limits vs Desktop</h3>
+        <h3>How It Behaves</h3>
         <ul>
-          <li>No live video feed on mobile &mdash; status updates only</li>
-          <li>You can&rsquo;t take control of the VM from the phone</li>
-          <li>File drops are awkward &mdash; use iCloud / Drive / connectors instead</li>
-          <li>Long approval flows are best handled on desktop</li>
+          <li>The app must stay open and the computer awake, or the session may end</li>
+          <li>If the VM can&rsquo;t start, file and web tools keep working; shell reports &ldquo;workspace unavailable&rdquo;</li>
+          <li>History is stored on the computer, outside Anthropic&rsquo;s retention; admins can&rsquo;t delete it centrally</li>
         </ul>
       </div>
     </div>
@@ -453,213 +497,359 @@ Less good: &ldquo;Fix the tests.&rdquo;</code></pre>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 8: Parallel Coworkers -->
+<!-- SLIDE 8: Files and Permissions -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">07</span>
-    <h2>Parallel Coworkers</h2>
+    <h2>Files, Folders, and Permissions</h2>
   </div>
-  <p>Because each task is its own VM, you can have many of them running at once &mdash; each in its own isolated environment, each pursuing a different goal. The desktop app surfaces them as cards on the left sidebar, colour-coded by status.</p>
-  <div class="cols cols-3" style="margin-top:.3em;">
-    <div class="card green">
-      <h3>Status Colours</h3>
-      <ul>
-        <li><span class="g">Green</span> &mdash; running</li>
-        <li><span class="a">Amber</span> &mdash; waiting for you</li>
-        <li><span class="b">Blue</span> &mdash; paused (budget)</li>
-        <li><span class="p">Purple</span> &mdash; completed</li>
-        <li><span class="r">Red</span> &mdash; failed or stopped</li>
-      </ul>
+  <div class="cols cols-4060">
+    <div>
+      <div class="card blue">
+        <h3>Files and Folders</h3>
+        <ul>
+          <li>Claude reads and writes only folders you connect (listed under <span class="b">Trusted folders</span>)</li>
+          <li>A cloud session reaches them only while the desktop app is open, and only if the session began on desktop or is a scheduled task</li>
+          <li>It fetches a copy of just the file it needs; deleting the session deletes the copies</li>
+          <li>Folder instructions add context for a folder; Claude can update them itself</li>
+          <li>Files Claude makes appear beside the conversation; on desktop the old Cowork output folder is the <span class="b">Storage folder</span> in Settings</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>Always Asks First</h3>
+        <p>Permanently deleting a file always needs your explicit <em>Allow</em>, whatever the mode. Keep a dedicated working folder and backups rather than granting broad access.</p>
+      </div>
     </div>
-    <div class="card blue">
-      <h3>Concurrency Limits</h3>
-      <ul>
-        <li>Pro: small handful of concurrent tasks</li>
-        <li>Max: more concurrent tasks and longer runs</li>
-        <li>Team / Enterprise: pooled across the org</li>
-        <li>Hard cap per account to prevent runaway spend</li>
+    <div>
+      <h3>Permission modes &times; connector tool settings</h3>
+      <table>
+        <thead><tr><th style="width:22%;">Mode</th><th>&ldquo;Always allow&rdquo;</th><th>&ldquo;Needs approval&rdquo;</th><th>&ldquo;Blocked&rdquo;</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b">Manual</span></td><td class="g">Approved</td><td class="a">Asks you</td><td class="r">Denied</td></tr>
+          <tr><td><span class="p">Auto</span></td><td>Read-only approved; Claude decides on write/delete</td><td>Claude decides</td><td class="r">Denied</td></tr>
+          <tr><td><span class="a">Skip</span></td><td class="g">Approved</td><td class="g">Approved</td><td class="r">Denied</td></tr>
+        </tbody>
+      </table>
+      <ul style="margin-top:.2em;">
+        <li><span class="p">Auto</span> reviews every action for exfiltration and prompt injection and blocks unsafe ones; after repeated blocks it falls back to asking</li>
+        <li><span class="a">Skip all approvals</span> has no such check: only for tasks where you trust every tool, file and site</li>
+        <li>New experience: the message box offers Auto (default on Pro, Max, Team) and Manual (default on Enterprise)</li>
       </ul>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Why Injection Needs Two Things</h3>
+        <p>A prompt injection succeeds only when Claude can <span class="a">read content from outside your trust boundary</span> <em>and</em> can <span class="a">take actions that hurt you</span>. Remove either and the attack gets much harder: limit untrusted sites, or limit write tools.</p>
+      </div>
     </div>
-    <div class="card purple">
-      <h3>Patterns</h3>
-      <ul>
-        <li><span class="p">Fan-out research:</span> five coworkers, five angles, one report</li>
-        <li><span class="p">Watcher tasks:</span> one coworker polls and only pages you on change</li>
-        <li><span class="p">Pipelines:</span> task A produces a file, task B consumes it</li>
-        <li><span class="p">PR bots:</span> a coworker per repo, all feeding one Slack channel</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card amber" style="margin-top:.3em;">
-    <p><span class="a">Heads-up:</span> coworkers <strong>do not share state</strong> by default. If you want task B to see task A&rsquo;s output, either wire them up through a connector (drop to Drive, write to a GitHub branch) or copy the artefact into task B&rsquo;s prompt yourself. A shared workspace is on the roadmap but isn&rsquo;t available today.</p>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 9: Cowork vs Code vs CLI -->
+<!-- SLIDE 9: Connectors, MCP, Plugins, Browser -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">08</span>
-    <h2>Cowork vs the Code Tab vs the CLI</h2>
+    <h2>Connectors, MCP, Plugins, and the Browser</h2>
   </div>
-  <table>
-    <thead><tr><th>Dimension</th><th>Cowork</th><th>Code Tab</th><th>Claude Code CLI</th></tr></thead>
-    <tbody>
-      <tr><td>Where it runs</td><td class="b">VM on your computer</td><td class="a">Local / SSH / cloud</td><td class="a">Local / SSH</td></tr>
-      <tr><td>Supervision</td><td class="b">Autonomous</td><td class="a">Interactive, approve each step</td><td class="a">Interactive (with modes)</td></tr>
-      <tr><td>Access to your files</td><td class="r">No</td><td class="g">Yes</td><td class="g">Yes</td></tr>
-      <tr><td>Runs while app is closed</td><td class="r">No (desktop app hosts the VM)</td><td class="g">Yes (remote)</td><td class="r">No</td></tr>
-      <tr><td>Computer use / GUI apps</td><td class="g">Yes</td><td class="g">Yes</td><td class="r">No</td></tr>
-      <tr><td>Mobile entry point</td><td class="g">Dispatch</td><td class="r">No</td><td class="r">No</td></tr>
-      <tr><td>Good for long research</td><td class="g">Excellent</td><td class="a">OK</td><td class="a">OK</td></tr>
-      <tr><td>Good for editing your codebase</td><td class="r">Awkward &mdash; needs clone + PR</td><td class="g">Excellent</td><td class="g">Excellent</td></tr>
-      <tr><td>Good for terminal-native flow</td><td class="r">No</td><td class="a">OK</td><td class="g">Excellent</td></tr>
-      <tr><td>Cost model</td><td class="b">Plan-based, budgeted</td><td class="a">Plan or API</td><td class="a">Plan or API</td></tr>
-    </tbody>
-  </table>
-  <div class="card blue" style="margin-top:.3em;">
-    <p><span class="b">Rule of thumb:</span> reach for <span class="b">Cowork</span> when the goal is &ldquo;go and do this&rdquo; and you don&rsquo;t want to babysit. Reach for the <span class="a">Code tab</span> or <span class="a">CLI</span> when the work is in <em>your</em> codebase and you want to review every change. Many workflows combine both &mdash; Cowork does the research, the Code tab lands the patch.</p>
+  <p>Claude picks the most precise tool first, and falls back only when it has to:</p>
+  <svg class="diagram" viewBox="0 0 1000 90" width="1000" height="90">
+    <defs><marker id="arM" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#988d82"/></marker></defs>
+    <rect x="10" y="10" width="280" height="66" rx="8" fill="#231e1a" stroke="#a9cd8e" stroke-width="2"/>
+    <text x="150" y="38" text-anchor="middle" fill="#a9cd8e" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">1 &middot; Connector</text>
+    <text x="150" y="60" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">fastest, most reliable</text>
+    <g class="fragment" data-fragment-index="1">
+      <line x1="292" y1="43" x2="354" y2="43" stroke="#988d82" stroke-width="2" marker-end="url(#arM)"/>
+      <rect x="360" y="10" width="280" height="66" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="2"/>
+      <text x="500" y="38" text-anchor="middle" fill="#73b9b4" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">2 &middot; Browser</text>
+      <text x="500" y="60" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">built-in, or Claude in Chrome</text>
+    </g>
+    <g class="fragment" data-fragment-index="2">
+      <line x1="642" y1="43" x2="704" y2="43" stroke="#988d82" stroke-width="2" marker-end="url(#arM)"/>
+      <rect x="710" y="10" width="280" height="66" rx="8" fill="#231e1a" stroke="#d77753" stroke-width="2"/>
+      <text x="850" y="38" text-anchor="middle" fill="#d77753" font-family="Bricolage Grotesque,serif" font-size="18" font-weight="700">3 &middot; Your screen</text>
+      <text x="850" y="60" text-anchor="middle" fill="#988d82" font-family="Instrument Sans,sans-serif" font-size="13">computer use: slowest, no sandbox</text>
+    </g>
+  </svg>
+  <div class="cols cols-2" style="margin-top:.2em;">
+    <div>
+      <div class="card green">
+        <h3>Connectors (Remote MCP)</h3>
+        <ul>
+          <li>Add from the Connectors Directory or by a server&rsquo;s HTTPS URL, under <span class="g">Customize &rarr; Connectors</span>; the same connectors serve chat, Cowork and Claude Code</li>
+          <li>In cloud sessions the calls are made server-side; connector tokens never enter the sandbox</li>
+          <li>A server inside a private network isn&rsquo;t reachable directly; Enterprise can request <span class="g">MCP tunnels</span> (research preview)</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3>Local MCP Servers</h3>
+        <ul>
+          <li>Desktop extensions (<code>.mcpb</code>) and plugin-bundled local servers run on your computer, through the desktop app only</li>
+          <li>They never run inside a cloud sandbox</li>
+          <li>Managed devices can turn them off: <code>isLocalDevMcpEnabled</code>, <code>isDesktopExtensionEnabled</code></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3>Skills and Plugins</h3>
+        <ul>
+          <li>A plugin bundles skills, connectors and sub-agents; it is saved to your account and works in chat, Cowork and Claude Code</li>
+          <li>Cowork loads what <span class="p">Customize</span> enables, synced at session start; it doesn&rsquo;t read the CLI&rsquo;s <code>~/.claude</code></li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>The Browser</h3>
+        <ul>
+          <li><span class="b">Built-in browser</span> in a side panel of the desktop app (the default); or your own Chrome through <span class="b">Claude in Chrome</span></li>
+          <li>Logins import site by site; banking, email and single sign-on stay unchecked by default</li>
+          <li>Asks before acting on a site for the first time; high-risk sites are blocked</li>
+          <li>Traffic comes from your machine, even when you steer from the web or your phone</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 10: Security, Cost, and Limits -->
+<!-- SLIDE 10: Scheduled and Long-Running Work -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">09</span>
-    <h2>Security, Cost, and Limits</h2>
+    <h2>Long-Running and Scheduled Work</h2>
   </div>
   <div class="cols cols-2">
     <div>
       <div class="card green">
-        <h3>Security Posture</h3>
+        <h3>Long-Running Tasks</h3>
         <ul>
-          <li>VM is ephemeral &mdash; destroyed when the task is archived</li>
-          <li>No connector tokens written to the VM disk</li>
-          <li>Connectors enforce per-tool allow-lists &mdash; risky writes still prompt you</li>
-          <li>Audit log of every tool call (Enterprise)</li>
-          <li>VM traffic follows your OS proxy settings; admins can set allowed network hosts</li>
+          <li>Work on complex tasks for long periods without conversation timeouts or context limits getting in the way</li>
+          <li>Cloud sessions keep going with the laptop closed or the page left</li>
+          <li>Several tasks can run at the same time</li>
         </ul>
       </div>
-      <div class="card red" style="margin-top:.3em;">
-        <h3>Risks to Manage</h3>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3>Scheduled Tasks (All Paid Plans)</h3>
         <ul>
-          <li>Prompt-injection from web content the VM browses</li>
-          <li>Credential prompts in a web flow &mdash; never paste passwords into Cowork prompts; use connectors</li>
-          <li>Auto-approve of tool calls can produce unintended writes &mdash; keep &ldquo;ask before risky&rdquo; on for important tasks</li>
-          <li>Long-running tasks can burn budget on loops &mdash; set a wall-clock limit</li>
+          <li>Say it in any conversation: <em>&ldquo;Every weekday at 8 AM, summarise new messages in my team&rsquo;s Slack channels&rdquo;</em>, then review and click <span class="b">Schedule</span></li>
+          <li>Or <span class="b">Scheduled &rarr; New task</span>: name, prompt, approval mode, frequency (hourly, daily, weekly, weekdays, or manual), optional model and folder</li>
+          <li>Each run is its own session; past and upcoming runs are on the Scheduled page on any surface</li>
+          <li>They run in the cloud with no device online &mdash; except tasks that need local files or apps, which run only locally</li>
         </ul>
       </div>
     </div>
     <div>
-      <div class="card purple">
-        <h3>Cost &amp; Budgets</h3>
+      <div class="card red">
+        <h3>Unwatched Means Careful</h3>
         <ul>
-          <li>Pro / Max: included in the plan, subject to per-session and per-day caps</li>
-          <li>Team / Enterprise: pooled quota, org-admin can set per-user caps</li>
-          <li>Cowork sessions show live token and tool-call counts in the sidebar</li>
-          <li>Hitting the cap pauses the task and asks you to approve continuation</li>
+          <li>Start with low-risk summaries before automating anything more</li>
+          <li>Don&rsquo;t schedule tasks that touch sensitive files, send messages as you, or buy things</li>
+          <li>Review the output of each run; pause or delete tasks you no longer use</li>
+          <li>You remain responsible for what a scheduled task does on your behalf</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Dispatch (Winding Down)</h3>
+        <ul>
+          <li>One persistent thread from phone to desktop: the work runs on your computer, so it must stay awake with the app open</li>
+          <li>Routes coding to Claude Code and knowledge work to Cowork</li>
+          <li>Limited beta on some Pro and Max plans; <span class="r">not available to new users</span> &mdash; cloud sessions replace it</li>
         </ul>
       </div>
       <div class="card amber" style="margin-top:.3em;">
-        <h3>Hard Limits (at time of writing)</h3>
-        <ul>
-          <li>Max wall-clock per task (plan-dependent &mdash; minutes to hours)</li>
-          <li>Max concurrent tasks per account</li>
-          <li>No GPU, no inbound network, no access to your LAN</li>
-          <li>No custom base VM image &mdash; the workspace image is supplied by Anthropic</li>
-        </ul>
+        <p><span class="a">Phone:</span> a task started at your desk appears in Claude mobile; you get a notification when it finishes or needs input.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 11: Good Tasks, Bad Tasks -->
+<!-- SLIDE 11: When to Use Which Surface -->
 <!-- ============================================================ -->
 <section>
   <div class="slide-hdr">
     <span class="tag">10</span>
-    <h2>Good Tasks, Bad Tasks, and Prompting Tips</h2>
+    <h2>When to Use Which Surface</h2>
   </div>
-  <div class="cols cols-2">
+  <p>Four questions, asked in order, settle most cases.</p>
+  <svg class="diagram" viewBox="0 0 1000 420" width="1000" height="420">
+    <defs>
+      <marker id="arY" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a9cd8e"/></marker>
+      <marker id="arN" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#988d82"/></marker>
+    </defs>
+    <!-- Q1 -->
+    <rect x="20" y="14" width="560" height="54" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="1.8"/>
+    <text x="300" y="47" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="16">Must the work and its history stay on your computer?</text>
+    <line x1="582" y1="41" x2="676" y2="41" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arY)"/>
+    <text x="628" y="33" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="13">yes</text>
+    <rect x="680" y="14" width="300" height="54" rx="8" fill="#29241f" stroke="#dcad61" stroke-width="2"/>
+    <text x="830" y="47" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="17" font-weight="700">Claude Code (desktop or CLI)</text>
+    <line x1="300" y1="70" x2="300" y2="112" stroke="#988d82" stroke-width="2" marker-end="url(#arN)"/>
+    <text x="318" y="96" fill="#988d82" font-family="Geist Mono,monospace" font-size="13">no</text>
+    <!-- Q2 -->
+    <g class="fragment" data-fragment-index="1">
+      <rect x="20" y="116" width="560" height="54" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="1.8"/>
+      <text x="300" y="149" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="16">Is it code in a repository you want to review change by change?</text>
+      <line x1="582" y1="143" x2="676" y2="143" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arY)"/>
+      <text x="628" y="135" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="13">yes</text>
+      <rect x="680" y="116" width="300" height="54" rx="8" fill="#29241f" stroke="#dcad61" stroke-width="2"/>
+      <text x="830" y="149" text-anchor="middle" fill="#dcad61" font-family="Bricolage Grotesque,serif" font-size="17" font-weight="700">Claude Code (decks 04, 12)</text>
+      <line x1="300" y1="172" x2="300" y2="214" stroke="#988d82" stroke-width="2" marker-end="url(#arN)"/>
+      <text x="318" y="198" fill="#988d82" font-family="Geist Mono,monospace" font-size="13">no</text>
+    </g>
+    <!-- Q3 -->
+    <g class="fragment" data-fragment-index="2">
+      <rect x="20" y="218" width="560" height="54" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="1.8"/>
+      <text x="300" y="251" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="16">Is it a quick question with an answer, not a deliverable?</text>
+      <line x1="582" y1="245" x2="676" y2="245" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arY)"/>
+      <text x="628" y="237" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="13">yes</text>
+      <rect x="680" y="218" width="300" height="54" rx="8" fill="#29241f" stroke="#ba9ecc" stroke-width="2"/>
+      <text x="830" y="251" text-anchor="middle" fill="#ba9ecc" font-family="Bricolage Grotesque,serif" font-size="17" font-weight="700">Just ask, in any conversation</text>
+      <line x1="300" y1="274" x2="300" y2="316" stroke="#988d82" stroke-width="2" marker-end="url(#arN)"/>
+      <text x="318" y="300" fill="#988d82" font-family="Geist Mono,monospace" font-size="13">no</text>
+    </g>
+    <!-- Q4 -->
+    <g class="fragment" data-fragment-index="3">
+      <rect x="20" y="320" width="560" height="54" rx="8" fill="#231e1a" stroke="#73b9b4" stroke-width="1.8"/>
+      <text x="300" y="353" text-anchor="middle" fill="#ede5d9" font-family="Instrument Sans,sans-serif" font-size="16">Does it need to happen again on a cadence?</text>
+      <line x1="582" y1="347" x2="676" y2="347" stroke="#a9cd8e" stroke-width="2" marker-end="url(#arY)"/>
+      <text x="628" y="339" text-anchor="middle" fill="#a9cd8e" font-family="Geist Mono,monospace" font-size="13">yes</text>
+      <rect x="680" y="320" width="300" height="54" rx="8" fill="#29241f" stroke="#a9cd8e" stroke-width="2"/>
+      <text x="830" y="353" text-anchor="middle" fill="#a9cd8e" font-family="Bricolage Grotesque,serif" font-size="17" font-weight="700">A scheduled task</text>
+      <text x="300" y="404" text-anchor="middle" fill="#73b9b4" font-family="Bricolage Grotesque,serif" font-size="17" font-weight="700">no &rarr; hand it over as a Cowork task</text>
+    </g>
+  </svg>
+  <div class="card amber" style="margin-top:.2em;">
+    <p><span class="a">Then one more check:</span> if the task needs your local files, your browser, local MCP servers or your apps, keep Claude Desktop open on that computer while it runs.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: Admin and Enterprise Controls -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">11</span>
+    <h2>Admin and Enterprise Controls</h2>
+  </div>
+  <div class="cols cols-6040">
     <div>
-      <div class="card green">
-        <h3>Great Fit</h3>
-        <ul>
-          <li>Multi-source research with a written deliverable</li>
-          <li>Repo cloning, test running, PR opening</li>
-          <li>Form filling, account setup, web scraping of public data</li>
-          <li>Scheduled &ldquo;watcher&rdquo; tasks that only ping you on change</li>
-          <li>Data cleanup in Python / pandas on files you upload</li>
-          <li>Drafting content from browsed sources</li>
-        </ul>
-      </div>
-      <div class="card red" style="margin-top:.3em;">
-        <h3>Bad Fit</h3>
-        <ul>
-          <li>Anything needing access to your local filesystem &mdash; use the Code tab</li>
-          <li>Heavy compute (GPU, big training runs)</li>
-          <li>Interactive pair-programming &mdash; the feedback loop is too slow</li>
-          <li>Sites with strict bot detection &mdash; Cowork looks like a headless browser</li>
-          <li>Anything you&rsquo;d struggle to describe in a prompt</li>
-        </ul>
-      </div>
+      <table>
+        <thead><tr><th style="width:42%;">Setting</th><th style="width:28%;">Where</th><th>Default</th></tr></thead>
+        <tbody>
+          <tr><td>Cowork: Enable for your organization</td><td>Org settings &rarr; Cowork</td><td>On (off in HIPAA orgs)</td></tr>
+          <tr><td>Run Cowork in the cloud</td><td>Org settings &rarr; Cowork</td><td>Team on; Enterprise off, then grant by custom role</td></tr>
+          <tr><td>Built-in browser</td><td>Org settings &rarr; Cowork</td><td>On (off in HIPAA orgs until an owner turns it on)</td></tr>
+          <tr><td>Allow &ldquo;Always allow&rdquo; for connector tools</td><td>Org settings &rarr; Cowork</td><td class="r">Off: write tools approved per task</td></tr>
+          <tr><td>Allow / start in &ldquo;Automatically approve&rdquo;</td><td>Org settings &rarr; Capabilities</td><td>Allowed; starts in it except on Enterprise</td></tr>
+          <tr><td>Network egress for code</td><td>Capabilities &rarr; Code execution</td><td>Enterprise: no access; applies to new sessions</td></tr>
+          <tr><td>Chat and Cowork unified</td><td>Org settings &rarr; Capabilities</td><td>Enterprise off; turns on 16 Nov 2026 unless chosen</td></tr>
+          <tr><td>Remote control, trusted devices, scheduled tasks</td><td>Org settings</td><td>Owner&rsquo;s choice</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.34em; color:var(--muted); margin-top:.15em;">On Enterprise, custom-role grants and org settings stack: the most restrictive layer wins.</p>
     </div>
     <div>
       <div class="card blue">
-        <h3>Prompting Tips</h3>
+        <h3>Visibility</h3>
         <ul>
-          <li>State the <em>deliverable</em> and where it should end up (file name, channel, PR)</li>
-          <li>Give success criteria: &ldquo;done when the failing tests pass and CI is green&rdquo;</li>
-          <li>List the tools Claude should prefer: &ldquo;use the GitHub connector, not the CLI&rdquo;</li>
-          <li>Budget guidance: &ldquo;give up after 20 minutes and summarise what you learned&rdquo;</li>
-          <li>Attach any data once rather than pasting it over and over</li>
-          <li>Set failure behaviour: &ldquo;if you get stuck, ask before retrying&rdquo;</li>
+          <li><span class="b">Compliance API</span> captures Cowork via Claude, Claude Desktop and Claude mobile</li>
+          <li><span class="b">OpenTelemetry</span> (Team, Enterprise): tool calls, file access, approval decisions &mdash; not a substitute for audit logging</li>
+          <li>Analytics report unified usage on its own line</li>
         </ul>
       </div>
-      <div class="card amber" style="margin-top:.3em;">
-        <h3>Debugging a Stuck Task</h3>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>Plugins and Devices</h3>
         <ul>
-          <li>Scrub the live feed backwards to the last visible progress</li>
-          <li>Take control of the VM, do the next step manually, hand back</li>
-          <li>Pause and paste a clarifying message</li>
-          <li>Fork the task at the last good checkpoint instead of restarting from zero</li>
+          <li>Org plugin marketplaces: Installed by default, Available, Required, or Not available</li>
+          <li>MDM keys limit connectable folders and turn off local MCP servers and extensions</li>
         </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3>HIPAA</h3>
+        <p>The BAA covers Cowork only after the local-mode HIPAA configuration is applied, and then cloud sessions are unavailable. The unified experience isn&rsquo;t yet offered with ZDR, HIPAA or CMEK.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 12: Closing -->
+<!-- SLIDE 13: Limits and Gotchas -->
+<!-- ============================================================ -->
+<section>
+  <div class="slide-hdr">
+    <span class="tag">12</span>
+    <h2>Limits and Gotchas</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card red">
+        <h3>Limits</h3>
+        <ul>
+          <li>Paid plans only; the Free plan has no Cowork</li>
+          <li>Sessions can&rsquo;t be shared; share the artifacts they produce instead</li>
+          <li>Computer use is a beta for Pro and Max on macOS and Windows only: not on Linux, not on Team or Enterprise</li>
+          <li>Multi-step tasks use more of your plan&rsquo;s usage than a quick question; check <span class="r">Settings &rarr; Usage</span></li>
+          <li>On Pro and Max there is no setting for where a task runs, and no way back to local</li>
+          <li>Live artifacts made before 19 Aug 2026 work on desktop only and can&rsquo;t be edited in place</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3>New-Experience Gaps</h3>
+        <ul>
+          <li>No &ldquo;Add from GitHub&rdquo;; no branching from an earlier point</li>
+          <li>Incognito chats open in the old experience, without files or code</li>
+          <li>Search skips older Cowork tasks; find them by name in Recents</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Gotchas</h3>
+        <ul>
+          <li>Desktop app closed? A cloud task keeps running, but can&rsquo;t reach your folders, browser or apps</li>
+          <li>Network egress settings don&rsquo;t cover web search, web fetch or MCP connectors, including Claude in Chrome</li>
+          <li>Egress changes apply to new sessions only; start a new conversation</li>
+          <li>Anything you sign in to in the built-in browser is available to Claude in later sessions on that computer</li>
+          <li>Computer use takes screenshots; a link it clicks opens even in an app you didn&rsquo;t allow</li>
+          <li>Skills that live only in <code>~/.claude</code> don&rsquo;t appear until you add them in Customize</li>
+          <li>&ldquo;Setting up Claude&rsquo;s workspace&rdquo; is normal: Cowork is updating</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <p><span class="g">If something looks off</span> &mdash; Claude reaching for files or sites you didn&rsquo;t mention, or the task drifting &mdash; stop it, then report it with the in-app feedback button.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: Summary -->
 <!-- ============================================================ -->
 <section class="title-slide">
   <div style="margin-top:2em;">
     <h1>Claude Cowork</h1>
-    <div class="subtitle">Give Claude a computer. Hand it a goal. Come back later.</div>
+    <div class="subtitle">Describe the outcome. Connect only what it needs. Review what comes back.</div>
     <div class="cols cols-3" style="margin-top:1em; gap:.5em;">
       <div class="card blue">
         <h3>Where</h3>
-        <p>Desktop app &mdash; Cowork tab. Mobile &mdash; Dispatch.</p>
+        <p>Any conversation in the Claude apps on desktop, web and mobile, and the Chrome side panel. Paid plans only.</p>
       </div>
       <div class="card green">
-        <h3>What For</h3>
-        <p>Autonomous research, repo work, PR monitoring, data cleanup, watchers.</p>
+        <h3>How It Runs</h3>
+        <p>In a per-session cloud sandbox; your folders, browser and apps only through the open desktop app. Local VM mode remains for some deployments.</p>
       </div>
       <div class="card purple">
-        <h3>What Not For</h3>
-        <p>Interactive edits to your local code &mdash; use the Code tab for that.</p>
+        <h3>What to Watch</h3>
+        <p>Permission mode, what Claude can read, and scheduled tasks nobody is watching. Code in a repo belongs to Claude Code.</p>
       </div>
     </div>
     <div style="margin-top:1.4em;">
-      <span class="pill blue">Cowork Tab</span>
-      <span class="pill green">Local VM</span>
-      <span class="pill purple">Dispatch</span>
-      <span class="pill amber">Parallel Agents</span>
+      <span class="pill blue">One Claude</span>
+      <span class="pill green">Cloud Sandbox</span>
+      <span class="pill purple">Your Folders</span>
+      <span class="pill amber">Scheduled Tasks</span>
     </div>
     <p style="font-size:.48em; color:var(--muted); margin-top:1.4em;">
       Anthropic Claude Series &mdash; Presentation 13<br/>

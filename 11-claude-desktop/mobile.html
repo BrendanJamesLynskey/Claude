@@ -253,13 +253,13 @@ html[data-concept=transcript] body>.container:has(.cx-fig) .grid{grid-column:1/-
       <tr><td>Code CLI</td><td class="g">Yes</td><td class="g">HTTP/S</td><td class="g">Yes</td></tr>
       <tr><td>Desktop Chat</td><td class="g">Yes</td><td class="a">Connectors*</td><td class="r">No*</td></tr>
       <tr><td>Desktop Code</td><td class="g">Yes</td><td class="g">HTTP/S</td><td class="g">Yes</td></tr>
-      <tr><td>Cowork</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
+      <tr><td>Cowork</td><td class="a">Local&dagger;</td><td class="a">HTTPS</td><td class="r">No&dagger;</td></tr>
       <tr><td>Web</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
       <tr><td>Mobile</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
       <tr><td>API</td><td class="r">No</td><td class="a">HTTPS</td><td class="r">No</td></tr>
     </tbody>
   </table>
-  <p style="font-size:.5em; color:var(--muted);">* Chat tab config is stdio only. Remote MCP via Connectors (HTTPS) or <code>npx mcp-remote</code> proxy.</p>
+  <p style="font-size:.5em; color:var(--muted);">* Chat tab config is stdio only. Remote MCP via Connectors (HTTPS) or <code>npx mcp-remote</code> proxy.<br/>&dagger; Cowork: local MCP via the desktop app only.</p>
   <div class="card green" style="margin-top:.4em;"><h3>Private Network</h3><p><span class="a">CLI + Code tab</span>: plain HTTP and LAN IPs work (<code>http://10.60.12.34:3001/mcp</code>). <span class="p">Chat tab</span>: stdio config only; use <code>mcp-remote</code> proxy for remote. Brokered surfaces need public HTTPS.</p></div>
   <div class="card amber" style="margin-top:.4em;"><h3>Config Gotcha</h3><p>Chat tab &rarr; <code>claude_desktop_config.json</code>. Code tab &rarr; <code>~/.claude.json</code>. <strong>Separate</strong> &mdash; servers don&rsquo;t cross.</p></div>
 </section>

@@ -814,10 +814,10 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </tr>
       <tr>
         <td><span class="b">Desktop &mdash; Cowork</span></td>
-        <td class="r">No *</td>
+        <td class="a">Local *</td>
         <td class="a">HTTPS only</td>
-        <td class="r">No</td>
-        <td>Connectors authorised in the app (brokered by Anthropic)</td>
+        <td class="r">No *</td>
+        <td>Connectors under Customize</td>
       </tr>
       <tr>
         <td><span class="p">claude.ai (web)</span></td>
@@ -842,7 +842,7 @@ Win ARM  &rarr; Setup.exe   (ARM64)</code></pre>
       </tr>
     </tbody>
   </table>
-  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork runs commands inside its VM on your machine; MCP comes from the connectors, skills and plugins enabled under Customize, not from local config files.<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
+  <p style="font-size:.36em; color:var(--muted); margin-top:.15em;">* Cowork: cloud sandbox by default; MCP from Customize, not local config; local extensions run via the desktop app (deck 13).<br/>** The Chat tab&rsquo;s <code>claude_desktop_config.json</code> supports <strong>stdio only</strong>. Remote MCP is available via the Connectors UI (Anthropic-brokered, HTTPS). To bridge a remote server into the config file, use a stdio proxy like <code>npx mcp-remote https://&hellip;</code>.</p>
   <div class="cols cols-2" style="margin-top:.25em;">
     <div class="card green">
       <h3>Private-Network MCP &mdash; How It Works</h3>
