@@ -52,7 +52,7 @@ unset CLAUDE_CONFIG_DIR
 
 **Why not `--bare`?** The headless page recommends `--bare` for scripted calls, but also says that in bare mode Claude Code "never reads OAuth credentials" and uses an API key instead ([headless docs](https://code.claude.com/docs/en/headless)). The experiment ran on a plan token, so `--bare` was not usable; each thing it switches off was covered by a separate flag above.
 
-The harness code is [`agent/cvdp_agent/claude_code.py`](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/m3i-plain/agent/cvdp_agent/claude_code.py) (`plain_command`, `plain_env`).
+The harness code is [`agent/cvdp_agent/claude_code.py`](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/agent/cvdp_agent/claude_code.py) (`plain_command`, `plain_env`).
 
 ## 3. Check that it took effect
 
@@ -106,7 +106,7 @@ Worked example (M3i, Haiku 5.5, Claude Code 2.1.310): default Claude Code (D) ag
 |---|---|---|---|---|
 | held-out pass@1 | 58.3% | 58.0% | -0.3 [-4.0, +3.3] | 9 / 11 / 80 |
 
-No detectable effect, and P used about a third of D's prompt tokens (37%). Full write-up: [M3i report](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/m3i-plain/docs/reports/M3i_report.md) and [pre-registration](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/m3i-plain/docs/reports/m3i/preregistration.md) (on branch `m3i-plain`, [PR #37](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/pull/37), until it merges). Earlier related reports: [M3h](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/docs/reports/M3h_report.md) and the [Claude Code model ladder](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/m3i-plain/docs/reports/claude_code_ladder.md).
+No detectable effect, and P used about a third of D's prompt tokens (37%). Full write-up: [M3i report](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/docs/reports/M3i_report.md) and [pre-registration](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/docs/reports/m3i/preregistration.md) ([PR #37](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/pull/37)). Earlier related reports: [M3h](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/docs/reports/M3h_report.md) and the [Claude Code model ladder](https://github.com/BrendanJamesLynskey/CVDP_RTL_Agent/blob/main/docs/reports/claude_code_ladder.md).
 
 ## 6. Rate limits
 
