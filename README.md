@@ -49,6 +49,7 @@ Terminal session recordings that demonstrate Claude Code commands and workflows 
 |-------|-------------|
 | [Certifications & Training](certifications-report/) | Advisory report on Claude AI credentials — official certs, cloud provider exams, free courses, productivity and employability analysis |
 | [A Max Plan in Place of API Calls](max-plan-report/) | Field report on running batch agent work on a Claude Max subscription — headless Claude Code as the worker, CI tokens, usage tracking with /usage, pros, cons and measurement rules, with a worked benchmark example |
+| [Claude Code Headless as a Measurement Arm](guides/claude-code-headless-measurement-arm.md) | Guide to using `claude -p` on a subscription as one arm of an experiment — the flags that approximate an API call, checking the `init` event, the residual differences, rate limits, and what the official terms say, with a worked benchmark result |
 
 ## Viewing
 
